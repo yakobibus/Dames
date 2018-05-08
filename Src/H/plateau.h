@@ -70,6 +70,7 @@
         couleur_pion _couleur ;
         promotion_pion _promotion ;
         apparence_pion _apparence ;
+        char _motif[4]  ;
       };
 
       /* Une case est définie par une couleur (noire/banche) et, 
@@ -86,7 +87,7 @@
         //
         void init(int x, int y, int notation, Pion* pion, apparence_case apparence, bool libre, couleur_case couleur) ;
         void affiche(void);
-        void setPion(Pion* pion) {_pion = pion ;}
+        void setPion(Pion* pion) ;
         void resetSurbrillance(void);
         void setEnSurbrillance(void);
       private :

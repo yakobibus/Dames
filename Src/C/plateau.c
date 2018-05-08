@@ -1,4 +1,5 @@
 // plateau.c
+//# include <cstring>
 # include "plateau.h"
 
 namespace spc_plateau
@@ -25,6 +26,11 @@ namespace spc_plateau
                           , couleur_case couleur = couleur_case::noir
                           )
     {}
+    
+    void CasePlateau::setPion(Pion* pion) 
+    {
+        _pion = pion ;
+    }
 }
 
 namespace spc_plateau
@@ -38,7 +44,13 @@ namespace spc_plateau
     Pion::Pion(couleur_pion couleur = couleur_pion::blanc) : _couleur(couleur)
                                                            , _promotion(promotion_pion::normal)
                                                            , _apparence(apparence_pion::normal)
-    {}
+    {
+        //memset(_motif, 0, 4);
+        _motif[0] = ' ';
+        _motif[1] = _couleur == couleur_pion::blanc ? 'o' : 'x' ;
+        _motif[2] = ' ';
+        _motif[3] = '\0';
+    }
 
     void Pion::setCouleur(couleur_pion couleur)
     {
