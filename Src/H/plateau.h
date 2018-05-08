@@ -63,6 +63,7 @@
         Pion(const Pion& p) = default ;
         Pion& operator = (const Pion& p) = default ;
         //
+        void setCouleur(couleur_pion couleur);
         void setEnSurbrillance(void);
         void resetSurbrillance(void);
       private :
@@ -85,8 +86,9 @@
         //
         void init(int x, int y, int notation, Pion* pion, apparence_case apparence, bool libre, couleur_case couleur) ;
         void affiche(void);
-        void setEnSurbrillance(void);
+        void setPion(Pion* pion) {_pion = pion ;}
         void resetSurbrillance(void);
+        void setEnSurbrillance(void);
       private :
         couleur_case _couleur ;
         bool _estLibre ;

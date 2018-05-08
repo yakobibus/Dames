@@ -39,6 +39,11 @@ namespace spc_plateau
                                                            , _promotion(promotion_pion::normal)
                                                            , _apparence(apparence_pion::normal)
     {}
+
+    void Pion::setCouleur(couleur_pion couleur)
+    {
+        _couleur = couleur ;
+    }
 }
 
 namespace spc_plateau
@@ -65,6 +70,23 @@ namespace spc_plateau
                     if( 0 != (x % 2) )
                     {
                         _cases[++iCase].init(x, y, iCase, nullptr, apparence_case::normal, true, couleur_case::noir) ;
+                    }
+                }
+
+                if(( 0 == (y % 2) && 0 == (x % 2) ) || ( 0 != (y % 2) && 0 != (x % 2)) )
+                {
+                    if(iCase >= 1 && iCase <= 20)
+                    {
+                        _pionsBlancs [-1 + iCase].setCouleur(couleur_pion::blanc) ;
+                        _cases[iCase].setPion(&(_pionsBlancs[-1 + iCase])) ;
+                    }
+                    else
+                    {
+                        if(iCase >= 31 && iCase <= 50)
+                        {
+                            _pionsNoirs [-1 + iCase].setCouleur(couleur_pion::noir) ;
+                            _cases[iCase].setPion(&(_pionsNoirs[-1 + iCase])) ;
+                        }
                     }
                 }
             }
