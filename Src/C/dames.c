@@ -15,7 +15,7 @@ int main (int argc, char** argv)
     /*
     */
     Plateau plateau(joueur1, joueur2) ;
-   Dummy d ;
+    plateau.affiche();
 
     return retCode ;
 }
