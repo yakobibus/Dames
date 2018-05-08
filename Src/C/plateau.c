@@ -16,6 +16,14 @@ namespace spc_plateau
         ;
     }
 
+    Joueur::Joueur() : _couleur(couleur_pion::blanc), _nature(nature_joueur::ia)
+    {}
+
+    Pion::Pion(couleur_pion couleur = couleur_pion::blanc)
+    {
+        ;
+    }
+
     Plateau::Plateau(Joueur joueur1, Joueur joueur2) : _nombreDeCoups(0), _joueur1(joueur1), _joueur2(joueur2), _prochain(nullptr)
     {
         for(int i = 0 ; i < 51 ; ++i)

@@ -58,6 +58,11 @@
       class Pion
       {
       public :
+        Pion(couleur_pion couleur);
+        ~Pion() = default ;
+        Pion(const Pion& p) = default ;
+        Pion& operator = (const Pion& p) = default ;
+        //
         void setEnSurbrillance(void);
         void resetSurbrillance(void);
       private :
@@ -97,6 +102,10 @@
       class Joueur
       {
       public :
+        Joueur() ;
+        ~Joueur() = default ;
+        Joueur(const Joueur& j) = default ;
+        Joueur& operator = (const Joueur& j) = default ;
       private :
         couleur_pion _couleur ;
         nature_joueur _nature ;
