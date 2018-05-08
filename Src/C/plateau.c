@@ -82,7 +82,7 @@ namespace spc_plateau
                     }
                     else
                     {
-                        if(iCase >= 31 && iCase <= 50)
+                        if(iCase >= 31 && iCase <= 50) 
                         {
                             _pionsNoirs [-1 + iCase].setCouleur(couleur_pion::noir) ;
                             _cases[iCase].setPion(&(_pionsNoirs[-1 + iCase])) ;
