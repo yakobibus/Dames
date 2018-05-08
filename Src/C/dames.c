@@ -4,16 +4,18 @@
 # include "dames.h"
 # include "plateau.h"
 
+using namespace spc_plateau ;
+
 int main (int argc, char** argv)
 {
     int retCode = 0;
 
-    spc_plateau::Joueur joueur1;
-    spc_plateau::Joueur joueur2;
+    Joueur joueur1;
+    Joueur joueur2;
     /*
-    spc_plateau::Plateau plateau(joueur1, joueur2) ;
     */
-   spc_plateau::Dummy d ;
+    Plateau plateau(joueur1, joueur2) ;
+   Dummy d ;
 
     return retCode ;
 }

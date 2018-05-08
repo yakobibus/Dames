@@ -73,13 +73,19 @@
       class CasePlateau
       {
       public :
+        CasePlateau() ;
+        ~CasePlateau() = default ;
+        CasePlateau(const CasePlateau& c) = default ;
+        CasePlateau& operator = (const CasePlateau& c) = default ;
+        //
+        void init(couleur_case couleur, bool libre, Pion pion, int x, int y, int notation, apparence_case apparence) ;
         void affiche(void);
         void setEnSurbrillance(void);
         void resetSurbrillance(void);
       private :
         couleur_case _couleur ;
         bool _estLibre ;
-        Pion _pion ;
+        Pion* _pion ;
         int _x ;
         int _y ;
         int _notationOfficielle ;
@@ -155,6 +161,7 @@
         ~Plateau() = default ;
         Plateau(const Plateau& p) = default ;
         Plateau& operator = (const Plateau& p) = default ;
+        /*
         int deplacerPion(CasePlateau positionDepart, CasePlateau positionArrivee) ;
         bool finDePartie(void);
         CasePlateau& getCasePlateau(int x, int y); 
@@ -162,13 +169,14 @@
         void resetSurbrillance(void);  // Annule la surbrillance de toutes les case et pions du plateau
         void afficheListeDesCoups(void);
         int getNombreDeCoups(void);
+        */
       private :
         CasePlateau _cases [51] ; // 50 cases noires numérotées de 01 à 50 ; la case 00 est blanche ; le numéro de la case correspond à son indice
         Coup _historique [500] ; // Historique des coup ; TODO : en faire une liste pour ne plus avoir de limite
         int _nombreDeCoups ;
         Joueur _joueur1 ;
         Joueur _joueur2 ;
-        Joueur _prochain ; // Celui des deux joueurs devant jouer le prochain coup
+        Joueur* _prochain ; // Celui des deux joueurs devant jouer le prochain coup
       };
 
       class Dummy
