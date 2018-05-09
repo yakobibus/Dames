@@ -42,6 +42,8 @@ namespace spc_plateau
         _apparence = apparence ;
         _estLibre = pion == nullptr ? true : false ;
         _couleur = couleur ; 
+        _motif[1] = _couleur == couleur_case::blanc ? ' ' : '-' ;
+        _motifSurbrillance[1] = _couleur == couleur_case::blanc ? ' ' : '=' ;
     }
     
     void CasePlateau::setPion(Pion* pion) 
@@ -51,6 +53,7 @@ namespace spc_plateau
 
     void CasePlateau::affiche(void)
     {
+std::cout << "("<< _y <<","<< _x <<")<"<<_motif<<"> " ;
         std::cout << _estLibre ? _motif : _pion->getMotif() ;
     }
 }
@@ -105,30 +108,34 @@ namespace spc_plateau
                 {
                     if( 0 == (x % 2) )
                     {
-                       _cases[++iCase].init( x
-                                           , y
-                                           , iCase
-                                           , (iCase >= 1 && iCase <= 20) ? &(_pionsBlancs [-1 + iCase]) 
-                                                                         : ((iCase >= 31 && iCase <= 50) ? &(_pionsNoirs [-1 + iCase]) 
-                                                                         : nullptr)
-                                           , apparence_case::normal
-                                           , couleur_case::noir
-                                           ) ;
+                        ++iCase ;
+//std::cout << iCase << ".<" << y << "," << x << ">("<<((iCase >= 1 && iCase <= 20) ? "b" : ((iCase >= 31 && iCase <= 50) ? "n" : "~"))<<") " ;
+                        _cases[iCase].init( x
+                                          , y
+                                          , iCase
+                                          , (iCase >= 1 && iCase <= 20) ? &(_pionsBlancs [-1 + iCase]) 
+                                                                        : ((iCase >= 31 && iCase <= 50) ? &(_pionsNoirs [-1 + iCase]) 
+                                                                        : nullptr)
+                                          , apparence_case::normal
+                                          , couleur_case::noir
+                                          ) ;
                     }
                 }
                 else  // lignes impaires => colonnes impaires
                 {
                     if( 0 != (x % 2) )
                     {
-                        _cases[++iCase].init( x
-                                            , y
-                                            , iCase
-                                            , (iCase >= 1 && iCase <= 20) ? &(_pionsBlancs [-1 + iCase]) 
-                                                                          : ((iCase >= 31 && iCase <= 50) ? &(_pionsNoirs [-1 + iCase]) 
-                                                                          : nullptr)
-                                            , apparence_case::normal
-                                            , couleur_case::noir
-                                            ) ;
+                        ++iCase ;
+//std::cout << iCase << ".<" << y << "," << x << ">("<<((iCase >= 1 && iCase <= 20) ? 'b' : ((iCase >= 31 && iCase <= 50) ? 'n' : '~'))<<") " ;
+                        _cases[iCase].init( x
+                                          , y
+                                          , iCase
+                                          , (iCase >= 1 && iCase <= 20) ? &(_pionsBlancs [-1 + iCase]) 
+                                                                        : ((iCase >= 31 && iCase <= 50) ? &(_pionsNoirs [-1 + iCase]) 
+                                                                        : nullptr)
+                                          , apparence_case::normal
+                                          , couleur_case::noir
+                                          ) ;
                     }
                 }
 
