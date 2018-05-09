@@ -1,4 +1,6 @@
 // plateau.c
+
+# include <iostream>
 //# include <cstring>
 # include "plateau.h"
 
@@ -14,6 +16,14 @@ namespace spc_plateau
         _couleur = couleur_case::blanc ;
         _pion = nullptr ;  // libre de tout pion
         _apparence = apparence_case::normal ;
+        _motif[0] = ' ';
+        _motif[1] = _couleur == couleur_case::blanc ? ' ' : '-' ;
+        _motif[2] = ' ';
+        _motif[3] = '\0';
+        _motifSurbrillance[0] = ' ';
+        _motifSurbrillance[1] = _couleur == couleur_case::blanc ? ' ' : '=' ;
+        _motifSurbrillance[2] = ' ';
+        _motifSurbrillance[3] = '\0';
         ;
     }
 
@@ -22,14 +32,26 @@ namespace spc_plateau
                           , int notation
                           , Pion* pion = nullptr
                           , apparence_case apparence = apparence_case::normal
-                          , bool libre = true
                           , couleur_case couleur = couleur_case::noir
                           )
-    {}
+    {
+        _y = y ;
+        _x = x ;
+        _notationOfficielle = notation ;
+        _pion = pion ;
+        _apparence = apparence ;
+        _estLibre = pion == nullptr ? true : false ;
+        _couleur = couleur ; 
+    }
     
     void CasePlateau::setPion(Pion* pion) 
     {
         _pion = pion ;
+    }
+
+    void CasePlateau::affiche(void)
+    {
+        std::cout << _estLibre ? _motif : _pion->getMotif() ;
     }
 }
 
@@ -50,6 +72,15 @@ namespace spc_plateau
         _motif[1] = _couleur == couleur_pion::blanc ? 'o' : 'x' ;
         _motif[2] = ' ';
         _motif[3] = '\0';
+        _motifSurbrillance[0] = ' ';
+        _motifSurbrillance[1] = _couleur == couleur_pion::blanc ? 'O' : 'X' ;
+        _motifSurbrillance[2] = ' ';
+        _motifSurbrillance[3] = '\0';
+    }
+
+    char* Pion::getMotif(void)
+    {
+        return _motif ;
     }
 
     void Pion::setCouleur(couleur_pion couleur)
@@ -64,7 +95,7 @@ namespace spc_plateau
     {
         int iCase = 0 ; // Les pions noirs dans les cases 1 à 20 et les blancs de 31 à 50
 
-        _cases[iCase].init(0, 0, 0, nullptr, apparence_case::normal, true, couleur_case::blanc) ;
+        _cases[iCase].init(0, 0, 0, nullptr, apparence_case::normal, couleur_case::blanc) ;
 
         for(int y = 10 ; y > 0 ; --y)       // ligne
         {
@@ -74,14 +105,30 @@ namespace spc_plateau
                 {
                     if( 0 == (x % 2) )
                     {
-                        _cases[++iCase].init(x, y, iCase, nullptr, apparence_case::normal, true, couleur_case::noir) ;
+                       _cases[++iCase].init( x
+                                           , y
+                                           , iCase
+                                           , (iCase >= 1 && iCase <= 20) ? &(_pionsBlancs [-1 + iCase]) 
+                                                                         : ((iCase >= 31 && iCase <= 50) ? &(_pionsNoirs [-1 + iCase]) 
+                                                                         : nullptr)
+                                           , apparence_case::normal
+                                           , couleur_case::noir
+                                           ) ;
                     }
                 }
                 else  // lignes impaires => colonnes impaires
                 {
                     if( 0 != (x % 2) )
                     {
-                        _cases[++iCase].init(x, y, iCase, nullptr, apparence_case::normal, true, couleur_case::noir) ;
+                        _cases[++iCase].init( x
+                                            , y
+                                            , iCase
+                                            , (iCase >= 1 && iCase <= 20) ? &(_pionsBlancs [-1 + iCase]) 
+                                                                          : ((iCase >= 31 && iCase <= 50) ? &(_pionsNoirs [-1 + iCase]) 
+                                                                          : nullptr)
+                                            , apparence_case::normal
+                                            , couleur_case::noir
+                                            ) ;
                     }
                 }
 
@@ -107,9 +154,21 @@ namespace spc_plateau
 
     void Plateau::affiche(void)
     {
-        for(int i = 0 ; i < 51 ; ++i)
+        for(int dummy = 0 ; dummy <= 100 ; ++dummy)
         {
-            ; // Afficher la case
+            if(dummy % 10 == 0)
+            {
+                std::cout << std::endl ;
+            }
+
+            if(dummy % 2 == 0) // case blanche
+            {
+                 _cases[0].affiche() ;
+            }
+            else  // case noire
+            {
+                _cases[static_cast<int>(1 + dummy / 2)].affiche() ;
+            }
         }
     }
 }

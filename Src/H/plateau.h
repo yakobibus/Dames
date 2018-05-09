@@ -63,14 +63,16 @@
         Pion(const Pion& p) = default ;
         Pion& operator = (const Pion& p) = default ;
         //
+        char* getMotif(void);
+        void resetSurbrillance(void);
         void setCouleur(couleur_pion couleur);
         void setEnSurbrillance(void);
-        void resetSurbrillance(void);
       private :
         couleur_pion _couleur ;
         promotion_pion _promotion ;
         apparence_pion _apparence ;
-        char _motif[4]  ;
+        char _motif[4] ;
+        char _motifSurbrillance[4] ;
       };
 
       /* Une case est définie par une couleur (noire/banche) et, 
@@ -85,7 +87,7 @@
         CasePlateau(const CasePlateau& c) = default ;
         CasePlateau& operator = (const CasePlateau& c) = default ;
         //
-        void init(int x, int y, int notation, Pion* pion, apparence_case apparence, bool libre, couleur_case couleur) ;
+        void init(int x, int y, int notation, Pion* pion, apparence_case apparence, couleur_case couleur) ;
         void affiche(void);
         void setPion(Pion* pion) ;
         void resetSurbrillance(void);
@@ -98,6 +100,8 @@
         int _y ;
         int _notationOfficielle ;
         apparence_case _apparence ;
+        char _motif[4] ;
+        char _motifSurbrillance[4] ;
       };
 
       /* Un joueur est caractérisé par la couleur qu'il joue et sa nature (humain ou intelligence artificielle)
@@ -162,7 +166,7 @@
         type_coup _typeDeCoup ;
         int _nombreDePrises ;
         CasePlateau _prises [20] ;
-        CasePlateau _cheminRafle ;
+        CasePlateau _cheminRafle[20] ;
         char* _commentaire ;
       };
 
