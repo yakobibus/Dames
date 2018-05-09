@@ -161,20 +161,24 @@ namespace spc_plateau
 
     void Plateau::affiche(void)
     {
-        for(int dummy = 0 ; dummy <= 100 ; ++dummy)
+        int oldY = -1 ;
+        for(int i = 1 ; i <= 50 ; ++i)
         {
-            if(dummy % 10 == 0)
+            if(oldY != _cases[i].getY())
             {
                 std::cout << std::endl ;
+                oldY = _cases[i].getY() ;
             }
 
-            if(dummy % 2 == 0) // case blanche
+            if(0 == (_cases[i].getY() % 2)) // ligne paire : case blancehe en premier
             {
-                 _cases[0].affiche() ;
+                _cases[0].affiche() ;
+                _cases[i].affiche() ;
             }
-            else  // case noire
+            else  // ligne impaire : case noire en premier
             {
-                _cases[static_cast<int>(1 + dummy / 2)].affiche() ;
+                _cases[i].affiche() ;
+                _cases[0].affiche() ;
             }
         }
     }

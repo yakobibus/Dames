@@ -92,6 +92,8 @@
         void setPion(Pion* pion) ;
         void resetSurbrillance(void);
         void setEnSurbrillance(void);
+        inline int getY(void) {return _y;}
+        inline int getX(void) {return _x;}
       private :
         couleur_case _couleur ;
         bool _estLibre ;
