@@ -53,8 +53,8 @@ namespace spc_plateau
 
     void CasePlateau::affiche(void)
     {
-std::cout << "("<< _y <<","<< _x <<")<"<<_motif<<"> " ;
-        std::cout << _estLibre ? _motif : _pion->getMotif() ;
+//std::cout << "("<< _y <<","<< _x <<")<"<<_motif<<"><"<<(_estLibre ? ":::" : _pion->getMotif())<<">{"<<(_estLibre ? ' ' : '!')<<"} " ;
+        std::cout << (_estLibre ? _motif : _pion->getMotif()) << "<"<<_pion->getCouleur()<<">" ;
     }
 }
 
@@ -71,14 +71,14 @@ namespace spc_plateau
                                                            , _apparence(apparence_pion::normal)
     {
         //memset(_motif, 0, 4);
-        _motif[0] = ' ';
+        _motif[0] = ' ' ;
         _motif[1] = _couleur == couleur_pion::blanc ? 'o' : 'x' ;
-        _motif[2] = ' ';
-        _motif[3] = '\0';
-        _motifSurbrillance[0] = ' ';
+        _motif[2] = ' ' ;
+        _motif[3] = '\0' ;
+        _motifSurbrillance[0] = ' ' ;
         _motifSurbrillance[1] = _couleur == couleur_pion::blanc ? 'O' : 'X' ;
-        _motifSurbrillance[2] = ' ';
-        _motifSurbrillance[3] = '\0';
+        _motifSurbrillance[2] = ' ' ;
+        _motifSurbrillance[3] = '\0' ;
     }
 
     char* Pion::getMotif(void)

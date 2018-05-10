@@ -67,6 +67,8 @@
         void resetSurbrillance(void);
         void setCouleur(couleur_pion couleur);
         void setEnSurbrillance(void);
+        couleur_pion getCouleur(void) {return _couleur;}
+        int operator << (const Pion& p) {return static_cast<int>(_couleur);}
       private :
         couleur_pion _couleur ;
         promotion_pion _promotion ;
