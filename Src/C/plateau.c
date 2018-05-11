@@ -1,6 +1,7 @@
 // plateau.c
 
 # include <iostream>
+# include <iomanip>
 //# include <cstring>
 # include "plateau.h"
 
@@ -78,7 +79,6 @@ namespace spc_plateau
 
     void CasePlateau::affiche(void)
     {
-//std::cout << "("<< _y <<","<< _x <<")<"<<_motif<<"><"<<(_estLibre ? ":::" : _pion->getMotif())<<">{"<<(_estLibre ? ' ' : '!')<<"} " ;
         if(_estLibre)
         {
             std::cout << _couleur ;
@@ -87,8 +87,6 @@ namespace spc_plateau
         {
             _pion->affiche() ;
         }
-        //std::cout << (_estLibre ? _motif : _pion->getMotif()) /*<< "<" << "_pion" <<">"*/ ;
-        //std::cout << couleur_pion::blanc ;
     }
 }
 
@@ -198,16 +196,21 @@ namespace spc_plateau
     void Plateau::affiche(void)
     {
         int oldY = -1 ;
-        //ligne();
+        ligneLettres();
+
         for(int i = 1 ; i <= 50 ; ++i)
         {
             
             if(oldY != _cases[i].getY())
             {
+                if(oldY > 0)
+                {
+                    std::cout << " " << oldY ;
+                }
                 std::cout << std::endl ;
                 ligne();
-                std::cout << "|" ;
                 oldY = _cases[i].getY() ;
+                std::cout << std::setw(4) << oldY  << " |" ;
             }
 
             if(0 == (_cases[i].getY() % 2)) // ligne paire : case blancehe en premier
@@ -225,7 +228,10 @@ namespace spc_plateau
                 std::cout << "|" ;
             }
         }
+        std::cout << " " << oldY ;
         std::cout << std::endl ;
         ligne() ;
+        ligneLettres();
+        std::cout << std::endl ;
     }
 }

@@ -188,7 +188,8 @@
         Plateau& operator = (const Plateau& p) = default ;
         //
         void affiche(void);
-        inline void ligne(void) {std::cout << "+---+---+---+---+---+---+---+---+---+---+" << std::endl ;}
+        inline void ligne (void) {std::cout << "     +---+---+---+---+---+---+---+---+---+---+" << std::endl ;}
+        inline ligneLettres (void) {std::cout << "       a   b   c   d   e   f   g   h   i   j" ;}
         /*
         int deplacerPion(CasePlateau positionDepart, CasePlateau positionArrivee) ;
         bool finDePartie(void);
