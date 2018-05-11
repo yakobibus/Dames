@@ -14,7 +14,9 @@
       {
           blanc
         , noir
+        //, friend std::ostream& operator << (std::ostream& os, const couleur_pion& cp);
       } ;
+      std::ostream& operator << (std::ostream& os, const couleur_pion& cp) ;
 
       /* La couleur d'une case */
       enum class couleur_case
@@ -22,6 +24,7 @@
           blanc
         , noir
       } ;
+      std::ostream& operator << (std::ostream& os, const couleur_case& cc) ;
 
       enum class apparence_case
       {
@@ -68,7 +71,7 @@
         void setCouleur(couleur_pion couleur);
         void setEnSurbrillance(void);
         couleur_pion getCouleur(void) {return _couleur;}
-        int operator << (const Pion& p) {return static_cast<int>(_couleur);}
+        friend std::ostream& operator << (std::ostream& os, const Pion& p) {switch(p._couleur) {case couleur_pion::blanc : os << "pion blanc" ; break ;case couleur_pion::noir : os << "pion noir";break; default : os << "curieuse couleur de pion";break;} return os;}
       private :
         couleur_pion _couleur ;
         promotion_pion _promotion ;
@@ -96,6 +99,7 @@
         void setEnSurbrillance(void);
         inline int getY(void) {return _y;}
         inline int getX(void) {return _x;}
+        couleur_pion getCouleurPion(void) {return _pion->getCouleur();}
       private :
         couleur_case _couleur ;
         bool _estLibre ;

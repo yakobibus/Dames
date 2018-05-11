@@ -6,6 +6,31 @@
 
 namespace spc_plateau
 {
+    std::ostream& operator << (std::ostream& os, const couleur_pion& cp)
+    {
+        switch(cp)
+        {
+            case couleur_pion::blanc : os << " o " ; break ;
+            case couleur_pion::noir  : os << " x " ; break ;
+            default : os << "~~~" ; break ;
+        }
+        return os ;
+    }
+
+    std::ostream& operator << (std::ostream& os, const couleur_case& cc)
+    {
+        switch(cc)
+        {
+            case couleur_case::blanc : os << "   " ; break ;
+            case couleur_case::noir  : os << "///" ; break ;
+            default : os << "..." ; break ;
+        }
+        return os ;
+    }
+}
+
+namespace spc_plateau
+{
     //CasePlateau::CasePlateau(int notation, bool libre = true) : _notationOfficielle(notation), _estLibre(libre)
     CasePlateau::CasePlateau()
     {
@@ -54,7 +79,8 @@ namespace spc_plateau
     void CasePlateau::affiche(void)
     {
 //std::cout << "("<< _y <<","<< _x <<")<"<<_motif<<"><"<<(_estLibre ? ":::" : _pion->getMotif())<<">{"<<(_estLibre ? ' ' : '!')<<"} " ;
-        std::cout << (_estLibre ? _motif : _pion->getMotif()) << "<"<<_pion->getCouleur()<<">" ;
+        std::cout << (_estLibre ? _motif : _pion->getMotif()) /*<< "<" << "_pion" <<">"*/ ;
+        //std::cout << couleur_pion::blanc ;
     }
 }
 
@@ -89,6 +115,8 @@ namespace spc_plateau
     void Pion::setCouleur(couleur_pion couleur)
     {
         _couleur = couleur ;
+        _motif[1] = ( _couleur == couleur_pion::blanc ? 'o' : 'x' ) ;
+        _motifSurbrillance[1] = ( _couleur == couleur_pion::blanc ? 'O' : 'X' ) ;
     }
 }
 
