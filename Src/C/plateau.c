@@ -196,6 +196,11 @@ namespace spc_plateau
     void Plateau::affiche(void)
     {
         int oldY = -1 ;
+        int prnY = 0 ;
+
+        std::system("clear") ;
+        std::cout << std::endl << "   Jeux de Dames" << std::endl << "   -------------" << std::endl << std::endl ;
+
         ligneLettres();
 
         for(int i = 1 ; i <= 50 ; ++i)
@@ -205,12 +210,13 @@ namespace spc_plateau
             {
                 if(oldY > 0)
                 {
-                    std::cout << " " << oldY ;
+                    std::cout << " " << prnY ;
                 }
                 std::cout << std::endl ;
                 ligne();
                 oldY = _cases[i].getY() ;
-                std::cout << std::setw(4) << oldY  << " |" ;
+                ++prnY ;
+                std::cout << std::setw(4) << prnY  << " |" ;
             }
 
             if(0 == (_cases[i].getY() % 2)) // ligne paire : case blancehe en premier
@@ -228,10 +234,10 @@ namespace spc_plateau
                 std::cout << "|" ;
             }
         }
-        std::cout << " " << oldY ;
+        std::cout << " " << prnY ;
         std::cout << std::endl ;
         ligne() ;
         ligneLettres();
-        std::cout << std::endl ;
+        std::cout << std::endl << std::endl ;
     }
 }
