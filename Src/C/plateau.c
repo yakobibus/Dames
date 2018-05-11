@@ -10,8 +10,8 @@ namespace spc_plateau
     {
         switch(cp)
         {
-            case couleur_pion::blanc : os << " o " ; break ;
-            case couleur_pion::noir  : os << " x " ; break ;
+            case couleur_pion::blanc : os << "/o/" ; break ;
+            case couleur_pion::noir  : os << "/x/" ; break ;
             default : os << "~~~" ; break ;
         }
         return os ;
@@ -147,7 +147,6 @@ namespace spc_plateau
                     if( 0 == (x % 2) )
                     {
                         ++iCase ;
-//std::cout << iCase << ".<" << y << "," << x << ">("<<((iCase >= 1 && iCase <= 20) ? "b" : ((iCase >= 31 && iCase <= 50) ? "n" : "~"))<<") " ;
                         _cases[iCase].init( x
                                           , y
                                           , iCase
@@ -199,24 +198,34 @@ namespace spc_plateau
     void Plateau::affiche(void)
     {
         int oldY = -1 ;
+        //ligne();
         for(int i = 1 ; i <= 50 ; ++i)
         {
+            
             if(oldY != _cases[i].getY())
             {
                 std::cout << std::endl ;
+                ligne();
+                std::cout << "|" ;
                 oldY = _cases[i].getY() ;
             }
 
             if(0 == (_cases[i].getY() % 2)) // ligne paire : case blancehe en premier
             {
                 _cases[0].affiche() ;
+                std::cout << "|" ;
                 _cases[i].affiche() ;
+                std::cout << "|" ;
             }
             else  // ligne impaire : case noire en premier
             {
                 _cases[i].affiche() ;
+                std::cout << "|" ;
                 _cases[0].affiche() ;
+                std::cout << "|" ;
             }
         }
+        std::cout << std::endl ;
+        ligne() ;
     }
 }
