@@ -79,7 +79,15 @@ namespace spc_plateau
     void CasePlateau::affiche(void)
     {
 //std::cout << "("<< _y <<","<< _x <<")<"<<_motif<<"><"<<(_estLibre ? ":::" : _pion->getMotif())<<">{"<<(_estLibre ? ' ' : '!')<<"} " ;
-        std::cout << (_estLibre ? _motif : _pion->getMotif()) /*<< "<" << "_pion" <<">"*/ ;
+        if(_estLibre)
+        {
+            std::cout << _couleur ;
+        }
+        else
+        {
+            _pion->affiche() ;
+        }
+        //std::cout << (_estLibre ? _motif : _pion->getMotif()) /*<< "<" << "_pion" <<">"*/ ;
         //std::cout << couleur_pion::blanc ;
     }
 }
@@ -107,10 +115,12 @@ namespace spc_plateau
         _motifSurbrillance[3] = '\0' ;
     }
 
+    /*
     char* Pion::getMotif(void)
     {
         return _motif ;
     }
+    */
 
     void Pion::setCouleur(couleur_pion couleur)
     {
@@ -154,7 +164,6 @@ namespace spc_plateau
                     if( 0 != (x % 2) )
                     {
                         ++iCase ;
-//std::cout << iCase << ".<" << y << "," << x << ">("<<((iCase >= 1 && iCase <= 20) ? 'b' : ((iCase >= 31 && iCase <= 50) ? 'n' : '~'))<<") " ;
                         _cases[iCase].init( x
                                           , y
                                           , iCase

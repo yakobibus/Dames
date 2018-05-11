@@ -66,7 +66,8 @@
         Pion(const Pion& p) = default ;
         Pion& operator = (const Pion& p) = default ;
         //
-        char* getMotif(void);
+        void affiche(void) {std::cout << _couleur ;}
+        //char* getMotif(void);
         void resetSurbrillance(void);
         void setCouleur(couleur_pion couleur);
         void setEnSurbrillance(void);
