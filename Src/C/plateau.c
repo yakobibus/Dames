@@ -87,12 +87,13 @@ namespace spc_plateau
         {
             _pion->affiche() ;
         }
+        std::cout << _separateur ;
     }
 }
 
 namespace spc_plateau
 {
-    Joueur::Joueur() : _couleur(couleur_pion::blanc), _nature(nature_joueur::ia)
+    Joueur::Joueur(couleur_pion couleur, nature_joueur nature) : _couleur(couleur), _nature(nature)
     {}
 }
 
@@ -112,13 +113,6 @@ namespace spc_plateau
         _motifSurbrillance[2] = ' ' ;
         _motifSurbrillance[3] = '\0' ;
     }
-
-    /*
-    char* Pion::getMotif(void)
-    {
-        return _motif ;
-    }
-    */
 
     void Pion::setCouleur(couleur_pion couleur)
     {
@@ -195,13 +189,12 @@ namespace spc_plateau
 
     void Plateau::affiche(void)
     {
-        int oldY = -1 ;
-        //int prnY = 0 ;
-
         std::system("clear") ;
         afficheTitre() ;
 
         ligneLettres();
+
+        int oldY = -1 ;
 
         for(int i = 1 ; i <= 50 ; ++i)
         {
@@ -215,25 +208,19 @@ namespace spc_plateau
                 std::cout << std::endl ;
                 ligne();
                 oldY = _cases[i].getY() ;
-                //++prnY ;
-                std::cout << std::setw(4) << oldY << std::setw(2) << "|" ;
+                std::cout << std::setw(4) << oldY << std::setw(2) << _cases[0].getSeparateur() ;
             }
 
             if(0 == (_cases[i].getY() % 2)) // ligne paire : case blancehe en premier
             {
                 _cases[0].affiche() ;
-                std::cout << "|" ;
                 _cases[i].affiche() ;
-                std::cout << "|" ;
             }
             else  // ligne impaire : case noire en premier
             {
                 _cases[i].affiche() ;
-                std::cout << "|" ;
                 _cases[0].affiche() ;
-                std::cout << "|" ;
             }
-            //std::cout << "|" ;
         }
         std::cout << " " << oldY ;
         std::cout << std::endl ;

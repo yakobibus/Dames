@@ -68,7 +68,6 @@
         Pion& operator = (const Pion& p) = default ;
         //
         void affiche(void) {std::cout << _couleur ;}
-        //char* getMotif(void);
         void resetSurbrillance(void);
         void setCouleur(couleur_pion couleur);
         void setEnSurbrillance(void);
@@ -101,6 +100,7 @@
         void setEnSurbrillance(void);
         inline int getY(void) {return _y;}
         inline int getX(void) {return _x;}
+        inline const char* getSeparateur(void) const {return _separateur ;}
         couleur_pion getCouleurPion(void) {return _pion->getCouleur();}
       private :
         couleur_case _couleur ;
@@ -112,6 +112,7 @@
         apparence_case _apparence ;
         char _motif[4] ;
         char _motifSurbrillance[4] ;
+        const char _separateur[2] = "|" ;
       };
 
       /* Un joueur est caractérisé par la couleur qu'il joue et sa nature (humain ou intelligence artificielle)
@@ -119,7 +120,7 @@
       class Joueur
       {
       public :
-        Joueur() ;
+        Joueur(couleur_pion couleur = couleur_pion::blanc, nature_joueur nature  = nature_joueur::ia) ;
         ~Joueur() = default ;
         Joueur(const Joueur& j) = default ;
         Joueur& operator = (const Joueur& j) = default ;
