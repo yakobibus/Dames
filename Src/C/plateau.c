@@ -196,10 +196,10 @@ namespace spc_plateau
     void Plateau::affiche(void)
     {
         int oldY = -1 ;
-        int prnY = 0 ;
+        //int prnY = 0 ;
 
         std::system("clear") ;
-        std::cout << std::endl << "   Jeux de Dames" << std::endl << "   -------------" << std::endl << std::endl ;
+        afficheTitre() ;
 
         ligneLettres();
 
@@ -210,13 +210,13 @@ namespace spc_plateau
             {
                 if(oldY > 0)
                 {
-                    std::cout << " " << prnY ;
+                    std::cout << " " << oldY ;
                 }
                 std::cout << std::endl ;
                 ligne();
                 oldY = _cases[i].getY() ;
-                ++prnY ;
-                std::cout << std::setw(4) << prnY  << " |" ;
+                //++prnY ;
+                std::cout << std::setw(4) << oldY << std::setw(2) << "|" ;
             }
 
             if(0 == (_cases[i].getY() % 2)) // ligne paire : case blancehe en premier
@@ -233,11 +233,26 @@ namespace spc_plateau
                 _cases[0].affiche() ;
                 std::cout << "|" ;
             }
+            //std::cout << "|" ;
         }
-        std::cout << " " << prnY ;
+        std::cout << " " << oldY ;
         std::cout << std::endl ;
         ligne() ;
         ligneLettres();
         std::cout << std::endl << std::endl ;
+    }
+
+    void Plateau::afficheTitre(void)
+    {
+        int sz = strlen(titre) ; 
+        std::cout << "\n\n" << std::setw(3 + sz) << titre << std::endl ; 
+        char* trait = new char[1 + sz] ;
+        memset(trait, 0, 1 + sz ) ;
+        for(int i = 0 ; i < sz ; ++i)
+        {
+            trait [i] = '-' ;
+        }
+        std::cout << std::setw(3 + sz) << trait << std::endl << std::endl ; 
+        delete [] trait ;
     }
 }

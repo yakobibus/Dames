@@ -4,6 +4,7 @@
 /* Le plateau de jeu et tout ce qui y touche : damier, pions joueurs ... */
 
 # include <map>
+# include <cstring>
 
 # ifndef _PLATEAU_H_
   # define _PLATEAU_H_ (1)
@@ -188,6 +189,7 @@
         Plateau& operator = (const Plateau& p) = default ;
         //
         void affiche(void);
+        void afficheTitre(void) ;
         inline void ligne (void) {std::cout << "     +---+---+---+---+---+---+---+---+---+---+" << std::endl ;}
         inline ligneLettres (void) {std::cout << "       a   b   c   d   e   f   g   h   i   j" ;}
         /*
@@ -199,6 +201,7 @@
         int getNombreDeCoups(void);
         */
       private :
+        const char titre[24] = "*** Jeux de Dames ***" ;
         CasePlateau _cases [51] ; // 50 cases noires numérotées de 01 à 50 ; la case 00 est blanche ; le numéro de la case correspond à son indice
         Coup _historique [500] ; // Historique des coup ; TODO : en faire une liste pour ne plus avoir de limite
         int _nombreDeCoups ;
