@@ -183,6 +183,20 @@
         char* _commentaire ;
       };
 
+      class Diagonale
+      {
+      public :
+        Diagonale() ;
+        ~Diagonale() ;
+        Diagonale(const Diagonale& d) ;
+        Diagonale& operator = (const Diagonale& d) ;
+        //
+        int addCase(CasePlateau* c) ;
+      private :
+        int _taille ;
+        CasePlateau** _cases ;
+      };
+
       class Plateau
       {
       public :
@@ -193,8 +207,8 @@
         //
         void affiche(void);
         void afficheTitre(void) ;
-        inline void ligne (void) {std::cout << "     +---+---+---+---+---+---+---+---+---+---+" << std::endl ;}
-        inline ligneLettres (void) {std::cout << "       a   b   c   d   e   f   g   h   i   j" ;}
+        inline void ligne (void) {std::cout        << "     +---+---+---+---+---+---+---+---+---+---+" << std::endl ;}
+        inline void ligneLettres (void) {std::cout << "       a   b   c   d   e   f   g   h   i   j" ;}
         void affichePiedDePage(void) ;
         /*
         int deplacerPion(CasePlateau positionDepart, CasePlateau positionArrivee) ;
@@ -208,6 +222,7 @@
         const char titre[24] = "*** Jeux de Dames ***" ;
         CasePlateau _cases [51] ; // 50 cases noires numérotées de 01 à 50 ; la case 00 est blanche ; le numéro de la case correspond à son indice
         Coup _historique [500] ; // Historique des coup ; TODO : en faire une liste pour ne plus avoir de limite
+        Diagonale _diagonales[17] ;  // ici
         int _nombreDeCoups ;
         Joueur _joueur1 ;
         Joueur _joueur2 ;

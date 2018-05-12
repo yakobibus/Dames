@@ -2,7 +2,6 @@
 
 # include <iostream>
 # include <iomanip>
-//# include <cstring>
 # include "plateau.h"
 
 namespace spc_plateau
@@ -88,6 +87,91 @@ namespace spc_plateau
             _pion->affiche() ;
         }
         std::cout << _separateur ;
+    }
+}
+
+
+namespace spc_plateau
+{
+    Diagonale::Diagonale() : _taille(0), _cases(nullptr) {}
+
+    Diagonale::~Diagonale()
+    {
+        if(_taille == 0)
+        {
+            delete _cases ;
+            _taille = 0 ;
+            _cases = nullptr ;
+        }
+    }
+
+    Diagonale::Diagonale(const Diagonale& d)
+    {
+        if(this != &d)
+        {
+            if( _taille > 0)
+            {
+                delete _cases ;
+                _taille = 0 ;
+                _cases = nullptr ;
+            }
+
+            if(d._taille > 0)
+            {
+                _taille = d._taille ;
+                _cases = new CasePlateau* [_taille] ;
+                for(int i = 0 ; i < _taille ; ++i)
+                {
+                    _cases[i] = d._cases[i] ;
+                }
+            }
+        }
+    }
+
+    Diagonale& Diagonale::operator = (const Diagonale& d) 
+    {
+        if(this != &d)
+        {
+            if( _taille > 0)
+            {
+                delete _cases ;
+                _taille = 0 ;
+                _cases = nullptr ;
+            }
+
+            if(d._taille > 0)
+            {
+                _taille = d._taille ;
+                _cases = new CasePlateau* [_taille] ;
+                for(int i = 0 ; i < _taille ; ++i)
+                {
+                    _cases[i] = d._cases[i] ;
+                }
+            }
+        }
+        return *this;
+    }
+
+    int Diagonale::addCase(CasePlateau* c) 
+    {
+        Diagonale oldDiagonale = *this ;
+    
+        if( _taille > 0)
+        {
+            delete _cases ;
+            _taille = 0 ;
+            _cases = nullptr ;
+        }
+
+        _taille = 1 + oldDiagonale._taille ;
+        _cases = new CasePlateau* [_taille] ;
+        for(int i = 0 ; i < oldDiagonale._taille ; ++i)
+        {
+            _cases[i] = oldDiagonale._cases[i] ;
+        }
+        _cases[-1 + _taille] = c ;
+        
+        return _taille ;
     }
 }
 

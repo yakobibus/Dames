@@ -5,6 +5,9 @@
   namespace spc_regles
   {
       /*
+         Une diagonale est une suite de 2 cases au moins et de 10 au plus sur un damier ; 
+         Une diagonale de taille paire a une orientation nord-est/ ; taille impaire orientation nord-ouest
+
       Positions de départ des blancs (o) et des noirs (x)
            a   b   c   d   e   f   g   h   i   j
          +---+---+---+---+---+---+---+---+---+---+
