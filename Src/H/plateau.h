@@ -124,6 +124,8 @@
         ~Joueur() = default ;
         Joueur(const Joueur& j) = default ;
         Joueur& operator = (const Joueur& j) = default ;
+        friend std::ostream& operator << (std::ostream& os, const Joueur& j) ;
+        couleur_pion getCouleur(void) {return _couleur ;}
       private :
         couleur_pion _couleur ;
         nature_joueur _nature ;
@@ -193,6 +195,7 @@
         void afficheTitre(void) ;
         inline void ligne (void) {std::cout << "     +---+---+---+---+---+---+---+---+---+---+" << std::endl ;}
         inline ligneLettres (void) {std::cout << "       a   b   c   d   e   f   g   h   i   j" ;}
+        void affichePiedDePage(void) ;
         /*
         int deplacerPion(CasePlateau positionDepart, CasePlateau positionArrivee) ;
         bool finDePartie(void);

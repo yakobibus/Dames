@@ -126,6 +126,11 @@ namespace spc_plateau
 {
     Plateau::Plateau(Joueur joueur1, Joueur joueur2) : _nombreDeCoups(0), _joueur1(joueur1), _joueur2(joueur2), _prochain(nullptr)
     {
+        if(_joueur1.getCouleur() != _joueur2.getCouleur()) // Les deux joueurs ne peuvent pas avoir la même couleur
+        {
+            _prochain = (_joueur1.getCouleur() == couleur_pion::blanc ? &_joueur1 : &_joueur2) ;
+        }
+
         int iCase = 0 ; // Les pions noirs dans les cases 1 à 20 et les blancs de 31 à 50
 
         _cases[iCase].init(0, 0, 0, nullptr, apparence_case::normal, couleur_case::blanc) ;
@@ -227,6 +232,20 @@ namespace spc_plateau
         ligne() ;
         ligneLettres();
         std::cout << std::endl << std::endl ;
+
+        affichePiedDePage() ;
+    }
+
+    std::ostream& operator << (std::ostream& os, const Joueur& j)
+    {
+        os << std::setw(6) << std::left << (j._couleur == couleur_pion::blanc ? "Blancs" : "Noirs") << " (" << (j._nature == nature_joueur::ia ? "ia" : "humain") << ")" ;
+        return os;
+    }
+
+    void Plateau::affichePiedDePage(void)
+    {
+        std::cout << _joueur1 << " " << _joueur1.getCouleur() << (_prochain == &_joueur1 ? " <<==next player==" : "") << std::endl << " vs " << std::endl ;
+        std::cout << _joueur2 << " " << _joueur2.getCouleur() <<  std::endl ;
     }
 
     void Plateau::afficheTitre(void)
