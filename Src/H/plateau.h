@@ -212,6 +212,8 @@
         inline void ligne (void) {std::cout        << "     +---+---+---+---+---+---+---+---+---+---+" << std::endl ;}
         inline void ligneLettres (void) {std::cout << "       a   b   c   d   e   f   g   h   i   j" ;}
         void affichePiedDePage(void) ;
+        void initDiagonales(void) ;
+        void oldInitDiagonales(void) ;
         /*
         int deplacerPion(CasePlateau positionDepart, CasePlateau positionArrivee) ;
         bool finDePartie(void);

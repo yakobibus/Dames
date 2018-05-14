@@ -296,6 +296,59 @@ namespace spc_plateau
             }
         }
 
+        initDiagonales() ;
+    }
+
+    void Plateau::initDiagonales(void)
+    {
+        CasePlateau* dummy[100] = 
+        {
+            // Paires
+              &_cases[1], &_cases[6]
+            , &_cases[2], &_cases[7], &_cases[11], &_cases[16]
+            , &_cases[3], &_cases[8], &_cases[12], &_cases[17], &_cases[21], &_cases[26]
+            , &_cases[4], &_cases[9], &_cases[13], &_cases[18], &_cases[22], &_cases[27], &_cases[31], &_cases[36]
+            , &_cases[5], &_cases[10], &_cases[14], &_cases[19], &_cases[23], &_cases[28], &_cases[32], &_cases[37], &_cases[41], &_cases[46]
+            , &_cases[15], &_cases[20], &_cases[24], &_cases[29], &_cases[33], &_cases[38], &_cases[42], &_cases[47]
+            , &_cases[25], &_cases[30], &_cases[34], &_cases[39], &_cases[43], &_cases[48]
+            , &_cases[35], &_cases[40], &_cases[44], &_cases[49]
+            , &_cases[45], &_cases[50]
+            // Impaires
+            , &_cases[46]
+            , &_cases[36], &_cases[41], &_cases[47]
+            , &_cases[26], &_cases[31], &_cases[37], &_cases[42], &_cases[48]
+            , &_cases[16], &_cases[21], &_cases[27], &_cases[32], &_cases[38], &_cases[43], &_cases[49]
+            , &_cases[6], &_cases[11], &_cases[17], &_cases[22], &_cases[28], &_cases[33], &_cases[39], &_cases[44], &_cases[50]
+            , &_cases[1], &_cases[7], &_cases[12], &_cases[18], &_cases[23], &_cases[29], &_cases[34], &_cases[40], &_cases[45]
+            , &_cases[2], &_cases[8], &_cases[13], &_cases[19], &_cases[24], &_cases[30], &_cases[35]
+            , &_cases[3], &_cases[9], &_cases[14], &_cases[20], &_cases[25]
+            , &_cases[4], &_cases[10], &_cases[15]
+            , &_cases[5]
+        } ;
+        _diagonales[0].init(2, &dummy[0]) ;
+        _diagonales[1].init(4, &dummy[2]) ;
+        _diagonales[2].init(6, &dummy[6]) ;
+        _diagonales[3].init(8, &dummy[12]) ;
+        _diagonales[4].init(10, &dummy[20]) ;
+        _diagonales[5].init(8, &dummy[30]) ;
+        _diagonales[6].init(6, &dummy[38]) ;
+        _diagonales[7].init(4, &dummy[44]) ;
+        _diagonales[8].init(2, &dummy[48]) ;
+        _diagonales[9].init(1, &dummy[50]) ;
+        _diagonales[10].init(3, &dummy[51]) ;
+        _diagonales[11].init(5, &dummy[54]) ;
+        _diagonales[12].init(7, &dummy[59]) ;
+        _diagonales[13].init(9, &dummy[66]) ;
+        _diagonales[14].init(9, &dummy[75]) ;
+        _diagonales[15].init(7, &dummy[84]) ;
+        _diagonales[16].init(5, &dummy[91]) ;
+        _diagonales[17].init(3, &dummy[96]) ;
+        _diagonales[18].init(1, &dummy[99]) ;
+    }
+
+    void Plateau::oldInitDiagonales(void)
+    {
+        // Paires
         {
             CasePlateau* cp[2] = {&_cases[1], &_cases[6]} ;
             _diagonales[0].init(2, cp) ;
@@ -332,6 +385,7 @@ namespace spc_plateau
             CasePlateau* cp[2] = {&_cases[45], &_cases[50]} ;
             _diagonales[8].init(2, cp) ;
         }
+        // Impaires
         {
             CasePlateau* cp[1] = {&_cases[46]} ;
             _diagonales[18].init(1, cp) ;
