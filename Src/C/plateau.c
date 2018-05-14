@@ -514,13 +514,42 @@ namespace spc_plateau
             std::cout << std::endl ;
             std::cout << "\n  ==>> La main est aux " << _prochain->getCouleur() << "   Q pour abandonner"<< std::endl ;
             std::cout << "\n       Depart : " ;
-            if ( ! coup.setDepart(errorMsg, _finDePartie) )
+            if ( ! coup.setDepart(errorMsg, _finDePartie) )  // ici : todo, enlever cette definition de Coup, vers Plateau
             {
                 continue ;
             }
         }
 
         return retCode ;
+    }
+
+    int Plateau::getNotationCase(const int& y, const char& x)
+    {
+        int retValue = 0 ;
+
+        for(int i = 1 ; i < 51 ; ++i)
+        {
+            retValue = _cases[i].getNotation( y
+                                            , ( x == 'a' || x == 'A' ? 1
+                                              : x == 'b' || x == 'B' ? 2
+                                              : x == 'c' || x == 'C' ? 3
+                                              : x == 'd' || x == 'D' ? 4
+                                              : x == 'e' || x == 'E' ? 5
+                                              : x == 'f' || x == 'F' ? 6
+                                              : x == 'g' || x == 'G' ? 7
+                                              : x == 'h' || x == 'H' ? 8
+                                              : x == 'i' || x == 'I' ? 9
+                                              : x == 'j' || x == 'J' ? 10
+                                              : 0
+                                              )
+                                            ) ;
+            if(retValue != 0)
+            {
+                break ;
+            }
+        }
+
+        return retValue ;
     }
 }
 
@@ -529,6 +558,8 @@ namespace spc_plateau
     bool Coup::setDepart(std::string& message, bool& gameOver)
     {
         bool retCode = true ;
+        int y = 0 ;
+        int x = 0 ;
 
         std::string saisie ;
         getline(std::cin, saisie) ;
@@ -540,17 +571,34 @@ namespace spc_plateau
         }
         else 
         {
-            ;
+            std::string sLigne = "" ;
+
+            char colonne = saisie.c_str()[0] ;
+            x = ( colonne == 'a' || colonne == 'A' ? 1 
+                : colonne == 'b' || colonne == 'B' ? 2 
+                : colonne == 'c' || colonne == 'C' ? 3
+                : colonne == 'd' || colonne == 'D' ? 4
+                : colonne == 'e' || colonne == 'E' ? 5
+                : colonne == 'f' || colonne == 'F' ? 6
+                : colonne == 'g' || colonne == 'G' ? 7
+                : colonne == 'h' || colonne == 'H' ? 8
+                : colonne == 'i' || colonne == 'I' ? 9
+                : colonne == 'j' || colonne == 'J' ? 10
+                : 0
+                ) ;
+            sLigne = saisie.c_str()[1] ;
+            try
+            {
+                y = std::stoi(sLigne) ;
+            }
+            catch (std::invalid_argument& e)
+            {
+                message = "Invalid position (" + saisie + ")" ;
+                retCode = false ;
+            }
+std::cout << "L("<< sLigne <<"), C(" << colonne << ") et ("<<y<<")\n" ;
         }
 
-        char colonne = 0 ;
-        std::string sLigne = "" ;
-        int ligne = 0 ;
-
-        colonne = saisie.c_str()[0] ;
-        sLigne = saisie.c_str()[1] ;
-
-        std::cout << "L("<< sLigne <<"), C(" << colonne << ")\n" ;
         return retCode ;
     }
 }

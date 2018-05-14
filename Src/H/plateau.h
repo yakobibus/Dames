@@ -99,9 +99,10 @@
         void resetSurbrillance(void);
         void setEnSurbrillance(void);
         inline int getNotation(void) {return _notationOfficielle ;}
+        inline int getNotation(int y, int x) {return (y == _y && x == _x ? _notationOfficielle : 0) ;}
         inline int getY(void) {return _y;}
         inline int getX(void) {return _x;}
-        inline const char* getSeparateur(void) const {return _separateur ;}
+        inline const char* getSeparateur(void) {return _separateur ;}
         couleur_pion getCouleurPion(void) {return _pion->getCouleur();}
       private :
         couleur_case _couleur ;
@@ -214,6 +215,7 @@
         inline void ligneLettres (void) {std::cout << "       a   b   c   d   e   f   g   h   i   j" ;}
         void affichePiedDePage(void) ;
         void initDiagonales(void) ;
+        int getNotationCase(const int& y, const char& x) ;
         void oldInitDiagonales(void) ;
         int jouer(void) ;
         /*
