@@ -450,7 +450,7 @@ namespace spc_plateau
                 std::cout << std::endl ;
                 ligne();
                 oldY = _cases[i].getY() ;
-                std::cout << std::setw(4) << oldY << std::setw(2) << _cases[0].getSeparateur() ;
+                std::cout << std::right << std::setw(4) << oldY << std::setw(2) << _cases[0].getSeparateur() ;
             }
 
             if(0 == (_cases[i].getY() % 2)) // ligne paire : case blancehe en premier
