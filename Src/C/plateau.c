@@ -1,6 +1,7 @@
 // plateau.c
 
 # include <iostream>
+# include <string>
 # include <iomanip>
 # include "plateau.h"
 
@@ -188,9 +189,9 @@ namespace spc_plateau
         for(int i = 0 ; i < _taille ; ++i)
         {
             _cases[i] = c[i];
-std::cout << "<" << _cases[i]->getNotation() << "> " ;
+//std::cout << "<" << _cases[i]->getNotation() << "> " ;
         }
-std::cout << std::endl ;
+//std::cout << std::endl ;
 
         return _taille ;
     }
@@ -496,5 +497,60 @@ namespace spc_plateau
         }
         std::cout << std::setw(3 + sz) << trait << std::endl << std::endl ; 
         delete [] trait ;
+    }
+
+    int Plateau::jouer(void)
+    {
+        int retCode = 0 ;
+        std::string errorMsg = "" ;
+
+        Coup coup ;
+
+        while(! _finDePartie)
+        {
+            affiche() ;
+
+            std::cout << errorMsg ;
+            std::cout << std::endl ;
+            std::cout << "\n  ==>> La main est aux " << _prochain->getCouleur() << "   Q pour abandonner"<< std::endl ;
+            std::cout << "\n       Depart : " ;
+            if ( ! coup.setDepart(errorMsg, _finDePartie) )
+            {
+                continue ;
+            }
+        }
+
+        return retCode ;
+    }
+}
+
+namespace spc_plateau
+{
+    bool Coup::setDepart(std::string& message, bool& gameOver)
+    {
+        bool retCode = true ;
+
+        std::string saisie ;
+        getline(std::cin, saisie) ;
+
+        if(saisie == "Q" || saisie == "q" || saisie == "X" || saisie == "x")
+        {
+            gameOver = true ;
+            message = "Partie abandonnée ... " ;
+        }
+        else 
+        {
+            ;
+        }
+
+        char colonne = 0 ;
+        std::string sLigne = "" ;
+        int ligne = 0 ;
+
+        colonne = saisie.c_str()[0] ;
+        sLigne = saisie.c_str()[1] ;
+
+        std::cout << "L("<< sLigne <<"), C(" << colonne << ")\n" ;
+        return retCode ;
     }
 }

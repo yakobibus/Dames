@@ -174,6 +174,7 @@
       class Coup
       {
       public :
+        bool setDepart(std::string& message, bool& gameOver) ;
       private :
         int _caseDepart ;
         int _caseArrivee ;
@@ -214,6 +215,7 @@
         void affichePiedDePage(void) ;
         void initDiagonales(void) ;
         void oldInitDiagonales(void) ;
+        int jouer(void) ;
         /*
         int deplacerPion(CasePlateau positionDepart, CasePlateau positionArrivee) ;
         bool finDePartie(void);
@@ -233,6 +235,7 @@
         Pion _pionsBlancs[20] ;
         Pion _pionsNoirs[20] ;
         Joueur* _prochain ; // Celui des deux joueurs devant jouer le prochain coup
+        bool _finDePartie = false ;
       };
 
       class Dummy

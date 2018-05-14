@@ -15,7 +15,7 @@ int main (int argc, char** argv)
     /*
     */
     Plateau plateau(joueur1, joueur2) ;
-    plateau.affiche();
+    retCode = plateau.jouer();
 
     return retCode ;
 }
