@@ -98,6 +98,7 @@
         void setPion(Pion* pion) ;
         void resetSurbrillance(void);
         void setEnSurbrillance(void);
+        inline int getNotation(void) {return _notationOfficielle ;}
         inline int getY(void) {return _y;}
         inline int getX(void) {return _x;}
         inline const char* getSeparateur(void) const {return _separateur ;}
@@ -192,6 +193,7 @@
         Diagonale& operator = (const Diagonale& d) ;
         //
         int addCase(CasePlateau* c) ;
+        int init(int taille, CasePlateau** c) ;
       private :
         int _taille ;
         CasePlateau** _cases ;
@@ -222,7 +224,7 @@
         const char titre[24] = "*** Jeux de Dames ***" ;
         CasePlateau _cases [51] ; // 50 cases noires numérotées de 01 à 50 ; la case 00 est blanche ; le numéro de la case correspond à son indice
         Coup _historique [500] ; // Historique des coup ; TODO : en faire une liste pour ne plus avoir de limite
-        Diagonale _diagonales[17] ;  // ici
+        Diagonale _diagonales[17 + 2] ;  // j'ai ajouté les deux diagonales d'une seule case
         int _nombreDeCoups ;
         Joueur _joueur1 ;
         Joueur _joueur2 ;

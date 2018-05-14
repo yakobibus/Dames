@@ -173,6 +173,27 @@ namespace spc_plateau
         
         return _taille ;
     }
+
+    int Diagonale::init(int taille, CasePlateau** c)
+    {
+        if( _taille > 0)
+        {
+            delete _cases ;
+            _taille = 0 ;
+            _cases = nullptr ;
+        }
+
+        _taille = taille ;
+        _cases = new CasePlateau*[_taille] ;
+        for(int i = 0 ; i < _taille ; ++i)
+        {
+            _cases[i] = c[i];
+std::cout << "<" << _cases[i]->getNotation() << "> " ;
+        }
+std::cout << std::endl ;
+
+        return _taille ;
+    }
 }
 
 namespace spc_plateau
@@ -273,6 +294,83 @@ namespace spc_plateau
                     }
                 }
             }
+        }
+
+        {
+            CasePlateau* cp[2] = {&_cases[1], &_cases[6]} ;
+            _diagonales[0].init(2, cp) ;
+        }
+        {
+            CasePlateau* cp[4] = {&_cases[2], &_cases[7], &_cases[11], &_cases[16]} ;
+            _diagonales[1].init(4, cp) ;
+        }
+        {
+            CasePlateau* cp[6] = {&_cases[3], &_cases[8], &_cases[12], &_cases[17], &_cases[21], &_cases[26]} ;
+            _diagonales[2].init(6, cp) ;
+        }
+        {
+            CasePlateau* cp[8] = {&_cases[4], &_cases[9], &_cases[13], &_cases[18], &_cases[22], &_cases[27], &_cases[31], &_cases[36]} ;
+            _diagonales[3].init(8, cp) ;
+        }
+        {
+            CasePlateau* cp[10] = {&_cases[5], &_cases[10], &_cases[14], &_cases[19], &_cases[23], &_cases[28], &_cases[32], &_cases[37], &_cases[41], &_cases[46]} ;
+            _diagonales[4].init(10, cp) ;
+        }
+        {
+            CasePlateau* cp[8] = {&_cases[15], &_cases[20], &_cases[24], &_cases[29], &_cases[33], &_cases[38], &_cases[42], &_cases[47]} ;
+            _diagonales[5].init(8, cp) ;
+        }
+        {
+            CasePlateau* cp[6] = {&_cases[25], &_cases[30], &_cases[34], &_cases[39], &_cases[43], &_cases[48]} ;
+            _diagonales[6].init(6, cp) ;
+        }
+        {
+            CasePlateau* cp[4] = {&_cases[35], &_cases[40], &_cases[44], &_cases[49]} ;
+            _diagonales[7].init(4, cp) ;
+        }
+        {
+            CasePlateau* cp[2] = {&_cases[45], &_cases[50]} ;
+            _diagonales[8].init(2, cp) ;
+        }
+        {
+            CasePlateau* cp[1] = {&_cases[46]} ;
+            _diagonales[18].init(1, cp) ;
+        }
+        {
+            CasePlateau* cp[3] = {&_cases[36], &_cases[41], &_cases[47]} ;
+            _diagonales[9].init(3, cp) ;
+        }
+        {
+            CasePlateau* cp[5] = {&_cases[26], &_cases[31], &_cases[37], &_cases[42], &_cases[48]} ;
+            _diagonales[10].init(5, cp) ;
+        }
+        {
+            CasePlateau* cp[7] = {&_cases[16], &_cases[21], &_cases[27], &_cases[32], &_cases[38], &_cases[43], &_cases[49]} ;
+            _diagonales[11].init(7, cp) ;
+        }
+        {
+            CasePlateau* cp[9] = {&_cases[6], &_cases[11], &_cases[17], &_cases[22], &_cases[28], &_cases[33], &_cases[39], &_cases[44], &_cases[50]} ;
+            _diagonales[12].init(9, cp) ;
+        }
+        {
+            CasePlateau* cp[9] = {&_cases[1], &_cases[7], &_cases[12], &_cases[18], &_cases[23], &_cases[29], &_cases[34], &_cases[40], &_cases[45]} ;
+            _diagonales[13].init(9, cp) ;
+        }
+        {
+            CasePlateau* cp[7] = {&_cases[2], &_cases[8], &_cases[13], &_cases[19], &_cases[24], &_cases[30], &_cases[35]} ;
+            _diagonales[14].init(7, cp) ;
+        }
+        {
+            CasePlateau* cp[5] = {&_cases[3], &_cases[9], &_cases[14], &_cases[20], &_cases[25]} ;
+            _diagonales[15].init(5, cp) ;
+        }
+        {
+            CasePlateau* cp[3] = {&_cases[4], &_cases[10], &_cases[15]} ;
+            _diagonales[16].init(3, cp) ;
+        }
+        {
+            CasePlateau* cp[1] = {&_cases[5]} ;
+            _diagonales[17].init(1, cp) ;
         }
     }
 
