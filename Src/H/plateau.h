@@ -175,7 +175,7 @@
       class Coup
       {
       public :
-        bool setDepart(std::string& message, bool& gameOver) ;
+
       private :
         int _caseDepart ;
         int _caseArrivee ;
@@ -215,9 +215,11 @@
         inline void ligneLettres (void) {std::cout << "       a   b   c   d   e   f   g   h   i   j" ;}
         void affichePiedDePage(void) ;
         void initDiagonales(void) ;
-        int getNotationCase(const int& y, const char& x) ;
+        //int getNotationCase(const int& y, const char& x) ;
+        int getNotationCase(const int& y, const int& x) ;
         void oldInitDiagonales(void) ;
         int jouer(void) ;
+        bool setCoup(std::string& message) ;
         /*
         int deplacerPion(CasePlateau positionDepart, CasePlateau positionArrivee) ;
         bool finDePartie(void);
@@ -238,6 +240,7 @@
         Pion _pionsNoirs[20] ;
         Joueur* _prochain ; // Celui des deux joueurs devant jouer le prochain coup
         bool _finDePartie = false ;
+        Coup _coup ; // Coup en cours
       };
 
       class Dummy

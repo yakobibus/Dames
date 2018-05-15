@@ -514,7 +514,7 @@ namespace spc_plateau
             std::cout << std::endl ;
             std::cout << "\n  ==>> La main est aux " << _prochain->getCouleur() << "   Q pour abandonner"<< std::endl ;
             std::cout << "\n       Depart : " ;
-            if ( ! coup.setDepart(errorMsg, _finDePartie) )  // ici : todo, enlever cette definition de Coup, vers Plateau
+            if ( ! setCoup(errorMsg) )
             {
                 continue ;
             }
@@ -523,26 +523,13 @@ namespace spc_plateau
         return retCode ;
     }
 
-    int Plateau::getNotationCase(const int& y, const char& x)
+    int Plateau::getNotationCase(const int& y, const int& x)
     {
         int retValue = 0 ;
 
         for(int i = 1 ; i < 51 ; ++i)
         {
-            retValue = _cases[i].getNotation( y
-                                            , ( x == 'a' || x == 'A' ? 1
-                                              : x == 'b' || x == 'B' ? 2
-                                              : x == 'c' || x == 'C' ? 3
-                                              : x == 'd' || x == 'D' ? 4
-                                              : x == 'e' || x == 'E' ? 5
-                                              : x == 'f' || x == 'F' ? 6
-                                              : x == 'g' || x == 'G' ? 7
-                                              : x == 'h' || x == 'H' ? 8
-                                              : x == 'i' || x == 'I' ? 9
-                                              : x == 'j' || x == 'J' ? 10
-                                              : 0
-                                              )
-                                            ) ;
+            retValue = _cases[i].getNotation( y, x ) ;
             if(retValue != 0)
             {
                 break ;
@@ -551,11 +538,8 @@ namespace spc_plateau
 
         return retValue ;
     }
-}
 
-namespace spc_plateau
-{
-    bool Coup::setDepart(std::string& message, bool& gameOver)
+    bool Plateau::setCoup(std::string& message)
     {
         bool retCode = true ;
         int y = 0 ;
@@ -567,7 +551,7 @@ namespace spc_plateau
 
         if(saisie == "Q" || saisie == "q" || saisie == "X" || saisie == "x")
         {
-            gameOver = true ;
+            _finDePartie = true ;
             message = "Partie abandonnée ... " ;
         }
         else 
@@ -597,9 +581,70 @@ namespace spc_plateau
                 message = "Invalid position (" + saisie + ")" ;
                 retCode = false ;
             }
+
+            if(retCode && ( x < 1 || x > 10 || y < 0 || y > 10))
+            {
+                retCode = false ;
+                message = "Invalid position (" + saisie + ")" ;
+            }
+            else
+            {
+                int caseDepart = getNotationCase(y, x) ;
+                std::cout << "Case de départ (" << caseDepart << ")\n" ;
+            }
+            //
+            if(! retCode) // Mauvaise saisie, essayer de réévaluer ligne/Colonne
+            {
+                char zz[5] ;
+                memset(zz, 0, 5) ;
+                memcpy(zz, &(saisie.c_str()[0]), (saisie.length() == 3 ? 2 : 1)) ;
+                try
+                {
+                    y = std::stoi(zz) ;
+                    retCode = true ;
+                }
+                catch(std::invalid_argument& e)
+                {
+                    //message = "Invalid position (" + saisie + ")" ;
+                    retCode = false ;
+                }
+
+                if(retCode)
+                {
+                    colonne = saisie.c_str()[(saisie.length() == 3 ? 2 : 1)];
+                    x = ( colonne == 'a' || colonne == 'A' ? 1 
+                        : colonne == 'b' || colonne == 'B' ? 2 
+                        : colonne == 'c' || colonne == 'C' ? 3
+                        : colonne == 'd' || colonne == 'D' ? 4
+                        : colonne == 'e' || colonne == 'E' ? 5
+                        : colonne == 'f' || colonne == 'F' ? 6
+                        : colonne == 'g' || colonne == 'G' ? 7
+                        : colonne == 'h' || colonne == 'H' ? 8
+                        : colonne == 'i' || colonne == 'I' ? 9
+                        : colonne == 'j' || colonne == 'J' ? 10
+                        : 0
+                        ) ;
+
+                        if(retCode && ( x < 1 || x > 10 || y < 0 || y > 10))
+                        {
+                            retCode = false ;
+                            message = "Invalid position (" + saisie + ")" ;
+                        }
+                        else
+                        {
+                            int caseDepart = getNotationCase(y, x) ;
+                            message = "" ;
+                            std::cout << "Case de re-départ (" << caseDepart << ")\n" ;
+                        }
+                }
+            }
 std::cout << "L("<< sLigne <<"), C(" << colonne << ") et ("<<y<<")\n" ;
         }
 
         return retCode ;
     }
+}
+
+namespace spc_plateau
+{
 }
