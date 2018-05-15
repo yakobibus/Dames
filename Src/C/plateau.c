@@ -561,6 +561,7 @@ namespace spc_plateau
         int y = 0 ;
         int x = 0 ;
 
+        message = "" ;
         std::string saisie ;
         getline(std::cin, saisie) ;
 
