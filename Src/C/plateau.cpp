@@ -253,8 +253,8 @@ namespace spc_plateau
                         _cases[iCase].init( x
                                           , y
                                           , iCase
-                                          , (iCase >= 1 && iCase <= 20) ? &(_pionsBlancs [-1 + iCase]) 
-                                                                        : ((iCase >= 31 && iCase <= 50) ? &(_pionsNoirs [-1 + iCase]) 
+                                          , (iCase >= 1 && iCase <= NB_PIONS_PAR_COULEUR) ? &(_pionsBlancs [-1 + iCase]) 
+                                                                        : ((iCase >= 31 && iCase < NB_CASES_PLATEAU) ? &(_pionsNoirs [-1 + iCase]) 
                                                                         : nullptr)
                                           , apparence_case::normal
                                           , couleur_case::noir
@@ -269,8 +269,8 @@ namespace spc_plateau
                         _cases[iCase].init( x
                                           , y
                                           , iCase
-                                          , (iCase >= 1 && iCase <= 20) ? &(_pionsBlancs [-1 + iCase]) 
-                                                                        : ((iCase >= 31 && iCase <= 50) ? &(_pionsNoirs [-1 + iCase]) 
+                                          , (iCase >= 1 && iCase <= NB_PIONS_PAR_COULEUR) ? &(_pionsBlancs [-1 + iCase]) 
+                                                                        : ((iCase >= 31 && iCase < NB_CASES_PLATEAU) ? &(_pionsNoirs [-1 + iCase]) 
                                                                         : nullptr)
                                           , apparence_case::normal
                                           , couleur_case::noir
@@ -280,14 +280,14 @@ namespace spc_plateau
 
                 if(( 0 == (y % 2) && 0 == (x % 2) ) || ( 0 != (y % 2) && 0 != (x % 2)) )
                 {
-                    if(iCase >= 1 && iCase <= 20)
+                    if(iCase >= 1 && iCase <= NB_PIONS_PAR_COULEUR)
                     {
                         _pionsBlancs [-1 + iCase].setCouleur(couleur_pion::blanc) ;
                         _cases[iCase].setPion(&(_pionsBlancs[-1 + iCase])) ;
                     }
                     else
                     {
-                        if(iCase >= 31 && iCase <= 50)
+                        if(iCase >= 31 && iCase < NB_CASES_PLATEAU)
                         {
                             _pionsNoirs [-1 + iCase].setCouleur(couleur_pion::noir) ;
                             _cases[iCase].setPion(&(_pionsNoirs[-1 + iCase])) ;
@@ -438,7 +438,7 @@ namespace spc_plateau
 
         int oldY = -1 ;
 
-        for(int i = 1 ; i <= 50 ; ++i)
+        for(int i = 1 ; i < NB_CASES_PLATEAU ; ++i)
         {
             
             if(oldY != _cases[i].getY())
@@ -527,7 +527,7 @@ namespace spc_plateau
     {
         int retValue = 0 ;
 
-        for(int i = 1 ; i < 51 ; ++i)
+        for(int i = 1 ; i < NB_CASES_PLATEAU ; ++i)
         {
             retValue = _cases[i].getNotation( y, x ) ;
             if(retValue != 0)

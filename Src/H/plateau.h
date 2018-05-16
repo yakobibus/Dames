@@ -183,8 +183,8 @@
         int _caseArrivee ;
         type_coup _typeDeCoup ;
         int _nombreDePrises ;
-        CasePlateau _prises [NB_MX_COUPS_PAR_PRISE] ; // [20] ;
-        CasePlateau _cheminRafle[20] ;
+        CasePlateau _prises [NB_MX_COUPS_PAR_PRISE] ;
+        CasePlateau _cheminRafle[NB_MX_COUPS_PAR_RAFLE] ;
         char* _commentaire ;
       };
 
@@ -231,14 +231,14 @@
         */
       private :
         const char titre[24] = "*** Jeux de Dames ***" ;
-        CasePlateau _cases [51] ; // 50 cases noires numérotées de 01 à 50 ; la case 00 est blanche ; le numéro de la case correspond à son indice
-        Coup _historique [500] ; // Historique des coup ; TODO : en faire une liste pour ne plus avoir de limite
-        Diagonale _diagonales[17 + 2] ;  // j'ai ajouté les deux diagonales d'une seule case
+        CasePlateau _cases [NB_CASES_PLATEAU] ; // 50 cases noires numérotées de 01 à 50 ; la case 00 est blanche ; le numéro de la case correspond à son indice
+        Coup _historique [NB_MX_COUPS_HISTORIQUE] ; // Historique des coup ; TODO : en faire une liste pour ne plus avoir de limite
+        Diagonale _diagonales[NB_DIAGONALES_PLATEAU] ;  // j'ai ajouté les deux diagonales d'une seule case
         int _nombreDeCoups ;
         Joueur _joueur1 ;
         Joueur _joueur2 ;
-        Pion _pionsBlancs[20] ;
-        Pion _pionsNoirs[20] ;
+        Pion _pionsBlancs[NB_PIONS_PAR_COULEUR] ;
+        Pion _pionsNoirs[NB_PIONS_PAR_COULEUR] ;
         Joueur* _prochain ; // Celui des deux joueurs devant jouer le prochain coup
         bool _finDePartie = false ;
         Coup _coup ; // Coup en cours
