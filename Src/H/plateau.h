@@ -6,6 +6,8 @@
 # include <map>
 # include <cstring>
 
+# include "constantes.h"
+
 # ifndef _PLATEAU_H_
   # define _PLATEAU_H_ (1)
   namespace spc_plateau
@@ -181,7 +183,7 @@
         int _caseArrivee ;
         type_coup _typeDeCoup ;
         int _nombreDePrises ;
-        CasePlateau _prises [20] ;
+        CasePlateau _prises [NB_MX_COUPS_PAR_PRISE] ; // [20] ;
         CasePlateau _cheminRafle[20] ;
         char* _commentaire ;
       };
@@ -215,7 +217,6 @@
         inline void ligneLettres (void) {std::cout << "       a   b   c   d   e   f   g   h   i   j" ;}
         void affichePiedDePage(void) ;
         void initDiagonales(void) ;
-        //int getNotationCase(const int& y, const char& x) ;
         int getNotationCase(const int& y, const int& x) ;
         void oldInitDiagonales(void) ;
         int jouer(void) ;
