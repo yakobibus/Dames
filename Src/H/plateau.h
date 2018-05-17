@@ -117,7 +117,28 @@
         char _motif[4] ;
         char _motifSurbrillance[4] ;
         const char _separateur[2] = "|" ;
-      };
+      } ;
+
+      enum class input_token
+      {
+          neutral    = 0
+        , badInteger = -1
+        , badColumn  = -2
+        , badLine    = -3
+        , badCase    = -4
+        , okInteger  = 1
+        , okColumn   = 2
+        , okLine     = 3
+        , okCase     = 4
+      } ;
+
+      class Input
+      {
+      public :
+        void InputCase(CasePlateau& casePlateau, input_token& token) ;
+      private :
+        char _buffer[BUFFER_MX_SIZE] ;
+      } ;
 
       /* Un joueur est caractérisé par la couleur qu'il joue et sa nature (humain ou intelligence artificielle)
       **/

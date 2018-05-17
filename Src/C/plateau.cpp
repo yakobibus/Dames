@@ -199,6 +199,16 @@ namespace spc_plateau
 
 namespace spc_plateau
 {
+    void Input::InputCase(CasePlateau& casePlateau, input_token& token)
+    {
+        std::cout << "Input :: " ;
+        std::cin.getline(_buffer, BUFFER_MX_SIZE) ;
+std::cout << "Sz saisie==[" << strlen(_buffer) << "]\n" ;
+    }
+}
+
+namespace spc_plateau
+{
     Joueur::Joueur(couleur_pion couleur, nature_joueur nature) : _couleur(couleur), _nature(nature)
     {}
 }
@@ -510,6 +520,10 @@ namespace spc_plateau
         {
             affiche() ;
 
+Input iii ;
+CasePlateau cp ;
+input_token t ;
+iii.InputCase(cp, t) ;
             std::cout << errorMsg ;
             std::cout << std::endl ;
             std::cout << "\n  ==>> La main est aux " << _prochain->getCouleur() << "   Q pour abandonner"<< std::endl ;
