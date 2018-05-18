@@ -126,18 +126,50 @@
         , badColumn  = -2
         , badLine    = -3
         , badCase    = -4
+        , error      = -5
         , okInteger  = 1
         , okColumn   = 2
         , okLine     = 3
         , okCase     = 4
+        , quit       = 5
+      } ;
+
+      enum class input_type
+      {
+        is_undefined  = 0
+      , is_digitOne  = 1
+      , is_alphaOne   = 2
+      , is_digitTwo  = 4
+      , is_alphaTwo   = 8
+      , is_digitThree = 16
+      , is_alphaThree  = 32
       } ;
 
       class Input
       {
       public :
-        void InputCase(CasePlateau& casePlateau, input_token& token) ;
+        void InputCase(CasePlateau& casePlateau, input_token& token, const char* invite) ;
       private :
+        inline bool _isAlpha(const char& c) {return (((c >='a' && c <= 'j') || (c >= 'A' && c <= 'J')) && isalpha(c)) ;}
+        inline int _aToColumn(const char& colonne) {return (
+                                  colonne == 'a' || colonne == 'A' ? 1 
+                                : colonne == 'b' || colonne == 'B' ? 2 
+                                : colonne == 'c' || colonne == 'C' ? 3
+                                : colonne == 'd' || colonne == 'D' ? 4
+                                : colonne == 'e' || colonne == 'E' ? 5
+                                : colonne == 'f' || colonne == 'F' ? 6
+                                : colonne == 'g' || colonne == 'G' ? 7
+                                : colonne == 'h' || colonne == 'H' ? 8
+                                : colonne == 'i' || colonne == 'I' ? 9
+                                : colonne == 'j' || colonne == 'J' ? 10
+                                : 0
+                                ) ;}
+        void _scanner(int index) ;
+        //void parser(void) ; // 169
         char _buffer[BUFFER_MX_SIZE] ;
+        int _bufSize = 0 ;
+        input_type _input_type[INPUT_TYPE_ARRAY_SIZE] ;
+        input_token _token ;
       } ;
 
       /* Un joueur est caractérisé par la couleur qu'il joue et sa nature (humain ou intelligence artificielle)

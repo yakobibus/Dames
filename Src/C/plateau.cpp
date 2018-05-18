@@ -2,6 +2,7 @@
 
 # include <iostream>
 # include <string>
+//# include <cstring>
 # include <iomanip>
 # include "plateau.h"
 
@@ -199,11 +200,74 @@ namespace spc_plateau
 
 namespace spc_plateau
 {
-    void Input::InputCase(CasePlateau& casePlateau, input_token& token)
+    void Input::_scanner(int index)
     {
-        std::cout << "Input :: " ;
-        std::cin.getline(_buffer, BUFFER_MX_SIZE) ;
-std::cout << "Sz saisie==[" << strlen(_buffer) << "]\n" ;
+        _input_type[index] = (isdigit(_buffer[index]) ? (index == 0 ? input_type::is_digitOne : index == 1 ? input_type::is_digitTwo : index == 2 ? input_type::is_digitThree : input_type::is_undefined)
+                                                      : (_isAlpha(_buffer[index]) ? (index == 0 ? input_type::is_alphaOne : index == 1 ? input_type::is_alphaTwo : index == 2 ? input_type::is_alphaThree : input_type::is_undefined)
+                                                                          : input_type::is_undefined
+                                                        )
+                             ) ;
+    }
+
+    void Input::InputCase(CasePlateau& casePlateau, input_token& token, const char* invite = nullptr)
+    {
+int xxx = 0 ;
+int yyy = 0 ;
+        std::cout << invite ;
+        std::cin.getline(_buffer, -1 + BUFFER_MX_SIZE) ;
+        _bufSize = strlen(_buffer) ;
+
+        _input_type[0] = input_type::is_undefined ;
+        _input_type[1] = input_type::is_undefined ;
+        _input_type[2] = input_type::is_undefined ;
+
+        _token = input_token::neutral ;
+
+        switch(_bufSize)
+        {
+            case 2 :
+                _scanner(0) ;
+                _scanner(1) ;
+                break ;
+           case 3 :
+                _scanner(0) ;
+                _scanner(1) ;
+                _scanner(2) ;
+                break ;
+            default :
+                _token = (_buffer[0] == 'q' || _buffer[0] == 'Q' || _buffer[0] == 'x' || _buffer[0] == 'X' ? input_token::quit : input_token::error) ;
+                break ;
+        }
+
+        if(_token == input_token::neutral)
+        {
+            switch(static_cast<int>(_input_type[0]) | static_cast<int>(_input_type[1]) | static_cast<int>(_input_type[2]))
+            {
+                case IS_ALPHA_ONE | IS_DIGIT_TWO :  //AD
+                    xxx = _aToColumn(_buffer[0]) ;
+                    yyy = std::stoi(&(_buffer[1])) ;
+                    break ;
+                case IS_DIGIT_ONE | IS_ALPHA_TWO :  //DA
+                    xxx = _aToColumn(_buffer[1]) ;
+                    _buffer[1] = '\0' ;
+                    yyy = std::stoi(&(_buffer[0])) ;
+                    break ;
+                case IS_ALPHA_ONE | IS_DIGIT_TWO | IS_DIGIT_THREE :  //ADD
+                    xxx = _aToColumn(_buffer[0]) ;
+                    yyy = std::stoi(&(_buffer[1])) ;
+                    break ;
+                case IS_DIGIT_ONE | IS_DIGIT_TWO | IS_ALPHA_THREE :  //DDA
+                    xxx = _aToColumn(_buffer[2]) ;
+                    _buffer[2] = '\0' ;
+                    yyy = std::stoi(&(_buffer[0])) ;
+                    break ;
+                default :
+                    _token = input_token::error ;
+                    break ;
+            }
+std::cout << "case l<<" << yyy << "," << xxx << ">>c esac\n" ;
+        }
+std::cout << "Lecture : <<" <<(int)((int)( (int)(_input_type[0]) | (int)(_input_type[1]) ) | (int)(_input_type[2]) ) << ">>\n" ;
     }
 }
 
@@ -523,7 +587,7 @@ namespace spc_plateau
 Input iii ;
 CasePlateau cp ;
 input_token t ;
-iii.InputCase(cp, t) ;
+iii.InputCase(cp, t, "A vous de miser : ") ;
             std::cout << errorMsg ;
             std::cout << std::endl ;
             std::cout << "\n  ==>> La main est aux " << _prochain->getCouleur() << "   Q pour abandonner"<< std::endl ;
