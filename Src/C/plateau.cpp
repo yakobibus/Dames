@@ -209,10 +209,11 @@ namespace spc_plateau
                              ) ;
     }
 
-    void Input::InputCase(CasePlateau& casePlateau, input_token& token, const char* invite = nullptr)
+    void Input::InputCase(const Plateau& plateau, CasePlateau& casePlateau, input_token& token, const char* invite = nullptr)
     {
 int xxx = 0 ;
 int yyy = 0 ;
+int notation = 0 ;
         std::cout << invite ;
         std::cin.getline(_buffer, -1 + BUFFER_MX_SIZE) ;
         _bufSize = strlen(_buffer) ;
@@ -265,7 +266,10 @@ int yyy = 0 ;
                     _token = input_token::error ;
                     break ;
             }
-std::cout << "case l<<" << yyy << "," << xxx << ">>c esac\n" ;
+notation = plateau.getNotationCase(yyy, xxx) ;
+std::cout << "case l<<" << yyy << "," << xxx << ">>c esac, notation=="  << notation << "== libre ?("
+<< (plateau.getCasePlateau(notation).estLibre() ? "Oui, libre" : "Nein, occupée !" ) <<")? par <" 
+<< (plateau.getCasePlateau(notation).getPion()->motif() ) << ">\n" ;  // ici
         }
 std::cout << "Lecture : <<" <<(int)((int)( (int)(_input_type[0]) | (int)(_input_type[1]) ) | (int)(_input_type[2]) ) << ">>\n" ;
     }
@@ -584,10 +588,9 @@ namespace spc_plateau
         {
             affiche() ;
 
-Input iii ;
 CasePlateau cp ;
 input_token t ;
-iii.InputCase(cp, t, "A vous de miser : ") ;
+_input.InputCase(*this, cp, t, "A vous de miser : ") ;
             std::cout << errorMsg ;
             std::cout << std::endl ;
             std::cout << "\n  ==>> La main est aux " << _prochain->getCouleur() << "   Q pour abandonner"<< std::endl ;
@@ -601,7 +604,7 @@ iii.InputCase(cp, t, "A vous de miser : ") ;
         return retCode ;
     }
 
-    int Plateau::getNotationCase(const int& y, const int& x)
+    int Plateau::getNotationCase(const int& y, const int& x) const
     {
         int retValue = 0 ;
 

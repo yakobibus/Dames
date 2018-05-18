@@ -12,6 +12,10 @@
   # define _PLATEAU_H_ (1)
   namespace spc_plateau
   {
+      class Plateau ;
+
+      // ----------------------------------------------------------------------
+
       /* La couleur d'un pion */
       enum class couleur_pion
       {
@@ -70,6 +74,7 @@
         Pion& operator = (const Pion& p) = default ;
         //
         void affiche(void) {std::cout << _couleur ;}
+        inline const char* motif(void) const {return _motif ;}
         void resetSurbrillance(void);
         void setCouleur(couleur_pion couleur);
         void setEnSurbrillance(void);
@@ -95,17 +100,19 @@
         CasePlateau(const CasePlateau& c) = default ;
         CasePlateau& operator = (const CasePlateau& c) = default ;
         //
-        void init(int x, int y, int notation, Pion* pion, apparence_case apparence, couleur_case couleur) ;
         void affiche(void);
-        void setPion(Pion* pion) ;
-        void resetSurbrillance(void);
-        void setEnSurbrillance(void);
-        inline int getNotation(void) {return _notationOfficielle ;}
-        inline int getNotation(int y, int x) {return (y == _y && x == _x ? _notationOfficielle : 0) ;}
+        inline bool estLibre(void) const {return _estLibre ;}
+        inline int getNotation(void) const {return _notationOfficielle ;}
+        inline int getNotation(int y, int x) const {return (y == _y && x == _x ? _notationOfficielle : 0) ;}
         inline int getY(void) {return _y;}
         inline int getX(void) {return _x;}
         inline const char* getSeparateur(void) {return _separateur ;}
         couleur_pion getCouleurPion(void) {return _pion->getCouleur();}
+        void init(int x, int y, int notation, Pion* pion, apparence_case apparence, couleur_case couleur) ;
+        void resetSurbrillance(void);
+        void setPion(Pion* pion) ;
+        void setEnSurbrillance(void);
+        Pion* getPion(void) const {return _pion ;}
       private :
         couleur_case _couleur ;
         bool _estLibre ;
@@ -148,7 +155,7 @@
       class Input
       {
       public :
-        void InputCase(CasePlateau& casePlateau, input_token& token, const char* invite) ;
+        void InputCase(const Plateau& plateau, CasePlateau& casePlateau, input_token& token, const char* invite) ;
       private :
         inline bool _isAlpha(const char& c) {return (((c >='a' && c <= 'j') || (c >= 'A' && c <= 'J')) && isalpha(c)) ;}
         inline int _aToColumn(const char& colonne) {return (
@@ -270,10 +277,11 @@
         inline void ligneLettres (void) {std::cout << "       a   b   c   d   e   f   g   h   i   j" ;}
         void affichePiedDePage(void) ;
         void initDiagonales(void) ;
-        int getNotationCase(const int& y, const int& x) ;
+        int getNotationCase(const int& y, const int& x) const ;
         void oldInitDiagonales(void) ;
         int jouer(void) ;
         bool setCoup(std::string& message) ;
+        inline const CasePlateau& getCasePlateau(int& notation) const {return _cases[notation] ;}
         /*
         int deplacerPion(CasePlateau positionDepart, CasePlateau positionArrivee) ;
         bool finDePartie(void);
@@ -295,6 +303,7 @@
         Joueur* _prochain ; // Celui des deux joueurs devant jouer le prochain coup
         bool _finDePartie = false ;
         Coup _coup ; // Coup en cours
+        Input _input ;
       };
 
       class Dummy
