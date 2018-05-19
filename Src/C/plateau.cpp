@@ -266,10 +266,13 @@ int notation = 0 ;
                     _token = input_token::error ;
                     break ;
             }
+/*
 notation = plateau.getNotationCase(yyy, xxx) ;
 std::cout << "case l<<" << yyy << "," << xxx << ">>c esac, notation=="  << notation << "== libre ?("
 << (plateau.getCasePlateau(notation).estLibre() ? "Oui, libre" : "Nein, occupée !" ) <<")? par <" 
-<< (plateau.getCasePlateau(notation).getPion()->motif() ) << ">\n" ;  // ici
+<< ( (plateau.getCasePlateau(notation).getPion()) == nullptr ? nullptr : (plateau.getCasePlateau(notation).getPion())->motif() ) << "> adr [" 
+<< *(plateau.getCasePlateau(notation).getPion()) << "]\n" ;  // ici
+*/
         }
 std::cout << "Lecture : <<" <<(int)((int)( (int)(_input_type[0]) | (int)(_input_type[1]) ) | (int)(_input_type[2]) ) << ">>\n" ;
     }
@@ -289,11 +292,11 @@ namespace spc_plateau
     {
         //memset(_motif, 0, 4);
         _motif[0] = ' ' ;
-        _motif[1] = _couleur == couleur_pion::blanc ? 'o' : 'x' ;
+        _motif[1] = (_couleur == couleur_pion::blanc ? 'o' : 'x') ;
         _motif[2] = ' ' ;
         _motif[3] = '\0' ;
         _motifSurbrillance[0] = ' ' ;
-        _motifSurbrillance[1] = _couleur == couleur_pion::blanc ? 'O' : 'X' ;
+        _motifSurbrillance[1] = (_couleur == couleur_pion::blanc ? 'O' : 'X') ;
         _motifSurbrillance[2] = ' ' ;
         _motifSurbrillance[3] = '\0' ;
     }
@@ -301,6 +304,19 @@ namespace spc_plateau
     void Pion::setCouleur(couleur_pion couleur)
     {
         _couleur = couleur ;
+        if( strlen(_motif) != 3)
+        {
+            _motif[0] = ' ' ;
+            _motif[2] = ' ' ;
+            _motif[3] = '\0' ;
+        }
+
+        if( strlen(_motifSurbrillance) != 3)
+        {
+            _motifSurbrillance[0] = ' ' ;
+            _motifSurbrillance[2] = ' ' ;
+            _motifSurbrillance[3] = '\0' ;
+        }
         _motif[1] = ( _couleur == couleur_pion::blanc ? 'o' : 'x' ) ;
         _motifSurbrillance[1] = ( _couleur == couleur_pion::blanc ? 'O' : 'X' ) ;
     }

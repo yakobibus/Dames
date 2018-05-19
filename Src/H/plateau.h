@@ -74,11 +74,12 @@
         Pion& operator = (const Pion& p) = default ;
         //
         void affiche(void) {std::cout << _couleur ;}
+        couleur_pion getCouleur(void) {return _couleur;}
         inline const char* motif(void) const {return _motif ;}
         void resetSurbrillance(void);
         void setCouleur(couleur_pion couleur);
         void setEnSurbrillance(void);
-        couleur_pion getCouleur(void) {return _couleur;}
+        //
         friend std::ostream& operator << (std::ostream& os, const Pion& p) {switch(p._couleur) {case couleur_pion::blanc : os << "pion blanc" ; break ;case couleur_pion::noir : os << "pion noir";break; default : os << "curieuse couleur de pion";break;} return os;}
       private :
         couleur_pion _couleur ;
