@@ -99,21 +99,21 @@
         CasePlateau() ;
         ~CasePlateau() = default ;
         CasePlateau(const CasePlateau& c) = default ;
-        CasePlateau& operator = (const CasePlateau& c) = default ;
+        CasePlateau& operator = (const CasePlateau& c) ;
         //
         void affiche(void);
         inline bool estLibre(void) const {return _estLibre ;}
-        inline int getNotation(void) const {return _notationOfficielle ;}
-        inline int getNotation(int y, int x) const {return (y == _y && x == _x ? _notationOfficielle : 0) ;}
         inline int getY(void) {return _y;}
         inline int getX(void) {return _x;}
-        inline const char* getSeparateur(void) {return _separateur ;}
-        couleur_pion getCouleurPion(void) {return _pion->getCouleur();}
+        inline const char* separateur(void) {return _separateur ;}
+        //couleur_pion couleurPion(void) {return _pion->getCouleur();}
         void init(int x, int y, int notation, Pion* pion, apparence_case apparence, couleur_case couleur) ;
         void resetSurbrillance(void);
         void setPion(Pion* pion) ;
         void setEnSurbrillance(void);
-        Pion* getPion(void) const {return _pion ;}
+        // Pion* pion(void) const {return _pion ;}
+        inline int notationOfficielle(void) const {return _notationOfficielle ;}
+        inline int notationOfficielle(int y, int x) const {return (y == _y && x == _x ? _notationOfficielle : 0) ;}
       private :
         couleur_case _couleur ;
         bool _estLibre ;
@@ -122,8 +122,8 @@
         int _y ;
         int _notationOfficielle ;
         apparence_case _apparence ;
-        char _motif[4] ;
-        char _motifSurbrillance[4] ;
+        char _motif[MOTIF_SIZE] ;
+        char _motifSurbrillance[MOTIF_SIZE] ;
         const char _separateur[2] = "|" ;
       } ;
 
@@ -190,7 +190,7 @@
         Joueur(const Joueur& j) = default ;
         Joueur& operator = (const Joueur& j) = default ;
         friend std::ostream& operator << (std::ostream& os, const Joueur& j) ;
-        couleur_pion getCouleur(void) {return _couleur ;}
+        couleur_pion couleur(void) {return _couleur ;}
       private :
         couleur_pion _couleur ;
         nature_joueur _nature ;
@@ -278,18 +278,20 @@
         inline void ligneLettres (void) {std::cout << "       a   b   c   d   e   f   g   h   i   j" ;}
         void affichePiedDePage(void) ;
         void initDiagonales(void) ;
-        int getNotationCase(const int& y, const int& x) const ;
+        int notationCase(const int& y, const int& x) const ;
         void oldInitDiagonales(void) ;
         int jouer(void) ;
         bool setCoup(std::string& message) ;
-        inline const CasePlateau& getCasePlateau(int& notation) const {return _cases[notation] ;}
+        inline const CasePlateau& casePlateau(const int& notation) const {return _cases[notation] ;}
+        inline void aloueCasePlateau(const int& notation, CasePlateau& casePlateau) {casePlateau = _cases[notation] ;}
         /*
+        inline void aloueCasePlateau(const int& notation, CasePlateau& casePlateau) {casePlateau = _cases[notation] ;}
         int deplacerPion(CasePlateau positionDepart, CasePlateau positionArrivee) ;
         bool finDePartie(void);
-        CasePlateau& getCasePlateau(int x, int y); 
+        CasePlateau& casePlateau(int x, int y); 
         void resetSurbrillance(void);  // Annule la surbrillance de toutes les case et pions du plateau
         void afficheListeDesCoups(void);
-        int getNombreDeCoups(void);
+        int nombreDeCoups(void);
         */
       private :
         const char titre[24] = "*** Jeux de Dames ***" ;

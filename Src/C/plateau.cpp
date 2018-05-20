@@ -36,23 +36,41 @@ namespace spc_plateau
     //CasePlateau::CasePlateau(int notation, bool libre = true) : _notationOfficielle(notation), _estLibre(libre)
     CasePlateau::CasePlateau()
     {
+        _couleur = couleur_case::blanc ;
         _estLibre = true ;
-        _notationOfficielle = 0 ; // case blanche
+        _pion = nullptr ;  // libre de tout pion
         _x = 0 ;
         _y = 0 ;
-        _couleur = couleur_case::blanc ;
-        _pion = nullptr ;  // libre de tout pion
+        _notationOfficielle = 0 ; // case blanche
         _apparence = apparence_case::normal ;
-        _motif[0] = ' ';
+        _motif[0] = ' ' ;
         _motif[1] = _couleur == couleur_case::blanc ? ' ' : '-' ;
-        _motif[2] = ' ';
-        _motif[3] = '\0';
-        _motifSurbrillance[0] = ' ';
+        _motif[2] = ' ' ;
+        _motif[3] = '\0' ;
+        _motifSurbrillance[0] = ' ' ;
         _motifSurbrillance[1] = _couleur == couleur_case::blanc ? ' ' : '=' ;
-        _motifSurbrillance[2] = ' ';
-        _motifSurbrillance[3] = '\0';
-        ;
+        _motifSurbrillance[2] = ' ' ;
+        _motifSurbrillance[3] = '\0' ;
     }
+
+    CasePlateau& CasePlateau::operator = (const CasePlateau& c)
+    {
+        if(this != &c)
+        {
+            _couleur = c._couleur ;
+            _estLibre = c._estLibre ;
+            _pion = c._pion ;
+            _x = c._x ;
+            _y = c._y ;
+            _notationOfficielle = c._notationOfficielle ; 
+            _apparence = c._apparence ;
+            memcpy(_motif, c._motif, MOTIF_SIZE) ;
+            memcpy(_motifSurbrillance, c._motifSurbrillance, MOTIF_SIZE) ;
+        }
+
+        return *this ;
+    }
+    ///
 
     void CasePlateau::init( int x
                           , int y
@@ -211,9 +229,10 @@ namespace spc_plateau
 
     void Input::InputCase(const Plateau& plateau, CasePlateau& casePlateau, input_token& token, const char* invite = nullptr)
     {
-int xxx = 0 ;
-int yyy = 0 ;
-int notation = 0 ;
+        int inputLine = 0 ;
+        int inputColumn = 0 ;
+        int inputNotation = 0 ;
+
         std::cout << invite ;
         std::cin.getline(_buffer, -1 + BUFFER_MX_SIZE) ;
         _bufSize = strlen(_buffer) ;
@@ -245,35 +264,47 @@ int notation = 0 ;
             switch(static_cast<int>(_input_type[0]) | static_cast<int>(_input_type[1]) | static_cast<int>(_input_type[2]))
             {
                 case IS_ALPHA_ONE | IS_DIGIT_TWO :  //AD
-                    xxx = _aToColumn(_buffer[0]) ;
-                    yyy = std::stoi(&(_buffer[1])) ;
+                    inputColumn = _aToColumn(_buffer[0]) ;
+                    inputLine = std::stoi(&(_buffer[1])) ;
                     break ;
                 case IS_DIGIT_ONE | IS_ALPHA_TWO :  //DA
-                    xxx = _aToColumn(_buffer[1]) ;
+                    inputColumn = _aToColumn(_buffer[1]) ;
                     _buffer[1] = '\0' ;
-                    yyy = std::stoi(&(_buffer[0])) ;
+                    inputLine = std::stoi(&(_buffer[0])) ;
                     break ;
                 case IS_ALPHA_ONE | IS_DIGIT_TWO | IS_DIGIT_THREE :  //ADD
-                    xxx = _aToColumn(_buffer[0]) ;
-                    yyy = std::stoi(&(_buffer[1])) ;
+                    inputColumn = _aToColumn(_buffer[0]) ;
+                    inputLine = std::stoi(&(_buffer[1])) ;
                     break ;
                 case IS_DIGIT_ONE | IS_DIGIT_TWO | IS_ALPHA_THREE :  //DDA
-                    xxx = _aToColumn(_buffer[2]) ;
+                    inputColumn = _aToColumn(_buffer[2]) ;
                     _buffer[2] = '\0' ;
-                    yyy = std::stoi(&(_buffer[0])) ;
+                    inputLine = std::stoi(&(_buffer[0])) ;
                     break ;
                 default :
                     _token = input_token::error ;
                     break ;
             }
+
+            if(_token == input_token::neutral)
+            {
+                inputNotation = plateau.notationCase(inputLine, inputColumn) ;
+                casePlateau = plateau.casePlateau(inputNotation) ;
+            }
 /*
-notation = plateau.getNotationCase(yyy, xxx) ;
-std::cout << "case l<<" << yyy << "," << xxx << ">>c esac, notation=="  << notation << "== libre ?("
-<< (plateau.getCasePlateau(notation).estLibre() ? "Oui, libre" : "Nein, occupée !" ) <<")? par <" 
-<< ( (plateau.getCasePlateau(notation).getPion()) == nullptr ? nullptr : (plateau.getCasePlateau(notation).getPion())->motif() ) << "> adr [" 
-<< *(plateau.getCasePlateau(notation).getPion()) << "]\n" ;  // ici
+std::cout << "inputNotation : [" << inputNotation << "] ou ["<<casePlateau.notationOfficielle()<<"]\n" ;
+inputNotation = plateau.notationCase(inputLine, inputColumn) ;
+std::cout << "case l<<" << inputLine << "," << inputColumn << ">>c esac, inputNotation=="  << inputNotation << "== libre ?("
+<< (plateau.casePlateau(inputNotation).estLibre() ? "Oui, libre" : "Nein, occupée !" ) <<")? par <" 
+<< ( (plateau.casePlateau(inputNotation).getPion()) == nullptr ? nullptr : (plateau.casePlateau(inputNotation).getPion())->motif() ) << "> adr [" 
+<< *(plateau.casePlateau(notation).getPion()) << "]\n" ;  // ici
 */
+// Movement - Regle 1 : La case de départ doit être occupée par un pion de la même couleur que le joueur
+//            Règle 2 : La case destination pour un déplacement, une prise, une étape de raffle doit être libre
+//            Règle 3 : Pour un déplacement (pion), la case destination doit être voisine de la case de départ en diagonale vers l'avant par rapport à la couleur en jeu
+//            Règle 4 : Pour un déplacement (reine), la case destination doit être dans la diagonale et aucun pion ne doit se trouver entre les deux
         }
+//ici
 std::cout << "Lecture : <<" <<(int)((int)( (int)(_input_type[0]) | (int)(_input_type[1]) ) | (int)(_input_type[2]) ) << ">>\n" ;
     }
 }
@@ -326,9 +357,9 @@ namespace spc_plateau
 {
     Plateau::Plateau(Joueur joueur1, Joueur joueur2) : _nombreDeCoups(0), _joueur1(joueur1), _joueur2(joueur2), _prochain(nullptr)
     {
-        if(_joueur1.getCouleur() != _joueur2.getCouleur()) // Les deux joueurs ne peuvent pas avoir la même couleur
+        if(_joueur1.couleur() != _joueur2.couleur()) // Les deux joueurs ne peuvent pas avoir la même couleur
         {
-            _prochain = (_joueur1.getCouleur() == couleur_pion::blanc ? &_joueur1 : &_joueur2) ;
+            _prochain = (_joueur1.couleur() == couleur_pion::blanc ? &_joueur1 : &_joueur2) ;
         }
 
         int iCase = 0 ; // Les pions noirs dans les cases 1 à 20 et les blancs de 31 à 50
@@ -544,7 +575,7 @@ namespace spc_plateau
                 std::cout << std::endl ;
                 ligne();
                 oldY = _cases[i].getY() ;
-                std::cout << std::right << std::setw(4) << oldY << std::setw(2) << _cases[0].getSeparateur() ;
+                std::cout << std::right << std::setw(4) << oldY << std::setw(2) << _cases[0].separateur() ;
             }
 
             if(0 == (_cases[i].getY() % 2)) // ligne paire : case blancehe en premier
@@ -575,8 +606,8 @@ namespace spc_plateau
 
     void Plateau::affichePiedDePage(void)
     {
-        std::cout << _joueur1 << " " << _joueur1.getCouleur() << (_prochain == &_joueur1 ? " <<==next player==" : "") << std::endl << " vs " << std::endl ;
-        std::cout << _joueur2 << " " << _joueur2.getCouleur() <<  std::endl ;
+        std::cout << _joueur1 << " " << _joueur1.couleur() << (_prochain == &_joueur1 ? " <<==next player==" : "") << std::endl << " vs " << std::endl ;
+        std::cout << _joueur2 << " " << _joueur2.couleur() <<  std::endl ;
     }
 
     void Plateau::afficheTitre(void)
@@ -609,7 +640,7 @@ input_token t ;
 _input.InputCase(*this, cp, t, "A vous de miser : ") ;
             std::cout << errorMsg ;
             std::cout << std::endl ;
-            std::cout << "\n  ==>> La main est aux " << _prochain->getCouleur() << "   Q pour abandonner"<< std::endl ;
+            std::cout << "\n  ==>> La main est aux " << _prochain->couleur() << "   Q pour abandonner"<< std::endl ;
             std::cout << "\n       Depart : " ;
             if ( ! setCoup(errorMsg) )
             {
@@ -620,13 +651,13 @@ _input.InputCase(*this, cp, t, "A vous de miser : ") ;
         return retCode ;
     }
 
-    int Plateau::getNotationCase(const int& y, const int& x) const
+    int Plateau::notationCase(const int& y, const int& x) const
     {
         int retValue = 0 ;
 
         for(int i = 1 ; i < NB_CASES_PLATEAU ; ++i)
         {
-            retValue = _cases[i].getNotation( y, x ) ;
+            retValue = _cases[i].notationOfficielle( y, x ) ;
             if(retValue != 0)
             {
                 break ;
@@ -686,7 +717,7 @@ _input.InputCase(*this, cp, t, "A vous de miser : ") ;
             }
             else
             {
-                int caseDepart = getNotationCase(y, x) ;
+                int caseDepart = notationCase(y, x) ;
                 std::cout << "Case de départ (" << caseDepart << ")\n" ;
             }
             //
@@ -729,7 +760,7 @@ _input.InputCase(*this, cp, t, "A vous de miser : ") ;
                         }
                         else
                         {
-                            int caseDepart = getNotationCase(y, x) ;
+                            int caseDepart = notationCase(y, x) ;
                             message = "" ;
                             std::cout << "Case de re-départ (" << caseDepart << ")\n" ;
                         }
