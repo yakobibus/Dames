@@ -4,6 +4,11 @@
   # define _REGLES_H_ (1)
   namespace spc_regles
   {
+	  class Regle
+	  {
+	  public :
+	  private :
+	  };
       /*
          Une diagonale est une suite de 2 cases au moins et de 10 au plus sur un damier ; 
          Une diagonale de taille paire a une orientation nord-est/ ; taille impaire orientation nord-ouest

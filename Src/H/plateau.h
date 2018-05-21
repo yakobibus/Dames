@@ -5,18 +5,24 @@
 
 # include <iostream>
 # include <map>
-//# include <string>
 # include <locale>
 # include <cstring>
+//# include <string>
 //# include <cctype>
 //# include <cstdio>
 
 # include "constantes.h"
+# include "regles.h"
+
 
 # ifndef _PLATEAU_H_
   # define _PLATEAU_H_ (1)
   namespace spc_plateau
   {
+      using namespace spc_regles;
+
+	  // ----------------------------------------------------------------------
+
 	  class CasePlateau;
 	  class Pion ;
 	  class Plateau ;
@@ -51,6 +57,16 @@
         //, friend std::ostream& operator << (std::ostream& os, const couleur_pion& cp);
       } ;
       std::ostream& operator << (std::ostream& os, const couleur_pion& cp) ;
+
+	  enum class etapes_du_coup
+	  {
+		    indefini = 0
+		  , debut
+		  , input_depart
+		  , evaluation_depart
+		  , saisie_arrivee
+		  , evaluation_arrivee
+	  };
 
 	  enum class input_token
 	  {
@@ -177,17 +193,22 @@
 	  class Coup
 	  {
 	  public:
-		  inline CasePlateau& caseDepart(void) { return _caseDepart; }
+		  Coup() : _etape(etapes_du_coup::indefini), _nombreDePrises(0), _commentaire(nullptr) {}
+		  ~Coup() = default ;
+		  Coup(const Coup& c) = default ;
+		  Coup& operator = (const Coup& c) = default ;
 
+		  inline CasePlateau& caseDepart(void) { return _caseDepart ; }
 	  private:
-		  CasePlateau _caseDepart;
-		  CasePlateau _caseArrivee;
-		  couleur_pion _couleur;
-		  type_coup _typeDeCoup;
-		  int _nombreDePrises;
-		  CasePlateau _prises[NB_MX_COUPS_PAR_PRISE];
-		  CasePlateau _cheminRafle[NB_MX_COUPS_PAR_RAFLE];
-		  char* _commentaire;
+		  CasePlateau _caseDepart ;
+		  CasePlateau _caseArrivee ;
+		  couleur_pion _couleur ;
+		  etapes_du_coup _etape ;
+		  type_coup _typeDeCoup ;
+		  int _nombreDePrises ;
+		  CasePlateau _prises[NB_MX_COUPS_PAR_PRISE] ;
+		  CasePlateau _cheminRafle[NB_MX_COUPS_PAR_RAFLE] ;
+		  char* _commentaire ;
 	  };
 
 	  class Diagonale
@@ -253,7 +274,8 @@
         Joueur(const Joueur& j) = default ;
         Joueur& operator = (const Joueur& j) = default ;
         friend std::ostream& operator << (std::ostream& os, const Joueur& j) ;
-        couleur_pion couleur(void) {return _couleur ;}
+        inline couleur_pion couleur(void) {return _couleur ;}
+		inline const char* laCouleur(void) const { return (_couleur == couleur_pion::blanc ? "Blancs" : "Noirs") ;}
       private :
         couleur_pion _couleur ;
         nature_joueur _nature ;
@@ -299,13 +321,13 @@
         void affichePiedDePage(void) ;
         void initDiagonales(void) ;
         int notationCase(const int& y, const int& x) const ;
-        void oldInitDiagonales(void) ;
         int jouer(void) ;
-        bool setCoup(std::string& message) ;
         inline const CasePlateau& casePlateau(const int& notation) const {return _cases[notation] ;}
         inline CasePlateau* adresseCasePlateau(const int& notation) {return &(_cases[notation]) ;}
         inline void aloueCasePlateau(const int& notation, CasePlateau& casePlateau) {casePlateau = _cases[notation] ;}
         /*
+        void oldInitDiagonales(void) ;
+        bool setCoup(std::string& message) ;
         inline void aloueCasePlateau(const int& notation, CasePlateau& casePlateau) {casePlateau = _cases[notation] ;}
         int deplacerPion(CasePlateau positionDepart, CasePlateau positionArrivee) ;
         bool finDePartie(void);
@@ -328,6 +350,7 @@
         bool _finDePartie = false ;
         Coup _coupEnCours ; // Coup en cours
         Input _input ;
+		Regle _regle ;
       };
 
       class Dummy

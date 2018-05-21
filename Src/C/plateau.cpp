@@ -72,7 +72,6 @@ namespace spc_plateau
 
         return *this ;
     }
-    ///
 
     void CasePlateau::init( int x
                           , int y
@@ -210,9 +209,7 @@ namespace spc_plateau
         for(int i = 0 ; i < _taille ; ++i)
         {
             _cases[i] = c[i];
-//std::cout << "<" << _cases[i]->getNotation() << "> " ;
         }
-//std::cout << std::endl ;
 
         return _taille ;
     }
@@ -500,7 +497,8 @@ namespace spc_plateau
         _diagonales[18].init(1, &dummy[99]) ;
     }
 
-    void Plateau::oldInitDiagonales(void)
+    /*
+	void Plateau::oldInitDiagonales(void)
     {
         // Paires
         {
@@ -581,6 +579,7 @@ namespace spc_plateau
             _diagonales[17].init(1, cp) ;
         }
     }
+	*/
 
     void Plateau::affiche(void)
     {
@@ -657,6 +656,7 @@ namespace spc_plateau
         int retCode = 0 ;
         //CasePlateau caseDeSaisie ;
         std::string errorMsg = "" ;
+		char Invite[512];
 
         Coup coup ;
 
@@ -664,11 +664,16 @@ namespace spc_plateau
         {
             affiche() ;
 
+//ici : todo : Déterminer le joueur qui a la main puis exécuter le coup puis l'évaluer et le typer (déplacement/prise)
+
             std::cout << errorMsg ;
             std::cout << std::endl ;
-            std::cout << "\n  ==>> La main est aux " << _prochain->couleur() << "   Q pour abandonner"<< std::endl ;
-            std::cout << "\n       Depart : " ;
-            _input.InputCase(*this, "La main est aux xxxx : ") ;
+            std::cout << "\n  ==>> La main est aux " << _prochain->laCouleur() << std::endl ;
+            std::cout << std::endl ;
+			strcpy(Invite, "Aux ") ;
+			strcat(Invite, _prochain->laCouleur());
+			strcat(Invite, " de jouer (Q pour abandonner). \n       Depart : ");
+            _input.InputCase(*this, Invite) ;
             switch(_input.token())
             {
                 case input_token::quit :
@@ -714,6 +719,7 @@ namespace spc_plateau
         return retValue ;
     }
 
+    /*
     bool Plateau::setCoup(std::string& message)
     {
         bool retCode = true ;
@@ -818,6 +824,7 @@ std::cout << "L("<< sLigne <<"), C(" << colonne << ") et ("<<y<<")\n" ;
 
         return retCode ;
     }
+	*/
 }
 
 namespace spc_plateau
