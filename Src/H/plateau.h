@@ -3,8 +3,13 @@
 
 /* Le plateau de jeu et tout ce qui y touche : damier, pions joueurs ... */
 
+# include <iostream>
 # include <map>
+//# include <string>
+# include <locale>
 # include <cstring>
+//# include <cctype>
+//# include <cstdio>
 
 # include "constantes.h"
 
@@ -16,6 +21,26 @@
 
       // ----------------------------------------------------------------------
 
+	  enum class apparence_case
+	  {
+		  normal
+		  , surbrillance
+	  };
+
+	  enum class apparence_pion
+	  {
+		  normal
+		  , surbrillance
+	  };
+
+	  /* La couleur d'une case */
+      enum class couleur_case
+      {
+          blanc
+        , noir
+      } ;
+      std::ostream& operator << (std::ostream& os, const couleur_case& cc) ;
+
       /* La couleur d'un pion */
       enum class couleur_pion
       {
@@ -25,36 +50,42 @@
       } ;
       std::ostream& operator << (std::ostream& os, const couleur_pion& cp) ;
 
-      /* La couleur d'une case */
-      enum class couleur_case
-      {
-          blanc
-        , noir
-      } ;
-      std::ostream& operator << (std::ostream& os, const couleur_case& cc) ;
+	  enum class input_token
+	  {
+		  neutral = 0
+		  , badInteger = -1
+		  , badColumn = -2
+		  , badLine = -3
+		  , badCase = -4
+		  , error = -5
+		  , okInteger = 1
+		  , okColumn = 2
+		  , okLine = 3
+		  , okCase = 4
+		  , quit = 5
+	  };
 
-      enum class apparence_case
-      {
-          normal
-        , surbrillance
-      } ;
+	  enum class input_type
+	  {
+		  is_undefined = 0
+		  , is_digitOne = 1
+		  , is_alphaOne = 2
+		  , is_digitTwo = 4
+		  , is_alphaTwo = 8
+		  , is_digitThree = 16
+		  , is_alphaThree = 32
+	  };
 
-      enum class apparence_pion
+	  enum class nature_joueur
       {
-          normal
-        , surbrillance
-      } ;
+          humain
+        , ia
+      };
 
       enum class promotion_pion
       {
           normal
         , dame
-      };
-
-      enum class nature_joueur
-      {
-          humain
-        , ia
       };
 
       /* Les types de coups : prise ou deplacement */
@@ -127,38 +158,20 @@
         const char _separateur[2] = "|" ;
       } ;
 
-      enum class input_token
-      {
-          neutral    = 0
-        , badInteger = -1
-        , badColumn  = -2
-        , badLine    = -3
-        , badCase    = -4
-        , error      = -5
-        , okInteger  = 1
-        , okColumn   = 2
-        , okLine     = 3
-        , okCase     = 4
-        , quit       = 5
-      } ;
-
-      enum class input_type
-      {
-        is_undefined  = 0
-      , is_digitOne  = 1
-      , is_alphaOne   = 2
-      , is_digitTwo  = 4
-      , is_alphaTwo   = 8
-      , is_digitThree = 16
-      , is_alphaThree  = 32
-      } ;
-
       class Input
       {
       public :
-        void InputCase(const Plateau& plateau, CasePlateau& casePlateau, input_token& token, const char* invite) ;
+        Input() {}
+        ~Input() = default ;
+        Input(const Input& i) = default ;
+        Input& operator = (const Input& i) = default ;
+
+        void InputCase(Plateau& plateau/*, CasePlateau& casePlateau*/, const char* invite) ;
+        const input_token& token(void) const {return _token ;}
       private :
-        inline bool _isAlpha(const char& c) {return (((c >='a' && c <= 'j') || (c >= 'A' && c <= 'J')) && isalpha(c)) ;}
+        //inline bool _isAlpha(const char& c) { std::locale loc ; return (((c >='a' && c <= 'j') || (c >= 'A' && c <= 'J')) && std::isalpha(c, loc)) ;}
+		//inline bool _isAlpha(const char& c) { return (((c >= 'a' && c <= 'j') || (c >= 'A' && c <= 'J')) && isalpha(c)); }
+		inline bool _isAlpha(const char& c) { return IS_ALPHA_DAMIER(c) ;}
         inline int _aToColumn(const char& colonne) {return (
                                   colonne == 'a' || colonne == 'A' ? 1 
                                 : colonne == 'b' || colonne == 'B' ? 2 
@@ -178,6 +191,7 @@
         int _bufSize = 0 ;
         input_type _input_type[INPUT_TYPE_ARRAY_SIZE] ;
         input_token _token ;
+        CasePlateau* _casePlateau ;
       } ;
 
       /* Un joueur est caractérisé par la couleur qu'il joue et sa nature (humain ou intelligence artificielle)
@@ -238,10 +252,12 @@
       class Coup
       {
       public :
+        inline CasePlateau& caseDepart(void) {return _caseDepart ;}
 
       private :
-        int _caseDepart ;
-        int _caseArrivee ;
+        CasePlateau _caseDepart ;
+        CasePlateau _caseArrivee ;
+        couleur_pion _couleur ;
         type_coup _typeDeCoup ;
         int _nombreDePrises ;
         CasePlateau _prises [NB_MX_COUPS_PAR_PRISE] ;
@@ -283,6 +299,7 @@
         int jouer(void) ;
         bool setCoup(std::string& message) ;
         inline const CasePlateau& casePlateau(const int& notation) const {return _cases[notation] ;}
+        inline CasePlateau* adresseCasePlateau(const int& notation) {return &(_cases[notation]) ;}
         inline void aloueCasePlateau(const int& notation, CasePlateau& casePlateau) {casePlateau = _cases[notation] ;}
         /*
         inline void aloueCasePlateau(const int& notation, CasePlateau& casePlateau) {casePlateau = _cases[notation] ;}
@@ -305,7 +322,7 @@
         Pion _pionsNoirs[NB_PIONS_PAR_COULEUR] ;
         Joueur* _prochain ; // Celui des deux joueurs devant jouer le prochain coup
         bool _finDePartie = false ;
-        Coup _coup ; // Coup en cours
+        Coup _coupEnCours ; // Coup en cours
         Input _input ;
       };
 

@@ -2,8 +2,10 @@
 
 # include <iostream>
 # include <string>
-//# include <cstring>
+# include <cstring>
 # include <iomanip>
+//# include <memory>
+//# include <cctype>
 # include "plateau.h"
 
 namespace spc_plateau
@@ -220,14 +222,14 @@ namespace spc_plateau
 {
     void Input::_scanner(int index)
     {
-        _input_type[index] = (isdigit(_buffer[index]) ? (index == 0 ? input_type::is_digitOne : index == 1 ? input_type::is_digitTwo : index == 2 ? input_type::is_digitThree : input_type::is_undefined)
+        _input_type[index] = (IS_DIGIT_DAMIER(_buffer[index]) ? (index == 0 ? input_type::is_digitOne : index == 1 ? input_type::is_digitTwo : index == 2 ? input_type::is_digitThree : input_type::is_undefined)
                                                       : (_isAlpha(_buffer[index]) ? (index == 0 ? input_type::is_alphaOne : index == 1 ? input_type::is_alphaTwo : index == 2 ? input_type::is_alphaThree : input_type::is_undefined)
                                                                           : input_type::is_undefined
                                                         )
                              ) ;
     }
 
-    void Input::InputCase(const Plateau& plateau, CasePlateau& casePlateau, input_token& token, const char* invite = nullptr)
+    void Input::InputCase(Plateau& plateau, const char* invite = nullptr)
     {
         int inputLine = 0 ;
         int inputColumn = 0 ;
@@ -255,7 +257,13 @@ namespace spc_plateau
                 _scanner(2) ;
                 break ;
             default :
-                _token = (_buffer[0] == 'q' || _buffer[0] == 'Q' || _buffer[0] == 'x' || _buffer[0] == 'X' ? input_token::quit : input_token::error) ;
+                _token = ( _buffer[0] == 'q' 
+                        || _buffer[0] == 'Q' 
+                        || _buffer[0] == 'x' 
+                        || _buffer[0] == 'X' 
+                        ? input_token::quit 
+                        : input_token::error
+                         ) ;
                 break ;
         }
 
@@ -289,7 +297,14 @@ namespace spc_plateau
             if(_token == input_token::neutral)
             {
                 inputNotation = plateau.notationCase(inputLine, inputColumn) ;
-                casePlateau = plateau.casePlateau(inputNotation) ;
+                if(0 == inputNotation)
+                {
+                    _token = input_token::error ;
+                }
+                else
+                {
+                    _casePlateau = plateau.adresseCasePlateau(inputNotation) ;
+                }
             }
 /*
 std::cout << "inputNotation : [" << inputNotation << "] ou ["<<casePlateau.notationOfficielle()<<"]\n" ;
@@ -297,7 +312,7 @@ inputNotation = plateau.notationCase(inputLine, inputColumn) ;
 std::cout << "case l<<" << inputLine << "," << inputColumn << ">>c esac, inputNotation=="  << inputNotation << "== libre ?("
 << (plateau.casePlateau(inputNotation).estLibre() ? "Oui, libre" : "Nein, occupée !" ) <<")? par <" 
 << ( (plateau.casePlateau(inputNotation).getPion()) == nullptr ? nullptr : (plateau.casePlateau(inputNotation).getPion())->motif() ) << "> adr [" 
-<< *(plateau.casePlateau(notation).getPion()) << "]\n" ;  // ici
+<< *(plateau.casePlateau(notation).getPion()) << "]\n" ;
 */
 // Movement - Regle 1 : La case de départ doit être occupée par un pion de la même couleur que le joueur
 //            Règle 2 : La case destination pour un déplacement, une prise, une étape de raffle doit être libre
@@ -305,7 +320,20 @@ std::cout << "case l<<" << inputLine << "," << inputColumn << ">>c esac, inputNo
 //            Règle 4 : Pour un déplacement (reine), la case destination doit être dans la diagonale et aucun pion ne doit se trouver entre les deux
         }
 //ici
-std::cout << "Lecture : <<" <<(int)((int)( (int)(_input_type[0]) | (int)(_input_type[1]) ) | (int)(_input_type[2]) ) << ">>\n" ;
+/*
+if(_token == input_token::quit)
+{
+std::cout << "Alors vous nous quittez déjà ? \n" ;
+}
+else if(_token == input_token::error)
+{
+std::cout << "Y a FAUTE ! \n" ;
+}
+else
+{
+std::cout << "Lecture : <<" <<(int)((int)( (int)(_input_type[0]) | (int)(_input_type[1]) ) | (int)(_input_type[2]) ) << ">> case (("<< casePlateau.notationOfficielle() <<"))\n" ;
+}
+*/
     }
 }
 
@@ -627,6 +655,7 @@ namespace spc_plateau
     int Plateau::jouer(void)
     {
         int retCode = 0 ;
+        //CasePlateau caseDeSaisie ;
         std::string errorMsg = "" ;
 
         Coup coup ;
@@ -635,14 +664,32 @@ namespace spc_plateau
         {
             affiche() ;
 
-CasePlateau cp ;
-input_token t ;
-_input.InputCase(*this, cp, t, "A vous de miser : ") ;
             std::cout << errorMsg ;
             std::cout << std::endl ;
             std::cout << "\n  ==>> La main est aux " << _prochain->couleur() << "   Q pour abandonner"<< std::endl ;
             std::cout << "\n       Depart : " ;
-            if ( ! setCoup(errorMsg) )
+            _input.InputCase(*this, "La main est aux xxxx : ") ;
+            switch(_input.token())
+            {
+                case input_token::quit :
+                    std::cout << "Abandon des xxx !" << std::endl ;
+                    _finDePartie = true ;
+                    continue ;
+                    break ;
+                case input_token::error :
+                    std::cout << "Erreur de saisie !" << std::endl ;
+                    continue ;
+                    break ;
+                case input_token::neutral :
+                    //ici:règles pour la case départ/arrivée/raffle/... !
+                    break ;
+                default :
+                    break ;
+            }
+
+            //_input.InputCase(*this, _coupEnCours.caseDepart(), "A vous de remiser : ") ;
+
+            //ici//if ( ! setCoup(errorMsg) )
             {
                 continue ;
             }

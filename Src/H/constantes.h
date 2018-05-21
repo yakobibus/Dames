@@ -20,5 +20,8 @@
      # define IS_ALPHA_ONE (static_cast<int>(input_type::is_alphaOne)) 
      # define IS_ALPHA_TWO (static_cast<int>(input_type::is_alphaTwo))
      # define IS_ALPHA_THREE (static_cast<int>(input_type::is_alphaThree))
+
+     # define IS_ALPHA_DAMIER(c) ((c >= 'a' && c <= 'j') || (c >= 'A' && c <= 'J'))
+     # define IS_DIGIT_DAMIER(c) (c >= '0' && c <= '9')
   }
 # endif // _CONSTANTES_H_
