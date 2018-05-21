@@ -17,7 +17,9 @@
   # define _PLATEAU_H_ (1)
   namespace spc_plateau
   {
-      class Plateau ;
+	  class CasePlateau;
+	  class Pion ;
+	  class Plateau ;
 
       // ----------------------------------------------------------------------
 
@@ -95,7 +97,169 @@
         , deplacement
       } ;
 
-      /* Un pion est déterminé par sa couleur et sa promotion */
+	  /* Une case est définie par une couleur (noire/banche) et,
+	  si elle est noire, elle dispose d'une abscisse (x) et une ordonnée (y) sur le plateau.
+	  Une case peut être libre ou non. Quand elle n'est pas libre elle contient un pion.
+	  **/
+	  class CasePlateau
+	  {
+	  public:
+		  CasePlateau();
+		  ~CasePlateau() = default;
+		  CasePlateau(const CasePlateau& c) = default;
+		  CasePlateau& operator = (const CasePlateau& c);
+		  //
+		  void affiche(void);
+		  inline bool estLibre(void) const { return _estLibre; }
+		  inline int getY(void) { return _y; }
+		  inline int getX(void) { return _x; }
+		  inline const char* separateur(void) { return _separateur; }
+		  //couleur_pion couleurPion(void) {return _pion->getCouleur();}
+		  void init(int x, int y, int notation, Pion* pion, apparence_case apparence, couleur_case couleur);
+		  void resetSurbrillance(void);
+		  void setPion(Pion* pion);
+		  void setEnSurbrillance(void);
+		  // Pion* pion(void) const {return _pion ;}
+		  inline int notationOfficielle(void) const { return _notationOfficielle; }
+		  inline int notationOfficielle(int y, int x) const { return (y == _y && x == _x ? _notationOfficielle : 0); }
+	  private:
+		  couleur_case _couleur;
+		  bool _estLibre;
+		  Pion* _pion;
+		  int _x;
+		  int _y;
+		  int _notationOfficielle;
+		  apparence_case _apparence;
+		  char _motif[MOTIF_SIZE];
+		  char _motifSurbrillance[MOTIF_SIZE];
+		  const char _separateur[2] = "|";
+	  };
+
+	  class Commentaire
+	  {
+	  public:
+		  enum class e_commentaire
+		  {
+			  coupFort
+			  , coupTresFort
+			  , coupFaible
+			  , coupTresFaible
+			  , coupFaussementFort
+			  , coupFaussementFaible
+			  , coupForcE
+			  , gainDePartie
+			  , Jeuegal
+			  , gain1pion
+			  , gainNpions
+			  , avantageAuxBlancs
+			  , avantageAuxNoirs
+		  };
+	  private:
+		  std::map<std::string, std::string> _commentaires
+		  {
+			  { "!", "Coup fort ou bien joué" }
+			  ,{ "!!", "Coup très fort" }
+			  ,{ "?", "Coup faible ou mal joué" }
+			  ,{ "??", "Coup très faible ou une gaffe" }
+			  ,{ "!?", "Coup paraissant fort, mais qui en réalité se révèle faible" }
+			  ,{ "?!", "Coup paraissant faible, mais qui en réalité se révèle fort" }
+			  ,{ "*", "Coup forcé, tout autre mouvement entraînant une perte immédiate" }
+			  ,{ "+", "Gain de la partie" }
+			  ,{ "=", "Jeu égal" }
+			  ,{ "+1", "Gain d’un pion" }
+			  ,{ "+n", "Gain de n pions" }
+			  ,{ "+-", "Avantage aux blancs" }
+			  ,{ "-+", "Avantage aux noirs" }
+		  };
+		  std::string _commentaire;
+	  };
+
+	  class Coup
+	  {
+	  public:
+		  inline CasePlateau& caseDepart(void) { return _caseDepart; }
+
+	  private:
+		  CasePlateau _caseDepart;
+		  CasePlateau _caseArrivee;
+		  couleur_pion _couleur;
+		  type_coup _typeDeCoup;
+		  int _nombreDePrises;
+		  CasePlateau _prises[NB_MX_COUPS_PAR_PRISE];
+		  CasePlateau _cheminRafle[NB_MX_COUPS_PAR_RAFLE];
+		  char* _commentaire;
+	  };
+
+	  class Diagonale
+	  {
+	  public:
+		  Diagonale();
+		  ~Diagonale();
+		  Diagonale(const Diagonale& d);
+		  Diagonale& operator = (const Diagonale& d);
+		  //
+		  int addCase(CasePlateau* c);
+		  int init(int taille, CasePlateau** c);
+	  private:
+		  int _taille;
+		  CasePlateau** _cases;
+	  };
+
+	  class Input
+	  {
+	  public:
+		  Input() {}
+		  ~Input() = default;
+		  Input(const Input& i) = default;
+		  Input& operator = (const Input& i) = default;
+
+		  void InputCase(Plateau& plateau/*, CasePlateau& casePlateau*/, const char* invite);
+		  const input_token& token(void) const { return _token; }
+	  private:
+		  //inline bool _isAlpha(const char& c) { std::locale loc ; return (((c >='a' && c <= 'j') || (c >= 'A' && c <= 'J')) && std::isalpha(c, loc)) ;}
+		  //inline bool _isAlpha(const char& c) { return (((c >= 'a' && c <= 'j') || (c >= 'A' && c <= 'J')) && isalpha(c)); }
+		  inline bool _isAlpha(const char& c) { return IS_ALPHA_DAMIER(c); }
+		  inline int _aToColumn(const char& colonne) {
+			  return (
+				  colonne == 'a' || colonne == 'A' ? 1
+				  : colonne == 'b' || colonne == 'B' ? 2
+				  : colonne == 'c' || colonne == 'C' ? 3
+				  : colonne == 'd' || colonne == 'D' ? 4
+				  : colonne == 'e' || colonne == 'E' ? 5
+				  : colonne == 'f' || colonne == 'F' ? 6
+				  : colonne == 'g' || colonne == 'G' ? 7
+				  : colonne == 'h' || colonne == 'H' ? 8
+				  : colonne == 'i' || colonne == 'I' ? 9
+				  : colonne == 'j' || colonne == 'J' ? 10
+				  : 0
+				  );
+		  }
+		  void _scanner(int index);
+		  //void parser(void) ; // 169
+		  char _buffer[BUFFER_MX_SIZE];
+		  int _bufSize = 0;
+		  input_type _input_type[INPUT_TYPE_ARRAY_SIZE];
+		  input_token _token;
+		  CasePlateau* _casePlateau;
+	  };
+
+      /* Un joueur est caractérisé par la couleur qu'il joue et sa nature (humain ou intelligence artificielle)
+      **/
+      class Joueur
+      {
+      public :
+        Joueur(couleur_pion couleur = couleur_pion::blanc, nature_joueur nature  = nature_joueur::ia) ;
+        ~Joueur() = default ;
+        Joueur(const Joueur& j) = default ;
+        Joueur& operator = (const Joueur& j) = default ;
+        friend std::ostream& operator << (std::ostream& os, const Joueur& j) ;
+        couleur_pion couleur(void) {return _couleur ;}
+      private :
+        couleur_pion _couleur ;
+        nature_joueur _nature ;
+      };
+
+	  /* Un pion est déterminé par sa couleur et sa promotion */
       class Pion
       {
       public :
@@ -118,166 +282,6 @@
         apparence_pion _apparence ;
         char _motif[4] ;
         char _motifSurbrillance[4] ;
-      };
-
-      /* Une case est définie par une couleur (noire/banche) et, 
-         si elle est noire, elle dispose d'une abscisse (x) et une ordonnée (y) sur le plateau.
-         Une case peut être libre ou non. Quand elle n'est pas libre elle contient un pion.
-      **/
-      class CasePlateau
-      {
-      public :
-        CasePlateau() ;
-        ~CasePlateau() = default ;
-        CasePlateau(const CasePlateau& c) = default ;
-        CasePlateau& operator = (const CasePlateau& c) ;
-        //
-        void affiche(void);
-        inline bool estLibre(void) const {return _estLibre ;}
-        inline int getY(void) {return _y;}
-        inline int getX(void) {return _x;}
-        inline const char* separateur(void) {return _separateur ;}
-        //couleur_pion couleurPion(void) {return _pion->getCouleur();}
-        void init(int x, int y, int notation, Pion* pion, apparence_case apparence, couleur_case couleur) ;
-        void resetSurbrillance(void);
-        void setPion(Pion* pion) ;
-        void setEnSurbrillance(void);
-        // Pion* pion(void) const {return _pion ;}
-        inline int notationOfficielle(void) const {return _notationOfficielle ;}
-        inline int notationOfficielle(int y, int x) const {return (y == _y && x == _x ? _notationOfficielle : 0) ;}
-      private :
-        couleur_case _couleur ;
-        bool _estLibre ;
-        Pion* _pion ;
-        int _x ;
-        int _y ;
-        int _notationOfficielle ;
-        apparence_case _apparence ;
-        char _motif[MOTIF_SIZE] ;
-        char _motifSurbrillance[MOTIF_SIZE] ;
-        const char _separateur[2] = "|" ;
-      } ;
-
-      class Input
-      {
-      public :
-        Input() {}
-        ~Input() = default ;
-        Input(const Input& i) = default ;
-        Input& operator = (const Input& i) = default ;
-
-        void InputCase(Plateau& plateau/*, CasePlateau& casePlateau*/, const char* invite) ;
-        const input_token& token(void) const {return _token ;}
-      private :
-        //inline bool _isAlpha(const char& c) { std::locale loc ; return (((c >='a' && c <= 'j') || (c >= 'A' && c <= 'J')) && std::isalpha(c, loc)) ;}
-		//inline bool _isAlpha(const char& c) { return (((c >= 'a' && c <= 'j') || (c >= 'A' && c <= 'J')) && isalpha(c)); }
-		inline bool _isAlpha(const char& c) { return IS_ALPHA_DAMIER(c) ;}
-        inline int _aToColumn(const char& colonne) {return (
-                                  colonne == 'a' || colonne == 'A' ? 1 
-                                : colonne == 'b' || colonne == 'B' ? 2 
-                                : colonne == 'c' || colonne == 'C' ? 3
-                                : colonne == 'd' || colonne == 'D' ? 4
-                                : colonne == 'e' || colonne == 'E' ? 5
-                                : colonne == 'f' || colonne == 'F' ? 6
-                                : colonne == 'g' || colonne == 'G' ? 7
-                                : colonne == 'h' || colonne == 'H' ? 8
-                                : colonne == 'i' || colonne == 'I' ? 9
-                                : colonne == 'j' || colonne == 'J' ? 10
-                                : 0
-                                ) ;}
-        void _scanner(int index) ;
-        //void parser(void) ; // 169
-        char _buffer[BUFFER_MX_SIZE] ;
-        int _bufSize = 0 ;
-        input_type _input_type[INPUT_TYPE_ARRAY_SIZE] ;
-        input_token _token ;
-        CasePlateau* _casePlateau ;
-      } ;
-
-      /* Un joueur est caractérisé par la couleur qu'il joue et sa nature (humain ou intelligence artificielle)
-      **/
-      class Joueur
-      {
-      public :
-        Joueur(couleur_pion couleur = couleur_pion::blanc, nature_joueur nature  = nature_joueur::ia) ;
-        ~Joueur() = default ;
-        Joueur(const Joueur& j) = default ;
-        Joueur& operator = (const Joueur& j) = default ;
-        friend std::ostream& operator << (std::ostream& os, const Joueur& j) ;
-        couleur_pion couleur(void) {return _couleur ;}
-      private :
-        couleur_pion _couleur ;
-        nature_joueur _nature ;
-      };
-
-      class Commentaire 
-      {
-      public :
-        enum class e_commentaire
-        {
-            coupFort
-          , coupTresFort
-          , coupFaible
-          , coupTresFaible
-          , coupFaussementFort
-          , coupFaussementFaible
-          , coupForcE
-          , gainDePartie
-          , Jeuegal
-          , gain1pion
-          , gainNpions
-          , avantageAuxBlancs
-          , avantageAuxNoirs
-        } ;
-      private :
-        std::map<std::string, std::string> _commentaires 
-        {
-              {"!", "Coup fort ou bien joué"}
-            , {"!!", "Coup très fort"}
-            , {"?", "Coup faible ou mal joué"}
-            , {"??", "Coup très faible ou une gaffe"}
-            , {"!?", "Coup paraissant fort, mais qui en réalité se révèle faible"}
-            , {"?!", "Coup paraissant faible, mais qui en réalité se révèle fort"} 
-            , {"*", "Coup forcé, tout autre mouvement entraînant une perte immédiate"} 
-            , {"+", "Gain de la partie"} 
-            , {"=", "Jeu égal"} 
-            , {"+1", "Gain d’un pion"} 
-            , {"+n", "Gain de n pions"}
-            , {"+-", "Avantage aux blancs"} 
-            , {"-+", "Avantage aux noirs"} 
-        } ;
-        std::string _commentaire ;
-      };
-      
-      class Coup
-      {
-      public :
-        inline CasePlateau& caseDepart(void) {return _caseDepart ;}
-
-      private :
-        CasePlateau _caseDepart ;
-        CasePlateau _caseArrivee ;
-        couleur_pion _couleur ;
-        type_coup _typeDeCoup ;
-        int _nombreDePrises ;
-        CasePlateau _prises [NB_MX_COUPS_PAR_PRISE] ;
-        CasePlateau _cheminRafle[NB_MX_COUPS_PAR_RAFLE] ;
-        char* _commentaire ;
-      };
-
-      class Diagonale
-      {
-      public :
-        Diagonale() ;
-        ~Diagonale() ;
-        Diagonale(const Diagonale& d) ;
-        Diagonale& operator = (const Diagonale& d) ;
-        //
-        int addCase(CasePlateau* c) ;
-        int init(int taille, CasePlateau** c) ;
-      private :
-        int _taille ;
-        CasePlateau** _cases ;
       };
 
       class Plateau
