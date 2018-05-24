@@ -67,5 +67,41 @@
          +---+---+---+---+---+---+---+---+---+---+
            a   b   c   d   e   f   g   h   i   j
       **/
+
+	  /*
+	  Déroulement d'une partie :
+
+	  I. Construction :
+	  1. Initialiser le damier
+	  1.1 Cases 50 noires : 5 par ligne sur 10 lignes
+	  1.2 Pions : 20 pions blancs et 20 noirs placés à chaque extétrémité ; 2 lignes vides au milieu
+	  1.3 Fixer le premier joueur ayant la main : le joueur disposant des blancs ; les blancs commencent toujours
+
+	  II. Jouer (chaque joueur déplace un pion) :
+	  1. Tant que la partie continue 
+	     FAIRE
+			1.1 Dessiner le Damier
+			1.2 Donner la main au joueur actif
+			1.2.1 Afficher l'invite de la saisie CaseDépart
+			1.2.1 Evaluer la pertinence de la case départ
+			1.2.1.1 La CaseDépart doit être occupée par un pion de la couleur du joueur
+			1.2.1.2 Le pion de la case départ doit être mobilisable :
+			1.2.1.2.1 Si c'est un pion : 
+			1.2.1.2.1.1 SI la prochaine case en diagonale dans le sens de la marche du pion est libre alors MOBILISABLE
+			1.2.1.2.1.2 SInon (diagonale occupée dans le sens de la marche du pion)
+			1.2.1.2.1.2.1 SI la case après la case immédiatement occupée dans le sens de la marche l'est par la couleur opposée
+			1.2.1.2.1.2.1.1 SI la case immédiatement en diagonale après le pion opposé est libre, alors MOBILISABLE et le pion opposé est PRENABLE
+			1.2.1.2.1.2.1.2 SInon NonMOBILISABLE
+			1.2.1.2.1.2.1.3 FinSI
+			1.2.1.2.1.2.2 SInon NonMOBILISABLE
+			1.2.1.2.1.2.3 FinSI
+			1.2.1.2.1.3 FinSI
+			1.2.1.9 Afficher le Dalier avec la case départ en surbrillance + la référence de la saisieDépart
+			1.2.2 Afficher l'invite de la saisie CaseArrivée
+			1.2.3 Evaluer la pertinence de la CaseArrivée
+			1.3 Evaluer la coup (Est-ce la fin de partie ?)
+			1.4 Changer de main (le joueur actif devient le joueur opposé si la partie continue)
+	     Fin FAIRE
+	  **/
   }
 # endif  //  _REGLES_H_

@@ -660,6 +660,8 @@ namespace spc_plateau
 
         Coup coup ;
 
+		_coupEnCours.setEtape(etapes_du_coup::debut) ;
+
         while(! _finDePartie)
         {
             affiche() ;
@@ -672,12 +674,21 @@ namespace spc_plateau
             std::cout << std::endl ;
 			strcpy(Invite, "Aux ") ;
 			strcat(Invite, _prochain->laCouleur());
-			strcat(Invite, " de jouer (Q pour abandonner). \n       Depart : ");
+			strcat(Invite, " de jouer (Q pour abandonner). \n       ") ;
+			if (_coupEnCours.etape() <= etapes_du_coup::input_depart)
+			{
+				strcat(Invite, "Départ : ");
+			}
+			else
+			{
+				strcat(Invite, "Arrivée : ");
+			}
+			_coupEnCours.setEtape(etapes_du_coup::input_depart) ;
             _input.InputCase(*this, Invite) ;
             switch(_input.token())
             {
                 case input_token::quit :
-                    std::cout << "Abandon des xxx !" << std::endl ;
+                    std::cout << "Abandon des " << _prochain->laCouleur() << " !" << std::endl ;
                     _finDePartie = true ;
                     continue ;
                     break ;
@@ -687,6 +698,20 @@ namespace spc_plateau
                     break ;
                 case input_token::neutral :
                     //ici:règles pour la case départ/arrivée/raffle/... !
+					_coupEnCours.setEtape(etapes_du_coup::evaluation_depart) ;
+					if (_input.casePlateau()->estLibre())
+					{
+						std::cout << "ERROR : case de départ ne peut pas être libre \n" ;
+					}
+					else if(_input.casePlateau()->pion()->getCouleur() == _prochain->couleur())
+					{
+						std::cout << "La case <<" << _input.casePlateau()->pion()->getCouleur() << ">> est occupée \n";
+						std::cout << " .... par la même couleur que le joueur en cours \n";
+					}
+					else
+					{
+						std::cout << "ERROR : c'est le pion (" << _input.casePlateau()->pion()->getCouleur() << ") adverse des (" << _prochain->laCouleur() << ") ! \n";
+					}
                     break ;
                 default :
                     break ;

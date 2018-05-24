@@ -64,7 +64,7 @@
 		  , debut
 		  , input_depart
 		  , evaluation_depart
-		  , saisie_arrivee
+		  , input_arrivee
 		  , evaluation_arrivee
 	  };
 
@@ -126,16 +126,16 @@
 		  CasePlateau& operator = (const CasePlateau& c);
 		  //
 		  void affiche(void);
-		  inline bool estLibre(void) const { return _estLibre; }
-		  inline int getY(void) { return _y; }
-		  inline int getX(void) { return _x; }
-		  inline const char* separateur(void) { return _separateur; }
+		  inline const bool estLibre(void) const { return _estLibre; }
+		  inline const int getY(void) const { return _y; }
+		  inline const int getX(void) const { return _x; }
+		  inline const char* separateur(void) const { return _separateur; }
 		  //couleur_pion couleurPion(void) {return _pion->getCouleur();}
 		  void init(int x, int y, int notation, Pion* pion, apparence_case apparence, couleur_case couleur);
 		  void resetSurbrillance(void);
 		  void setPion(Pion* pion);
 		  void setEnSurbrillance(void);
-		  // Pion* pion(void) const {return _pion ;}
+		  inline Pion* pion(void) const {return _pion ;}
 		  inline int notationOfficielle(void) const { return _notationOfficielle; }
 		  inline int notationOfficielle(int y, int x) const { return (y == _y && x == _x ? _notationOfficielle : 0); }
 	  private:
@@ -199,6 +199,8 @@
 		  Coup& operator = (const Coup& c) = default ;
 
 		  inline CasePlateau& caseDepart(void) { return _caseDepart ; }
+		  inline const etapes_du_coup& etape(void) const { return _etape ; }
+		  inline void setEtape(const etapes_du_coup& etape) { _etape = etape ; }
 	  private:
 		  CasePlateau _caseDepart ;
 		  CasePlateau _caseArrivee ;
@@ -236,6 +238,7 @@
 
 		  void InputCase(Plateau& plateau/*, CasePlateau& casePlateau*/, const char* invite);
 		  const input_token& token(void) const { return _token; }
+		  inline const CasePlateau* casePlateau(void) const { return _casePlateau ; }
 	  private:
 		  //inline bool _isAlpha(const char& c) { std::locale loc ; return (((c >='a' && c <= 'j') || (c >= 'A' && c <= 'J')) && std::isalpha(c, loc)) ;}
 		  //inline bool _isAlpha(const char& c) { return (((c >= 'a' && c <= 'j') || (c >= 'A' && c <= 'J')) && isalpha(c)); }
@@ -290,7 +293,7 @@
         Pion(const Pion& p) = default ;
         Pion& operator = (const Pion& p) = default ;
         //
-        void affiche(void) {std::cout << _couleur ;}
+        void const affiche(void) const {std::cout << _couleur ;}
         couleur_pion getCouleur(void) {return _couleur;}
         inline const char* motif(void) const {return _motif ;}
         void resetSurbrillance(void);
