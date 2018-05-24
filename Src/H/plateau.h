@@ -64,8 +64,12 @@
 		  , debut
 		  , input_depart
 		  , evaluation_depart
+		  , depart_error
+		  , depart_ok
 		  , input_arrivee
 		  , evaluation_arrivee
+		  , arrivee_error
+		  , arrivee_ok
 	  };
 
 	  enum class input_token
