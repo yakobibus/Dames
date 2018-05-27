@@ -281,7 +281,7 @@
         Joueur(const Joueur& j) = default ;
         Joueur& operator = (const Joueur& j) = default ;
         friend std::ostream& operator << (std::ostream& os, const Joueur& j) ;
-        inline couleur_pion couleur(void) {return _couleur ;}
+        inline const couleur_pion couleur(void) const {return _couleur ;}
 		inline const char* laCouleur(void) const { return (_couleur == couleur_pion::blanc ? "Blancs" : "Noirs") ;}
       private :
         couleur_pion _couleur ;
@@ -313,57 +313,89 @@
         char _motifSurbrillance[4] ;
       };
 
-      class Plateau
-      {
-      public :
-        Plateau(Joueur joueur1, Joueur joueur2) ;
-        ~Plateau() = default ;
-        Plateau(const Plateau& p) = default ;
-        Plateau& operator = (const Plateau& p) = default ;
-        //
-        void affiche(void);
-        void afficheTitre(void) ;
-        inline void ligne (void) {std::cout        << "     +---+---+---+---+---+---+---+---+---+---+" << std::endl ;}
-        inline void ligneLettres (void) {std::cout << "       a   b   c   d   e   f   g   h   i   j" ;}
-        void affichePiedDePage(void) ;
-        void initDiagonales(void) ;
-        int notationCase(const int& y, const int& x) const ;
-        int jouer(void) ;
-        inline const CasePlateau& casePlateau(const int& notation) const {return _cases[notation] ;}
-        inline CasePlateau* adresseCasePlateau(const int& notation) {return &(_cases[notation]) ;}
-        inline void aloueCasePlateau(const int& notation, CasePlateau& casePlateau) {casePlateau = _cases[notation] ;}
-        /*
-        void oldInitDiagonales(void) ;
-        bool setCoup(std::string& message) ;
-        inline void aloueCasePlateau(const int& notation, CasePlateau& casePlateau) {casePlateau = _cases[notation] ;}
-        int deplacerPion(CasePlateau positionDepart, CasePlateau positionArrivee) ;
-        bool finDePartie(void);
-        CasePlateau& casePlateau(int x, int y); 
-        void resetSurbrillance(void);  // Annule la surbrillance de toutes les case et pions du plateau
-        void afficheListeDesCoups(void);
-        int nombreDeCoups(void);
-        */
-      private :
-        const char titre[24] = "*** Jeux de Dames ***" ;
-        CasePlateau _cases [NB_CASES_PLATEAU] ; // 50 cases noires numérotées de 01 à 50 ; la case 00 est blanche ; le numéro de la case correspond à son indice
-        Coup _historique [NB_MX_COUPS_HISTORIQUE] ; // Historique des coup ; TODO : en faire une liste pour ne plus avoir de limite
-        Diagonale _diagonales[NB_DIAGONALES_PLATEAU] ;  // j'ai ajouté les deux diagonales d'une seule case
-        int _nombreDeCoups ;
-        Joueur _joueur1 ;
-        Joueur _joueur2 ;
-        Pion _pionsBlancs[NB_PIONS_PAR_COULEUR] ;
-        Pion _pionsNoirs[NB_PIONS_PAR_COULEUR] ;
-        Joueur* _prochain ; // Celui des deux joueurs devant jouer le prochain coup
-        bool _finDePartie = false ;
-        Coup _coupEnCours ; // Coup en cours
-        Input _input ;
-		Regle _regle ;
-      };
+	  class Plateau
+	  {
+	  private:
+		  class PiedDePage
+		  {
+		  public :
+			  PiedDePage();
+			  ~PiedDePage() = default;
+			  PiedDePage(const PiedDePage& p) = default;
+			  PiedDePage& operator = (const PiedDePage& p) = default;
+
+			  void affiche(const char* errorMsg) ;
+			  void init(const Joueur* joueur, const Coup& coup) ;
+			  inline const char* invite(void) const { return _invite ; }
+		  private :
+			  char* _lpad(char* str, const int& size = SZ_LIGNE_PIED_DE_PAGE) ;
+			  char* _rpad(char* str, const int& size = -1 + SZ_LIGNE_PIED_DE_PAGE) ;
+			  char _lignes[NB_LIGNES_PIED_DE_PAGE][SZ_LIGNE_PIED_DE_PAGE] ;
+			  const char _marge[SZ_MARGE_PIED_DE_PAGE] = MARGE_PIED_DE_PAGE;
+			  char _buffer[111] ;
+			  const char _motif = ' ' ;
+			  char _invite[SZ_INVITE] ;
+		  };
+	  public:
+		  Plateau(Joueur joueur1, Joueur joueur2);
+		  ~Plateau() = default;
+		  Plateau(const Plateau& p) = default;
+		  Plateau& operator = (const Plateau& p) = default;
+		  //
+		  void affiche(void);
+		  void afficheTitre(void);
+		  inline void ligne(void) { std::cout << MOTIF_TRAIT_DAMIER << std::endl; }
+		  inline void ligneLettres(void) { std::cout << MOTIF_LETTRES_DAMIER; }
+		  void initDiagonales(void);
+		  int notationCase(const int& y, const int& x) const;
+		  int jouer(void);
+		  inline const CasePlateau& casePlateau(const int& notation) const { return _cases[notation]; }
+		  inline CasePlateau* adresseCasePlateau(const int& notation) { return &(_cases[notation]); }
+		  inline void aloueCasePlateau(const int& notation, CasePlateau& casePlateau) { casePlateau = _cases[notation]; }
+		  /*
+		  void oldInitDiagonales(void) ;
+		  bool setCoup(std::string& message) ;
+		  inline void aloueCasePlateau(const int& notation, CasePlateau& casePlateau) {casePlateau = _cases[notation] ;}
+		  int deplacerPion(CasePlateau positionDepart, CasePlateau positionArrivee) ;
+		  bool finDePartie(void);
+		  CasePlateau& casePlateau(int x, int y);
+		  void resetSurbrillance(void);  // Annule la surbrillance de toutes les case et pions du plateau
+		  void afficheListeDesCoups(void);
+		  int nombreDeCoups(void);
+		  */
+	  private:
+		  const char _titre[24] = "*** Jeux de Dames ***";
+		  CasePlateau _cases[NB_CASES_PLATEAU]; // 50 cases noires numérotées de 01 à 50 ; la case 00 est blanche ; le numéro de la case correspond à son indice
+		  Coup _historique[NB_MX_COUPS_HISTORIQUE]; // Historique des coup ; TODO : en faire une liste pour ne plus avoir de limite
+		  Diagonale _diagonales[NB_DIAGONALES_PLATEAU];  // j'ai ajouté les deux diagonales d'une seule case
+		  int _nombreDeCoups;
+		  Joueur _joueur1;
+		  Joueur _joueur2;
+		  Pion _pionsBlancs[NB_PIONS_PAR_COULEUR];
+		  Pion _pionsNoirs[NB_PIONS_PAR_COULEUR];
+		  Joueur* _prochain; // Celui des deux joueurs devant jouer le prochain coup
+		  bool _finDePartie = false;
+		  Coup _coupEnCours; // Coup en cours
+		  Input _input;
+		  Regle _regle;
+		  PiedDePage _piedDePage;
+		  char _errorMsg[BUFFER_ERR_MX_SIZE];
+		  //void _strcopy(char* target, char* source) { strcpy(target, source); }
+	  };
 
       class Dummy
       {
       public :
+		  void Ho(void) const { _yo.ha() ; }
       private :
+		  class Yo
+		  {
+		  public :
+			  void ha(void) const { std::cout << "En Yo::ha, ii=[" << ii << "]\n"; }
+		  private :
+		  };
+		  Yo _yo;
+		  static const int ii = 55;
       };
   }
 # endif // _PLATEAU_H_

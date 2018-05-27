@@ -10,27 +10,27 @@
 
 namespace spc_plateau
 {
-    std::ostream& operator << (std::ostream& os, const couleur_pion& cp)
-    {
-        switch(cp)
-        {
-            case couleur_pion::blanc : os << "/o/" ; break ;
-            case couleur_pion::noir  : os << "/x/" ; break ;
-            default : os << "~~~" ; break ;
-        }
-        return os ;
-    }
+	std::ostream& operator << (std::ostream& os, const couleur_pion& cp)
+	{
+		switch (cp)
+		{
+		case couleur_pion::blanc: os << "/o/"; break;
+		case couleur_pion::noir: os << "/x/"; break;
+		default: os << "~~~"; break;
+		}
+		return os;
+	}
 
-    std::ostream& operator << (std::ostream& os, const couleur_case& cc)
-    {
-        switch(cc)
-        {
-            case couleur_case::blanc : os << "   " ; break ;
-            case couleur_case::noir  : os << "///" ; break ;
-            default : os << "..." ; break ;
-        }
-        return os ;
-    }
+	std::ostream& operator << (std::ostream& os, const couleur_case& cc)
+	{
+		switch (cc)
+		{
+		case couleur_case::blanc: os << "   "; break;
+		case couleur_case::noir: os << "///"; break;
+		default: os << "..."; break;
+		}
+		return os;
+	}
 }
 
 namespace spc_plateau
@@ -342,11 +342,93 @@ namespace spc_plateau
 
 namespace spc_plateau
 {
+	Plateau::PiedDePage::PiedDePage()
+	{
+		for (int l = 0; l < NB_LIGNES_PIED_DE_PAGE; ++l) 
+		{
+			memset(_lignes[l], 0, SZ_LIGNE_PIED_DE_PAGE) ;
+		}
+		memset(_buffer, 0, 111);
+		memcpy(_lignes[2], "Blancs [/o/]            vs             [/x/] Noirs", -1 + SZ_LIGNE_PIED_DE_PAGE);
+		memcpy(_lignes[3], "--------------------------------------------------", -1 + SZ_LIGNE_PIED_DE_PAGE);
+		memcpy(_lignes[6], "- Q pour abandonner -", -1 + SZ_LIGNE_PIED_DE_PAGE);
+		//memcpy(_lignes[8], "Départ   :", -1 + SZ_LIGNE_PIED_DE_PAGE);
+	}
+
+	void Plateau::PiedDePage::affiche(const char* errorMsg)
+	{
+		if (strlen(errorMsg) > 0)
+		{
+			std::cout << std::endl ;
+			std::cout << _marge << errorMsg << std::endl;
+		}
+
+		for (int i = 0; i < NB_LIGNES_PIED_DE_PAGE; ++i) 
+		{
+			std::cout << _marge << _lignes[i] << std::endl; 
+		}
+	}
+
+	void Plateau::PiedDePage::init(const Joueur* joueur, const Coup& coup)
+	{
+		memset(_lignes[4], 0, SZ_LIGNE_PIED_DE_PAGE) ;
+
+		memcpy(13 + _lignes[2], (joueur->couleur() == couleur_pion::blanc ? "<<==" : "    "), 4);
+		memcpy(34 + _lignes[2], (joueur->couleur() == couleur_pion::noir ? "==>>" : "    "), 4);
+		memcpy(_lignes[4], "Les ", 4);
+		strcat(_lignes[4], joueur->laCouleur());
+		strcat(_lignes[4], " ont la main");
+		if (joueur->couleur() == couleur_pion::blanc)
+		{
+			_lpad(_lignes[4]) ;
+		}
+		memset(_invite, 0, SZ_INVITE) ;
+		memcpy(_invite, _marge, -1 + SZ_MARGE_PIED_DE_PAGE);
+		if (coup.etape() <= etapes_du_coup::input_depart)
+		{
+			memcpy(-1 + SZ_MARGE_PIED_DE_PAGE + _invite, "Départ : ", -1 + SZ_INVITE);
+		}
+		else if (coup.etape() > etapes_du_coup::depart_ok)
+		{
+			memcpy(-1 + SZ_MARGE_PIED_DE_PAGE + _invite, "Arrivée : ", -1 + SZ_INVITE);
+		}
+	}
+
+	char* Plateau::PiedDePage::_lpad( char* str
+								    , const int & size
+								    )
+	{
+		const int szStr = strlen(str) ;
+		char dummy[2 + szStr] ;
+		memset(dummy, 0, 2 + szStr) ;
+		memcpy(dummy, str, szStr) ;
+		memset(str, 0, (szStr > size ? szStr : size)) ;
+		memset(str, _motif, -1 + (szStr > size ? szStr : size)) ;
+		memcpy(str + ((szStr > size ? szStr + 1 : size) - szStr - 1), dummy, szStr) ;
+
+		return str ;
+	}
+
+	char* Plateau::PiedDePage::_rpad( char* str
+								    , const int & size
+								    )
+	{
+		const int szStr = strlen(str) ;
+		char dummy[2 + szStr] ;
+		memset(dummy, 0, 2 + szStr) ;
+		memset(str + szStr, _motif, -1 + (szStr > size ? szStr + 1 : size) - szStr) ;
+		str[-1 + (szStr > size ? szStr + 1 : size)] = 0;
+
+		return str ;
+	}
+}
+
+namespace spc_plateau
+{
     Pion::Pion(couleur_pion couleur = couleur_pion::blanc) : _couleur(couleur)
                                                            , _promotion(promotion_pion::normal)
                                                            , _apparence(apparence_pion::normal)
     {
-        //memset(_motif, 0, 4);
         _motif[0] = ' ' ;
         _motif[1] = (_couleur == couleur_pion::blanc ? 'o' : 'x') ;
         _motif[2] = ' ' ;
@@ -382,7 +464,8 @@ namespace spc_plateau
 {
     Plateau::Plateau(Joueur joueur1, Joueur joueur2) : _nombreDeCoups(0), _joueur1(joueur1), _joueur2(joueur2), _prochain(nullptr)
     {
-        if(_joueur1.couleur() != _joueur2.couleur()) // Les deux joueurs ne peuvent pas avoir la même couleur
+		memset(_errorMsg, 0, BUFFER_ERR_MX_SIZE);
+		if(_joueur1.couleur() != _joueur2.couleur()) // Les deux joueurs ne peuvent pas avoir la même couleur
         {
             _prochain = (_joueur1.couleur() == couleur_pion::blanc ? &_joueur1 : &_joueur2) ;
         }
@@ -620,9 +703,11 @@ namespace spc_plateau
         std::cout << std::endl ;
         ligne() ;
         ligneLettres();
-        std::cout << std::endl << std::endl ;
-
-        affichePiedDePage() ;
+        std::cout << std::endl ;
+//		std::cout << errorMsg;
+//		std::cout << std::endl;
+		_piedDePage.init(_prochain, _coupEnCours);
+		_piedDePage.affiche(_errorMsg);
     }
 
     std::ostream& operator << (std::ostream& os, const Joueur& j)
@@ -631,16 +716,10 @@ namespace spc_plateau
         return os;
     }
 
-    void Plateau::affichePiedDePage(void)
-    {
-        std::cout << _joueur1 << " " << _joueur1.couleur() << (_prochain == &_joueur1 ? " <<==next player==" : "") << std::endl << " vs " << std::endl ;
-        std::cout << _joueur2 << " " << _joueur2.couleur() <<  std::endl ;
-    }
-
     void Plateau::afficheTitre(void)
     {
-        int sz = strlen(titre) ; 
-        std::cout << "\n\n" << std::setw(3 + sz) << titre << std::endl ; 
+        int sz = strlen(_titre) ; 
+        std::cout << "\n\n" << std::setw(3 + sz) << _titre << std::endl ; 
         char* trait = new char[1 + sz] ;
         memset(trait, 0, 1 + sz ) ;
         for(int i = 0 ; i < sz ; ++i)
@@ -655,8 +734,8 @@ namespace spc_plateau
     {
         int retCode = 0 ;
         //CasePlateau caseDeSaisie ;
-        std::string errorMsg = "" ;
-		char Invite[512];
+        //std::string errorMsg = "" ;
+		//char Invite[512];
 
         Coup coup ;
 
@@ -669,32 +748,23 @@ namespace spc_plateau
 //ici todo : réaffecter l'étape en fonction des erreurs en cours ...
 //ici : todo : Déterminer le joueur qui a la main puis exécuter le coup puis l'évaluer et le typer (déplacement/prise)
 
-            std::cout << errorMsg ;
-            std::cout << std::endl ;
-            std::cout << "\n  ==>> La main est aux " << _prochain->laCouleur() << std::endl ;
-            std::cout << std::endl ;
-			strcpy(Invite, "Aux ") ;
-			strcat(Invite, _prochain->laCouleur());
-			strcat(Invite, " de jouer (Q pour abandonner). \n       ") ;
-			if (_coupEnCours.etape() <= etapes_du_coup::input_depart || _coupEnCours.etape() == etapes_du_coup::depart_error)
-			{
-				strcat(Invite, "Départ : ");
-			}
-			else
-			{
-				strcat(Invite, "Arrivée : ");
-			}
 			_coupEnCours.setEtape(etapes_du_coup::input_depart) ;
-            _input.InputCase(*this, Invite) ;
+			memset(_errorMsg, 0, BUFFER_ERR_MX_SIZE) ;
+            _input.InputCase(*this, _piedDePage.invite()) ;
+
             switch(_input.token())
             {
                 case input_token::quit :
+					memcpy(_errorMsg, "Abandon des ", -1 + BUFFER_ERR_MX_SIZE) ;
+					strcat(_errorMsg, _prochain->laCouleur());
+					strcat(_errorMsg, " !" );
                     std::cout << "Abandon des " << _prochain->laCouleur() << " !" << std::endl ;
                     _finDePartie = true ;
                     continue ;
                     break ;
                 case input_token::error :
-                    std::cout << "Erreur de saisie !" << std::endl ;
+					memcpy(_errorMsg, "Erreur de saisie !", -1 + BUFFER_ERR_MX_SIZE);
+					std::cout << "Erreur de saisie !" << std::endl ;
                     continue ;
                     break ;
                 case input_token::neutral :
@@ -703,7 +773,7 @@ namespace spc_plateau
 					if (_input.casePlateau()->estLibre())
 					{
 						_coupEnCours.setEtape(etapes_du_coup::depart_error) ;
-						std::cout << "ERROR : case de départ ne peut pas être libre \n" ;
+						memcpy(_errorMsg, "ERROR : case de départ ne peut pas être libre" , -1 + BUFFER_ERR_MX_SIZE);
 					}
 					else if(_input.casePlateau()->pion()->getCouleur() == _prochain->couleur())
 					{
@@ -714,7 +784,11 @@ namespace spc_plateau
 					else
 					{
 						_coupEnCours.setEtape(etapes_du_coup::depart_error) ;
-						std::cout << "ERROR : c'est le pion (" << _input.casePlateau()->pion()->getCouleur() << ") adverse des (" << _prochain->laCouleur() << ") ! \n";
+						memcpy(_errorMsg, "ERROR : le pion (", -1 + BUFFER_ERR_MX_SIZE);
+						strcat(_errorMsg, _input.casePlateau()->pion()->motif());
+						strcat(_errorMsg, ") appartient aux (");
+						strcat(_errorMsg, _prochain->laCouleur());
+						strcat(_errorMsg, ") !");
 					}
                     break ;
                 default :

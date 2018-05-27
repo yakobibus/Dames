@@ -69,6 +69,18 @@
       **/
 
 	  /*
+	  Blancs [/o/] <<==       vs        ==>> [/x/] Noirs
+	  --------------------------------------------------
+	  Les Blancs ont la main       Les Noirs ont la main
+
+	                - Q pour abandonner -
+
+	        Départ   :
+			Arrivéee :
+
+	  **/
+
+	  /*
 	  Déroulement d'une partie :
 
 	  I. Construction :
