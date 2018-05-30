@@ -303,34 +303,11 @@ namespace spc_plateau
                     _casePlateau = plateau.adresseCasePlateau(inputNotation) ;
                 }
             }
-/*
-std::cout << "inputNotation : [" << inputNotation << "] ou ["<<casePlateau.notationOfficielle()<<"]\n" ;
-inputNotation = plateau.notationCase(inputLine, inputColumn) ;
-std::cout << "case l<<" << inputLine << "," << inputColumn << ">>c esac, inputNotation=="  << inputNotation << "== libre ?("
-<< (plateau.casePlateau(inputNotation).estLibre() ? "Oui, libre" : "Nein, occupée !" ) <<")? par <" 
-<< ( (plateau.casePlateau(inputNotation).getPion()) == nullptr ? nullptr : (plateau.casePlateau(inputNotation).getPion())->motif() ) << "> adr [" 
-<< *(plateau.casePlateau(notation).getPion()) << "]\n" ;
-*/
 // Movement - Regle 1 : La case de départ doit être occupée par un pion de la même couleur que le joueur
 //            Règle 2 : La case destination pour un déplacement, une prise, une étape de raffle doit être libre
 //            Règle 3 : Pour un déplacement (pion), la case destination doit être voisine de la case de départ en diagonale vers l'avant par rapport à la couleur en jeu
 //            Règle 4 : Pour un déplacement (reine), la case destination doit être dans la diagonale et aucun pion ne doit se trouver entre les deux
         }
-//ici
-/*
-if(_token == input_token::quit)
-{
-std::cout << "Alors vous nous quittez déjà ? \n" ;
-}
-else if(_token == input_token::error)
-{
-std::cout << "Y a FAUTE ! \n" ;
-}
-else
-{
-std::cout << "Lecture : <<" <<(int)((int)( (int)(_input_type[0]) | (int)(_input_type[1]) ) | (int)(_input_type[2]) ) << ">> case (("<< casePlateau.notationOfficielle() <<"))\n" ;
-}
-*/
     }
 }
 
@@ -338,89 +315,6 @@ namespace spc_plateau
 {
     Joueur::Joueur(couleur_pion couleur, nature_joueur nature) : _couleur(couleur), _nature(nature)
     {}
-}
-
-namespace spc_plateau
-{
-	Plateau::PiedDePage::PiedDePage()
-	{
-		for (int l = 0; l < NB_LIGNES_PIED_DE_PAGE; ++l) 
-		{
-			memset(_lignes[l], 0, SZ_LIGNE_PIED_DE_PAGE) ;
-		}
-		memset(_buffer, 0, 111);
-		memcpy(_lignes[2], "Blancs [/o/]            vs             [/x/] Noirs", -1 + SZ_LIGNE_PIED_DE_PAGE);
-		memcpy(_lignes[3], "--------------------------------------------------", -1 + SZ_LIGNE_PIED_DE_PAGE);
-		memcpy(_lignes[6], "- Q pour abandonner -", -1 + SZ_LIGNE_PIED_DE_PAGE);
-		//memcpy(_lignes[8], "Départ   :", -1 + SZ_LIGNE_PIED_DE_PAGE);
-	}
-
-	void Plateau::PiedDePage::affiche(const char* errorMsg)
-	{
-		if (strlen(errorMsg) > 0)
-		{
-			std::cout << std::endl ;
-			std::cout << _marge << errorMsg << std::endl;
-		}
-
-		for (int i = 0; i < NB_LIGNES_PIED_DE_PAGE; ++i) 
-		{
-			std::cout << _marge << _lignes[i] << std::endl; 
-		}
-	}
-
-	void Plateau::PiedDePage::init(const Joueur* joueur, const Coup& coup)
-	{
-		memset(_lignes[4], 0, SZ_LIGNE_PIED_DE_PAGE) ;
-
-		memcpy(13 + _lignes[2], (joueur->couleur() == couleur_pion::blanc ? "<<==" : "    "), 4);
-		memcpy(34 + _lignes[2], (joueur->couleur() == couleur_pion::noir ? "==>>" : "    "), 4);
-		memcpy(_lignes[4], "Les ", 4);
-		strcat(_lignes[4], joueur->laCouleur());
-		strcat(_lignes[4], " ont la main");
-		if (joueur->couleur() == couleur_pion::blanc)
-		{
-			_lpad(_lignes[4]) ;
-		}
-		memset(_invite, 0, SZ_INVITE) ;
-		memcpy(_invite, _marge, -1 + SZ_MARGE_PIED_DE_PAGE);
-		if (coup.etape() <= etapes_du_coup::input_depart)
-		{
-			memcpy(-1 + SZ_MARGE_PIED_DE_PAGE + _invite, "Départ : ", -1 + SZ_INVITE);
-		}
-		else if (coup.etape() > etapes_du_coup::depart_ok)
-		{
-			memcpy(-1 + SZ_MARGE_PIED_DE_PAGE + _invite, "Arrivée : ", -1 + SZ_INVITE);
-		}
-	}
-
-	char* Plateau::PiedDePage::_lpad( char* str
-								    , const int & size
-								    )
-	{
-		const int szStr = strlen(str) ;
-		char dummy[2 + szStr] ;
-		memset(dummy, 0, 2 + szStr) ;
-		memcpy(dummy, str, szStr) ;
-		memset(str, 0, (szStr > size ? szStr : size)) ;
-		memset(str, _motif, -1 + (szStr > size ? szStr : size)) ;
-		memcpy(str + ((szStr > size ? szStr + 1 : size) - szStr - 1), dummy, szStr) ;
-
-		return str ;
-	}
-
-	char* Plateau::PiedDePage::_rpad( char* str
-								    , const int & size
-								    )
-	{
-		const int szStr = strlen(str) ;
-		char dummy[2 + szStr] ;
-		memset(dummy, 0, 2 + szStr) ;
-		memset(str + szStr, _motif, -1 + (szStr > size ? szStr + 1 : size) - szStr) ;
-		str[-1 + (szStr > size ? szStr + 1 : size)] = 0;
-
-		return str ;
-	}
 }
 
 namespace spc_plateau
@@ -580,99 +474,17 @@ namespace spc_plateau
         _diagonales[18].init(1, &dummy[99]) ;
     }
 
-    /*
-	void Plateau::oldInitDiagonales(void)
-    {
-        // Paires
-        {
-            CasePlateau* cp[2] = {&_cases[1], &_cases[6]} ;
-            _diagonales[0].init(2, cp) ;
-        }
-        {
-            CasePlateau* cp[4] = {&_cases[2], &_cases[7], &_cases[11], &_cases[16]} ;
-            _diagonales[1].init(4, cp) ;
-        }
-        {
-            CasePlateau* cp[6] = {&_cases[3], &_cases[8], &_cases[12], &_cases[17], &_cases[21], &_cases[26]} ;
-            _diagonales[2].init(6, cp) ;
-        }
-        {
-            CasePlateau* cp[8] = {&_cases[4], &_cases[9], &_cases[13], &_cases[18], &_cases[22], &_cases[27], &_cases[31], &_cases[36]} ;
-            _diagonales[3].init(8, cp) ;
-        }
-        {
-            CasePlateau* cp[10] = {&_cases[5], &_cases[10], &_cases[14], &_cases[19], &_cases[23], &_cases[28], &_cases[32], &_cases[37], &_cases[41], &_cases[46]} ;
-            _diagonales[4].init(10, cp) ;
-        }
-        {
-            CasePlateau* cp[8] = {&_cases[15], &_cases[20], &_cases[24], &_cases[29], &_cases[33], &_cases[38], &_cases[42], &_cases[47]} ;
-            _diagonales[5].init(8, cp) ;
-        }
-        {
-            CasePlateau* cp[6] = {&_cases[25], &_cases[30], &_cases[34], &_cases[39], &_cases[43], &_cases[48]} ;
-            _diagonales[6].init(6, cp) ;
-        }
-        {
-            CasePlateau* cp[4] = {&_cases[35], &_cases[40], &_cases[44], &_cases[49]} ;
-            _diagonales[7].init(4, cp) ;
-        }
-        {
-            CasePlateau* cp[2] = {&_cases[45], &_cases[50]} ;
-            _diagonales[8].init(2, cp) ;
-        }
-        // Impaires
-        {
-            CasePlateau* cp[1] = {&_cases[46]} ;
-            _diagonales[18].init(1, cp) ;
-        }
-        {
-            CasePlateau* cp[3] = {&_cases[36], &_cases[41], &_cases[47]} ;
-            _diagonales[9].init(3, cp) ;
-        }
-        {
-            CasePlateau* cp[5] = {&_cases[26], &_cases[31], &_cases[37], &_cases[42], &_cases[48]} ;
-            _diagonales[10].init(5, cp) ;
-        }
-        {
-            CasePlateau* cp[7] = {&_cases[16], &_cases[21], &_cases[27], &_cases[32], &_cases[38], &_cases[43], &_cases[49]} ;
-            _diagonales[11].init(7, cp) ;
-        }
-        {
-            CasePlateau* cp[9] = {&_cases[6], &_cases[11], &_cases[17], &_cases[22], &_cases[28], &_cases[33], &_cases[39], &_cases[44], &_cases[50]} ;
-            _diagonales[12].init(9, cp) ;
-        }
-        {
-            CasePlateau* cp[9] = {&_cases[1], &_cases[7], &_cases[12], &_cases[18], &_cases[23], &_cases[29], &_cases[34], &_cases[40], &_cases[45]} ;
-            _diagonales[13].init(9, cp) ;
-        }
-        {
-            CasePlateau* cp[7] = {&_cases[2], &_cases[8], &_cases[13], &_cases[19], &_cases[24], &_cases[30], &_cases[35]} ;
-            _diagonales[14].init(7, cp) ;
-        }
-        {
-            CasePlateau* cp[5] = {&_cases[3], &_cases[9], &_cases[14], &_cases[20], &_cases[25]} ;
-            _diagonales[15].init(5, cp) ;
-        }
-        {
-            CasePlateau* cp[3] = {&_cases[4], &_cases[10], &_cases[15]} ;
-            _diagonales[16].init(3, cp) ;
-        }
-        {
-            CasePlateau* cp[1] = {&_cases[5]} ;
-            _diagonales[17].init(1, cp) ;
-        }
-    }
-	*/
-
     void Plateau::affiche(void)
     {
-        std::system("clear") ;
+//std::cout << "......ici3.(" << _errorMsg << ")......\n";
+		std::system("clear") ;
         afficheTitre() ;
 
         ligneLettres();
 
         int oldY = -1 ;
 
+//std::cout << "......ici4.(" << _errorMsg << ")......\n";
         for(int i = 1 ; i < NB_CASES_PLATEAU ; ++i)
         {
             
@@ -699,14 +511,14 @@ namespace spc_plateau
                 _cases[0].affiche() ;
             }
         }
-        std::cout << " " << oldY ;
+//std::cout << "......ici5.(" << _errorMsg << ")......\n";
+		std::cout << " " << oldY ;
         std::cout << std::endl ;
         ligne() ;
         ligneLettres();
         std::cout << std::endl ;
-//		std::cout << errorMsg;
-//		std::cout << std::endl;
 		_piedDePage.init(_prochain, _coupEnCours);
+//std::cout << "......ici2.(" << _errorMsg << ")......\n";
 		_piedDePage.affiche(_errorMsg);
     }
 
@@ -733,9 +545,6 @@ namespace spc_plateau
     int Plateau::jouer(void)
     {
         int retCode = 0 ;
-        //CasePlateau caseDeSaisie ;
-        //std::string errorMsg = "" ;
-		//char Invite[512];
 
         Coup coup ;
 
@@ -743,12 +552,13 @@ namespace spc_plateau
 
         while(! _finDePartie)
         {
+			_coupEnCours.setEtape(etapes_du_coup::input_depart) ;
+//std::cout << "......ici1.("<<_errorMsg<<")......\n";
             affiche() ;
 
 //ici todo : réaffecter l'étape en fonction des erreurs en cours ...
 //ici : todo : Déterminer le joueur qui a la main puis exécuter le coup puis l'évaluer et le typer (déplacement/prise)
 
-			_coupEnCours.setEtape(etapes_du_coup::input_depart) ;
 			memset(_errorMsg, 0, BUFFER_ERR_MX_SIZE) ;
             _input.InputCase(*this, _piedDePage.invite()) ;
 
@@ -795,9 +605,6 @@ namespace spc_plateau
                     break ;
             }
 
-            //_input.InputCase(*this, _coupEnCours.caseDepart(), "A vous de remiser : ") ;
-
-            //ici//if ( ! setCoup(errorMsg) )
             {
                 continue ;
             }
@@ -821,113 +628,92 @@ namespace spc_plateau
 
         return retValue ;
     }
+}
 
-    /*
-    bool Plateau::setCoup(std::string& message)
-    {
-        bool retCode = true ;
-        int y = 0 ;
-        int x = 0 ;
+namespace spc_plateau
+{
+	Plateau::PiedDePage::PiedDePage()
+	{
+		for (int l = 0; l < NB_LIGNES_PIED_DE_PAGE; ++l)
+		{
+			memset(_lignes[l], 0, SZ_LIGNE_PIED_DE_PAGE);
+		}
+		memset(_buffer, 0, 111);
+		memcpy(_lignes[2], "Blancs [/o/]            vs             [/x/] Noirs", -1 + SZ_LIGNE_PIED_DE_PAGE);
+		memcpy(_lignes[3], "--------------------------------------------------", -1 + SZ_LIGNE_PIED_DE_PAGE);
+		memcpy(_lignes[6], "- Q pour abandonner -", -1 + SZ_LIGNE_PIED_DE_PAGE);
+	}
 
-        message = "" ;
-        std::string saisie ;
-        getline(std::cin, saisie) ;
+	void Plateau::PiedDePage::affiche(const char* errorMsg)
+	{
+		if (strlen(errorMsg) > 0)
+		{
+			std::cout << "........[" << _marge << "](" << errorMsg << ").....ici..." << std::endl;
+			std::cout << _marge << errorMsg << std::endl;
+		}
+		else
+		{
+			std::cout << " .................(ici)..............\n";
+		}
 
-        if(saisie == "Q" || saisie == "q" || saisie == "X" || saisie == "x")
-        {
-            _finDePartie = true ;
-            message = "Partie abandonnée ... " ;
-        }
-        else 
-        {
-            std::string sLigne = "" ;
+		for (int i = 0; i < NB_LIGNES_PIED_DE_PAGE; ++i)
+		{
+			std::cout << _marge << _lignes[i] << std::endl;
+		}
+	}
 
-            char colonne = saisie.c_str()[0] ;
-            x = ( colonne == 'a' || colonne == 'A' ? 1 
-                : colonne == 'b' || colonne == 'B' ? 2 
-                : colonne == 'c' || colonne == 'C' ? 3
-                : colonne == 'd' || colonne == 'D' ? 4
-                : colonne == 'e' || colonne == 'E' ? 5
-                : colonne == 'f' || colonne == 'F' ? 6
-                : colonne == 'g' || colonne == 'G' ? 7
-                : colonne == 'h' || colonne == 'H' ? 8
-                : colonne == 'i' || colonne == 'I' ? 9
-                : colonne == 'j' || colonne == 'J' ? 10
-                : 0
-                ) ;
-            sLigne = saisie.c_str()[1] ;
-            try
-            {
-                y = std::stoi(sLigne) ;
-            }
-            catch (std::invalid_argument& e)
-            {
-                message = "Invalid position (" + saisie + ")" ;
-                retCode = false ;
-            }
+	void Plateau::PiedDePage::init(const Joueur* joueur, const Coup& coup)
+	{
+		memset(_lignes[4], 0, SZ_LIGNE_PIED_DE_PAGE);
 
-            if(retCode && ( x < 1 || x > 10 || y < 0 || y > 10))
-            {
-                retCode = false ;
-                message = "Invalid position (" + saisie + ")" ;
-            }
-            else
-            {
-                int caseDepart = notationCase(y, x) ;
-                std::cout << "Case de départ (" << caseDepart << ")\n" ;
-            }
-            //
-            if(! retCode) // Mauvaise saisie, essayer de réévaluer ligne/Colonne
-            {
-                char zz[5] ;
-                memset(zz, 0, 5) ;
-                memcpy(zz, &(saisie.c_str()[0]), (saisie.length() == 3 ? 2 : 1)) ;
-                try
-                {
-                    y = std::stoi(zz) ;
-                    retCode = true ;
-                }
-                catch(std::invalid_argument& e)
-                {
-                    //message = "Invalid position (" + saisie + ")" ;
-                    retCode = false ;
-                }
+		memcpy(13 + _lignes[2], (joueur->couleur() == couleur_pion::blanc ? "<<==" : "    "), 4);
+		memcpy(34 + _lignes[2], (joueur->couleur() == couleur_pion::noir ? "==>>" : "    "), 4);
+		memcpy(_lignes[4], "Les ", 4);
+		strcat(_lignes[4], joueur->laCouleur());
+		strcat(_lignes[4], " ont la main");
+		if (joueur->couleur() == couleur_pion::blanc)
+		{
+			_lpad(_lignes[4]);
+		}
+		memset(_invite, 0, SZ_INVITE);
+		memcpy(_invite, _marge, -1 + SZ_MARGE_PIED_DE_PAGE);
+		if (coup.etape() <= etapes_du_coup::input_depart)
+		{
+			memcpy(-1 + SZ_MARGE_PIED_DE_PAGE + _invite, "Départ : ", -1 + SZ_INVITE);
+		}
+		else if (coup.etape() > etapes_du_coup::depart_ok)
+		{
+			memcpy(-1 + SZ_MARGE_PIED_DE_PAGE + _invite, "Arrivée : ", -1 + SZ_INVITE);
+		}
+	}
 
-                if(retCode)
-                {
-                    colonne = saisie.c_str()[(saisie.length() == 3 ? 2 : 1)];
-                    x = ( colonne == 'a' || colonne == 'A' ? 1 
-                        : colonne == 'b' || colonne == 'B' ? 2 
-                        : colonne == 'c' || colonne == 'C' ? 3
-                        : colonne == 'd' || colonne == 'D' ? 4
-                        : colonne == 'e' || colonne == 'E' ? 5
-                        : colonne == 'f' || colonne == 'F' ? 6
-                        : colonne == 'g' || colonne == 'G' ? 7
-                        : colonne == 'h' || colonne == 'H' ? 8
-                        : colonne == 'i' || colonne == 'I' ? 9
-                        : colonne == 'j' || colonne == 'J' ? 10
-                        : 0
-                        ) ;
+	char* Plateau::PiedDePage::_lpad(char* str
+		, const int & size
+	)
+	{
+		const int szStr = strlen(str);
+		char dummy[2 + szStr];
+		memset(dummy, 0, 2 + szStr);
+		memcpy(dummy, str, szStr);
+		memset(str, 0, (szStr > size ? szStr : size));
+		memset(str, _motif, -1 + (szStr > size ? szStr : size));
+		memcpy(str + ((szStr > size ? szStr + 1 : size) - szStr - 1), dummy, szStr);
 
-                        if(retCode && ( x < 1 || x > 10 || y < 0 || y > 10))
-                        {
-                            retCode = false ;
-                            message = "Invalid position (" + saisie + ")" ;
-                        }
-                        else
-                        {
-                            int caseDepart = notationCase(y, x) ;
-                            message = "" ;
-                            std::cout << "Case de re-départ (" << caseDepart << ")\n" ;
-                        }
-                }
-            }
-std::cout << "L("<< sLigne <<"), C(" << colonne << ") et ("<<y<<")\n" ;
-        }
+		return str;
+	}
 
-        return retCode ;
-    }
-	*/
+	char* Plateau::PiedDePage::_rpad(char* str
+		, const int & size
+	)
+	{
+		const int szStr = strlen(str);
+		char dummy[2 + szStr];
+		memset(dummy, 0, 2 + szStr);
+		memset(str + szStr, _motif, -1 + (szStr > size ? szStr + 1 : size) - szStr);
+		str[-1 + (szStr > size ? szStr + 1 : size)] = 0;
+
+		return str;
+	}
 }
 
 namespace spc_plateau
