@@ -559,7 +559,7 @@ std::cout << "...avt affiche DuPiedDePage...ici2.(" << _errorMsg << ")......\n";
 //ici todo : réaffecter l'étape en fonction des erreurs en cours ...
 //ici : todo : Déterminer le joueur qui a la main puis exécuter le coup puis l'évaluer et le typer (déplacement/prise)
 			//std::cout << "::" << _errorMsg << "::\n";
-			//memset(_errorMsg, 0, BUFFER_ERR_MX_SIZE) ;
+			memset(_errorMsg, 0, BUFFER_ERR_MX_SIZE) ;
             _input.InputCase(*this, _piedDePage.invite()) ;
 
             switch(_input.token())
@@ -693,8 +693,9 @@ std::cout << "dansInitPiedDePage... ici.10.[" << plateau._errorMsg << "]\n";
 		{
 std::cout << "dansInitPiedDePage... ici.11.[" << plateau._errorMsg << "]\n";
 			//ici::expliquer pourquoi -2 et -1 ??? memcpy(-1 + SZ_MARGE_PIED_DE_PAGE + _invite, "Départ : ", -1 + SZ_INVITE);
-			memcpy(-2 + SZ_MARGE_PIED_DE_PAGE + _invite, "Départ : ", -1 + SZ_INVITE);
-std::cout << "dansInitPiedDePage... ici.12.[" << plateau._errorMsg << "] ("<<SZ_INVITE<<", "<< -1 + SZ_INVITE <<")\n";
+			//memcpy(-2 + SZ_MARGE_PIED_DE_PAGE + _invite, "Départ : ", -1 + SZ_INVITE);
+			memcpy(-1 + SZ_MARGE_PIED_DE_PAGE + _invite, "Départ : ", -2 + SZ_INVITE);
+			std::cout << "dansInitPiedDePage... ici.12.[" << plateau._errorMsg << "] ("<<SZ_INVITE<<", "<< -1 + SZ_INVITE <<")\n";
 		}
 		else if (coup.etape() > etapes_du_coup::depart_ok)
 		{
