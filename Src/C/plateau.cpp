@@ -511,15 +511,15 @@ namespace spc_plateau
                 _cases[0].affiche() ;
             }
         }
-//std::cout << "......ici5.(" << _errorMsg << ")......\n";
 		std::cout << " " << oldY ;
         std::cout << std::endl ;
-        ligne() ;
-        ligneLettres();
-        std::cout << std::endl ;
-		_piedDePage.init(_prochain, _coupEnCours);
-//std::cout << "......ici2.(" << _errorMsg << ")......\n";
-		_piedDePage.affiche(_errorMsg);
+		ligne() ;
+		ligneLettres() ;
+		std::cout << std::endl ;
+std::cout << "...avtInitDuPiedDePage...ici8.(" << _errorMsg << ")......\n";
+		_piedDePage.init(*this, _prochain, _coupEnCours) ;
+std::cout << "...avt affiche DuPiedDePage...ici2.(" << _errorMsg << ")......\n";
+		_piedDePage.affiche(_errorMsg) ;
     }
 
     std::ostream& operator << (std::ostream& os, const Joueur& j)
@@ -558,8 +558,8 @@ namespace spc_plateau
 
 //ici todo : réaffecter l'étape en fonction des erreurs en cours ...
 //ici : todo : Déterminer le joueur qui a la main puis exécuter le coup puis l'évaluer et le typer (déplacement/prise)
-
-			memset(_errorMsg, 0, BUFFER_ERR_MX_SIZE) ;
+			//std::cout << "::" << _errorMsg << "::\n";
+			//memset(_errorMsg, 0, BUFFER_ERR_MX_SIZE) ;
             _input.InputCase(*this, _piedDePage.invite()) ;
 
             switch(_input.token())
@@ -589,16 +589,17 @@ namespace spc_plateau
 					{
 						_coupEnCours.setEtape(etapes_du_coup::depart_ok) ;
 						std::cout << "La case <<" << _input.casePlateau()->pion()->getCouleur() << ">> est occupée \n";
-						std::cout << " .... par la même couleur que le joueur en cours \n";
+						std::cout << " .... par la même couleur que le joueur en cours [" << _prochain->laCouleur() << "] \n";
 					}
 					else
 					{
 						_coupEnCours.setEtape(etapes_du_coup::depart_error) ;
 						memcpy(_errorMsg, "ERROR : le pion (", -1 + BUFFER_ERR_MX_SIZE);
 						strcat(_errorMsg, _input.casePlateau()->pion()->motif());
-						strcat(_errorMsg, ") appartient aux (");
+						strcat(_errorMsg, ") n'appartient pas aux (");
 						strcat(_errorMsg, _prochain->laCouleur());
 						strcat(_errorMsg, ") !");
+						std::cout << "ici : " << _errorMsg << std::endl;
 					}
                     break ;
                 default :
@@ -648,12 +649,12 @@ namespace spc_plateau
 	{
 		if (strlen(errorMsg) > 0)
 		{
-			std::cout << "........[" << _marge << "](" << errorMsg << ").....ici..." << std::endl;
+//std::cout << "........[" << _marge << "](" << errorMsg << ").....ici..." << std::endl;
 			std::cout << _marge << errorMsg << std::endl;
 		}
 		else
 		{
-			std::cout << " .................(ici)..............\n";
+//std::cout << " .................(ici)..............\n";
 		}
 
 		for (int i = 0; i < NB_LIGNES_PIED_DE_PAGE; ++i)
@@ -662,29 +663,46 @@ namespace spc_plateau
 		}
 	}
 
-	void Plateau::PiedDePage::init(const Joueur* joueur, const Coup& coup)
+	void Plateau::PiedDePage::init(Plateau& plateau, const Joueur* joueur, const Coup& coup)
 	{
+std::cout << "entreeDansInitPiedDePage... ici.["  << plateau._errorMsg << "]\n";
 		memset(_lignes[4], 0, SZ_LIGNE_PIED_DE_PAGE);
+std::cout << "dansInitPiedDePage... ici.1.[" << plateau._errorMsg << "]\n";
 
 		memcpy(13 + _lignes[2], (joueur->couleur() == couleur_pion::blanc ? "<<==" : "    "), 4);
+std::cout << "dansInitPiedDePage... ici.2.[" << plateau._errorMsg << "]\n";
 		memcpy(34 + _lignes[2], (joueur->couleur() == couleur_pion::noir ? "==>>" : "    "), 4);
+std::cout << "dansInitPiedDePage... ici.3.[" << plateau._errorMsg << "]\n";
 		memcpy(_lignes[4], "Les ", 4);
+std::cout << "dansInitPiedDePage... ici.4.[" << plateau._errorMsg << "]\n";
 		strcat(_lignes[4], joueur->laCouleur());
-		strcat(_lignes[4], " ont la main");
+std::cout << "dansInitPiedDePage... ici.5.[" << plateau._errorMsg << "]\n";
+strcat(_lignes[4], " ont la main");
 		if (joueur->couleur() == couleur_pion::blanc)
 		{
+std::cout << "dansInitPiedDePage... ici.6.[" << plateau._errorMsg << "]\n";
 			_lpad(_lignes[4]);
+std::cout << "dansInitPiedDePage... ici.7.[" << plateau._errorMsg << "]\n";
 		}
+std::cout << "dansInitPiedDePage... ici.8.[" << plateau._errorMsg << "]\n";
 		memset(_invite, 0, SZ_INVITE);
+std::cout << "dansInitPiedDePage... ici.9.[" << plateau._errorMsg << "]\n";
 		memcpy(_invite, _marge, -1 + SZ_MARGE_PIED_DE_PAGE);
+std::cout << "dansInitPiedDePage... ici.10.[" << plateau._errorMsg << "]\n";
 		if (coup.etape() <= etapes_du_coup::input_depart)
 		{
-			memcpy(-1 + SZ_MARGE_PIED_DE_PAGE + _invite, "Départ : ", -1 + SZ_INVITE);
+std::cout << "dansInitPiedDePage... ici.11.[" << plateau._errorMsg << "]\n";
+			//ici::expliquer pourquoi -2 et -1 ??? memcpy(-1 + SZ_MARGE_PIED_DE_PAGE + _invite, "Départ : ", -1 + SZ_INVITE);
+			memcpy(-2 + SZ_MARGE_PIED_DE_PAGE + _invite, "Départ : ", -1 + SZ_INVITE);
+std::cout << "dansInitPiedDePage... ici.12.[" << plateau._errorMsg << "] ("<<SZ_INVITE<<", "<< -1 + SZ_INVITE <<")\n";
 		}
 		else if (coup.etape() > etapes_du_coup::depart_ok)
 		{
+std::cout << "dansInitPiedDePage... ici.13.[" << plateau._errorMsg << "]\n";
 			memcpy(-1 + SZ_MARGE_PIED_DE_PAGE + _invite, "Arrivée : ", -1 + SZ_INVITE);
+std::cout << "dansInitPiedDePage... ici.14.[" << plateau._errorMsg << "]\n";
 		}
+std::cout << "sortieeDeInitPiedDePage... ici.[" << plateau._errorMsg << "]\n";
 	}
 
 	char* Plateau::PiedDePage::_lpad(char* str

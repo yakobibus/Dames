@@ -325,7 +325,7 @@
 			  PiedDePage& operator = (const PiedDePage& p) = default;
 
 			  void affiche(const char* errorMsg) ;
-			  void init(const Joueur* joueur, const Coup& coup) ;
+			  void init(Plateau& plateau, const Joueur* joueur, const Coup& coup) ;
 			  inline const char* invite(void) const { return _invite ; }
 		  private :
 			  char* _lpad(char* str, const int& size = SZ_LIGNE_PIED_DE_PAGE) ;
@@ -335,7 +335,7 @@
 			  char _buffer[111] ;
 			  const char _motif = ' ' ;
 			  char _invite[SZ_INVITE] ;
-		  };
+		  } ;
 	  public:
 		  Plateau(Joueur joueur1, Joueur joueur2);
 		  ~Plateau() = default;
@@ -352,7 +352,9 @@
 		  inline const CasePlateau& casePlateau(const int& notation) const { return _cases[notation]; }
 		  inline CasePlateau* adresseCasePlateau(const int& notation) { return &(_cases[notation]); }
 		  inline void aloueCasePlateau(const int& notation, CasePlateau& casePlateau) { casePlateau = _cases[notation]; }
+		  //
 		  /*
+		  // inline const char* errorMsg(void) const { return _errorMsg; }
 		  void oldInitDiagonales(void) ;
 		  bool setCoup(std::string& message) ;
 		  inline void aloueCasePlateau(const int& notation, CasePlateau& casePlateau) {casePlateau = _cases[notation] ;}
