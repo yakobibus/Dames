@@ -234,7 +234,7 @@ namespace spc_plateau
 
         std::cout << invite ;
         std::cin.getline(_buffer, -1 + BUFFER_MX_SIZE) ;
-        _bufSize = strlen(_buffer) ;
+        _bufSize = std::strlen(_buffer) ;
 
         _input_type[0] = input_type::is_undefined ;
         _input_type[1] = input_type::is_undefined ;
@@ -336,14 +336,14 @@ namespace spc_plateau
     void Pion::setCouleur(couleur_pion couleur)
     {
         _couleur = couleur ;
-        if( strlen(_motif) != 3)
+        if(std::strlen(_motif) != 3)
         {
             _motif[0] = ' ' ;
             _motif[2] = ' ' ;
             _motif[3] = '\0' ;
         }
 
-        if( strlen(_motifSurbrillance) != 3)
+        if(std::strlen(_motifSurbrillance) != 3)
         {
             _motifSurbrillance[0] = ' ' ;
             _motifSurbrillance[2] = ' ' ;
@@ -476,7 +476,6 @@ namespace spc_plateau
 
     void Plateau::affiche(void)
     {
-//std::cout << "......ici3.(" << _errorMsg << ")......\n";
 		std::system("clear") ;
         afficheTitre() ;
 
@@ -484,7 +483,6 @@ namespace spc_plateau
 
         int oldY = -1 ;
 
-//std::cout << "......ici4.(" << _errorMsg << ")......\n";
         for(int i = 1 ; i < NB_CASES_PLATEAU ; ++i)
         {
             
@@ -516,9 +514,7 @@ namespace spc_plateau
 		ligne() ;
 		ligneLettres() ;
 		std::cout << std::endl ;
-//std::cout << "...avtInitDuPiedDePage...ici8.(" << _errorMsg << ")......\n";
 		_piedDePage.init(*this, _prochain, _coupEnCours) ;
-//std::cout << "...avt affiche DuPiedDePage...ici2.(" << _errorMsg << ")......\n";
 		_piedDePage.affiche(_errorMsg) ;
     }
 
@@ -530,7 +526,7 @@ namespace spc_plateau
 
     void Plateau::afficheTitre(void)
     {
-        int sz = strlen(_titre) ; 
+        int sz = std::strlen(_titre) ;
         std::cout << "\n\n" << std::setw(3 + sz) << _titre << std::endl ; 
         char* trait = new char[1 + sz] ;
         memset(trait, 0, 1 + sz ) ;
@@ -553,7 +549,6 @@ namespace spc_plateau
         while(! _finDePartie)
         {
 			_coupEnCours.setEtape(etapes_du_coup::input_depart) ;
-//std::cout << "......ici1.("<<_errorMsg<<")......\n";
             affiche() ;
 
 //ici todo : réaffecter l'étape en fonction des erreurs en cours ...
@@ -647,15 +642,7 @@ namespace spc_plateau
 
 	void Plateau::PiedDePage::affiche(const char* errorMsg)
 	{
-		if (strlen(errorMsg) > 0)
-		{
-//std::cout << "........[" << _marge << "](" << errorMsg << ").....ici..." << std::endl;
-			std::cout << _marge << errorMsg << std::endl;
-		}
-		else
-		{
-//std::cout << " .................(ici)..............\n";
-		}
+		std::cout << std::endl << _marge << (std::strlen(errorMsg) > 0 ? errorMsg : "") << std::endl ;
 
 		for (int i = 0; i < NB_LIGNES_PIED_DE_PAGE; ++i)
 		{
@@ -665,52 +652,34 @@ namespace spc_plateau
 
 	void Plateau::PiedDePage::init(Plateau& plateau, const Joueur* joueur, const Coup& coup)
 	{
-//std::cout << "entreeDansInitPiedDePage... ici.["  << plateau._errorMsg << "]\n";
 		memset(_lignes[4], 0, SZ_LIGNE_PIED_DE_PAGE);
-//std::cout << "dansInitPiedDePage... ici.1.[" << plateau._errorMsg << "]\n";
 
 		memcpy(13 + _lignes[2], (joueur->couleur() == couleur_pion::blanc ? "<<==" : "    "), 4);
-//std::cout << "dansInitPiedDePage... ici.2.[" << plateau._errorMsg << "]\n";
 		memcpy(34 + _lignes[2], (joueur->couleur() == couleur_pion::noir ? "==>>" : "    "), 4);
-//std::cout << "dansInitPiedDePage... ici.3.[" << plateau._errorMsg << "]\n";
 		memcpy(_lignes[4], "Les ", 4);
-//std::cout << "dansInitPiedDePage... ici.4.[" << plateau._errorMsg << "]\n";
 		strcat(_lignes[4], joueur->laCouleur());
-//std::cout << "dansInitPiedDePage... ici.5.[" << plateau._errorMsg << "]\n";
         strcat(_lignes[4], " ont la main");
 		if (joueur->couleur() == couleur_pion::blanc)
 		{
-//std::cout << "dansInitPiedDePage... ici.6.[" << plateau._errorMsg << "]\n";
 			_lpad(_lignes[4]);
-//std::cout << "dansInitPiedDePage... ici.7.[" << plateau._errorMsg << "]\n";
 		}
-//std::cout << "dansInitPiedDePage... ici.8.[" << plateau._errorMsg << "]\n";
 		memset(_invite, 0, SZ_INVITE);
-//std::cout << "dansInitPiedDePage... ici.9.[" << plateau._errorMsg << "]\n";
-		memcpy(_invite, _marge, -1 + SZ_MARGE_PIED_DE_PAGE);
-//std::cout << "dansInitPiedDePage... ici.10.[" << plateau._errorMsg << "]\n";
+		memcpy(_invite, _marge, SZ_MARGE_PIED_DE_PAGE);
 		if (coup.etape() <= etapes_du_coup::input_depart)
 		{
-//std::cout << "dansInitPiedDePage... ici.11.[" << plateau._errorMsg << "]\n";
-			//ici::expliquer pourquoi -2 et -1 ??? memcpy(-1 + SZ_MARGE_PIED_DE_PAGE + _invite, "Départ : ", -1 + SZ_INVITE);
-			//memcpy(-2 + SZ_MARGE_PIED_DE_PAGE + _invite, "Départ : ", -1 + SZ_INVITE);
-			memcpy(-1 + SZ_MARGE_PIED_DE_PAGE + _invite, "Départ : ", -2 + SZ_INVITE);
-//std::cout << "dansInitPiedDePage... ici.12.[" << plateau._errorMsg << "] ("<<SZ_INVITE<<", "<< -1 + SZ_INVITE <<")\n";
+			memcpy(SZ_MARGE_PIED_DE_PAGE + _invite, "Départ : ", -(SZ_MARGE_PIED_DE_PAGE) + SZ_INVITE);
 		}
 		else if (coup.etape() > etapes_du_coup::depart_ok)
 		{
-//std::cout << "dansInitPiedDePage... ici.13.[" << plateau._errorMsg << "]\n";
-			memcpy(-1 + SZ_MARGE_PIED_DE_PAGE + _invite, "Arrivée : ", -1 + SZ_INVITE);
-//std::cout << "dansInitPiedDePage... ici.14.[" << plateau._errorMsg << "]\n";
+			memcpy(SZ_MARGE_PIED_DE_PAGE + _invite, "Arrivée : ", -(SZ_MARGE_PIED_DE_PAGE) + SZ_INVITE);
 		}
-//std::cout << "sortieeDeInitPiedDePage... ici.[" << plateau._errorMsg << "]\n";
 	}
 
 	char* Plateau::PiedDePage::_lpad(char* str
 		, const int & size
 	)
 	{
-		const int szStr = strlen(str);
+		const int szStr = std::strlen(str);
 		char dummy[2 + szStr];
 		memset(dummy, 0, 2 + szStr);
 		memcpy(dummy, str, szStr);
@@ -725,7 +694,7 @@ namespace spc_plateau
 		, const int & size
 	)
 	{
-		const int szStr = strlen(str);
+		const int szStr = std::strlen(str);
 		char dummy[2 + szStr];
 		memset(dummy, 0, 2 + szStr);
 		memset(str + szStr, _motif, -1 + (szStr > size ? szStr + 1 : size) - szStr);

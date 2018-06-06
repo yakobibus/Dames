@@ -13,7 +13,7 @@ namespace spc_args
 			_argv = new char*[_argc] ;
 			for(int ii = 0 ; ii < _argc ; ++ii)
 			{
-				int sz = 1 + strlen(argv [ii]) ;
+				int sz = 1 + std::strlen(argv [ii]) ;
 				_argv[ii] = new char[sz] ;
 				memset(_argv[ii], 0, sz) ;
 				memcpy(_argv[ii], argv[ii], sz) ;
@@ -60,7 +60,7 @@ namespace spc_args
 
 					for (int i = 0; i < _argc; ++i)
 					{
-						int sz = 1 + strlen(a._argv[i]);
+						int sz = 1 + std::strlen(a._argv[i]);
 						_argv[i] = new char[sz];
 						memset(_argv[i], 0, sz);
 						memcpy(_argv[i], a._argv[i], -1 + sz);
@@ -91,7 +91,7 @@ namespace spc_args
 
 					for (int i = 0; i < _argc; ++i)
 					{
-						int sz = 1 + strlen(a._argv[i]);
+						int sz = 1 + std::strlen(a._argv[i]);
 						_argv[i] = new char[sz];
 						memset(_argv[i], 0, sz);
 						memcpy(_argv[i], a._argv[i], -1 + sz);

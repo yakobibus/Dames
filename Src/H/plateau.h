@@ -331,7 +331,7 @@
 			  char* _lpad(char* str, const int& size = SZ_LIGNE_PIED_DE_PAGE) ;
 			  char* _rpad(char* str, const int& size = -1 + SZ_LIGNE_PIED_DE_PAGE) ;
 			  char _lignes[NB_LIGNES_PIED_DE_PAGE][SZ_LIGNE_PIED_DE_PAGE] ;
-			  const char _marge[SZ_MARGE_PIED_DE_PAGE] = MARGE_PIED_DE_PAGE;
+			  const char _marge[1 + SZ_MARGE_PIED_DE_PAGE] = MARGE_PIED_DE_PAGE;
 			  char _buffer[111] ;
 			  const char _motif = ' ' ;
 			  char _invite[SZ_INVITE] ;

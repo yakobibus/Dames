@@ -19,7 +19,7 @@
      # define NB_LIGNES_PIED_DE_PAGE (static_cast<int>(10))
      # define SZ_INVITE              (static_cast<int>(48))
      # define MARGE_PIED_DE_PAGE     "  "
-     # define SZ_MARGE_PIED_DE_PAGE  (static_cast<int>(3))
+     # define SZ_MARGE_PIED_DE_PAGE  (static_cast<int>(2))
 
      # define IS_DIGIT_ONE (static_cast<int>(input_type::is_digitOne)) 
      # define IS_DIGIT_TWO (static_cast<int>(input_type::is_digitTwo))
