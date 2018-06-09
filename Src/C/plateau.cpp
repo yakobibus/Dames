@@ -358,6 +358,7 @@ namespace spc_plateau
 {
     Plateau::Plateau(Joueur joueur1, Joueur joueur2) : _nombreDeCoups(0), _joueur1(joueur1), _joueur2(joueur2), _prochain(nullptr)
     {
+		_leTrait.init(0);
 		std::memset(_errorMsg, 0, BUFFER_ERR_MX_SIZE);
 		if(_joueur1.couleur() != _joueur2.couleur()) // Les deux joueurs ne peuvent pas avoir la même couleur
         {
@@ -518,6 +519,17 @@ namespace spc_plateau
 		_piedDePage.affiche(_errorMsg) ;
     }
 
+	void Plateau::afficheFinDePartie(void)
+	{
+		std::cout << std::endl ;
+		//_trait(std::strlen(_errorMsg));
+		_leTrait.init(std::strlen(_errorMsg));
+		std::cout << _piedDePage.marge() << _leTrait << std::endl;
+		std::cout << _piedDePage.marge() << _errorMsg << std::endl;
+		std::cout << _piedDePage.marge() << _leTrait << std::endl;
+		//std::cout << _piedDePage.marge() << "-----" << std::endl;
+	}
+
     std::ostream& operator << (std::ostream& os, const Joueur& j)
     {
         os << std::setw(6) << std::left << (j._couleur == couleur_pion::blanc ? "Blancs" : "Noirs") << " (" << (j._nature == nature_joueur::ia ? "ia" : "humain") << ")" ;
@@ -563,7 +575,7 @@ namespace spc_plateau
 					std::memcpy(_errorMsg, "Abandon des ", -1 + BUFFER_ERR_MX_SIZE) ;
 					std::strcat(_errorMsg, _prochain->laCouleur());
 					std::strcat(_errorMsg, " !" );
-                    std::cout << "Abandon des " << _prochain->laCouleur() << " !" << std::endl ;
+					afficheFinDePartie();
                     _finDePartie = true ;
                     continue ;
                     break ;
@@ -592,16 +604,12 @@ namespace spc_plateau
 					else
 					{
 						_coupEnCours.setEtape(etapes_du_coup::depart_ok) ;
-						std::cout << "La case <<" << _input.casePlateau()->pion()->getCouleur() << ">> est occupée \n";
-						std::cout << " .... par la même couleur que le joueur en cours [" << _prochain->laCouleur() << "] \n";
+						std::cout << "La case <<" << _input.casePlateau()->pion()->getCouleur() << ">> est occupée ...\n";
+						std::cout << "par la même couleur que le joueur en cours [" << _prochain->laCouleur() << "] \n";
 					}
                     break ;
                 default :
                     break ;
-            }
-
-            {
-                continue ;
             }
         }
 
@@ -696,6 +704,31 @@ namespace spc_plateau
 		str[-1 + (szStr > size ? szStr + 1 : size)] = 0;
 
 		return str;
+	}
+}
+
+namespace spc_plateau
+{
+	LeTrait::LeTrait(int sz)
+	{
+		_sz = (sz > 255 ? 255 : sz);
+		memset(_buffer, '-', _sz);
+		_buffer[sz] = '\0';
+	}
+	std::ostream& operator << (std::ostream& os, const LeTrait& t)
+	{
+		os << t._buffer;
+		return os;
+	}
+
+	void LeTrait::init(int size)
+	{
+		if (size != _sz)
+		{
+			_sz = (size > 255 ? 255 : size);
+			memset(_buffer, '-', _sz);
+			_buffer[_sz] = '\0';
+		}
 	}
 }
 

@@ -23,7 +23,7 @@
 
 	  // ----------------------------------------------------------------------
 
-	  class CasePlateau;
+	  class CasePlateau ;
 	  class Pion ;
 	  class Plateau ;
 
@@ -313,6 +313,22 @@
         char _motifSurbrillance[4] ;
       };
 
+	  class LeTrait
+	  {
+	  public:
+		  LeTrait(int sz = 0);
+		  ~LeTrait() = default;
+		  LeTrait(const LeTrait& l) = default;
+		  LeTrait& operator = (const LeTrait& l) = default;
+
+		  void init(int size);
+
+		  friend std::ostream& operator << (std::ostream& os, const LeTrait& t);
+	  private:
+		  int _sz;
+		  char _buffer[255];
+	  };
+
 	  class Plateau
 	  {
 	  private:
@@ -327,6 +343,7 @@
 			  void affiche(const char* errorMsg) ;
 			  void init(Plateau& plateau, const Joueur* joueur, const Coup& coup) ;
 			  inline const char* invite(void) const { return _invite ; }
+			  inline const char* const marge(void) const { return _marge; }
 		  private :
 			  char* _lpad(char* str, const int& size = SZ_LIGNE_PIED_DE_PAGE) ;
 			  char* _rpad(char* str, const int& size = -1 + SZ_LIGNE_PIED_DE_PAGE) ;
@@ -343,6 +360,7 @@
 		  Plateau& operator = (const Plateau& p) = default;
 		  //
 		  void affiche(void);
+		  void afficheFinDePartie(void);
 		  void afficheTitre(void);
 		  inline void ligne(void) { std::cout << MOTIF_TRAIT_DAMIER << std::endl; }
 		  inline void ligneLettres(void) { std::cout << MOTIF_LETTRES_DAMIER; }
@@ -383,11 +401,17 @@
 		  PiedDePage _piedDePage;
 		  char _errorMsg[BUFFER_ERR_MX_SIZE];
 		  //void _strcopy(char* target, char* source) { strcpy(target, source); }
+		  //inline void _trait(const int& size) const { for (int i = 0; i < size; ++i) { std::cout << '-'; } std::cout << std::endl; }
+		  LeTrait _leTrait;
 	  };
 
       class Dummy
       {
       public :
+		  Dummy() : _ii(55) { _tt.init(_ii); std::cout << _tt << std::endl; }
+		  ~Dummy() = default;
+		  Dummy(const Dummy& d) = default;
+		  Dummy& operator = (const Dummy& d) = default;
 		  void Ho(void) const { _yo.ha() ; }
       private :
 		  class Yo
@@ -398,6 +422,9 @@
 		  };
 		  Yo _yo;
 		  static const int ii = 55;
+		  //
+		  int _ii = 5;
+		  LeTrait _tt;
       };
   }
 # endif // _PLATEAU_H_
