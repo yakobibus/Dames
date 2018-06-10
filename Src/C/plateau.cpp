@@ -404,13 +404,15 @@ namespace spc_plateau
                     if(iCase >= 1 && iCase <= NB_PIONS_PAR_COULEUR)
                     {
                         _pionsBlancs [-1 + iCase].setCouleur(couleur_pion::blanc) ;
+						_pionsBlancs[-1 + iCase].setApparence(apparence_pion::normal);
                         _cases[iCase].setPion(&(_pionsBlancs[-1 + iCase])) ;
-                    }
+					}
                     else
                     {
                         if(iCase >= 31 && iCase < NB_CASES_PLATEAU)
                         {
                             _pionsNoirs [-1 + iCase].setCouleur(couleur_pion::noir) ;
+							_pionsNoirs [-1 + iCase].setApparence(apparence_pion::normal) ;
                             _cases[iCase].setPion(&(_pionsNoirs[-1 + iCase])) ;
                         }
                     }

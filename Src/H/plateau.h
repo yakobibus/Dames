@@ -298,6 +298,7 @@
         Pion& operator = (const Pion& p) = default ;
         //
 		void const affiche(void) const ; 
+		apparence_pion apparence(void) { return _apparence; }
         couleur_pion getCouleur(void) {return _couleur;}
         inline const char* motif(void) const {return _motif ;}
         void resetSurbrillance(void);
