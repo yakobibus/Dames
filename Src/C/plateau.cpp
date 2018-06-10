@@ -45,14 +45,10 @@ namespace spc_plateau
         _y = 0 ;
         _notationOfficielle = 0 ; // case blanche
         _apparence = apparence_case::normal ;
-        _motif[0] = ' ' ;
-        _motif[1] = _couleur == couleur_case::blanc ? ' ' : '-' ;
-        _motif[2] = ' ' ;
-        _motif[3] = '\0' ;
-        _motifSurbrillance[0] = ' ' ;
-        _motifSurbrillance[1] = _couleur == couleur_case::blanc ? ' ' : '=' ;
-        _motifSurbrillance[2] = ' ' ;
-        _motifSurbrillance[3] = '\0' ;
+		std::memset(_motif, 0, MOTIF_SIZE);
+		std::memset(_motif, (_couleur == couleur_case::blanc ? ' ' : '/'), -1 + MOTIF_SIZE);
+		std::memset(_motifSurbrillance, 0, MOTIF_SIZE);
+		std::memset(_motifSurbrillance, (_couleur == couleur_case::blanc ? ' ' : '\\'), -1 + MOTIF_SIZE);
     }
 
     CasePlateau& CasePlateau::operator = (const CasePlateau& c)
@@ -88,9 +84,12 @@ namespace spc_plateau
         _apparence = apparence ;
         _estLibre = pion == nullptr ? true : false ;
         _couleur = couleur ; 
-        _motif[1] = _couleur == couleur_case::blanc ? ' ' : '-' ;
-        _motifSurbrillance[1] = _couleur == couleur_case::blanc ? ' ' : '=' ;
-    }
+
+		std::memset(_motif, 0, MOTIF_SIZE);
+		std::memset(_motif, (_couleur == couleur_case::blanc ? ' ' : '/'), -1 + MOTIF_SIZE);
+		std::memset(_motifSurbrillance, 0, MOTIF_SIZE);
+		std::memset(_motifSurbrillance, (_couleur == couleur_case::blanc ? ' ' : '\\'), -1 + MOTIF_SIZE);
+	}
     
     void CasePlateau::setPion(Pion* pion) 
     {
@@ -101,7 +100,7 @@ namespace spc_plateau
     {
         if(_estLibre)
         {
-            std::cout << _couleur ;
+            std::cout << _motif ;
         }
         else
         {
@@ -323,32 +322,26 @@ namespace spc_plateau
                                                            , _promotion(promotion_pion::normal)
                                                            , _apparence(apparence_pion::normal)
     {
-        _motif[0] = ' ' ;
-        _motif[1] = (_couleur == couleur_pion::blanc ? 'o' : 'x') ;
-        _motif[2] = ' ' ;
-        _motif[3] = '\0' ;
-        _motifSurbrillance[0] = ' ' ;
-        _motifSurbrillance[1] = (_couleur == couleur_pion::blanc ? 'O' : 'X') ;
-        _motifSurbrillance[2] = ' ' ;
-        _motifSurbrillance[3] = '\0' ;
+		std::memset(_motif, 0, MOTIF_SIZE);
+		std::memset(_motif, '/', -1 + MOTIF_SIZE);
+		std::memset(_motifSurbrillance, 0, MOTIF_SIZE);
+		std::memset(_motifSurbrillance, '\\', -1 + MOTIF_SIZE);
+		_motif[1] = (_couleur == couleur_pion::blanc ? 'o' : 'x') ;
+		_motifSurbrillance[1] = (_couleur == couleur_pion::blanc ? 'O' : 'X') ;
     }
+
+	void const Pion::affiche(void) const
+	{ 
+		std::cout << (_apparence == apparence_pion::normal ? _motif : _motifSurbrillance) ; 
+	}
 
     void Pion::setCouleur(couleur_pion couleur)
     {
         _couleur = couleur ;
-        if(std::strlen(_motif) != 3)
-        {
-            _motif[0] = ' ' ;
-            _motif[2] = ' ' ;
-            _motif[3] = '\0' ;
-        }
-
-        if(std::strlen(_motifSurbrillance) != 3)
-        {
-            _motifSurbrillance[0] = ' ' ;
-            _motifSurbrillance[2] = ' ' ;
-            _motifSurbrillance[3] = '\0' ;
-        }
+		std::memset(_motif, 0, MOTIF_SIZE);
+		std::memset(_motif, '/', -1 + MOTIF_SIZE);
+		std::memset(_motifSurbrillance, 0, MOTIF_SIZE);
+		std::memset(_motifSurbrillance, '\\', -1 + MOTIF_SIZE);
         _motif[1] = ( _couleur == couleur_pion::blanc ? 'o' : 'x' ) ;
         _motifSurbrillance[1] = ( _couleur == couleur_pion::blanc ? 'O' : 'X' ) ;
     }

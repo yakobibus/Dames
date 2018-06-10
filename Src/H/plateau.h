@@ -297,10 +297,11 @@
         Pion(const Pion& p) = default ;
         Pion& operator = (const Pion& p) = default ;
         //
-        void const affiche(void) const {std::cout << _couleur ;}
+		void const affiche(void) const ; 
         couleur_pion getCouleur(void) {return _couleur;}
         inline const char* motif(void) const {return _motif ;}
         void resetSurbrillance(void);
+		void setApparence(const apparence_pion& apparence) { _apparence = apparence; }
         void setCouleur(couleur_pion couleur);
         void setEnSurbrillance(void);
         //
@@ -309,8 +310,8 @@
         couleur_pion _couleur ;
         promotion_pion _promotion ;
         apparence_pion _apparence ;
-        char _motif[4] ;
-        char _motifSurbrillance[4] ;
+        char _motif[MOTIF_SIZE] ;
+        char _motifSurbrillance[MOTIF_SIZE] ;
       };
 
 	  class LeTrait
