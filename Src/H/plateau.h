@@ -205,6 +205,7 @@
 		  inline CasePlateau& caseDepart(void) { return _caseDepart ; }
 		  inline const etapes_du_coup& etape(void) const { return _etape ; }
 		  inline void setEtape(const etapes_du_coup& etape) { _etape = etape ; }
+		  void setCaseDepart(const CasePlateau& caseDepart) { _caseDepart = caseDepart; }
 	  private:
 		  CasePlateau _caseDepart ;
 		  CasePlateau _caseArrivee ;

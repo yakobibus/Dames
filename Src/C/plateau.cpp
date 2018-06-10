@@ -599,6 +599,12 @@ namespace spc_plateau
 					else
 					{
 						_coupEnCours.setEtape(etapes_du_coup::depart_ok) ;
+						_coupEnCours.setCaseDepart(*(_input.casePlateau()));
+						//ici TODO : affecter la vraie case donc le pion dans la case départ (il semble encore nullptr)
+						//ici(_coupEnCours.caseDepart()).setEnSurbrillance();
+						if (nullptr != _coupEnCours.caseDepart().pion()) {
+							_coupEnCours.caseDepart().pion()->setApparence(apparence_pion::surbrillance);
+						}
 						std::cout << "La case <<" << _input.casePlateau()->pion()->getCouleur() << ">> est occupée ...\n";
 						std::cout << "par la même couleur que le joueur en cours [" << _prochain->laCouleur() << "] \n";
 					}
