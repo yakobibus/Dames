@@ -555,7 +555,21 @@ namespace spc_plateau
 
         while(! _finDePartie)
         {
-			_coupEnCours.setEtape(etapes_du_coup::input_depart) ;
+			switch (_coupEnCours.etape())
+			{
+			case etapes_du_coup::debut :
+				_coupEnCours.setEtape(etapes_du_coup::input_depart) ;
+				break;
+			case etapes_du_coup::depart_ok :
+				_coupEnCours.setEtape(etapes_du_coup::input_arrivee);
+				break;
+			case etapes_du_coup::depart_error :
+				_coupEnCours.setEtape(etapes_du_coup::input_depart) ;
+				break;
+			default :
+				//std::cout << "L'étape en cours : [" << _coupEnCours.etape() << "]\n";
+				break;
+			}
             affiche() ;
 
 //ici todo : réaffecter l'étape en fonction des erreurs en cours ...
@@ -602,7 +616,8 @@ namespace spc_plateau
 						_coupEnCours.setCaseDepart(*(_input.casePlateau()));
 						//ici TODO : affecter la vraie case donc le pion dans la case départ (il semble encore nullptr)
 						//ici(_coupEnCours.caseDepart()).setEnSurbrillance();
-						if (nullptr != _coupEnCours.caseDepart().pion()) {
+						//if (nullptr != _coupEnCours.caseDepart().pion()) 
+						{
 							_coupEnCours.caseDepart().pion()->setApparence(apparence_pion::surbrillance);
 						}
 						std::cout << "La case <<" << _input.casePlateau()->pion()->getCouleur() << ">> est occupée ...\n";
@@ -645,7 +660,7 @@ namespace spc_plateau
 		std::memset(_buffer, 0, 111);
 		std::memcpy(_lignes[2], "Blancs [/o/]            vs             [/x/] Noirs", -1 + SZ_LIGNE_PIED_DE_PAGE);
 		std::memcpy(_lignes[3], "--------------------------------------------------", -1 + SZ_LIGNE_PIED_DE_PAGE);
-		std::memcpy(_lignes[6], "- Q pour abandonner -", -1 + SZ_LIGNE_PIED_DE_PAGE);
+		std::memcpy(_lignes[8], "- Q pour abandonner -", -1 + SZ_LIGNE_PIED_DE_PAGE);
 	}
 
 	void Plateau::PiedDePage::affiche(const char* errorMsg)

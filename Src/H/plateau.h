@@ -236,7 +236,7 @@
 	  class Input
 	  {
 	  public:
-		  Input() {}
+		  Input() = default;
 		  ~Input() = default;
 		  Input(const Input& i) = default;
 		  Input& operator = (const Input& i) = default;
