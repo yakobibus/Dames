@@ -110,6 +110,13 @@
         , dame
       };
 
+	  enum class sens_attaque_pion
+	  {
+		    negatif = -1 // Haut vers Bas
+		  , neutre  = 0  // Sert pour les comparaisons et les reines
+		  , positif = 1 // Bas vers Haut
+	  } ;
+
       /* Les types de coups : prise ou deplacement */
       enum class type_coup
       {
@@ -306,10 +313,13 @@
 		void setApparence(const apparence_pion& apparence) { _apparence = apparence; }
         void setCouleur(couleur_pion couleur);
         void setEnSurbrillance(void);
+		void setSensAttaque(const sens_attaque_pion& sens) { _sens_attaque = sens; }
+		inline sens_attaque_pion& sens_attaque(void) { return _sens_attaque; }
         //
         friend std::ostream& operator << (std::ostream& os, const Pion& p) {switch(p._couleur) {case couleur_pion::blanc : os << "pion blanc" ; break ;case couleur_pion::noir : os << "pion noir";break; default : os << "curieuse couleur de pion";break;} return os;}
       private :
         couleur_pion _couleur ;
+		sens_attaque_pion _sens_attaque;
         promotion_pion _promotion ;
         apparence_pion _apparence ;
         char _motif[MOTIF_SIZE] ;

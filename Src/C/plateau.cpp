@@ -406,6 +406,7 @@ namespace spc_plateau
                         _pionsBlancs [-1 + iCase].setCouleur(couleur_pion::blanc) ;
 						_pionsBlancs[-1 + iCase].setApparence(apparence_pion::normal);
                         _cases[iCase].setPion(&(_pionsBlancs[-1 + iCase])) ;
+						_pionsBlancs[-1 + iCase].setSensAttaque(sens_attaque_pion::negatif);
 					}
                     else
                     {
@@ -414,6 +415,7 @@ namespace spc_plateau
                             _pionsNoirs [-1 + iCase].setCouleur(couleur_pion::noir) ;
 							_pionsNoirs [-1 + iCase].setApparence(apparence_pion::normal) ;
                             _cases[iCase].setPion(&(_pionsNoirs[-1 + iCase])) ;
+							_pionsNoirs[-1 + iCase].setSensAttaque(sens_attaque_pion::positif);
                         }
                     }
                 }
@@ -590,7 +592,6 @@ namespace spc_plateau
                     break ;
                 case input_token::error :
 					std::memcpy(_errorMsg, "Erreur de saisie !", -1 + BUFFER_ERR_MX_SIZE);
-					std::cout << "Erreur de saisie !" << std::endl ;
                     continue ;
                     break ;
                 case input_token::neutral :
@@ -619,6 +620,23 @@ namespace spc_plateau
 						//if (nullptr != _coupEnCours.caseDepart().pion()) 
 						{
 							_coupEnCours.caseDepart().pion()->setApparence(apparence_pion::surbrillance);
+/*
+switch (_input.casePlateau()->pion()->sens_attaque())
+{
+case sens_attaque_pion::negatif :
+	std::cout << "Attaque descendante ..........\n";
+	break;
+case sens_attaque_pion::neutre :
+	std::cout << "Attaque tous azimuts ..........\n";
+	break;
+case sens_attaque_pion::positif :
+	std::cout << "Attaque montante ..........\n";
+	break;
+default :
+	std::cout << "Curieuse attaque .......... \n";
+	break;
+}
+*/
 						}
 						std::cout << "La case <<" << _input.casePlateau()->pion()->getCouleur() << ">> est occupée ...\n";
 						std::cout << "par la même couleur que le joueur en cours [" << _prochain->laCouleur() << "] \n";
