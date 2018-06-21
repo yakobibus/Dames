@@ -112,9 +112,10 @@
 
 	  enum class sens_attaque_pion
 	  {
-		    negatif = -1 // Haut vers Bas
-		  , neutre  = 0  // Sert pour les comparaisons et les reines
-		  , positif = 1 // Bas vers Haut
+		    neutre = 0 // Sert pour les initialisations
+		  , descendant  = 1  // Haut vers Bas
+		  , ascendant = 2 // Bas vers Haut
+		  , tousAzimuts = 3 // pour les déplacements des reines
 	  } ;
 
       /* Les types de coups : prise ou deplacement */
@@ -383,6 +384,7 @@
 		  inline const CasePlateau& casePlateau(const int& notation) const { return _cases[notation]; }
 		  inline CasePlateau* adresseCasePlateau(const int& notation) { return &(_cases[notation]); }
 		  inline void aloueCasePlateau(const int& notation, CasePlateau& casePlateau) { casePlateau = _cases[notation]; }
+	  TODO: boolean casesVoisines(caseDepart, caseArrivee, sensDeplacementPion);
 		  //
 		  /*
 		  // inline const char* errorMsg(void) const { return _errorMsg; }

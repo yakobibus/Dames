@@ -321,6 +321,7 @@ namespace spc_plateau
     Pion::Pion(couleur_pion couleur = couleur_pion::blanc) : _couleur(couleur)
                                                            , _promotion(promotion_pion::normal)
                                                            , _apparence(apparence_pion::normal)
+		                                                   , _sens_attaque(sens_attaque_pion::neutre)
     {
 		std::memset(_motif, 0, MOTIF_SIZE);
 		std::memset(_motif, '/', -1 + MOTIF_SIZE);
@@ -406,7 +407,7 @@ namespace spc_plateau
                         _pionsBlancs [-1 + iCase].setCouleur(couleur_pion::blanc) ;
 						_pionsBlancs[-1 + iCase].setApparence(apparence_pion::normal);
                         _cases[iCase].setPion(&(_pionsBlancs[-1 + iCase])) ;
-						_pionsBlancs[-1 + iCase].setSensAttaque(sens_attaque_pion::negatif);
+						_pionsBlancs[-1 + iCase].setSensAttaque(sens_attaque_pion::descendant);
 					}
                     else
                     {
@@ -415,7 +416,7 @@ namespace spc_plateau
                             _pionsNoirs [-1 + iCase].setCouleur(couleur_pion::noir) ;
 							_pionsNoirs [-1 + iCase].setApparence(apparence_pion::normal) ;
                             _cases[iCase].setPion(&(_pionsNoirs[-1 + iCase])) ;
-							_pionsNoirs[-1 + iCase].setSensAttaque(sens_attaque_pion::positif);
+							_pionsNoirs[-1 + iCase].setSensAttaque(sens_attaque_pion::ascendant);
                         }
                     }
                 }
@@ -640,6 +641,10 @@ default :
 						}
 						std::cout << "La case <<" << _input.casePlateau()->pion()->getCouleur() << ">> est occupée ...\n";
 						std::cout << "par la même couleur que le joueur en cours [" << _prochain->laCouleur() << "] \n";
+						std::cout << "Sens deplacement : " << (_input.casePlateau()->pion()->sens_attaque() == sens_attaque_pion::ascendant 
+							? "Ascendant" : (_input.casePlateau()->pion()->sens_attaque() == sens_attaque_pion::descendant 
+								? "Descendant" : (_input.casePlateau()->pion()->sens_attaque() == sens_attaque_pion::neutre 
+									? "Neutre": "Haha"))) << std::endl;
 					}
                     break ;
                 default :
