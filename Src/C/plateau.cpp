@@ -43,6 +43,7 @@ namespace spc_plateau
         _pion = nullptr ;  // libre de tout pion
         _x = 0 ;
         _y = 0 ;
+		_diagonale = nullptr;
         _notationOfficielle = 0 ; // case blanche
         _apparence = apparence_case::normal ;
 		std::memset(_motif, 0, MOTIF_SIZE);
@@ -208,6 +209,7 @@ namespace spc_plateau
         for(int i = 0 ; i < _taille ; ++i)
         {
             _cases[i] = c[i];
+			_cases[i]->setDiagonale(this);
         }
 
         return _taille ;

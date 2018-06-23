@@ -24,6 +24,7 @@
 	  // ----------------------------------------------------------------------
 
 	  class CasePlateau ;
+	  class Diagonale ;
 	  class Pion ;
 	  class Plateau ;
 
@@ -147,6 +148,8 @@
 		  void resetSurbrillance(void);
 		  void setPion(Pion* pion);
 		  void setEnSurbrillance(void);
+		  inline void setDiagonale(const Diagonale* diagonale) { _diagonale = diagonale ; }
+		  inline const Diagonale* diagonale(void) const { return _diagonale ; }
 		  inline Pion* pion(void) const {return _pion ;}
 		  inline int notationOfficielle(void) const { return _notationOfficielle; }
 		  inline int notationOfficielle(int y, int x) const { return (y == _y && x == _x ? _notationOfficielle : 0); }
@@ -156,6 +159,7 @@
 		  Pion* _pion;
 		  int _x;
 		  int _y;
+		  const Diagonale* _diagonale; 
 		  int _notationOfficielle;
 		  apparence_case _apparence;
 		  char _motif[MOTIF_SIZE];
@@ -384,7 +388,7 @@
 		  inline const CasePlateau& casePlateau(const int& notation) const { return _cases[notation]; }
 		  inline CasePlateau* adresseCasePlateau(const int& notation) { return &(_cases[notation]); }
 		  inline void aloueCasePlateau(const int& notation, CasePlateau& casePlateau) { casePlateau = _cases[notation]; }
-	  TODO: boolean casesVoisines(caseDepart, caseArrivee, sensDeplacementPion);
+//TODO: boolean casesVoisines(caseDepart, caseArrivee, sensDeplacementPion);
 		  //
 		  /*
 		  // inline const char* errorMsg(void) const { return _errorMsg; }
