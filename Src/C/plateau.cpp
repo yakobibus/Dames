@@ -43,7 +43,10 @@ namespace spc_plateau
         _pion = nullptr ;  // libre de tout pion
         _x = 0 ;
         _y = 0 ;
-		_diagonale = nullptr;
+		for (unsigned short int ii = 0 ; ii < NB_DIAGONALES_MAX_PAR_CASE ; ++ii)
+		{
+			_diagonale[ii] = nullptr;
+		}
         _notationOfficielle = 0 ; // case blanche
         _apparence = apparence_case::normal ;
 		std::memset(_motif, 0, MOTIF_SIZE);
@@ -109,6 +112,23 @@ namespace spc_plateau
         }
         std::cout << _separateur ;
     }
+
+	const Diagonale * CasePlateau::diagonale(const unsigned int& index) const
+	{
+		return ( index < NB_DIAGONALES_MAX_PAR_CASE ? _diagonale[index] : nullptr) ;
+	}
+
+	void CasePlateau::setDiagonale(const Diagonale * diagonale)
+	{
+		for (unsigned int ii = 0; ii < NB_DIAGONALES_MAX_PAR_CASE; ++ii)
+		{
+			if (_diagonale[ii] == nullptr)
+			{
+				_diagonale[ii] = diagonale;
+				break ;
+			}
+		}
+	}
 }
 
 

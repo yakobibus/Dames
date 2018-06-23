@@ -148,8 +148,8 @@
 		  void resetSurbrillance(void);
 		  void setPion(Pion* pion);
 		  void setEnSurbrillance(void);
-		  inline void setDiagonale(const Diagonale* diagonale) { _diagonale = diagonale ; }
-		  inline const Diagonale* diagonale(void) const { return _diagonale ; }
+		  void setDiagonale(const Diagonale* diagonale) ;
+		  const Diagonale* diagonale(const unsigned int& index) const ;
 		  inline Pion* pion(void) const {return _pion ;}
 		  inline int notationOfficielle(void) const { return _notationOfficielle; }
 		  inline int notationOfficielle(int y, int x) const { return (y == _y && x == _x ? _notationOfficielle : 0); }
@@ -159,7 +159,7 @@
 		  Pion* _pion;
 		  int _x;
 		  int _y;
-		  const Diagonale* _diagonale; 
+		  const Diagonale* _diagonale[NB_DIAGONALES_MAX_PAR_CASE]; 
 		  int _notationOfficielle;
 		  apparence_case _apparence;
 		  char _motif[MOTIF_SIZE];
