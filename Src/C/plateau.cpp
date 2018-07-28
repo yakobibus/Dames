@@ -623,7 +623,7 @@ namespace spc_plateau
 					if (_input.casePlateau()->estLibre())
 					{
 						_coupEnCours.setEtape(etapes_du_coup::depart_error) ;
-						std::memcpy(_errorMsg, "ERROR : case de départ ne peut pas être libre" , -1 + BUFFER_ERR_MX_SIZE);
+						std::memcpy(_errorMsg, "ERROR : la case de départ ne peut pas être libre" , -1 + BUFFER_ERR_MX_SIZE);
 					}
 					else if(_input.casePlateau()->pion()->getCouleur() != _prochain->couleur())
 					{

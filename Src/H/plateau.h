@@ -11,12 +11,14 @@
 //# include <cctype>
 //# include <cstdio>
 
-# include "constantes.h"
-# include "regles.h"
 
 
 # ifndef _PLATEAU_H_
   # define _PLATEAU_H_ (1)
+
+# include "constantes.h"
+# include "regles.h"
+
   namespace spc_plateau
   {
       using namespace spc_regles;
@@ -416,7 +418,7 @@
 		  bool _finDePartie = false;
 		  Coup _coupEnCours; // Coup en cours
 		  Input _input;
-		  Regle _regle;
+		  Regles _regles;
 		  PiedDePage _piedDePage;
 		  char _errorMsg[BUFFER_ERR_MX_SIZE];
 		  //void _strcopy(char* target, char* source) { strcpy(target, source); }
