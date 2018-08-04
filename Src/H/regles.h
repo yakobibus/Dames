@@ -11,14 +11,7 @@
 //            Règle 2 : La case destination pour un déplacement, une prise, une étape de raffle doit être libre
 //            Règle 3 : Pour un déplacement (pion), la case destination doit être voisine de la case de départ en diagonale vers l'avant par rapport à la couleur en jeu
 //            Règle 4 : Pour un déplacement (reine), la case destination doit être dans la diagonale et aucun pion ne doit se trouver entre les deux
-      # include "plateau.h"
 
-	  class Regles
-	  {
-	  public :
-	  private :
-		  spc_plateau::Plateau _plateau;
-	  };
       /*
          Une diagonale est une suite de 2 cases au moins et de 10 au plus sur un damier ; 
          Une diagonale de taille paire a une orientation nord-est/ ; taille impaire orientation nord-ouest

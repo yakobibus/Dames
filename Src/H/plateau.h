@@ -349,6 +349,20 @@
 		  char _buffer[255];
 	  };
 
+	  class Regles
+	  {
+	  public:
+		  Regles() = default;
+		  ~Regles() = default;
+		  Regles(const Regles& r) = default;
+		  Regles& operator = (const Regles& r) = default;
+		  void setPlateau(Plateau* const p) { _plateau = p; }
+	  private:
+		  Plateau* _plateau;
+	  };
+	  /*
+	  */
+
 	  class Plateau
 	  {
 	  private:
@@ -407,6 +421,7 @@
 	  private:
 		  const char _titre[24] = "*** Jeux de Dames ***";
 		  CasePlateau _cases[NB_CASES_PLATEAU]; // 50 cases noires numérotées de 01 à 50 ; la case 00 est blanche ; le numéro de la case correspond à son indice
+		  Coup _coupEnCours; // Coup en cours
 		  Coup _historique[NB_MX_COUPS_HISTORIQUE]; // Historique des coup ; TODO : en faire une liste pour ne plus avoir de limite
 		  Diagonale _diagonales[NB_DIAGONALES_PLATEAU];  // j'ai ajouté les deux diagonales d'une seule case
 		  int _nombreDeCoups;
@@ -416,9 +431,8 @@
 		  Pion _pionsNoirs[NB_PIONS_PAR_COULEUR];
 		  Joueur* _prochain; // Celui des deux joueurs devant jouer le prochain coup
 		  bool _finDePartie = false;
-		  Coup _coupEnCours; // Coup en cours
 		  Input _input;
-		  Regles _regles;
+		  Regles _regles ;
 		  PiedDePage _piedDePage;
 		  char _errorMsg[BUFFER_ERR_MX_SIZE];
 		  //void _strcopy(char* target, char* source) { strcpy(target, source); }
@@ -448,4 +462,5 @@
 		  LeTrait _tt;
       };
   }
+
 # endif // _PLATEAU_H_
