@@ -4,18 +4,33 @@
 # include "dames.h"
 # include "plateau.h"
 
-using namespace spc_plateau ;
+//using namespace spc_plateau ;
+using namespace spc_dames  ;
 
 int main (int argc, char** argv)
 {
     int retCode = 0;
+	Dames dames;
 
-    Joueur joueur1(couleur_pion::blanc, nature_joueur::ia) ;
-    Joueur joueur2(couleur_pion::noir, nature_joueur::humain) ;
-    /*
-    */
-    Plateau plateau(joueur1, joueur2) ;
-    retCode = plateau.jouer();
+	retCode = dames.jouer();
 
     return retCode ;
 }
+
+namespace spc_dames
+{
+	int Dames::jouer(void)
+	{
+		int retCode = 0;
+
+		while (!_finDePartie)
+		{
+			_plateau.affiche();
+
+			break;
+		}
+		
+		return retCode ;
+	}
+}
+
