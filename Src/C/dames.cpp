@@ -7,6 +7,7 @@
 //using namespace spc_plateau ;
 using namespace spc_dames  ;
 
+
 int main (int argc, char** argv)
 {
     int retCode = 0;
