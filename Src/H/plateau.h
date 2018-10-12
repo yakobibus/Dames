@@ -23,8 +23,16 @@ namespace spc_plateau
 
 	enum class CouleurCaseDamier : unsigned int
 	{
-		blanc = 0,
-		noir = 1
+		null = 0,
+		blanc = 1,
+		noir = 2
+	};
+
+	enum class CouleurPion : unsigned int
+	{
+		null = 0,
+		blanc = 1,
+		noir = 2
 	};
 
 	enum class PositionsCouleursDepart : unsigned int
@@ -57,7 +65,8 @@ namespace spc_plateau
 		CaseDamier(const CaseDamier& c) = default;
 		CaseDamier& operator = (const CaseDamier& c) = default;
 		//
-		void init(int x, int y, int notation, Pion* pion, ApparenceCase apparence, CouleurCaseDamier couleur);
+		void affiche(void);
+		void init(int x, int y, int notation, Pion* pion, ApparenceCase apparence, CouleurCaseDamier couleurCase, CouleurPion couleurPion);
 	private:
 		ApparenceCase     _apparence;
 		bool              _estLibre;
@@ -71,11 +80,18 @@ namespace spc_plateau
 	class Pion
 	{
 	public:
-		Pion() = default;
+		Pion() : _x(0), _y(0), _couleur(CouleurPion::null), _promotion(false) { std::cout << "Pion.Ctor()\n"; }
 		~Pion() = default;
 		Pion(const Pion& p) = default;
 		Pion& operator = (const Pion& p) = default;
+		//
+		CouleurPion couleur(void);
+		void init(int x, int y, CouleurPion c, bool p = false);
 	private:
+		unsigned int _x;
+		unsigned int _y;
+		CouleurPion _couleur;
+		bool _promotion ;
 	};
 
 	class Plateau
@@ -91,6 +107,8 @@ namespace spc_plateau
 		CaseDamier              _casesDamier[NB_CASES_PLATEAU]; // 50 cases noires numérotées de 01 à 50 ; la case 00 est blanche ; le numéro de la case correspond à son indice
 		Pion*                   _pionsNord = nullptr ;
 		Pion*                   _pionsSud  = nullptr ;
+		CouleurPion             _couleurPionsNord = CouleurPion::null;
+		CouleurPion             _couleurPionsSud = CouleurPion::null;
 		Pion                    _pionsBlancs[NB_PIONS_PAR_COULEUR];
 		Pion                    _pionsNoirs[NB_PIONS_PAR_COULEUR];
 		PositionsCouleursDepart _positionsDeDepart;
