@@ -17,8 +17,9 @@ namespace spc_plateau
 {
 	enum class ApparenceCase : unsigned int
 	{
-		normal = 0,
-		surbillance = 1
+		null = 0,
+		normal = 1,
+		surbillance = 2
 	};
 
 	enum class CouleurCaseDamier : unsigned int
@@ -60,13 +61,13 @@ namespace spc_plateau
 	class CaseDamier
 	{
 	public:
-		CaseDamier() = default;
+		CaseDamier() : _apparence(ApparenceCase::null), _estLibre(true), _notationOfficielle(0), _pion(nullptr), _x(0), _y(0), _couleur(CouleurCaseDamier::null) {}
 		~CaseDamier() = default;
 		CaseDamier(const CaseDamier& c) = default;
 		CaseDamier& operator = (const CaseDamier& c) = default;
 		//
 		void affiche(void);
-		void init(int x, int y, int notation, Pion* pion, ApparenceCase apparence, CouleurCaseDamier couleurCase, CouleurPion couleurPion);
+		void init(int x, int y, int notation, Pion* pion, ApparenceCase apparence, CouleurCaseDamier couleurCase); //  , CouleurPion couleurPion);
 	private:
 		ApparenceCase     _apparence;
 		bool              _estLibre;
@@ -80,14 +81,22 @@ namespace spc_plateau
 	class Pion
 	{
 	public:
-		Pion() : _x(0), _y(0), _couleur(CouleurPion::null), _promotion(false) { std::cout << "Pion.Ctor()\n"; }
+		Pion() : _x(0), _y(0), _couleur(CouleurPion::null), _promotion(false) {} // { std::cout << "Pion.Ctor(" << (_couleur == CouleurPion::null ? "NilColor" : "Oups") << ")\n"; }
 		~Pion() = default;
 		Pion(const Pion& p) = default;
 		Pion& operator = (const Pion& p) = default;
 		//
 		CouleurPion couleur(void);
-		void init(int x, int y, CouleurPion c, bool p = false);
+		friend std::ostream& operator<< (std::ostream& os, const Pion& p) //{ os << p._y; return os; } //
+		{ 
+			//os << "("<<p._y<<","<<p._x<<"{"<<(p._couleur==CouleurPion::blanc?"White":(p._couleur==CouleurPion::noir?"Black"
+			//:(p._couleur==CouleurPion::null?"NillColor":"Curious")))<<"}"<<")"; 
+			//os << (p._couleur == CouleurPion::null ? "White" : ";;;");// (p._couleur == CouleurPion::noir ? "Black" : (p._couleur == CouleurPion::null ? "NillColor" : "Curious")));
+			os << _x;
+		return os; 
+		}
 	private:
+		void init(int x, int y, CouleurPion c, bool p = false);
 		unsigned int _x;
 		unsigned int _y;
 		CouleurPion _couleur;
@@ -105,12 +114,12 @@ namespace spc_plateau
 		void affiche(void);
 	private :
 		CaseDamier              _casesDamier[NB_CASES_PLATEAU]; // 50 cases noires numérotées de 01 à 50 ; la case 00 est blanche ; le numéro de la case correspond à son indice
-		Pion*                   _pionsNord = nullptr ;
-		Pion*                   _pionsSud  = nullptr ;
 		CouleurPion             _couleurPionsNord = CouleurPion::null;
 		CouleurPion             _couleurPionsSud = CouleurPion::null;
 		Pion                    _pionsBlancs[NB_PIONS_PAR_COULEUR];
 		Pion                    _pionsNoirs[NB_PIONS_PAR_COULEUR];
+		Pion* const             _pionsNord = nullptr;
+		Pion* const             _pionsSud = nullptr;
 		PositionsCouleursDepart _positionsDeDepart;
 	};
 }
