@@ -12,7 +12,7 @@ namespace spc_plateau
 					  : (_pion->couleur() == CouleurPion::blanc ? "[o]" 
 					  : (_pion->couleur() == CouleurPion::noir ? "[x]" 
 					  : (_pion->couleur() == CouleurPion::null ? "<z>" : "<?>"))))
-			<<"..."<< (*_pion)      
+			//<<"..."<< (*_pion)      
 			<< std::endl;
 	}
 
@@ -25,8 +25,6 @@ namespace spc_plateau
 		_x = x ;
 		_y = y ;
 		_couleur = couleurCase ;
-if (y == 4) { std::cout << "y("<<_y<<"), x("<<_x<<"), n("<<_notationOfficielle<<"), c("
-<<(_pion->couleur()==CouleurPion::blanc?"white":(_pion->couleur()==CouleurPion::noir?"black":"hum?"))<<")\n"; }
 	}
 }
 
@@ -61,9 +59,6 @@ namespace spc_plateau
 					if (0 == (x % 2))
 					{
 						++iCaseDamier;
-if (y == 4) { std::cout << "y("<<y<<"), x("<<x<<"), C("<< iCaseDamier <<"), in("
-<< iPionsNord <<")->{"<< (_pionsNord->couleur() == CouleurPion::blanc ? "blnc" : (_pionsNord->couleur() == CouleurPion::blanc ? "noir" : "???")) <<"}, is("
-<< iPionsSud <<")->{"<<(_pionsSud->couleur()==CouleurPion::blanc ? "blnc" : (_pionsSud->couleur()==CouleurPion::blanc?"noir":"???"))<<"}\n"; }
 						_casesDamier[iCaseDamier].init(
 							x
 							, y
@@ -96,6 +91,9 @@ if (y == 4) { std::cout << "y("<<y<<"), x("<<x<<"), C("<< iCaseDamier <<"), in("
 			}
 		}
 
+		initPions(_pionsNord, &_casesDamier[1], _couleurPionsNord);
+		initPions(_pionsSud, &_casesDamier[31], _couleurPionsSud);
+
 		//initDiagonales();
 	}
 }
@@ -126,6 +124,20 @@ namespace spc_plateau
 		{
 			std::cout << i << ". ";
 			_casesDamier[i].affiche();
+		}
+	}
+
+	void Plateau::initPions(Pion* const pions, CaseDamier* const cases, CouleurPion& couleur)
+	{
+		for (int i = 0; i < NB_PIONS_PAR_COULEUR; ++i)
+		{
+			//if (cases[i].getPion() != &pions[i]) { std::cout << "Ecart d'adresse en (" << i << ")\n"; }
+			//pions[i].init(cases[i].getX(), cases[i].getY(), couleur, false);
+			if (cases[i].getPion() == nullptr) { 
+				std::cout << "Ce Pion est NULL <"<<i<<">("<< cases[i].getY() <<", "<< cases[i].getX() 
+					<<") prec=("<<cases[i-1].getY()<<", "<<cases[i-1].getX()<<")\n"; 
+			}else
+			cases[i].getPion()->init(cases[i].getX(), cases[i].getY(), couleur, false);
 		}
 	}
 }

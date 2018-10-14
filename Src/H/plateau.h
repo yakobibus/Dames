@@ -68,6 +68,9 @@ namespace spc_plateau
 		//
 		void affiche(void);
 		void init(int x, int y, int notation, Pion* pion, ApparenceCase apparence, CouleurCaseDamier couleurCase); //  , CouleurPion couleurPion);
+		int getX(void) { return _x; }
+		int getY(void) { return _y; }
+		Pion* getPion(void) { return _pion; }
 	private:
 		ApparenceCase     _apparence;
 		bool              _estLibre;
@@ -87,16 +90,16 @@ namespace spc_plateau
 		Pion& operator = (const Pion& p) = default;
 		//
 		CouleurPion couleur(void);
-		friend std::ostream& operator<< (std::ostream& os, const Pion& p) //{ os << p._y; return os; } //
-		{ 
+		//friend std::ostream& operator<< (std::ostream& os, const Pion& p) { return os; } 
+		//{ 
 			//os << "("<<p._y<<","<<p._x<<"{"<<(p._couleur==CouleurPion::blanc?"White":(p._couleur==CouleurPion::noir?"Black"
 			//:(p._couleur==CouleurPion::null?"NillColor":"Curious")))<<"}"<<")"; 
 			//os << (p._couleur == CouleurPion::null ? "White" : ";;;");// (p._couleur == CouleurPion::noir ? "Black" : (p._couleur == CouleurPion::null ? "NillColor" : "Curious")));
-			os << _x;
-		return os; 
-		}
-	private:
+			//os << _x;
+		    //return os; 
+		//}
 		void init(int x, int y, CouleurPion c, bool p = false);
+	private:
 		unsigned int _x;
 		unsigned int _y;
 		CouleurPion _couleur;
@@ -112,6 +115,7 @@ namespace spc_plateau
 		Plateau& operator = (const Plateau& p) = default;
 		//
 		void affiche(void);
+		void initPions(Pion* const pions, CaseDamier* const cases, CouleurPion& couleur);
 	private :
 		CaseDamier              _casesDamier[NB_CASES_PLATEAU]; // 50 cases noires numérotées de 01 à 50 ; la case 00 est blanche ; le numéro de la case correspond à son indice
 		CouleurPion             _couleurPionsNord = CouleurPion::null;
