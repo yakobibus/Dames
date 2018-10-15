@@ -71,6 +71,7 @@ namespace spc_plateau
 		int getX(void) { return _x; }
 		int getY(void) { return _y; }
 		Pion* getPion(void) { return _pion; }
+		void setPion(Pion* p) { _pion = p; _estLibre = (_pion == nullptr ? true : false);}
 	private:
 		ApparenceCase     _apparence;
 		bool              _estLibre;
@@ -84,7 +85,7 @@ namespace spc_plateau
 	class Pion
 	{
 	public:
-		Pion() : _x(0), _y(0), _couleur(CouleurPion::null), _promotion(false) {} // { std::cout << "Pion.Ctor(" << (_couleur == CouleurPion::null ? "NilColor" : "Oups") << ")\n"; }
+		Pion() : _case(nullptr), _couleur(CouleurPion::null), _promotion(false) {} // { std::cout << "Pion.Ctor(" << (_couleur == CouleurPion::null ? "NilColor" : "Oups") << ")\n"; }
 		~Pion() = default;
 		Pion(const Pion& p) = default;
 		Pion& operator = (const Pion& p) = default;
@@ -98,10 +99,10 @@ namespace spc_plateau
 			//os << _x;
 		    //return os; 
 		//}
-		void init(int x, int y, CouleurPion c, bool p = false);
+		void init(CaseDamier* const cd, CouleurPion c, bool p = false);
+		void setCase(CaseDamier* c);
 	private:
-		unsigned int _x;
-		unsigned int _y;
+		CaseDamier* _case;
 		CouleurPion _couleur;
 		bool _promotion ;
 	};
@@ -109,7 +110,7 @@ namespace spc_plateau
 	class Plateau
 	{
 	public :
-		Plateau(PositionsCouleursDepart positionsDepart = PositionsCouleursDepart::noirs_blancs) ;
+		Plateau(PositionsCouleursDepart positionsDepart = PositionsCouleursDepart::blancs_noirs) ;
 		~Plateau() = default;
 		Plateau(const Plateau& p) = default;
 		Plateau& operator = (const Plateau& p) = default;

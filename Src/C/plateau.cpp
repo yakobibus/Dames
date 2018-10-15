@@ -37,15 +37,19 @@ namespace spc_plateau
 		, _pionsSud(positionsDepart == PositionsCouleursDepart::blancs_noirs ? _pionsNoirs
 			: (positionsDepart == PositionsCouleursDepart::noirs_blancs ? _pionsBlancs
 				: nullptr))
+		, _couleurPionsNord(positionsDepart == PositionsCouleursDepart::blancs_noirs ? CouleurPion::blanc
+			: (positionsDepart == PositionsCouleursDepart::noirs_blancs ? CouleurPion::noir
+				: CouleurPion::null))
+		, _couleurPionsSud(positionsDepart == PositionsCouleursDepart::blancs_noirs ? CouleurPion::noir
+			: (positionsDepart == PositionsCouleursDepart::noirs_blancs ? CouleurPion::blanc
+				: CouleurPion::null))
 	{
-		int iPionsNord = 0; // Ittérateur pour les pions nord
-		int iPionsSud = 0;  // Ittérateur pour les pions sud
-
 		/* 
-		Initialisation des casesDamier 
+		Initialisation des casesDamier :
 		------------------------------
 		- La case 0 est blanche, les 50 suivantes noires ; 
 		- Les pions couleur 1/2 dans les cases 1 à 20 et les couleur 2/2 de 31 à 50
+		NB : le pointeur sur le pion reste null dans un premier temps
 		**/
 		int iCaseDamier = 0;
 		_casesDamier[iCaseDamier].init(0, 0, 0, nullptr, ApparenceCase::normal, CouleurCaseDamier::blanc); //  , CouleurPion::null);
@@ -63,9 +67,7 @@ namespace spc_plateau
 							x
 							, y
 							, iCaseDamier
-							, (iCaseDamier >= 1 && iCaseDamier <= 20 ? &(_pionsNord [iPionsNord++])
-								: (iCaseDamier >= 31 && iCaseDamier <= 50 ? &(_pionsSud [iPionsSud++])
-									: nullptr))
+							, nullptr
 							, ApparenceCase::normal
 							, CouleurCaseDamier::noir
 						);
@@ -80,9 +82,7 @@ namespace spc_plateau
 							x
 							, y
 							, iCaseDamier
-							, (iCaseDamier >= 1 && iCaseDamier <= 20 ? &(_pionsNord[iPionsNord++])
-								: (iCaseDamier >= 31 && iCaseDamier <= 50 ? &(_pionsSud[iPionsSud++])
-									: nullptr))
+							, nullptr
 							, ApparenceCase::normal
 							, CouleurCaseDamier::noir
 						);
@@ -102,17 +102,18 @@ namespace spc_plateau
 {
 	CouleurPion Pion::couleur(void)
 	{
-		//std::cout << "::"<<_y<<","<<_x<<"::\n";
 		return _couleur ;
 	}
 
-	void Pion::init(int x, int y, CouleurPion c, bool p)
+	void Pion::init(CaseDamier* const cd, CouleurPion c, bool p)
 	{
-		_x = x;
-		_y = y;
+		_case = cd;
 		_couleur = c;
 		_promotion = p;
-		std::cout << "Pion.Init("<<_y<<","<<_x<<")\n";
+	}
+	void Pion::setCase(CaseDamier* c)
+	{
+		_case = c;
 	}
 }
 
@@ -120,7 +121,7 @@ namespace spc_plateau
 {
 	void Plateau::affiche(void)
 	{
-		for (int i = 0; i <= NB_CASES_PLATEAU; ++i)
+		for (int i = 0; i < NB_CASES_PLATEAU; ++i)
 		{
 			std::cout << i << ". ";
 			_casesDamier[i].affiche();
@@ -131,13 +132,8 @@ namespace spc_plateau
 	{
 		for (int i = 0; i < NB_PIONS_PAR_COULEUR; ++i)
 		{
-			//if (cases[i].getPion() != &pions[i]) { std::cout << "Ecart d'adresse en (" << i << ")\n"; }
-			//pions[i].init(cases[i].getX(), cases[i].getY(), couleur, false);
-			if (cases[i].getPion() == nullptr) { 
-				std::cout << "Ce Pion est NULL <"<<i<<">("<< cases[i].getY() <<", "<< cases[i].getX() 
-					<<") prec=("<<cases[i-1].getY()<<", "<<cases[i-1].getX()<<")\n"; 
-			}else
-			cases[i].getPion()->init(cases[i].getX(), cases[i].getY(), couleur, false);
+			pions[i].init(&cases[i], couleur, false);
+			cases[i].setPion(&pions[i]);
 		}
 	}
 }
