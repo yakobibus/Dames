@@ -126,6 +126,15 @@ namespace spc_plateau
 			std::cout << i << ". ";
 			_casesDamier[i].affiche();
 		}
+		Damier d;
+		d.affiche();
+		std::cout << "-------\n";
+		d.aff();
+		std::cout << "----+---\n";
+		LeDamier ld;
+		ld.affiche();
+		ld.setLn(1, 0, 'R');
+		ld.affiche();
 	}
 
 	void Plateau::initPions(Pion* const pions, CaseDamier* const cases, CouleurPion& couleur)
