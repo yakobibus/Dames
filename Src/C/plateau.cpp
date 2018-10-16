@@ -135,6 +135,8 @@ namespace spc_plateau
 		ld.affiche();
 		ld.setLn(1, 0, 'R');
 		ld.affiche();
+		ld.setLn(1, 'Z');
+		ld.affiche();
 	}
 
 	void Plateau::initPions(Pion* const pions, CaseDamier* const cases, CouleurPion& couleur)

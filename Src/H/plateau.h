@@ -154,6 +154,7 @@ namespace spc_plateau
 		LeDamier& operator = (const LeDamier& ld) = default;
 		void affiche(void) { std::cout << _ln._m[0]._mot << std::endl; }
 		void setLn(int im, int ii, char c) { _ln._m[im]._mot[ii] = c; }
+		void setLn(int ii, char c) { _m1._mot[ii] = c; }
 	private :
 		struct Mot { char _mot[3]; char _separator; };
 		struct Ligne { Mot _mot[12]; }; 
