@@ -126,17 +126,41 @@ namespace spc_plateau
 			std::cout << i << ". ";
 			_casesDamier[i].affiche();
 		}
+		/*°/
 		Damier d;
-		d.affiche();
 		std::cout << "-------\n";
 		d.aff();
 		std::cout << "----+---\n";
+		std::cout << "----+Casa+---\n";
+		d.a();
+		std::cout << "----+SetCasa+---\n";
+		d.setCasa(4, 3, 1, 'o');
+		d.setCasa(6, 4, 1, 'O');
+		d.setCasa(8, 3, 1, 'X');
+		d.setCasa(10, 4, 1, 'x');
+		d.setCasa(12, 5, CouleurPion::blanc, false);
+		d.setCasa(14, 6, CouleurPion::blanc, true);
+		d.setCasa(16, 7, CouleurPion::noir, true);
+		d.setCasa(18, 8, CouleurPion::noir, false);
+		d.a();
+		std::cout << "----+reSetCasa+---\n";
+		d.setCasa(4, 3, true);
+		d.setCasa(6, 4, true);
+		d.setCasa(8, 3, true);
+		d.setCasa(10, 4, true);
+		d.setCasa(12, 5, true);
+		d.setCasa(14, 6, false);
+		d.setCasa(16, 7, true);
+		d.setCasa(18, 8, true);
+		d.a();
+
 		LeDamier ld;
 		ld.affiche();
 		ld.setLn(1, 0, 'R');
 		ld.affiche();
 		ld.setLn(1, 'Z');
 		ld.affiche();
+		/o*/
 	}
 
 	void Plateau::initPions(Pion* const pions, CaseDamier* const cases, CouleurPion& couleur)
