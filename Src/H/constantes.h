@@ -42,5 +42,6 @@
 
 # define NB_CASES_PLATEAU (static_cast<int>(50 + 1)) // 50 cases noires numérotées de 01 à 50 ; la case 00 est blanche ; le numéro de la case correspond à son indice
 # define NB_PIONS_PAR_COULEUR (static_cast<int>(20))
+# define TAILLE_CELLULE (static_cast<int>(3))
 
 # endif // CONSTANTES_H

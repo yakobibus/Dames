@@ -7,13 +7,11 @@ namespace spc_plateau
 {
 	void spc_plateau::CaseDamier::affiche(void)
 	{
-		std::cout << '(' << _y << ',' << _x << ')' << ' ' << (_couleur == CouleurCaseDamier::blanc ? "W" : "B") 
-			      << (_estLibre ? "[ ]" 
-					  : (_pion->couleur() == CouleurPion::blanc ? "[o]" 
-					  : (_pion->couleur() == CouleurPion::noir ? "[x]" 
-					  : (_pion->couleur() == CouleurPion::null ? "<z>" : "<?>"))))
-			//<<"..."<< (*_pion)      
-			<< std::endl;
+		setCellule();
+		char tmp[4];
+		std::memset(tmp, 0, 4);
+		std::memcpy(tmp, _cellule->motif, 3);
+		std::cout << tmp ;
 	}
 
 	void CaseDamier::init(int x, int y, int notation, Pion * pion, ApparenceCase apparence, CouleurCaseDamier couleurCase) // , CouleurPion couleurPion)
@@ -25,6 +23,37 @@ namespace spc_plateau
 		_x = x ;
 		_y = y ;
 		_couleur = couleurCase ;
+	}
+	void CaseDamier::setCellule(void)
+	{
+		const char Blanc[] = " O ";
+		const char blanc[] = " o ";
+		const char Noir[] = " X ";
+		const char noir[] = " x ";
+		const char vide[] = ":::";
+		const char bold_Blanc[] = "/O/";
+		const char bold_blanc[] = "/o/";
+		const char bold_Noir[] = "/X/";
+		const char bold_noir[] = "/x/";
+		const char bold_vide[] = "///";
+		const char * const pMotif 
+			= ( _apparence == ApparenceCase::surbillance 
+				? (_estLibre 
+					? bold_vide 
+					: (_pion->getPromotion() 
+						? (_pion->getCouleur() == CouleurPion::blanc ? bold_Blanc : bold_Noir)
+						: (_pion->getCouleur() == CouleurPion::blanc ? bold_blanc : bold_noir)
+						) 
+					) // fin AppCase::surbillance
+				: (_estLibre
+					? vide
+					: (_pion->getPromotion()
+						? (_pion->getCouleur() == CouleurPion::blanc ? Blanc : Noir)
+						: (_pion->getCouleur() == CouleurPion::blanc ? blanc : noir)
+						)
+					) // fin ! AppCase::surbillance
+			);
+		std::memcpy(_cellule->motif, pMotif, 3);
 	}
 }
 
@@ -51,6 +80,7 @@ namespace spc_plateau
 		- Les pions couleur 1/2 dans les cases 1 à 20 et les couleur 2/2 de 31 à 50
 		NB : le pointeur sur le pion reste null dans un premier temps
 		**/
+
 		int iCaseDamier = 0;
 		_casesDamier[iCaseDamier].init(0, 0, 0, nullptr, ApparenceCase::normal, CouleurCaseDamier::blanc); //  , CouleurPion::null);
 
@@ -91,6 +121,22 @@ namespace spc_plateau
 			}
 		}
 
+		{
+			// Initialisation des pointeurs de cellules dans les caseDamiers
+			// y paire de [2 à 20] et x de [2 à 10 si y%4!=0, de 1 à 9 si y%4==0] => cellule
+			for (int y = 2, iCase = 1 ; y <= 20; y += 2)
+			{
+				for (int x = 1; x <= 10; ++x)
+				{
+					if ((x % 2 == 0 && y % 4 != 0) || (x % 2 != 0 && y % 4 == 0))
+					{
+						_casesDamier[iCase].setCellule(&_cellules[y][x]);
+						++iCase;
+					}
+				}
+			}
+		}
+
 		initPions(_pionsNord, &_casesDamier[1], _couleurPionsNord);
 		initPions(_pionsSud, &_casesDamier[31], _couleurPionsSud);
 
@@ -100,11 +146,6 @@ namespace spc_plateau
 
 namespace spc_plateau
 {
-	CouleurPion Pion::couleur(void)
-	{
-		return _couleur ;
-	}
-
 	void Pion::init(CaseDamier* const cd, CouleurPion c, bool p)
 	{
 		_case = cd;
@@ -121,46 +162,11 @@ namespace spc_plateau
 {
 	void Plateau::affiche(void)
 	{
-		for (int i = 0; i < NB_CASES_PLATEAU; ++i)
+		for (int iCase = 1; iCase < NB_CASES_PLATEAU; ++iCase)
 		{
-			std::cout << i << ". ";
-			_casesDamier[i].affiche();
+			_casesDamier[iCase].setCellule();
 		}
-		/*°/
-		Damier d;
-		std::cout << "-------\n";
-		d.aff();
-		std::cout << "----+---\n";
-		std::cout << "----+Casa+---\n";
-		d.a();
-		std::cout << "----+SetCasa+---\n";
-		d.setCasa(4, 3, 1, 'o');
-		d.setCasa(6, 4, 1, 'O');
-		d.setCasa(8, 3, 1, 'X');
-		d.setCasa(10, 4, 1, 'x');
-		d.setCasa(12, 5, CouleurPion::blanc, false);
-		d.setCasa(14, 6, CouleurPion::blanc, true);
-		d.setCasa(16, 7, CouleurPion::noir, true);
-		d.setCasa(18, 8, CouleurPion::noir, false);
-		d.a();
-		std::cout << "----+reSetCasa+---\n";
-		d.setCasa(4, 3, true);
-		d.setCasa(6, 4, true);
-		d.setCasa(8, 3, true);
-		d.setCasa(10, 4, true);
-		d.setCasa(12, 5, true);
-		d.setCasa(14, 6, false);
-		d.setCasa(16, 7, true);
-		d.setCasa(18, 8, true);
-		d.a();
-
-		LeDamier ld;
-		ld.affiche();
-		ld.setLn(1, 0, 'R');
-		ld.affiche();
-		ld.setLn(1, 'Z');
-		ld.affiche();
-		/o*/
+		std::cout << _cellules[0][0].motif << std::endl;
 	}
 
 	void Plateau::initPions(Pion* const pions, CaseDamier* const cases, CouleurPion& couleur)
