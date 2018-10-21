@@ -135,7 +135,23 @@ y paire de [2 à 20] et x de [2 à 10 si y%4!=0, de 1 à 9 si y%4 ==0] => cellul
    +---+---+---+---+---+---+---+---+---+---+	   y == 21
 	 a   b   c   d   e   f   g   h   i   j		   y == 22
 */
-	  /*
+
+/*
+Voisinage d'une case :
+--------------------
+   +---+---+---+---+---+---+---+---+---+---+	  Dans le cas nominal, les cases ont 4 voisines,
+ 3 | 1 |   | 2 |   |:::|   |:::|   |:::|   | 3	  Sauf celles qui sont sur un Bord qui n'en ont que 2
+   +---+---+---+---+---+---+---+---+---+---+	  Et Sauf celles qui sont aux extrémité de la grande diagonale qui n'en ont qu'1
+ 2 |   | o |   |:::|   |:::|   |:::|   |:::| 2	  Ont un nombre de voisines de :
+   +---+---+---+---+---+---+---+---+---+---+	  - 4 : 7, 8, 9, 10, 11, 12, 13, 14, 17, 18, 19, 20, 21, 22, 23, 24
+ 1 | 3 |   | 4 |   |:::|   |:::|   |:::|   | 1	      , 27, 28, 29, 30, 31, 32, 33, 34, 37, 38, 39, 40, 41, 42, 43, 44
+   +---+---+---+---+---+---+---+---+---+---+	  - 2 : 1, 2, 3, 4, 6, 15, 16, 25, 26, 35, 36, 45, 47, 48, 49, 50
+	 a   b   c   d   e   f   g   h   i   j		  - 1 : 5 et 46
+*/
+
+
+
+/*
 	  Blancs [/o/] <<==       vs        ==>> [/x/] Noirs
 	  --------------------------------------------------
 	  Les Blancs ont la main       Les Noirs ont la main

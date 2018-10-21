@@ -55,6 +55,120 @@ namespace spc_plateau
 			);
 		std::memcpy(_cellule->motif, pMotif, 3);
 	}
+
+	void CaseDamier::setDiagonale(const Diagonale * diagonale)
+	{
+		for (unsigned int ii = 0; ii < NB_DIAGONALES_MAX_PAR_CASE; ++ii)
+		{
+			if (_diagonale[ii] == nullptr)
+			{
+				_diagonale[ii] = diagonale;
+				break;
+			}
+		}
+	}
+}
+
+namespace spc_plateau
+{
+	Diagonale::~Diagonale()
+	{
+		if (_taille == 0)
+		{
+			delete _casesDamier;
+			_taille = 0;
+			_casesDamier = nullptr;
+		}
+	}
+
+	Diagonale::Diagonale(const Diagonale& d)
+	{
+		if (this != &d)
+		{
+			if (_taille > 0)
+			{
+				delete _casesDamier;
+				_taille = 0;
+				_casesDamier = nullptr;
+			}
+
+			if (d._taille > 0)
+			{
+				_taille = d._taille;
+				_casesDamier = new CaseDamier*[_taille];
+				for (int i = 0; i < _taille; ++i)
+				{
+					_casesDamier[i] = d._casesDamier[i];
+				}
+			}
+		}
+	}
+
+	Diagonale& Diagonale::operator = (const Diagonale& d)
+	{
+		if (this != &d)
+		{
+			if (_taille > 0)
+			{
+				delete _casesDamier;
+				_taille = 0;
+				_casesDamier = nullptr;
+			}
+
+			if (d._taille > 0)
+			{
+				_taille = d._taille;
+				_casesDamier = new CaseDamier*[_taille];
+				for (int i = 0; i < _taille; ++i)
+				{
+					_casesDamier[i] = d._casesDamier[i];
+				}
+			}
+		}
+		return *this;
+	}
+
+	int Diagonale::addCase(CaseDamier* c)
+	{
+		Diagonale oldDiagonale = *this;
+
+		if (_taille > 0)
+		{
+			delete _casesDamier;
+			_taille = 0;
+			_casesDamier = nullptr;
+		}
+
+		_taille = 1 + oldDiagonale._taille;
+		_casesDamier = new CaseDamier*[_taille];
+		for (int i = 0; i < oldDiagonale._taille; ++i)
+		{
+			_casesDamier[i] = oldDiagonale._casesDamier[i];
+		}
+		_casesDamier[-1 + _taille] = c;
+
+		return _taille;
+	}
+
+	int Diagonale::init(int taille, CaseDamier** c)
+	{
+		if (_taille > 0)
+		{
+			delete _casesDamier;
+			_taille = 0;
+			_casesDamier = nullptr;
+		}
+
+		_taille = taille;
+		_casesDamier = new CaseDamier*[_taille];
+		for (int i = 0; i < _taille; ++i)
+		{
+			_casesDamier[i] = c[i];
+			_casesDamier[i]->setDiagonale(this);
+		}
+
+		return _taille;
+	}
 }
 
 namespace spc_plateau
@@ -140,7 +254,54 @@ namespace spc_plateau
 		initPions(_pionsNord, &_casesDamier[1], _couleurPionsNord);
 		initPions(_pionsSud, &_casesDamier[31], _couleurPionsSud);
 
-		//initDiagonales();
+		initDiagonales();
+	}
+
+	void Plateau::initDiagonales(void)
+	{
+		CaseDamier* dummy[100] =
+		{
+			// Paires
+			  &_casesDamier[1],  &_casesDamier[6]
+			, &_casesDamier[2],  &_casesDamier[7],  &_casesDamier[11], &_casesDamier[16]
+			, &_casesDamier[3],  &_casesDamier[8],  &_casesDamier[12], &_casesDamier[17], &_casesDamier[21], &_casesDamier[26]
+			, &_casesDamier[4],  &_casesDamier[9],  &_casesDamier[13], &_casesDamier[18], &_casesDamier[22], &_casesDamier[27], &_casesDamier[31], &_casesDamier[36]
+			, &_casesDamier[5],  &_casesDamier[10], &_casesDamier[14], &_casesDamier[19], &_casesDamier[23], &_casesDamier[28], &_casesDamier[32], &_casesDamier[37], &_casesDamier[41], &_casesDamier[46]
+			, &_casesDamier[15], &_casesDamier[20], &_casesDamier[24], &_casesDamier[29], &_casesDamier[33], &_casesDamier[38], &_casesDamier[42], &_casesDamier[47]
+			, &_casesDamier[25], &_casesDamier[30], &_casesDamier[34], &_casesDamier[39], &_casesDamier[43], &_casesDamier[48]
+			, &_casesDamier[35], &_casesDamier[40], &_casesDamier[44], &_casesDamier[49]
+			, &_casesDamier[45], &_casesDamier[50]
+			// Impaires
+			, &_casesDamier[46]
+			, &_casesDamier[36], &_casesDamier[41], &_casesDamier[47]
+			, &_casesDamier[26], &_casesDamier[31], &_casesDamier[37], &_casesDamier[42], &_casesDamier[48]
+			, &_casesDamier[16], &_casesDamier[21], &_casesDamier[27], &_casesDamier[32], &_casesDamier[38], &_casesDamier[43], &_casesDamier[49]
+			, &_casesDamier[6], &_casesDamier[11], &_casesDamier[17], &_casesDamier[22], &_casesDamier[28], &_casesDamier[33], &_casesDamier[39], &_casesDamier[44], &_casesDamier[50]
+			, &_casesDamier[1], &_casesDamier[7], &_casesDamier[12], &_casesDamier[18], &_casesDamier[23], &_casesDamier[29], &_casesDamier[34], &_casesDamier[40], &_casesDamier[45]
+			, &_casesDamier[2], &_casesDamier[8], &_casesDamier[13], &_casesDamier[19], &_casesDamier[24], &_casesDamier[30], &_casesDamier[35]
+			, &_casesDamier[3], &_casesDamier[9], &_casesDamier[14], &_casesDamier[20], &_casesDamier[25]
+			, &_casesDamier[4], &_casesDamier[10], &_casesDamier[15]
+			, &_casesDamier[5]
+		};
+		_diagonales[0].init(2, &dummy[0]);
+		_diagonales[1].init(4, &dummy[2]);
+		_diagonales[2].init(6, &dummy[6]);
+		_diagonales[3].init(8, &dummy[12]);
+		_diagonales[4].init(10, &dummy[20]);
+		_diagonales[5].init(8, &dummy[30]);
+		_diagonales[6].init(6, &dummy[38]);
+		_diagonales[7].init(4, &dummy[44]);
+		_diagonales[8].init(2, &dummy[48]);
+		_diagonales[9].init(1, &dummy[50]);
+		_diagonales[10].init(3, &dummy[51]);
+		_diagonales[11].init(5, &dummy[54]);
+		_diagonales[12].init(7, &dummy[59]);
+		_diagonales[13].init(9, &dummy[66]);
+		_diagonales[14].init(9, &dummy[75]);
+		_diagonales[15].init(7, &dummy[84]);
+		_diagonales[16].init(5, &dummy[91]);
+		_diagonales[17].init(3, &dummy[96]);
+		_diagonales[18].init(1, &dummy[99]);
 	}
 }
 

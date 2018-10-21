@@ -12,6 +12,7 @@
 
 namespace spc_plateau
 {
+	class Diagonale;
 	class Pion;
 }
 
@@ -90,16 +91,35 @@ namespace spc_plateau
 		void setPion(Pion* p) { _pion = p; _estLibre = (_pion == nullptr ? true : false);}
 		void setCellule(Cellule* c) { _cellule = c; }
 		void setCellule(void);
+		//
+		void setDiagonale(const Diagonale* diagonale);
 	private:
 		ApparenceCase     _apparence;
+		Cellule*          _cellule;
+		CouleurCaseDamier _couleur;
+		const Diagonale*  _diagonale[NB_DIAGONALES_MAX_PAR_CASE];
 		bool              _estLibre;
 		unsigned int      _notationOfficielle;
 		Pion*             _pion;
-		Cellule*          _cellule;
 		unsigned int      _x;
 		unsigned int      _y;
-		CouleurCaseDamier _couleur;
 	};
+
+	class Diagonale
+	{
+	public:
+		Diagonale() : _taille(0), _casesDamier(nullptr) {} 
+		~Diagonale();
+		Diagonale(const Diagonale& d);
+		Diagonale& operator = (const Diagonale& d);
+		//
+		int addCase(CaseDamier* c);
+		int init(int taille, CaseDamier** c);
+	private:
+		int _taille;
+		CaseDamier** _casesDamier;
+	};
+
 
 	class Pion
 	{
@@ -129,10 +149,13 @@ namespace spc_plateau
 		//
 		void affiche(void);
 		void initPions(Pion* const pions, CaseDamier* const cases, CouleurPion& couleur);
+		//
+		void initDiagonales(void);
 	private :
 		Cellule _cellules[23][12] = MOTIF_PLATEAU_DAMIER; /// [23 * 12] cellules = 1125 chars + 22 eol + 1 asciiNull = 1148 chars [1148]
 		//
 		CaseDamier              _casesDamier[NB_CASES_PLATEAU]; // 50 cases noires numérotées de 01 à 50 ; la case 00 est blanche ; le numéro de la case correspond à son indice
+		Diagonale               _diagonales[NB_DIAGONALES_PLATEAU];
 		CouleurPion             _couleurPionsNord = CouleurPion::null;
 		CouleurPion             _couleurPionsSud = CouleurPion::null;
 		Pion                    _pionsBlancs[NB_PIONS_PAR_COULEUR];
