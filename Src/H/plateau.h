@@ -6,10 +6,13 @@
 # ifndef _PLATEAU_H_
 # define _PLATEAU_H_ (1)
 
+# include <iostream>
+# include <cstring>
 # include "constantes.h"
 
 namespace spc_plateau
 {
+	class Diagonale;
 	class Pion;
 }
 
@@ -45,6 +48,20 @@ namespace spc_plateau
 
 namespace spc_plateau
 {
+	struct Cellule 
+	{
+		/* 
+		** Cellule du plateau : c'est une zone (ligne, colonne) du plateau où figure un motif : référence
+		** Cellule du plateau : c'est une zone (ligne, colonne) du plateau où figure un motif : référence
+		** de ligne/colonne, une case du damier, ... Elle s'étend donc au delà de la zone de jeu
+		**/
+		char motif[TAILLE_CELLULE];
+		char separateur;
+	};
+}
+
+namespace spc_plateau
+{
 	class Regle
 	{
 	public:
@@ -61,44 +78,83 @@ namespace spc_plateau
 	class CaseDamier
 	{
 	public:
-		CaseDamier() : _apparence(ApparenceCase::null), _estLibre(true), _notationOfficielle(0), _pion(nullptr), _x(0), _y(0), _couleur(CouleurCaseDamier::null) {}
+		CaseDamier();
 		~CaseDamier() = default;
 		CaseDamier(const CaseDamier& c) = default;
 		CaseDamier& operator = (const CaseDamier& c) = default;
 		//
 		void affiche(void);
 		void init(int x, int y, int notation, Pion* pion, ApparenceCase apparence, CouleurCaseDamier couleurCase); //  , CouleurPion couleurPion);
+		int getX(void) { return _x; }
+		int getY(void) { return _y; }
+		Pion* getPion(void) { return _pion; }
+		void setPion(Pion* p) { _pion = p; _estLibre = (_pion == nullptr ? true : false);}
+		void setCellule(Cellule* c) { _cellule = c; }
+		void setCellule(void);
+		//
+		void setDiagonale(const Diagonale* diagonale);
+		unsigned int getNbDiagonales(void) const { return _nbDiagonales; }
+		const Diagonale* getDiagonale(int i) const { return _diagonale[i]; }
 	private:
 		ApparenceCase     _apparence;
+		Cellule*          _cellule;
+		CouleurCaseDamier _couleur;
+		const Diagonale*  _diagonale[NB_DIAGONALES_MAX_PAR_CASE];
 		bool              _estLibre;
+		unsigned int      _nbDiagonales;
 		unsigned int      _notationOfficielle;
 		Pion*             _pion;
 		unsigned int      _x;
 		unsigned int      _y;
-		CouleurCaseDamier _couleur;
 	};
+
+	class Diagonale
+	{
+	public:
+		Diagonale() : _casesDamier(nullptr), _numero(0), _taille(0) {}
+		~Diagonale();
+		Diagonale(const Diagonale& d);
+		Diagonale& operator = (const Diagonale& d);
+		//
+		int addCase(CaseDamier* c);
+		int getNumero(void) const { return _numero; }
+		int init(int taille, CaseDamier** c, int numero);
+	private:
+		CaseDamier** _casesDamier;
+		unsigned int _numero;
+		unsigned int _taille;
+	};
+
+	class Input
+	{
+	public :
+		Input();
+		~Input() = default;
+		Input(const Input& i) = default;
+		Input& operator = (const Input& i) = default;
+		//
+		void Saisie(const char* invite);
+	private :
+		char         _buffer[INPUT_BUFFER_MX_SIZE];
+		unsigned int _bufSize;
+		const CaseDamier*  _caseDamier;
+	};
+
 
 	class Pion
 	{
 	public:
-		Pion() : _x(0), _y(0), _couleur(CouleurPion::null), _promotion(false) {} // { std::cout << "Pion.Ctor(" << (_couleur == CouleurPion::null ? "NilColor" : "Oups") << ")\n"; }
+		Pion() : _case(nullptr), _couleur(CouleurPion::null), _promotion(false) {} 
 		~Pion() = default;
 		Pion(const Pion& p) = default;
 		Pion& operator = (const Pion& p) = default;
 		//
-		CouleurPion couleur(void);
-		friend std::ostream& operator<< (std::ostream& os, const Pion& p) //{ os << p._y; return os; } //
-		{ 
-			//os << "("<<p._y<<","<<p._x<<"{"<<(p._couleur==CouleurPion::blanc?"White":(p._couleur==CouleurPion::noir?"Black"
-			//:(p._couleur==CouleurPion::null?"NillColor":"Curious")))<<"}"<<")"; 
-			//os << (p._couleur == CouleurPion::null ? "White" : ";;;");// (p._couleur == CouleurPion::noir ? "Black" : (p._couleur == CouleurPion::null ? "NillColor" : "Curious")));
-			os << _x;
-		return os; 
-		}
+		CouleurPion getCouleur(void) { return _couleur; }
+		bool getPromotion(void) { return _promotion; }
+		void init(CaseDamier* const cd, CouleurPion c, bool p = false);
+		void setCase(CaseDamier* c);
 	private:
-		void init(int x, int y, CouleurPion c, bool p = false);
-		unsigned int _x;
-		unsigned int _y;
+		CaseDamier* _case;
 		CouleurPion _couleur;
 		bool _promotion ;
 	};
@@ -106,16 +162,22 @@ namespace spc_plateau
 	class Plateau
 	{
 	public :
-		Plateau(PositionsCouleursDepart positionsDepart = PositionsCouleursDepart::noirs_blancs) ;
+		Plateau(PositionsCouleursDepart positionsDepart = PositionsCouleursDepart::blancs_noirs) ;
 		~Plateau() = default;
 		Plateau(const Plateau& p) = default;
 		Plateau& operator = (const Plateau& p) = default;
 		//
 		void affiche(void);
+		void initDiagonales(void);
+		void initPions(Pion* const pions, CaseDamier* const cases, CouleurPion& couleur);
 	private :
 		CaseDamier              _casesDamier[NB_CASES_PLATEAU]; // 50 cases noires numérotées de 01 à 50 ; la case 00 est blanche ; le numéro de la case correspond à son indice
+		Cellule                 _cellules[23][12] = MOTIF_PLATEAU_DAMIER;
+		Cellule                 _cellulesEntete[6][12] = MOTIF_TEXTE_ENTETE;
+		Cellule                 _cellulesEnqueue[6][12] = MOTIF_TEXTE_ENQUEUE;
 		CouleurPion             _couleurPionsNord = CouleurPion::null;
 		CouleurPion             _couleurPionsSud = CouleurPion::null;
+		Diagonale               _diagonales[NB_DIAGONALES_PLATEAU];
 		Pion                    _pionsBlancs[NB_PIONS_PAR_COULEUR];
 		Pion                    _pionsNoirs[NB_PIONS_PAR_COULEUR];
 		Pion* const             _pionsNord = nullptr;
