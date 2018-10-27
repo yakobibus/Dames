@@ -5,6 +5,23 @@
 
 namespace spc_plateau
 {
+	CaseDamier::CaseDamier()
+		: _apparence(ApparenceCase::normal)
+		, _cellule(nullptr)
+		, _couleur(CouleurCaseDamier::null)
+		, _estLibre(true)
+		, _nbDiagonales(0)
+		, _notationOfficielle(0)
+		, _pion(nullptr)
+		, _x(0)
+		, _y(0)
+	{
+		for (int ii = 0; ii < NB_DIAGONALES_MAX_PAR_CASE; ++ii) 
+		{
+			_diagonale[ii] = nullptr;
+		} 
+	}
+
 	void spc_plateau::CaseDamier::affiche(void)
 	{
 		setCellule();
@@ -24,6 +41,7 @@ namespace spc_plateau
 		_y = y ;
 		_couleur = couleurCase ;
 	}
+
 	void CaseDamier::setCellule(void)
 	{
 		const char Blanc[] = " O ";
@@ -58,11 +76,12 @@ namespace spc_plateau
 
 	void CaseDamier::setDiagonale(const Diagonale * diagonale)
 	{
-		for (unsigned int ii = 0; ii < NB_DIAGONALES_MAX_PAR_CASE; ++ii)
+		for (unsigned int ii = _nbDiagonales ; ii < NB_DIAGONALES_MAX_PAR_CASE; ++ii)
 		{
 			if (_diagonale[ii] == nullptr)
 			{
 				_diagonale[ii] = diagonale;
+				++_nbDiagonales;
 				break;
 			}
 		}
@@ -77,6 +96,7 @@ namespace spc_plateau
 		{
 			delete _casesDamier;
 			_taille = 0;
+			_numero = 0;
 			_casesDamier = nullptr;
 		}
 	}
@@ -89,12 +109,14 @@ namespace spc_plateau
 			{
 				delete _casesDamier;
 				_taille = 0;
+				_numero = 0;
 				_casesDamier = nullptr;
 			}
 
 			if (d._taille > 0)
 			{
 				_taille = d._taille;
+				_numero = d._numero;
 				_casesDamier = new CaseDamier*[_taille];
 				for (int i = 0; i < _taille; ++i)
 				{
@@ -112,12 +134,14 @@ namespace spc_plateau
 			{
 				delete _casesDamier;
 				_taille = 0;
+				_numero = 0;
 				_casesDamier = nullptr;
 			}
 
 			if (d._taille > 0)
 			{
 				_taille = d._taille;
+				_numero = d._numero;
 				_casesDamier = new CaseDamier*[_taille];
 				for (int i = 0; i < _taille; ++i)
 				{
@@ -136,10 +160,12 @@ namespace spc_plateau
 		{
 			delete _casesDamier;
 			_taille = 0;
+			_numero = 0;
 			_casesDamier = nullptr;
 		}
 
 		_taille = 1 + oldDiagonale._taille;
+		_numero = oldDiagonale._numero;
 		_casesDamier = new CaseDamier*[_taille];
 		for (int i = 0; i < oldDiagonale._taille; ++i)
 		{
@@ -150,16 +176,18 @@ namespace spc_plateau
 		return _taille;
 	}
 
-	int Diagonale::init(int taille, CaseDamier** c)
+	int Diagonale::init(int taille, CaseDamier** c, int numero)
 	{
 		if (_taille > 0)
 		{
 			delete _casesDamier;
 			_taille = 0;
+			_numero = 0;
 			_casesDamier = nullptr;
 		}
 
 		_taille = taille;
+		_numero = numero;
 		_casesDamier = new CaseDamier*[_taille];
 		for (int i = 0; i < _taille; ++i)
 		{
@@ -168,6 +196,16 @@ namespace spc_plateau
 		}
 
 		return _taille;
+	}
+}
+
+namespace spc_plateau
+{
+	Input::Input() 
+		: _bufSize(0)
+		, _caseDamier(nullptr)
+	{
+		std::memset(_buffer, 0, INPUT_BUFFER_MX_SIZE);
 	}
 }
 
@@ -283,25 +321,25 @@ namespace spc_plateau
 			, &_casesDamier[4], &_casesDamier[10], &_casesDamier[15]
 			, &_casesDamier[5]
 		};
-		_diagonales[0].init(2, &dummy[0]);
-		_diagonales[1].init(4, &dummy[2]);
-		_diagonales[2].init(6, &dummy[6]);
-		_diagonales[3].init(8, &dummy[12]);
-		_diagonales[4].init(10, &dummy[20]);
-		_diagonales[5].init(8, &dummy[30]);
-		_diagonales[6].init(6, &dummy[38]);
-		_diagonales[7].init(4, &dummy[44]);
-		_diagonales[8].init(2, &dummy[48]);
-		_diagonales[9].init(1, &dummy[50]);
-		_diagonales[10].init(3, &dummy[51]);
-		_diagonales[11].init(5, &dummy[54]);
-		_diagonales[12].init(7, &dummy[59]);
-		_diagonales[13].init(9, &dummy[66]);
-		_diagonales[14].init(9, &dummy[75]);
-		_diagonales[15].init(7, &dummy[84]);
-		_diagonales[16].init(5, &dummy[91]);
-		_diagonales[17].init(3, &dummy[96]);
-		_diagonales[18].init(1, &dummy[99]);
+		_diagonales[0].init(2,  &dummy[0] , 1);
+		_diagonales[1].init(4,  &dummy[2] , 2);
+		_diagonales[2].init(6,  &dummy[6] , 3);
+		_diagonales[3].init(8,  &dummy[12], 4);
+		_diagonales[4].init(10, &dummy[20], 5);
+		_diagonales[5].init(8,  &dummy[30], 6);
+		_diagonales[6].init(6,  &dummy[38], 7);
+		_diagonales[7].init(4,  &dummy[44], 8);
+		_diagonales[8].init(2,  &dummy[48], 9);
+		_diagonales[9].init(1,  &dummy[50], 10);
+		_diagonales[10].init(3, &dummy[51], 11);
+		_diagonales[11].init(5, &dummy[54], 12);
+		_diagonales[12].init(7, &dummy[59], 13);
+		_diagonales[13].init(9, &dummy[66], 14);
+		_diagonales[14].init(9, &dummy[75], 15);
+		_diagonales[15].init(7, &dummy[84], 16);
+		_diagonales[16].init(5, &dummy[91], 17);
+		_diagonales[17].init(3, &dummy[96], 18);
+		_diagonales[18].init(1, &dummy[99], 19);
 	}
 }
 
@@ -327,7 +365,12 @@ namespace spc_plateau
 		{
 			_casesDamier[iCase].setCellule();
 		}
-		std::cout << _cellules[0][0].motif << std::endl;
+
+		std::cout 
+			<< _cellulesEntete[0][0].motif << std::endl
+			<< _cellules[0][0].motif << std::endl
+			<< _cellulesEnqueue[0][0].motif << std::endl
+			;
 	}
 
 	void Plateau::initPions(Pion* const pions, CaseDamier* const cases, CouleurPion& couleur)

@@ -78,7 +78,7 @@ namespace spc_plateau
 	class CaseDamier
 	{
 	public:
-		CaseDamier() : _apparence(ApparenceCase::normal), _estLibre(true), _notationOfficielle(0), _pion(nullptr), _cellule(nullptr), _x(0), _y(0), _couleur(CouleurCaseDamier::null) {}
+		CaseDamier();
 		~CaseDamier() = default;
 		CaseDamier(const CaseDamier& c) = default;
 		CaseDamier& operator = (const CaseDamier& c) = default;
@@ -93,12 +93,15 @@ namespace spc_plateau
 		void setCellule(void);
 		//
 		void setDiagonale(const Diagonale* diagonale);
+		unsigned int getNbDiagonales(void) const { return _nbDiagonales; }
+		const Diagonale* getDiagonale(int i) const { return _diagonale[i]; }
 	private:
 		ApparenceCase     _apparence;
 		Cellule*          _cellule;
 		CouleurCaseDamier _couleur;
 		const Diagonale*  _diagonale[NB_DIAGONALES_MAX_PAR_CASE];
 		bool              _estLibre;
+		unsigned int      _nbDiagonales;
 		unsigned int      _notationOfficielle;
 		Pion*             _pion;
 		unsigned int      _x;
@@ -108,16 +111,33 @@ namespace spc_plateau
 	class Diagonale
 	{
 	public:
-		Diagonale() : _taille(0), _casesDamier(nullptr) {} 
+		Diagonale() : _casesDamier(nullptr), _numero(0), _taille(0) {}
 		~Diagonale();
 		Diagonale(const Diagonale& d);
 		Diagonale& operator = (const Diagonale& d);
 		//
 		int addCase(CaseDamier* c);
-		int init(int taille, CaseDamier** c);
+		int getNumero(void) const { return _numero; }
+		int init(int taille, CaseDamier** c, int numero);
 	private:
-		int _taille;
 		CaseDamier** _casesDamier;
+		unsigned int _numero;
+		unsigned int _taille;
+	};
+
+	class Input
+	{
+	public :
+		Input();
+		~Input() = default;
+		Input(const Input& i) = default;
+		Input& operator = (const Input& i) = default;
+		//
+		void Saisie(const char* invite);
+	private :
+		char         _buffer[INPUT_BUFFER_MX_SIZE];
+		unsigned int _bufSize;
+		const CaseDamier*  _caseDamier;
 	};
 
 
@@ -148,16 +168,16 @@ namespace spc_plateau
 		Plateau& operator = (const Plateau& p) = default;
 		//
 		void affiche(void);
-		void initPions(Pion* const pions, CaseDamier* const cases, CouleurPion& couleur);
-		//
 		void initDiagonales(void);
+		void initPions(Pion* const pions, CaseDamier* const cases, CouleurPion& couleur);
 	private :
-		Cellule _cellules[23][12] = MOTIF_PLATEAU_DAMIER; /// [23 * 12] cellules = 1125 chars + 22 eol + 1 asciiNull = 1148 chars [1148]
-		//
 		CaseDamier              _casesDamier[NB_CASES_PLATEAU]; // 50 cases noires numérotées de 01 à 50 ; la case 00 est blanche ; le numéro de la case correspond à son indice
-		Diagonale               _diagonales[NB_DIAGONALES_PLATEAU];
+		Cellule                 _cellules[23][12] = MOTIF_PLATEAU_DAMIER;
+		Cellule                 _cellulesEntete[6][12] = MOTIF_TEXTE_ENTETE;
+		Cellule                 _cellulesEnqueue[6][12] = MOTIF_TEXTE_ENQUEUE;
 		CouleurPion             _couleurPionsNord = CouleurPion::null;
 		CouleurPion             _couleurPionsSud = CouleurPion::null;
+		Diagonale               _diagonales[NB_DIAGONALES_PLATEAU];
 		Pion                    _pionsBlancs[NB_PIONS_PAR_COULEUR];
 		Pion                    _pionsNoirs[NB_PIONS_PAR_COULEUR];
 		Pion* const             _pionsNord = nullptr;
