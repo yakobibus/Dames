@@ -5,6 +5,10 @@
 
 # define INPUT_BUFFER_MX_SIZE (static_cast<unsigned int>(128))
 
+# define IS_ALPHA_DAMIER(c) ((c >= 'a' && c <= 'j') || (c >= 'A' && c <= 'J'))
+# define IS_DIGIT_DAMIER(c) (c >= '0' && c <= '9')
+
+
 # define MOTIF_PLATEAU_DAMIER \
          { \
            {' ', ' ', ' ', ' ', ' ', 'a', ' ', ' ', ' ', 'b', ' ', ' ', ' ', 'c', ' ', ' ', ' ', 'd', ' ', ' ', ' ', 'e', ' ', ' ', ' ', 'f', ' ', ' ', ' ', 'g', ' ', ' ', ' ', 'h', ' ', ' ', ' ', 'i', ' ', ' ', ' ', 'j', ' ', ' ', ' ', ' ', ' ', '\n'}                   \
