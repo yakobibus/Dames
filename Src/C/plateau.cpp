@@ -204,8 +204,18 @@ namespace spc_plateau
 	Input::Input() 
 		: _bufSize(0)
 		, _caseDamier(nullptr)
+		, _inputType(InputType::is_undefined)
 	{
 		std::memset(_buffer, 0, INPUT_BUFFER_MX_SIZE);
+	}
+
+	void Input::saisie(const char* invite)
+	{
+		std::cout << invite;
+
+		std::memset(_buffer, 0, INPUT_BUFFER_MX_SIZE);
+		std::cin.getline(_buffer, -1 + INPUT_BUFFER_MX_SIZE);
+		_bufSize = strlen(_buffer);
 	}
 }
 
@@ -371,6 +381,20 @@ namespace spc_plateau
 			<< _cellules[0][0].motif << std::endl
 			<< _cellulesEnqueue[0][0].motif << std::endl
 			;
+	}
+
+	bool Plateau::coupSuivant(void)
+	{
+		bool coupInvalide = true;
+		char invite[256];
+
+		memset(invite, 0, 256);
+		invite[0] = '=';
+		invite[1] = '>';
+		invite[2] = ' ';
+		_input.saisie(invite);
+
+		return coupInvalide;
 	}
 
 	void Plateau::initPions(Pion* const pions, CaseDamier* const cases, CouleurPion& couleur)

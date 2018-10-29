@@ -27,8 +27,7 @@ namespace spc_dames
 		while (!_finDePartie)
 		{
 			_plateau.affiche();
-
-			break;
+			_finDePartie = _plateau.coupSuivant();
 		}
 		
 		return retCode ;

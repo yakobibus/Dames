@@ -39,6 +39,20 @@ namespace spc_plateau
 		noir = 2
 	};
 
+	enum class InputType
+	{
+		  is_undefined = 0
+		, is_digitOne = 1     // a legal digit on _buffer[0]
+		, is_digitTwo = 2     // a legal digit on _buffer[1]
+		, is_digitThree = 4   // a legal digit on _buffer[2]
+		, is_alphaOne = 8     // a legal char on _buffer[0]
+		, is_alphaTwo = 16    // a legal char on _buffer[1]
+		, is_alphaThree = 32  // a legal char on _buffer[2]
+		, is_exiting = 64     // an exit token in the buffer
+		, is_error = 128      // No legal char combination in the buffer
+	};
+
+
 	enum class PositionsCouleursDepart : unsigned int
 	{
 		blancs_noirs = 0, // les blancs (cases 1 à 20) puis les noirs (cases 31 à 50)
@@ -133,11 +147,12 @@ namespace spc_plateau
 		Input(const Input& i) = default;
 		Input& operator = (const Input& i) = default;
 		//
-		void Saisie(const char* invite);
+		void saisie(const char* invite);
 	private :
-		char         _buffer[INPUT_BUFFER_MX_SIZE];
-		unsigned int _bufSize;
+		char               _buffer[INPUT_BUFFER_MX_SIZE];
+		unsigned int       _bufSize;
 		const CaseDamier*  _caseDamier;
+		InputType          _inputType;
 	};
 
 
@@ -168,6 +183,7 @@ namespace spc_plateau
 		Plateau& operator = (const Plateau& p) = default;
 		//
 		void affiche(void);
+		bool coupSuivant(void);
 		void initDiagonales(void);
 		void initPions(Pion* const pions, CaseDamier* const cases, CouleurPion& couleur);
 	private :
@@ -178,6 +194,7 @@ namespace spc_plateau
 		CouleurPion             _couleurPionsNord = CouleurPion::null;
 		CouleurPion             _couleurPionsSud = CouleurPion::null;
 		Diagonale               _diagonales[NB_DIAGONALES_PLATEAU];
+		Input                   _input;
 		Pion                    _pionsBlancs[NB_PIONS_PAR_COULEUR];
 		Pion                    _pionsNoirs[NB_PIONS_PAR_COULEUR];
 		Pion* const             _pionsNord = nullptr;
