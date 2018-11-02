@@ -203,63 +203,84 @@ namespace spc_plateau
 {
 	Input::Input() 
 		: _bufSize(0)
-		, _caseDamier(nullptr)
+		//, _caseDamier(nullptr)
 		, _inputType(InputType::is_undefined)
+		, _x(0)
+		, _y(0)
 	{
 		std::memset(_buffer, 0, INPUT_BUFFER_MX_SIZE);
 	}
 
-	bool Input::eff_isValidY(void) 
-	{
-		return ((_bufSize == 2 && IS_ALPHA_DAMIER(_buffer[0]) && IS_DIGIT_DAMIER(_buffer[1]))
-			|| (_bufSize == 3 && IS_ALPHA_DAMIER(_buffer[0]) && IS_DIGIT_DAMIER(_buffer[1]) && IS_DIGIT_DAMIER(_buffer[2]))
-			|| (_bufSize == 3 && IS_DIGIT_DAMIER(_buffer[0]) && IS_DIGIT_DAMIER(_buffer[1]) && IS_ALPHA_DAMIER(_buffer[2])) ? true : false);
-	}
-
-	bool Input::isSaisieValide(void)
+	bool Input::isValidReference(void)
 	{
 		bool isValid = false;
 		_inputType = InputType::is_error;
 
-		if ( _bufSize == 2
-			&& (  (IS_ALPHA_DAMIER(_buffer[0]) && IS_DIGIT_DAMIER(_buffer[1]) && _buffer[1] != '0') 
-			   || (IS_DIGIT_DAMIER(_buffer[0]) && IS_ALPHA_DAMIER(_buffer[1]) && _buffer[0] != '0')
-			   )
-		   )
+		if (_bufSize == 2)
+		{
+			if (_isAlpha(_buffer[0]) && _isDigit(_buffer[1]) && _buffer[1] != '0')
+			{
+				isValid = true;
+				_inputType = InputType::is_alphaOneDigitTwo;
+				_y = _aToLine(&(_buffer[1]));
+				_x = _aToColumn(_buffer[0]);
+			}
+			else if (_isDigit(_buffer[0]) && _isAlpha(_buffer[1]) && _buffer[0] != '0')
+			{
+				isValid = true;
+				_inputType = InputType::is_digitOneAlphaTwo;
+				_y = _aToLine(&(_buffer[0]), 1);
+				_x = _aToColumn(_buffer[1]);
+			}
+		}
+		else if (_bufSize == 3)
+		{
+			if (_isAlpha(_buffer[0]) && _isDigit(_buffer[1]) && _isDigit(_buffer[2]))
+			{
+				_inputType = InputType::is_alphaOnedigitTwoThree;
+				_y = _aToLine(&(_buffer[1]));
+				_x = _aToColumn(_buffer[0]);
+				if (_buffer[1] == '0' && _buffer[2] != '0')
+				{
+					isValid = true;
+				}
+				else if (_buffer[1] == '1' && _buffer[2] == '0')
+				{
+					isValid = true;
+				}
+			}
+			else if (_isDigit(_buffer[0]) && _isDigit(_buffer[1]) && _isAlpha(_buffer[2]))
+			{
+				_inputType = InputType::is_digitOneTwoAlphaThree;
+				_y = _aToLine(&(_buffer[0]), 2);
+				_x = _aToColumn(_buffer[2]);
+				if (_buffer[0] == '0' && _buffer[1] != '0')
+				{
+					isValid = true;
+				}
+				else if (_buffer[0] == '1' && _buffer[0] == '0')
+				{
+					isValid = true;
+				}
+			}
+		}
+		else if (_bufSize > 0 && (_buffer[0] == 'x' || _buffer[0] == 'X' || _buffer[0] == 'q' || _buffer[0] == 'Q'))
 		{
 			isValid = true;
-			_inputType = InputType::is_alphaOneDigitTwo;
-			//if (IS_DIGIT_DAMIER(_buffer[1]))
-			//{
-			//	if (IS_DIGIT_DAMIER(_buffer[2]))
-			//	{
-			//		if (_buffer[1] == '1' && _buffer[2] == '0')
-			//		{
-			//			;
-			//		}
-			//		else
-			//		{
-			//			isValid = false;
-			//		}
-			//	}
-			//}
+			_inputType == InputType::is_exiting;
 		}
-		else if (_bufSize > 0 && IS_DIGIT_DAMIER(_buffer[0]))
-		{
-			;
-		}
-		std::cout << "en zero : <" << (IS_DIGIT_DAMIER_ARRAY(_buffer, 0) ? "Vrai" : "Faux") << ">\n";
-		std::cout << "en uno : <" << (IS_DIGIT_DAMIER_ARRAY(_buffer, 1) ? "Vrai" : "Faux") << ">\n";
-		std::cout << "en deux : <" << (IS_DIGIT_DAMIER_ARRAY(_buffer, 2) ? "Vrai" : "Faux") << ">\n";
-		std::cout << "1|2 = " << (1 | 2) << "\n"; // ..... ici .....
-		//_inputType = InputType::is_alphaOne | InputType::is_digitTwo | InputType::is_nullThree;
 
 		return isValid;
 	}
+
 	void Input::saisie(const char* invite)
 	{
 		std::cout << invite;
 
+		_inputType = InputType::is_undefined;
+		_x = 0;
+		_y = 0;
+		_bufSize = 0;
 		std::memset(_buffer, 0, INPUT_BUFFER_MX_SIZE);
 		std::cin.getline(_buffer, -1 + INPUT_BUFFER_MX_SIZE);
 		_bufSize = strlen(_buffer);
@@ -432,7 +453,7 @@ namespace spc_plateau
 
 	bool Plateau::coupSuivant(void)
 	{
-		bool coupInvalide = true;
+		bool coupValide = false;
 		char invite[256];
 
 		memset(invite, 0, 256);
@@ -440,9 +461,10 @@ namespace spc_plateau
 		invite[1] = '>';
 		invite[2] = ' ';
 		_input.saisie(invite);
-		coupInvalide = !_input.isSaisieValide();
+		coupValide = _input.isValidReference();
+std::cout << "ICI ["<<_input.getY()<<", "<<_input.getX()<<"]\n";
 
-		return coupInvalide;
+		return coupValide;
 	}
 
 	void Plateau::initPions(Pion* const pions, CaseDamier* const cases, CouleurPion& couleur)

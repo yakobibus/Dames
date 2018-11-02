@@ -154,14 +154,36 @@ namespace spc_plateau
 		Input(const Input& i) = default;
 		Input& operator = (const Input& i) = default;
 		//
-		bool isSaisieValide(void);
-		bool eff_isValidY(void);
+		unsigned int getX(void) const { return _x; }
+		unsigned int getY(void) const { return _y; }
+		bool isValidReference(void);
 		void saisie(const char* invite);
 	private :
 		char               _buffer[INPUT_BUFFER_MX_SIZE];
 		unsigned int       _bufSize;
-		const CaseDamier*  _caseDamier;
+		//const CaseDamier*  _caseDamier;
 		InputType          _inputType;
+		unsigned int _x;
+		unsigned int _y;
+		//
+		inline unsigned int _aToColumn(const char& colonne) const {
+			return (
+				  colonne == 'a' || colonne == 'A' ? 1
+				: colonne == 'b' || colonne == 'B' ? 2
+				: colonne == 'c' || colonne == 'C' ? 3
+				: colonne == 'd' || colonne == 'D' ? 4
+				: colonne == 'e' || colonne == 'E' ? 5
+				: colonne == 'f' || colonne == 'F' ? 6
+				: colonne == 'g' || colonne == 'G' ? 7
+				: colonne == 'h' || colonne == 'H' ? 8
+				: colonne == 'i' || colonne == 'I' ? 9
+				: colonne == 'j' || colonne == 'J' ? 10
+				: 0
+				);
+		}
+		inline unsigned int _aToLine(const char* s, std::size_t offset = 0) const { return std::stoi(s, &offset); }
+		inline bool _isAlpha(const char& c) const { return IS_ALPHA_DAMIER(c); }
+		inline bool _isDigit(const char& c) const { return IS_DIGIT_DAMIER(c); }
 	};
 
 
@@ -193,6 +215,7 @@ namespace spc_plateau
 		//
 		void affiche(void);
 		bool coupSuivant(void);
+		CaseDamier* getCaseDamier(unsigned int y, unsigned int x);
 		void initDiagonales(void);
 		void initPions(Pion* const pions, CaseDamier* const cases, CouleurPion& couleur);
 	private :
