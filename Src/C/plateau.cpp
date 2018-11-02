@@ -209,6 +209,53 @@ namespace spc_plateau
 		std::memset(_buffer, 0, INPUT_BUFFER_MX_SIZE);
 	}
 
+	bool Input::eff_isValidY(void) 
+	{
+		return ((_bufSize == 2 && IS_ALPHA_DAMIER(_buffer[0]) && IS_DIGIT_DAMIER(_buffer[1]))
+			|| (_bufSize == 3 && IS_ALPHA_DAMIER(_buffer[0]) && IS_DIGIT_DAMIER(_buffer[1]) && IS_DIGIT_DAMIER(_buffer[2]))
+			|| (_bufSize == 3 && IS_DIGIT_DAMIER(_buffer[0]) && IS_DIGIT_DAMIER(_buffer[1]) && IS_ALPHA_DAMIER(_buffer[2])) ? true : false);
+	}
+
+	bool Input::isSaisieValide(void)
+	{
+		bool isValid = false;
+		_inputType = InputType::is_error;
+
+		if ( _bufSize == 2
+			&& (  (IS_ALPHA_DAMIER(_buffer[0]) && IS_DIGIT_DAMIER(_buffer[1]) && _buffer[1] != '0') 
+			   || (IS_DIGIT_DAMIER(_buffer[0]) && IS_ALPHA_DAMIER(_buffer[1]) && _buffer[0] != '0')
+			   )
+		   )
+		{
+			isValid = true;
+			_inputType = InputType::is_alphaOneDigitTwo;
+			//if (IS_DIGIT_DAMIER(_buffer[1]))
+			//{
+			//	if (IS_DIGIT_DAMIER(_buffer[2]))
+			//	{
+			//		if (_buffer[1] == '1' && _buffer[2] == '0')
+			//		{
+			//			;
+			//		}
+			//		else
+			//		{
+			//			isValid = false;
+			//		}
+			//	}
+			//}
+		}
+		else if (_bufSize > 0 && IS_DIGIT_DAMIER(_buffer[0]))
+		{
+			;
+		}
+		std::cout << "en zero : <" << (IS_DIGIT_DAMIER_ARRAY(_buffer, 0) ? "Vrai" : "Faux") << ">\n";
+		std::cout << "en uno : <" << (IS_DIGIT_DAMIER_ARRAY(_buffer, 1) ? "Vrai" : "Faux") << ">\n";
+		std::cout << "en deux : <" << (IS_DIGIT_DAMIER_ARRAY(_buffer, 2) ? "Vrai" : "Faux") << ">\n";
+		std::cout << "1|2 = " << (1 | 2) << "\n"; // ..... ici .....
+		//_inputType = InputType::is_alphaOne | InputType::is_digitTwo | InputType::is_nullThree;
+
+		return isValid;
+	}
 	void Input::saisie(const char* invite)
 	{
 		std::cout << invite;
@@ -393,6 +440,7 @@ namespace spc_plateau
 		invite[1] = '>';
 		invite[2] = ' ';
 		_input.saisie(invite);
+		coupInvalide = !_input.isSaisieValide();
 
 		return coupInvalide;
 	}

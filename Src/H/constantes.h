@@ -7,7 +7,13 @@
 
 # define IS_ALPHA_DAMIER(c) ((c >= 'a' && c <= 'j') || (c >= 'A' && c <= 'J'))
 # define IS_DIGIT_DAMIER(c) (c >= '0' && c <= '9')
-
+# define IS_DIGIT_DAMIER_ARRAY(a, i) \
+  ( \
+     (i) == 0 ? ((a)[(i)] >= '0' && (a)[(i)] <= '9' ? (true) \
+                                      : (false)) \
+  : ((i) == 1 ? ((a)[-1 + (i)] == '0' && (a)[(i)] >= '1' && (a)[(i)] <= '9' ? (true) : ((a)[-1 + (i)] == '1' && (a)[(i)] == '0' ? (true) : (false) )) \
+            : (false) ) \
+  )
 
 # define MOTIF_PLATEAU_DAMIER \
          { \

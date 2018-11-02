@@ -44,12 +44,19 @@ namespace spc_plateau
 		  is_undefined = 0
 		, is_digitOne = 1     // a legal digit on _buffer[0]
 		, is_digitTwo = 2     // a legal digit on _buffer[1]
+		, is_digitOneTwo = 3  // legal digits on _buffer[1 and 2]
 		, is_digitThree = 4   // a legal digit on _buffer[2]
 		, is_alphaOne = 8     // a legal char on _buffer[0]
+		, is_alphaOneDigitTwo = 10
+		, is_alphaOnedigitTwoThree = 14
 		, is_alphaTwo = 16    // a legal char on _buffer[1]
+		, is_digitOneAlphaTwo = 17
 		, is_alphaThree = 32  // a legal char on _buffer[2]
-		, is_exiting = 64     // an exit token in the buffer
-		, is_error = 128      // No legal char combination in the buffer
+		, is_digitOneTwoAlphaThree = 35
+		, is_nullTwo = 64     // no char on _buffer[1]
+		, is_nullThree = 128  // no char on _buffer[2]
+		, is_exiting = 256    // an exit token in the buffer
+		, is_error = 512      // No legal char combination in the buffer
 	};
 
 
@@ -147,6 +154,8 @@ namespace spc_plateau
 		Input(const Input& i) = default;
 		Input& operator = (const Input& i) = default;
 		//
+		bool isSaisieValide(void);
+		bool eff_isValidY(void);
 		void saisie(const char* invite);
 	private :
 		char               _buffer[INPUT_BUFFER_MX_SIZE];
