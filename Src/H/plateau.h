@@ -234,6 +234,12 @@ namespace spc_plateau
 		Pion* const             _pionsNord = nullptr;
 		Pion* const             _pionsSud = nullptr;
 		PositionsCouleursDepart _positionsDeDepart;
+		//
+		void                    _caseDepartValide(void);
+		unsigned int            _getIndexCase(void) const;
+		//unsigned int            _getIndexCase(unsigned int& y, unsigned int& x) const;
+		bool                    _isCaseNoire(void) const { return (_getIndexCase() == 0 ? false : true); }
+		//bool                    _isCaseNoire(unsigned int& y, unsigned int& x) const { return (_getIndexCase(y, x) == 0 ? false : true); }
 	};
 }
 
