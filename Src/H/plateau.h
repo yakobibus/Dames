@@ -156,13 +156,15 @@ namespace spc_plateau
 		//
 		unsigned int getX(void) const { return _x; }
 		unsigned int getY(void) const { return _y; }
-		bool isValidReference(void);
+		bool isValid(void) const { return _isValid; }
 		void saisie(const char* invite);
 	private :
 		char               _buffer[INPUT_BUFFER_MX_SIZE];
 		unsigned int       _bufSize;
 		//const CaseDamier*  _caseDamier;
 		InputType          _inputType;
+		bool               _isValid;
+		void               _isValidInput(void);
 		unsigned int _x;
 		unsigned int _y;
 		//

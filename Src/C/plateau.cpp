@@ -205,29 +205,30 @@ namespace spc_plateau
 		: _bufSize(0)
 		//, _caseDamier(nullptr)
 		, _inputType(InputType::is_undefined)
+		, _isValid(false)
 		, _x(0)
 		, _y(0)
 	{
 		std::memset(_buffer, 0, INPUT_BUFFER_MX_SIZE);
 	}
 
-	bool Input::isValidReference(void)
+	void Input::_isValidInput(void)
 	{
-		bool isValid = false;
+		//bool isValid = false;
 		_inputType = InputType::is_error;
 
 		if (_bufSize == 2)
 		{
 			if (_isAlpha(_buffer[0]) && _isDigit(_buffer[1]) && _buffer[1] != '0')
 			{
-				isValid = true;
+				_isValid = true;
 				_inputType = InputType::is_alphaOneDigitTwo;
 				_y = _aToLine(&(_buffer[1]));
 				_x = _aToColumn(_buffer[0]);
 			}
 			else if (_isDigit(_buffer[0]) && _isAlpha(_buffer[1]) && _buffer[0] != '0')
 			{
-				isValid = true;
+				_isValid = true;
 				_inputType = InputType::is_digitOneAlphaTwo;
 				_y = _aToLine(&(_buffer[0]), 1);
 				_x = _aToColumn(_buffer[1]);
@@ -242,11 +243,11 @@ namespace spc_plateau
 				_x = _aToColumn(_buffer[0]);
 				if (_buffer[1] == '0' && _buffer[2] != '0')
 				{
-					isValid = true;
+					_isValid = true;
 				}
 				else if (_buffer[1] == '1' && _buffer[2] == '0')
 				{
-					isValid = true;
+					_isValid = true;
 				}
 			}
 			else if (_isDigit(_buffer[0]) && _isDigit(_buffer[1]) && _isAlpha(_buffer[2]))
@@ -256,25 +257,24 @@ namespace spc_plateau
 				_x = _aToColumn(_buffer[2]);
 				if (_buffer[0] == '0' && _buffer[1] != '0')
 				{
-					isValid = true;
+					_isValid = true;
 				}
 				else if (_buffer[0] == '1' && _buffer[0] == '0')
 				{
-					isValid = true;
+					_isValid = true;
 				}
 			}
 		}
 		else if (_bufSize > 0 && (_buffer[0] == 'x' || _buffer[0] == 'X' || _buffer[0] == 'q' || _buffer[0] == 'Q'))
 		{
-			isValid = true;
+			_isValid = true;
 			_inputType == InputType::is_exiting;
 		}
-
-		return isValid;
 	}
 
 	void Input::saisie(const char* invite)
 	{
+		_isValid = false;
 		std::cout << invite;
 
 		_inputType = InputType::is_undefined;
@@ -284,6 +284,8 @@ namespace spc_plateau
 		std::memset(_buffer, 0, INPUT_BUFFER_MX_SIZE);
 		std::cin.getline(_buffer, -1 + INPUT_BUFFER_MX_SIZE);
 		_bufSize = strlen(_buffer);
+		//
+		_isValidInput();
 	}
 }
 
@@ -461,8 +463,8 @@ namespace spc_plateau
 		invite[1] = '>';
 		invite[2] = ' ';
 		_input.saisie(invite);
-		coupValide = _input.isValidReference();
-std::cout << "ICI ["<<_input.getY()<<", "<<_input.getX()<<"]\n";
+		coupValide = _input.isValid();
+std::cout << "ICI ["<<_input.getY()<<", "<<_input.getX()<<"] : " << (coupValide ? "Valide" : "Ko !") << "\n";
 
 		return coupValide;
 	}
