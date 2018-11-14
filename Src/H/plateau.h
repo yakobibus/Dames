@@ -59,6 +59,12 @@ namespace spc_plateau
 		, is_error = 512      // No legal char combination in the buffer
 	};
 
+	enum class IdJoueur
+	{
+		  undefined = 0
+		, premier = 1
+		, second = 2
+	};
 	enum class NatureJoueur
 	{
 		  undefined = 0
@@ -198,13 +204,20 @@ namespace spc_plateau
 	class Joueur
 	{
 	public :
-		Joueur() : _couleur(CouleurPion::null), _nature(NatureJoueur::undefined) {}
-		~Joueur() = default;
-		Joueur(const Joueur& j) = default;
-		Joueur& operator = (const Joueur& j) = default;
+		Joueur();
+		~Joueur();
+		Joueur(const Joueur& j);
+		Joueur& operator = (const Joueur& j);
+		//
+		const IdJoueur& getId(void) const { return _id; }
+		const char* const getNom(void) const { return _nom; }
+		void setId(const IdJoueur& id);
+		void setNom(const char* nom);
 	private :
+		IdJoueur _id;
 		CouleurPion  _couleur;
 		NatureJoueur _nature;
+		char*        _nom;
 	};
 
 	class Pion
@@ -247,6 +260,7 @@ namespace spc_plateau
 		CouleurPion             _couleurPionsSud = CouleurPion::null;
 		Diagonale               _diagonales[NB_DIAGONALES_PLATEAU];
 		Input                   _input;
+		Joueur                  _joueurs[2]; // ICI
 		Pion                    _pionsBlancs[NB_PIONS_PAR_COULEUR];
 		Pion                    _pionsNoirs[NB_PIONS_PAR_COULEUR];
 		Pion* const             _pionsNord = nullptr;

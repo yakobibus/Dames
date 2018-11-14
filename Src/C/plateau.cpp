@@ -291,6 +291,86 @@ namespace spc_plateau
 
 namespace spc_plateau
 {
+	Joueur::Joueur() 
+		: _couleur(CouleurPion::null)
+		, _id(IdJoueur::undefined)
+		, _nature(NatureJoueur::undefined)
+		, _nom(nullptr)
+	{}
+
+	Joueur::~Joueur()
+	{
+		if (_nom != nullptr)
+		{
+			delete _nom;
+			_nom = nullptr;
+		}
+	}
+
+	Joueur::Joueur(const Joueur& j)
+	{
+		if (this != &j)
+		{
+			_couleur = j._couleur;
+			_id = j._id;
+			_nature = j._nature;
+
+			if (_nom != nullptr)
+			{
+				delete _nom;
+				_nom = nullptr;
+			}
+
+			unsigned int sz = std::strlen(j._nom);
+			_nom = new char[1 + sz];
+			std::memset(_nom, 0, 1 + sz);
+			std::memcpy(_nom, j._nom, sz);
+		}
+	}
+
+	Joueur& Joueur::operator=(const Joueur & j)
+	{
+		if (this != &j)
+		{
+			_couleur = j._couleur;
+			_id = j._id;
+			_nature = j._nature;
+
+			if (_nom != nullptr)
+			{
+				delete _nom;
+				_nom = nullptr;
+			}
+
+			unsigned int sz = std::strlen(j._nom);
+			_nom = new char[1 + sz];
+			std::memset(_nom, 0, 1 + sz);
+			std::memcpy(_nom, j._nom, sz);
+		}
+	}
+
+	void Joueur::setId(const IdJoueur& id)
+	{
+		_id = id;
+	}
+
+	void Joueur::setNom(const char* nom)
+	{
+		if (_nom != nullptr)
+		{
+			delete _nom;
+			_nom = nullptr;
+		}
+
+		unsigned int sz = std::strlen(nom);
+		_nom = new char[1 + sz];
+		std::memset(_nom, 0, 1 + sz);
+		std::memcpy(_nom, nom, sz);
+	}
+}
+
+namespace spc_plateau
+{
 	Plateau::Plateau(PositionsCouleursDepart positionsDepart)
 		: _pionsNord(positionsDepart == PositionsCouleursDepart::blancs_noirs ? _pionsBlancs 
 			: (positionsDepart == PositionsCouleursDepart::noirs_blancs ? _pionsNoirs 
