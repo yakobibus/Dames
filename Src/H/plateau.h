@@ -59,6 +59,12 @@ namespace spc_plateau
 		, is_error = 512      // No legal char combination in the buffer
 	};
 
+	enum class NatureJoueur
+	{
+		  undefined = 0
+		, humain    = 1
+		, ia        = 2
+	};
 
 	enum class PositionsCouleursDepart : unsigned int
 	{
@@ -114,8 +120,9 @@ namespace spc_plateau
 		void setCellule(void);
 		//
 		void setDiagonale(const Diagonale* diagonale);
-		unsigned int getNbDiagonales(void) const { return _nbDiagonales; }
 		const Diagonale* getDiagonale(int i) const { return _diagonale[i]; }
+		const Pion* getPion(void) const { return _pion; }
+		unsigned int getNbDiagonales(void) const { return _nbDiagonales; }
 	private:
 		ApparenceCase     _apparence;
 		Cellule*          _cellule;
@@ -188,6 +195,17 @@ namespace spc_plateau
 		inline bool _isDigit(const char& c) const { return IS_DIGIT_DAMIER(c); }
 	};
 
+	class Joueur
+	{
+	public :
+		Joueur() : _couleur(CouleurPion::null), _nature(NatureJoueur::undefined) {}
+		~Joueur() = default;
+		Joueur(const Joueur& j) = default;
+		Joueur& operator = (const Joueur& j) = default;
+	private :
+		CouleurPion  _couleur;
+		NatureJoueur _nature;
+	};
 
 	class Pion
 	{
@@ -239,6 +257,7 @@ namespace spc_plateau
 		unsigned int            _getIndexCase(void) const;
 		//unsigned int            _getIndexCase(unsigned int& y, unsigned int& x) const;
 		bool                    _isCaseNoire(void) const { return (_getIndexCase() == 0 ? false : true); }
+		bool                    _isCaseOccupee(void) const { return _casesDamier[_getIndexCase()].getPion() != nullptr ; }
 		//bool                    _isCaseNoire(unsigned int& y, unsigned int& x) const { return (_getIndexCase(y, x) == 0 ? false : true); }
 	};
 }

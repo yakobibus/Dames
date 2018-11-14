@@ -443,8 +443,9 @@ namespace spc_plateau
 	{
 		bool departValide = false;
 		// Mouvement - Règle 1 : la case est noire
-		if (_isCaseNoire()) { std::cout << "Case valide index : " << _getIndexCase() << "\n"; } /// ICI
-		else { std::cout << "Case KO oooooops ! : " << _getIndexCase() << "\n"; } /// ICI 
+		// Mouvement - Règle 2 : la case est occupée par un pion de la même couleur du le joueur
+		if (_isCaseNoire() && _isCaseOccupee()) { std::cout << "Case valide index : " << _getIndexCase() << " + Occupée \n"; } /// ICI
+		else { std::cout << "Case <"<<(_isCaseNoire() ? "Black" : "White")<<"> " << _getIndexCase() << ", occupée ? <"<<(_isCaseOccupee() ? "Yes" : "Nein")<<">\n"; } /// ICI 
 	}
 
 	unsigned int Plateau::_getIndexCase(void) const
