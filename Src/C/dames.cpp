@@ -29,7 +29,7 @@ namespace spc_dames
 			_plateau.affiche();
 			_finDePartie = _plateau.coupSuivant();
 		}
-		
+
 		return retCode ;
 	}
 }

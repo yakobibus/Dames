@@ -296,6 +296,7 @@ namespace spc_plateau
 		, _id(IdJoueur::undefined)
 		, _nature(NatureJoueur::undefined)
 		, _nom(nullptr)
+		, _szNom(0)
 	{}
 
 	Joueur::~Joueur()
@@ -304,6 +305,7 @@ namespace spc_plateau
 		{
 			delete _nom;
 			_nom = nullptr;
+			_szNom = 0;
 		}
 	}
 
@@ -319,12 +321,13 @@ namespace spc_plateau
 			{
 				delete _nom;
 				_nom = nullptr;
+				_szNom = 0;
 			}
 
-			unsigned int sz = std::strlen(j._nom);
-			_nom = new char[1 + sz];
-			std::memset(_nom, 0, 1 + sz);
-			std::memcpy(_nom, j._nom, sz);
+			_szNom = std::strlen(j._nom);
+			_nom = new char[1 + _szNom];
+			std::memset(_nom, 0, 1 + _szNom);
+			std::memcpy(_nom, j._nom, _szNom);
 		}
 	}
 
@@ -340,15 +343,40 @@ namespace spc_plateau
 			{
 				delete _nom;
 				_nom = nullptr;
+				_szNom = 0;
 			}
 
-			unsigned int sz = std::strlen(j._nom);
-			_nom = new char[1 + sz];
-			std::memset(_nom, 0, 1 + sz);
-			std::memcpy(_nom, j._nom, sz);
+			if (j._nom != nullptr)
+			{
+				_szNom = std::strlen(j._nom);
+				_nom = new char[1 + _szNom];
+				std::memset(_nom, 0, 1 + _szNom);
+				std::memcpy(_nom, j._nom, _szNom);
+			}
 		}
 	}
 
+	void spc_plateau::Joueur::init(const IdJoueur& id, const CouleurPion& couleur, const char* nom, const NatureJoueur& nature)
+	{
+		_id = id;
+		_couleur = couleur;
+		_nature = nature;
+		if (_nom != nullptr)
+		{ 
+			delete _nom; 
+			_nom = nullptr; 
+			_szNom = 0;
+		}
+		if(nom != nullptr)
+		{ 
+			_szNom = std::strlen(nom);
+			_nom = new char[1 + _szNom];
+			std::memset(_nom, 0, 1 + _szNom);
+			std::memcpy(_nom, nom, _szNom);
+		}
+	}
+
+	/*
 	void Joueur::setId(const IdJoueur& id)
 	{
 		_id = id;
@@ -367,14 +395,15 @@ namespace spc_plateau
 		std::memset(_nom, 0, 1 + sz);
 		std::memcpy(_nom, nom, sz);
 	}
+	*/
 }
 
 namespace spc_plateau
 {
 	Plateau::Plateau(PositionsCouleursDepart positionsDepart)
-		: _pionsNord(positionsDepart == PositionsCouleursDepart::blancs_noirs ? _pionsBlancs 
-			: (positionsDepart == PositionsCouleursDepart::noirs_blancs ? _pionsNoirs 
-				: nullptr ))
+		: _pionsNord(positionsDepart == PositionsCouleursDepart::blancs_noirs ? _pionsBlancs
+			: (positionsDepart == PositionsCouleursDepart::noirs_blancs ? _pionsNoirs
+				: nullptr))
 		, _pionsSud(positionsDepart == PositionsCouleursDepart::blancs_noirs ? _pionsNoirs
 			: (positionsDepart == PositionsCouleursDepart::noirs_blancs ? _pionsBlancs
 				: nullptr))
@@ -385,13 +414,36 @@ namespace spc_plateau
 			: (positionsDepart == PositionsCouleursDepart::noirs_blancs ? CouleurPion::blanc
 				: CouleurPion::null))
 	{
-		/* 
+		/*
 		Initialisation des casesDamier :
 		------------------------------
-		- La case 0 est blanche, les 50 suivantes noires ; 
+		- La case 0 est blanche, les 50 suivantes noires ;
 		- Les pions couleur 1/2 dans les cases 1 à 20 et les couleur 2/2 de 31 à 50
 		NB : le pointeur sur le pion reste null dans un premier temps
 		**/
+
+		if (positionsDepart == PositionsCouleursDepart::blancs_noirs)
+		{
+			_joueurs[0].init(IdJoueur::premier, _pionsNord->getCouleur(), "Caladan", NatureJoueur::humain);
+			_joueurs[1].init(IdJoueur::premier, _pionsSud->getCouleur(), "SalusaSecundus", NatureJoueur::humain);
+		}
+		else if (positionsDepart == PositionsCouleursDepart::noirs_blancs) 
+		{
+			_joueurs[0].init(IdJoueur::premier, _pionsSud->getCouleur(), "SalusaSecundus", NatureJoueur::humain);
+			_joueurs[1].init(IdJoueur::premier, _pionsNord->getCouleur(), "Caladan", NatureJoueur::humain);
+		}
+		else {
+			_joueurs[0].init(IdJoueur::premier, _pionsSud->getCouleur(), "LetoAtréides", NatureJoueur::ia);
+			_joueurs[1].init(IdJoueur::premier, _pionsNord->getCouleur(), "VladimirHarkonnen", NatureJoueur::ia);
+		}
+		//char nm1[] = _joueurs[0].getNom();
+		std::memcpy(&(_cellulesEntete[4][0]), _joueurs[(positionsDepart == PositionsCouleursDepart::blancs_noirs ? 0 : 1)].getNom(), _joueurs[(positionsDepart == PositionsCouleursDepart::blancs_noirs ? 0 : 1)].getSzNom());
+		std::memcpy(&(_cellulesEnqueue[1][0]), _joueurs[(positionsDepart == PositionsCouleursDepart::blancs_noirs ? 1 : 0)].getNom(), _joueurs[(positionsDepart == PositionsCouleursDepart::blancs_noirs ? 1 : 0)].getSzNom());
+		std::memcpy(&(_cellulesEntete[4][0]), _joueurs[(positionsDepart == PositionsCouleursDepart::blancs_noirs ? 1 : 0)].getNom(), _joueurs[(positionsDepart == PositionsCouleursDepart::blancs_noirs ? 1 : 0)].getSzNom());
+		std::memcpy(&(_cellulesEnqueue[1][0]), _joueurs[(positionsDepart == PositionsCouleursDepart::blancs_noirs ? 0 : 1)].getNom(), _joueurs[(positionsDepart == PositionsCouleursDepart::blancs_noirs ? 0 : 1)].getSzNom());
+
+		std::cout << "ici (0)<" << _joueurs[0].getNom() << "><" << _joueurs[0].getSzNom() << ">("<< &_cellulesEntete[0][0] <<")\n";
+		std::cout << "ici (1)<" << _joueurs[1].getNom() << "><" << _joueurs[1].getSzNom() << ">("<< _cellulesEnqueue <<")\n";
 
 		int iCaseDamier = 0;
 		_casesDamier[iCaseDamier].init(0, 0, 0, nullptr, ApparenceCase::normal, CouleurCaseDamier::blanc); //  , CouleurPion::null);
@@ -436,7 +488,7 @@ namespace spc_plateau
 		{
 			// Initialisation des pointeurs de cellules dans les caseDamiers
 			// y paire de [2 à 20] et x de [2 à 10 si y%4!=0, de 1 à 9 si y%4==0] => cellule
-			for (int y = 2, iCase = 1 ; y <= 20; y += 2)
+			for (int y = 2, iCase = 1; y <= 20; y += 2)
 			{
 				for (int x = 1; x <= 10; ++x)
 				{
@@ -454,6 +506,91 @@ namespace spc_plateau
 
 		initDiagonales();
 	}
+
+	Plateau::Plateau(const Plateau& p)
+	{
+		if (this != &p)
+		{
+			for (short ii = 0; ii < NB_CASES_PLATEAU; ++ii) {
+				_casesDamier[ii] = p._casesDamier[ii];
+			}
+			for (short yy = 0; yy < NB_Y_REF_CELLULES; ++yy) {
+				for (short xx = 0; xx < NB_X_REF_CELLULES; ++xx) {
+					_cellules[yy][xx] = p._cellules[yy][xx];
+				}
+			}
+			for (short yy = 0; yy < NB_Y_REF_CELLULES_ENTETE; ++yy) {
+				for (short xx = 0; xx < NB_X_REF_CELLULES; ++xx) { 
+					_cellulesEntete[yy][xx] = p._cellulesEntete[yy][xx];
+				}
+			}
+			for (short yy = 0; yy < NB_Y_REF_CELLULES_ENQUEUE; ++yy) {
+				for (short xx = 0; xx < NB_X_REF_CELLULES; ++xx) { 
+					_cellulesEnqueue[yy][xx] = p._cellulesEnqueue[yy][xx];
+				}
+			}
+			_couleurPionsNord = p._couleurPionsNord;
+			_couleurPionsSud = p._couleurPionsSud;
+			for (short ii = 0; ii < NB_DIAGONALES_PLATEAU ; ++ii) { 
+				_diagonales[ii] = p._diagonales[ii];
+			}
+			_input = p._input;
+			for (short ii = 0; ii < NB_JOUEURS ; ++ii) { 
+				_joueurs[ii] = p._joueurs[ii];
+			}
+			for (short ii = 0; ii < NB_PIONS_PAR_COULEUR; ++ii) { 
+				_pionsBlancs[ii] = p._pionsBlancs[ii]; 
+				_pionsNoirs[ii] = p._pionsNoirs[ii]; 
+			}
+			_positionsDeDepart = p._positionsDeDepart;
+		}
+	}
+
+	Plateau & Plateau::operator=(const Plateau & p)
+	{
+		if (this != &p)
+		{
+			for (short ii = 0; ii < NB_CASES_PLATEAU; ++ii) {
+				_casesDamier[ii] = p._casesDamier[ii];
+			}
+			for (short yy = 0; yy < NB_Y_REF_CELLULES; ++yy) {
+				for (short xx = 0; xx < NB_X_REF_CELLULES; ++xx) {
+					_cellules[yy][xx] = p._cellules[yy][xx];
+				}
+			}
+			for (short yy = 0; yy < NB_Y_REF_CELLULES_ENTETE; ++yy) {
+				for (short xx = 0; xx < NB_X_REF_CELLULES; ++xx) {
+					_cellulesEntete[yy][xx] = p._cellulesEntete[yy][xx];
+				}
+			}
+			for (short yy = 0; yy < NB_Y_REF_CELLULES_ENQUEUE; ++yy) {
+				for (short xx = 0; xx < NB_X_REF_CELLULES; ++xx) {
+					_cellulesEnqueue[yy][xx] = p._cellulesEnqueue[yy][xx];
+				}
+			}
+			_couleurPionsNord = p._couleurPionsNord;
+			_couleurPionsSud = p._couleurPionsSud;
+			for (short ii = 0; ii < NB_DIAGONALES_PLATEAU; ++ii) {
+				_diagonales[ii] = p._diagonales[ii];
+			}
+			_input = p._input;
+			for (short ii = 0; ii < NB_JOUEURS; ++ii) {
+				_joueurs[ii] = p._joueurs[ii];
+			}
+			for (short ii = 0; ii < NB_PIONS_PAR_COULEUR; ++ii) {
+				_pionsBlancs[ii] = p._pionsBlancs[ii];
+				_pionsNoirs[ii] = p._pionsNoirs[ii];
+			}
+			_positionsDeDepart = p._positionsDeDepart;
+		}
+		
+		return *this;
+	}
+	
+}
+
+namespace spc_plateau
+{
 
 	void Plateau::initDiagonales(void)
 	{

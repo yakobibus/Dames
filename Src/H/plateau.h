@@ -210,14 +210,17 @@ namespace spc_plateau
 		Joueur& operator = (const Joueur& j);
 		//
 		const IdJoueur& getId(void) const { return _id; }
+		void init(const IdJoueur& id, const CouleurPion& couleur, const char* nom, const NatureJoueur& nature = NatureJoueur::humain);
 		const char* const getNom(void) const { return _nom; }
-		void setId(const IdJoueur& id);
-		void setNom(const char* nom);
+		const unsigned short getSzNom(void) const { return _szNom; }
+		//void setId(const IdJoueur& id);
+		//void setNom(const char* nom);
 	private :
-		IdJoueur _id;
+		IdJoueur     _id;
 		CouleurPion  _couleur;
 		NatureJoueur _nature;
 		char*        _nom;
+		unsigned short _szNom;
 	};
 
 	class Pion
@@ -243,24 +246,24 @@ namespace spc_plateau
 	public :
 		Plateau(PositionsCouleursDepart positionsDepart = PositionsCouleursDepart::blancs_noirs) ;
 		~Plateau() = default;
-		Plateau(const Plateau& p) = default;
-		Plateau& operator = (const Plateau& p) = default;
+		Plateau(const Plateau& p) ;
+		Plateau& operator = (const Plateau& p) ;
 		//
-		void affiche(void);
+		void affiche(void) ;
 		bool coupSuivant(void);
 		CaseDamier* getCaseDamier(unsigned int y, unsigned int x);
 		void initDiagonales(void);
 		void initPions(Pion* const pions, CaseDamier* const cases, CouleurPion& couleur);
 	private :
 		CaseDamier              _casesDamier[NB_CASES_PLATEAU]; // 50 cases noires numérotées de 01 à 50 ; la case 00 est blanche ; le numéro de la case correspond à son indice
-		Cellule                 _cellules[23][12] = MOTIF_PLATEAU_DAMIER;
-		Cellule                 _cellulesEntete[6][12] = MOTIF_TEXTE_ENTETE;
-		Cellule                 _cellulesEnqueue[6][12] = MOTIF_TEXTE_ENQUEUE;
+		Cellule                 _cellules[NB_Y_REF_CELLULES][NB_X_REF_CELLULES] = MOTIF_PLATEAU_DAMIER;
+		Cellule                 _cellulesEntete[NB_Y_REF_CELLULES_ENTETE][NB_X_REF_CELLULES] = MOTIF_TEXTE_ENTETE;
+		Cellule                 _cellulesEnqueue[NB_Y_REF_CELLULES_ENQUEUE][NB_X_REF_CELLULES] = MOTIF_TEXTE_ENQUEUE;
 		CouleurPion             _couleurPionsNord = CouleurPion::null;
 		CouleurPion             _couleurPionsSud = CouleurPion::null;
 		Diagonale               _diagonales[NB_DIAGONALES_PLATEAU];
 		Input                   _input;
-		Joueur                  _joueurs[2]; // ICI
+		Joueur                  _joueurs[NB_JOUEURS]; // ICI
 		Pion                    _pionsBlancs[NB_PIONS_PAR_COULEUR];
 		Pion                    _pionsNoirs[NB_PIONS_PAR_COULEUR];
 		Pion* const             _pionsNord = nullptr;
