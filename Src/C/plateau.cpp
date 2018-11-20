@@ -436,14 +436,9 @@ namespace spc_plateau
 			_joueurs[0].init(IdJoueur::premier, _pionsSud->getCouleur(), "LetoAtréides", NatureJoueur::ia);
 			_joueurs[1].init(IdJoueur::premier, _pionsNord->getCouleur(), "VladimirHarkonnen", NatureJoueur::ia);
 		}
-		//char nm1[] = _joueurs[0].getNom();
+
 		std::memcpy(&(_cellulesEntete[4][0]), _joueurs[(positionsDepart == PositionsCouleursDepart::blancs_noirs ? 0 : 1)].getNom(), _joueurs[(positionsDepart == PositionsCouleursDepart::blancs_noirs ? 0 : 1)].getSzNom());
 		std::memcpy(&(_cellulesEnqueue[1][0]), _joueurs[(positionsDepart == PositionsCouleursDepart::blancs_noirs ? 1 : 0)].getNom(), _joueurs[(positionsDepart == PositionsCouleursDepart::blancs_noirs ? 1 : 0)].getSzNom());
-		std::memcpy(&(_cellulesEntete[4][0]), _joueurs[(positionsDepart == PositionsCouleursDepart::blancs_noirs ? 1 : 0)].getNom(), _joueurs[(positionsDepart == PositionsCouleursDepart::blancs_noirs ? 1 : 0)].getSzNom());
-		std::memcpy(&(_cellulesEnqueue[1][0]), _joueurs[(positionsDepart == PositionsCouleursDepart::blancs_noirs ? 0 : 1)].getNom(), _joueurs[(positionsDepart == PositionsCouleursDepart::blancs_noirs ? 0 : 1)].getSzNom());
-
-		std::cout << "ici (0)<" << _joueurs[0].getNom() << "><" << _joueurs[0].getSzNom() << ">("<< &_cellulesEntete[0][0] <<")\n";
-		std::cout << "ici (1)<" << _joueurs[1].getNom() << "><" << _joueurs[1].getSzNom() << ">("<< _cellulesEnqueue <<")\n";
 
 		int iCaseDamier = 0;
 		_casesDamier[iCaseDamier].init(0, 0, 0, nullptr, ApparenceCase::normal, CouleurCaseDamier::blanc); //  , CouleurPion::null);
