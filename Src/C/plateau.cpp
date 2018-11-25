@@ -368,7 +368,7 @@ namespace spc_plateau
 			_szNom = 0;
 		}
 		if(nom != nullptr)
-		{ 
+		{
 			_szNom = std::strlen(nom);
 			_nom = new char[1 + _szNom];
 			std::memset(_nom, 0, 1 + _szNom);
@@ -413,6 +413,8 @@ namespace spc_plateau
 		, _couleurPionsSud(positionsDepart == PositionsCouleursDepart::blancs_noirs ? CouleurPion::noir
 			: (positionsDepart == PositionsCouleursDepart::noirs_blancs ? CouleurPion::blanc
 				: CouleurPion::null))
+		, _nombreTotalDeCoups(0)
+		, _joueurEnCours(nullptr)
 	{
 		/*
 		Initialisation des casesDamier :
@@ -426,15 +428,18 @@ namespace spc_plateau
 		{
 			_joueurs[0].init(IdJoueur::premier, _pionsNord->getCouleur(), "Caladan", NatureJoueur::humain);
 			_joueurs[1].init(IdJoueur::premier, _pionsSud->getCouleur(), "SalusaSecundus", NatureJoueur::humain);
+			_joueurEnCours = &_joueurs[0];  // Les blancs commencent
 		}
 		else if (positionsDepart == PositionsCouleursDepart::noirs_blancs) 
 		{
 			_joueurs[0].init(IdJoueur::premier, _pionsSud->getCouleur(), "SalusaSecundus", NatureJoueur::humain);
 			_joueurs[1].init(IdJoueur::premier, _pionsNord->getCouleur(), "Caladan", NatureJoueur::humain);
+			_joueurEnCours = &_joueurs[1];  // Les blancs commencent
 		}
 		else {
 			_joueurs[0].init(IdJoueur::premier, _pionsSud->getCouleur(), "LetoAtréides", NatureJoueur::ia);
 			_joueurs[1].init(IdJoueur::premier, _pionsNord->getCouleur(), "VladimirHarkonnen", NatureJoueur::ia);
+			_joueurEnCours = nullptr;  // Les blancs commencent, sauf que là, on ne distingue pas les blancs
 		}
 
 		std::memcpy(&(_cellulesEntete[4][0]), _joueurs[(positionsDepart == PositionsCouleursDepart::blancs_noirs ? 0 : 1)].getNom(), _joueurs[(positionsDepart == PositionsCouleursDepart::blancs_noirs ? 0 : 1)].getSzNom());
@@ -524,8 +529,10 @@ namespace spc_plateau
 					_cellulesEnqueue[yy][xx] = p._cellulesEnqueue[yy][xx];
 				}
 			}
+
 			_couleurPionsNord = p._couleurPionsNord;
 			_couleurPionsSud = p._couleurPionsSud;
+
 			for (short ii = 0; ii < NB_DIAGONALES_PLATEAU ; ++ii) { 
 				_diagonales[ii] = p._diagonales[ii];
 			}
@@ -537,6 +544,9 @@ namespace spc_plateau
 				_pionsBlancs[ii] = p._pionsBlancs[ii]; 
 				_pionsNoirs[ii] = p._pionsNoirs[ii]; 
 			}
+
+			_joueurEnCours = p._joueurEnCours;
+			_nombreTotalDeCoups = p._nombreTotalDeCoups;
 			_positionsDeDepart = p._positionsDeDepart;
 		}
 	}
@@ -576,12 +586,13 @@ namespace spc_plateau
 				_pionsBlancs[ii] = p._pionsBlancs[ii];
 				_pionsNoirs[ii] = p._pionsNoirs[ii];
 			}
+			_joueurEnCours = p._joueurEnCours;
+			_nombreTotalDeCoups = p._nombreTotalDeCoups;
 			_positionsDeDepart = p._positionsDeDepart;
 		}
 		
 		return *this;
-	}
-	
+	}	
 }
 
 namespace spc_plateau
@@ -656,8 +667,25 @@ namespace spc_plateau
 		bool departValide = false;
 		// Mouvement - Règle 1 : la case est noire
 		// Mouvement - Règle 2 : la case est occupée par un pion de la même couleur du le joueur
-		if (_isCaseNoire() && _isCaseOccupee()) { std::cout << "Case valide index : " << _getIndexCase() << " + Occupée \n"; } /// ICI
-		else { std::cout << "Case <"<<(_isCaseNoire() ? "Black" : "White")<<"> " << _getIndexCase() << ", occupée ? <"<<(_isCaseOccupee() ? "Yes" : "Nein")<<">\n"; } /// ICI 
+		std::cout << "ici Case noire ? <" << (_isCaseNoire() ? "Yes" : "No") << ">\n";
+		std::cout << "ici Case occupée ? <" << (_isCaseOccupee() ? std::to_string(_getIndexCase()).c_str() : "No") << ">\n";
+		if (_isCaseOccupee()) { 
+			std::cout << "ici ... donc Occupée par Pion couleur <" << (_getCouleurJoueurEnCours() == CouleurPion::blanc ? "Blanc" : "Noir") << ">\n";
+			std::cout << "ici ... donc Jouée par Joueur couleur <" << (_casesDamier[_getIndexCase()].getPion()->getCouleur() == CouleurPion::blanc ? "Blanc" : "Noir") << ">\n";
+		}
+std::cout << "ici :: ava(1)\n";
+//if (_isCaseOccupee()) {
+	if (_isCaseOccupee() && _isCaseNoire() && _casesDamier[_getIndexCase()].getPion()->getCouleur() == _getCouleurJoueurEnCours())
+	{
+		std::cout << "Case valide index : " << _getIndexCase() << " + Occupée par pion <" << (_casesDamier[_getIndexCase()].getPion()->getCouleur() == CouleurPion::blanc ? "White" : "Black") << ">\n";
+	} /// ICI
+	else {
+		std::cout << "Case <" << (_isCaseNoire() ? "Black" : "White") << "> " << _getIndexCase() << ", occupée ? <" << (_isCaseOccupee() ? "Yes" : "Nein") << ">\n";
+		std::cout << "Pion couleur " << (_casesDamier[_getIndexCase()].getPion()->getCouleur() == CouleurPion::blanc ? "blanc" : "noir") << "\n";
+		std::cout << "Joueur couleur " << (_getCouleurJoueurEnCours() == CouleurPion::blanc ? "blanc" : "noir") << "\n";
+	} /// ICI 
+//}
+std::cout << "ici :: ava(2)\n";
 	}
 
 	unsigned int Plateau::_getIndexCase(void) const
@@ -774,7 +802,7 @@ namespace spc_plateau
 		_input.saisie(invite);
 std::cout << "ICI ["<<_input.getY()<<", "<<_input.getX()<<"] : " << (_input.isValid() ? "Valide" : "Ko !") << "\n";
 
-_caseDepartValide();
+_caseDepartValide(); std::cout << "ici ....ava\n";
 		return _input.isValid();
 	}
 

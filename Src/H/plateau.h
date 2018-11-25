@@ -209,6 +209,7 @@ namespace spc_plateau
 		Joueur(const Joueur& j);
 		Joueur& operator = (const Joueur& j);
 		//
+		CouleurPion getCouleur(void) const { return _couleur; }
 		const IdJoueur& getId(void) const { return _id; }
 		void init(const IdJoueur& id, const CouleurPion& couleur, const char* nom, const NatureJoueur& nature = NatureJoueur::humain);
 		const char* const getNom(void) const { return _nom; }
@@ -251,7 +252,7 @@ namespace spc_plateau
 		//
 		void affiche(void) ;
 		bool coupSuivant(void);
-		CaseDamier* getCaseDamier(unsigned int y, unsigned int x);
+		//CaseDamier* getCaseDamier(unsigned int y, unsigned int x);
 		void initDiagonales(void);
 		void initPions(Pion* const pions, CaseDamier* const cases, CouleurPion& couleur);
 	private :
@@ -264,6 +265,8 @@ namespace spc_plateau
 		Diagonale               _diagonales[NB_DIAGONALES_PLATEAU];
 		Input                   _input;
 		Joueur                  _joueurs[NB_JOUEURS]; // ICI
+        short                   _nombreTotalDeCoups; // ICI ... ajouter au Ctor, Dtor, ...
+        Joueur*                 _joueurEnCours; //  ICI ... ajouter au Ctor, Dtor, ...
 		Pion                    _pionsBlancs[NB_PIONS_PAR_COULEUR];
 		Pion                    _pionsNoirs[NB_PIONS_PAR_COULEUR];
 		Pion* const             _pionsNord = nullptr;
@@ -271,10 +274,12 @@ namespace spc_plateau
 		PositionsCouleursDepart _positionsDeDepart;
 		//
 		void                    _caseDepartValide(void);
+		CouleurPion             _getCouleurJoueurEnCours(void) const { return _joueurEnCours->getCouleur(); }
 		unsigned int            _getIndexCase(void) const;
 		//unsigned int            _getIndexCase(unsigned int& y, unsigned int& x) const;
 		bool                    _isCaseNoire(void) const { return (_getIndexCase() == 0 ? false : true); }
 		bool                    _isCaseOccupee(void) const { return _casesDamier[_getIndexCase()].getPion() != nullptr ; }
+		//bool                    _isCaseOccupeePionCouleurJoueur(void);
 		//bool                    _isCaseNoire(unsigned int& y, unsigned int& x) const { return (_getIndexCase(y, x) == 0 ? false : true); }
 	};
 }
