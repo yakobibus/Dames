@@ -279,7 +279,7 @@ namespace spc_plateau
 		//unsigned int            _getIndexCase(unsigned int& y, unsigned int& x) const;
 		bool                    _isCaseNoire(void) const { return (_getIndexCase() == 0 ? false : true); }
 		bool                    _isCaseOccupee(void) const { return _casesDamier[_getIndexCase()].getPion() != nullptr ; }
-		//bool                    _isCaseOccupeePionCouleurJoueur(void);
+		bool                    _isCaseOccupeePionCouleurJoueurEnCours(void) { return (_isCaseOccupee() ? (_getCouleurJoueurEnCours() == (_casesDamier[_getIndexCase()].getPion()->getCouleur()) ? true : false) : false); }
 		//bool                    _isCaseNoire(unsigned int& y, unsigned int& x) const { return (_getIndexCase(y, x) == 0 ? false : true); }
 	};
 }

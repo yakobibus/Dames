@@ -375,43 +375,22 @@ namespace spc_plateau
 			std::memcpy(_nom, nom, _szNom);
 		}
 	}
-
-	/*
-	void Joueur::setId(const IdJoueur& id)
-	{
-		_id = id;
-	}
-
-	void Joueur::setNom(const char* nom)
-	{
-		if (_nom != nullptr)
-		{
-			delete _nom;
-			_nom = nullptr;
-		}
-
-		unsigned int sz = std::strlen(nom);
-		_nom = new char[1 + sz];
-		std::memset(_nom, 0, 1 + sz);
-		std::memcpy(_nom, nom, sz);
-	}
-	*/
 }
 
 namespace spc_plateau
 {
 	Plateau::Plateau(PositionsCouleursDepart positionsDepart)
-		: _pionsNord(positionsDepart == PositionsCouleursDepart::blancs_noirs ? _pionsBlancs
-			: (positionsDepart == PositionsCouleursDepart::noirs_blancs ? _pionsNoirs
-				: nullptr))
-		, _pionsSud(positionsDepart == PositionsCouleursDepart::blancs_noirs ? _pionsNoirs
+		: _pionsNord(positionsDepart == PositionsCouleursDepart::blancs_noirs ? _pionsNoirs
 			: (positionsDepart == PositionsCouleursDepart::noirs_blancs ? _pionsBlancs
 				: nullptr))
-		, _couleurPionsNord(positionsDepart == PositionsCouleursDepart::blancs_noirs ? CouleurPion::blanc
-			: (positionsDepart == PositionsCouleursDepart::noirs_blancs ? CouleurPion::noir
-				: CouleurPion::null))
-		, _couleurPionsSud(positionsDepart == PositionsCouleursDepart::blancs_noirs ? CouleurPion::noir
+		, _pionsSud(positionsDepart == PositionsCouleursDepart::blancs_noirs ? _pionsBlancs
+			: (positionsDepart == PositionsCouleursDepart::noirs_blancs ? _pionsNoirs
+				: nullptr))
+		, _couleurPionsNord(positionsDepart == PositionsCouleursDepart::blancs_noirs ? CouleurPion::noir
 			: (positionsDepart == PositionsCouleursDepart::noirs_blancs ? CouleurPion::blanc
+				: CouleurPion::null))
+		, _couleurPionsSud(positionsDepart == PositionsCouleursDepart::blancs_noirs ? CouleurPion::blanc
+			: (positionsDepart == PositionsCouleursDepart::noirs_blancs ? CouleurPion::noir
 				: CouleurPion::null))
 		, _nombreTotalDeCoups(0)
 		, _joueurEnCours(nullptr)
@@ -441,6 +420,12 @@ namespace spc_plateau
 			_joueurs[1].init(IdJoueur::premier, _pionsNord->getCouleur(), "VladimirHarkonnen", NatureJoueur::ia);
 			_joueurEnCours = nullptr;  // Les blancs commencent, sauf que là, on ne distingue pas les blancs
 		}
+std::cout << "ICI ... en commenCant : Joueur[O] est couleur [" << (_joueurs[0].getCouleur() == CouleurPion::blanc ? "BLANC" : "NOIR?") << "]\n";
+std::cout << "ICI ... en commenCant : Joueur[1] est couleur [" << (_joueurs[1].getCouleur() == CouleurPion::blanc ? "BLANC" : "NOIR?") << "]\n";
+std::cout << "ICI ... en commenCant : Pions Nord sont couleur [" << (_pionsNord->getCouleur() == CouleurPion::blanc ? "BLANC" : "NOIR?") << "]\n";
+std::cout << "ICI ... en commenCant : Pions Sud sont couleur [" << (_pionsSud->getCouleur() == CouleurPion::blanc ? "BLANC" : "NOIR?") << "]\n";
+std::cout << "ICI ... en commenCant : Pions Noirs st couleur [" << (_pionsNoirs->getCouleur() == CouleurPion::blanc ? "BLANC" : "NOIR?") << "]\n";
+std::cout << "ICI ... en commenCant : Pions Blancs st couleur [" << (_pionsBlancs->getCouleur() == CouleurPion::blanc ? "BLANC" : "NOIR?") << "]\n";
 
 		std::memcpy(&(_cellulesEntete[4][0]), _joueurs[(positionsDepart == PositionsCouleursDepart::blancs_noirs ? 0 : 1)].getNom(), _joueurs[(positionsDepart == PositionsCouleursDepart::blancs_noirs ? 0 : 1)].getSzNom());
 		std::memcpy(&(_cellulesEnqueue[1][0]), _joueurs[(positionsDepart == PositionsCouleursDepart::blancs_noirs ? 1 : 0)].getNom(), _joueurs[(positionsDepart == PositionsCouleursDepart::blancs_noirs ? 1 : 0)].getSzNom());
@@ -672,20 +657,17 @@ namespace spc_plateau
 		if (_isCaseOccupee()) { 
 			std::cout << "ici ... donc Occupée par Pion couleur <" << (_getCouleurJoueurEnCours() == CouleurPion::blanc ? "Blanc" : "Noir") << ">\n";
 			std::cout << "ici ... donc Jouée par Joueur couleur <" << (_casesDamier[_getIndexCase()].getPion()->getCouleur() == CouleurPion::blanc ? "Blanc" : "Noir") << ">\n";
+			std::cout << "ici ... case occupée par pion même couleur joueur ? <" << (_isCaseOccupeePionCouleurJoueurEnCours() ? "Oui" : "Non") << ">\n";
 		}
-std::cout << "ici :: ava(1)\n";
-//if (_isCaseOccupee()) {
-	if (_isCaseOccupee() && _isCaseNoire() && _casesDamier[_getIndexCase()].getPion()->getCouleur() == _getCouleurJoueurEnCours())
-	{
-		std::cout << "Case valide index : " << _getIndexCase() << " + Occupée par pion <" << (_casesDamier[_getIndexCase()].getPion()->getCouleur() == CouleurPion::blanc ? "White" : "Black") << ">\n";
-	} /// ICI
-	else {
-		std::cout << "Case <" << (_isCaseNoire() ? "Black" : "White") << "> " << _getIndexCase() << ", occupée ? <" << (_isCaseOccupee() ? "Yes" : "Nein") << ">\n";
-		std::cout << "Pion couleur " << (_casesDamier[_getIndexCase()].getPion()->getCouleur() == CouleurPion::blanc ? "blanc" : "noir") << "\n";
-		std::cout << "Joueur couleur " << (_getCouleurJoueurEnCours() == CouleurPion::blanc ? "blanc" : "noir") << "\n";
-	} /// ICI 
-//}
-std::cout << "ici :: ava(2)\n";
+		if (_isCaseOccupee() && _isCaseNoire() && _casesDamier[_getIndexCase()].getPion()->getCouleur() == _getCouleurJoueurEnCours())
+		{
+			std::cout << "Case valide index : " << _getIndexCase() << " + Occupée par pion <" << (_casesDamier[_getIndexCase()].getPion()->getCouleur() == CouleurPion::blanc ? "White" : "Black") << ">\n";
+		} /// ICI
+		else {
+			std::cout << "Case <" << (_isCaseNoire() ? "Black" : "White") << "> " << _getIndexCase() << ", occupée ? <" << (_isCaseOccupee() ? "Yes" : "Nein") << ">\n";
+			std::cout << "Pion couleur " << (_getIndexCase() > 0 ? (_casesDamier[_getIndexCase()].getPion()->getCouleur() == CouleurPion::blanc ? "blanc" : "noir") : "") << "\n";
+			std::cout << "Joueur couleur " << (_getCouleurJoueurEnCours() == CouleurPion::blanc ? "blanc" : "noir") << "\n";
+		} /// ICI 
 	}
 
 	unsigned int Plateau::_getIndexCase(void) const
@@ -730,49 +712,6 @@ std::cout << "ici :: ava(2)\n";
 
 		return index;
 	}
-
-	/*
-	unsigned int Plateau::_getIndexCase(unsigned int & y, unsigned int & x) const
-	{
-		unsigned int index = 0;
-
-		switch (y)
-		{
-		case 1:
-			index = (x == 1 ? 46 : (x == 3 ? 47 : (x == 5 ? 48 : (x == 7 ? 49 : (x == 9 ? 50 : 0)))));
-			break;
-		case 2:
-			index = (x == 2 ? 41 : (x == 4 ? 42 : (x == 6 ? 43 : (x == 8 ? 44 : (x == 10 ? 45 : 0)))));
-			break;
-		case 3:
-			index = (x == 1 ? 36 : (x == 3 ? 37 : (x == 5 ? 38 : (x == 7 ? 39 : (x == 9 ? 40 : 0)))));
-			break;
-		case 4:
-			index = (x == 2 ? 31 : (x == 4 ? 32 : (x == 6 ? 33 : (x == 8 ? 34 : (x == 10 ? 35 : 0)))));
-			break;
-		case 5:
-			index = (x == 1 ? 26 : (x == 3 ? 27 : (x == 5 ? 28 : (x == 7 ? 29 : (x == 9 ? 30 : 0)))));
-			break;
-		case 6:
-			index = (x == 2 ? 21 : (x == 4 ? 22 : (x == 6 ? 23 : (x == 8 ? 24 : (x == 10 ? 25 : 0)))));
-			break;
-		case 7:
-			index = (x == 1 ? 16 : (x == 3 ? 17 : (x == 5 ? 18 : (x == 7 ? 19 : (x == 9 ? 20 : 0)))));
-			break;
-		case 8:
-			index = (x == 2 ? 11 : (x == 4 ? 12 : (x == 6 ? 13 : (x == 8 ? 14 : (x == 10 ? 15 : 0)))));
-			break;
-		case 9:
-			index = (x == 1 ? 6 : (x == 3 ? 7 : (x == 5 ? 8 : (x == 7 ? 9 : (x == 9 ? 10 : 0)))));
-			break;
-		case 10:
-			index = (x == 2 ? 1 : (x == 4 ? 2 : (x == 6 ? 3 : (x == 8 ? 4 : (x == 10 ? 5 : 0)))));
-			break;
-		}
-
-		return index;
-	}
-	*/
 }
 
 namespace spc_plateau
@@ -800,9 +739,8 @@ namespace spc_plateau
 		invite[1] = '>';
 		invite[2] = ' ';
 		_input.saisie(invite);
-std::cout << "ICI ["<<_input.getY()<<", "<<_input.getX()<<"] : " << (_input.isValid() ? "Valide" : "Ko !") << "\n";
+_caseDepartValide();
 
-_caseDepartValide(); std::cout << "ici ....ava\n";
 		return _input.isValid();
 	}
 
