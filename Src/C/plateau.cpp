@@ -642,6 +642,11 @@ namespace spc_plateau
 
 namespace spc_plateau
 {
+	bool Plateau::_caseArriveeValide(void)
+	{
+		bool isArriveeValide = false;
+		return isArriveeValide;
+	}
 	//bool Plateau::_caseDepartValide(void)
 	//{
 		//return _isCaseOccupeePionCouleurJoueurEnCours();
@@ -727,6 +732,37 @@ namespace spc_plateau
 
 namespace spc_plateau
 {
+	bool Plateau::_coupArrivee(void)
+	{
+		char invite[256];
+
+		memset(invite, 0, 256);
+		invite[0] = '=';
+		invite[1] = '>';
+		invite[2] = ' ';
+		_input.saisie(invite);
+
+		return _caseArriveeValide();
+	}
+
+	bool Plateau::_coupDepart(void)
+	{
+		char invite[256];
+
+		memset(invite, 0, 256);
+		invite[0] = '=';
+		invite[1] = '>';
+		invite[2] = ' ';
+		_input.saisie(invite);
+		// ICI : Marquer la case départ sur la grille 
+std::cout << " ..."<<_getIndexCase()<<"... \n";
+
+		return _caseDepartValide();
+	}
+}
+
+namespace spc_plateau
+{
 	void Plateau::affiche(void)
 	{
 		for (int iCase = 1; iCase < NB_CASES_PLATEAU; ++iCase)
@@ -743,17 +779,7 @@ namespace spc_plateau
 
 	bool Plateau::coupSuivant(void)
 	{
-		char invite[256];
-
-		memset(invite, 0, 256);
-		invite[0] = '=';
-		invite[1] = '>';
-		invite[2] = ' ';
-		_input.saisie(invite);
-
-		bool coupValide = _caseDepartValide();
-
-		return coupValide ;
+		return _coupDepart();
 	}
 
 	void Plateau::initPions(Pion* const pions, CaseDamier* const cases, CouleurPion& couleur)

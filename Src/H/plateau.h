@@ -275,7 +275,10 @@ namespace spc_plateau
 		Pion* const             _pionsSud = nullptr;
 		PositionsCouleursDepart _positionsDeDepart;
 		//
+		bool                    _caseArriveeValide(void);
 		bool                    _caseDepartValide(void) { return _isCaseOccupeePionCouleurJoueurEnCours(); }
+		bool                    _coupArrivee(void);
+		bool                    _coupDepart(void);
 		CouleurPion             _getCouleurJoueurEnCours(void) const { return _joueurEnCours->getCouleur(); }
 		unsigned int            _getIndexCase(void) const;
 		//unsigned int            _getIndexCase(unsigned int& y, unsigned int& x) const;
