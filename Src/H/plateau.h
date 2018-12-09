@@ -65,6 +65,7 @@ namespace spc_plateau
 		, premier = 1
 		, second = 2
 	};
+
 	enum class NatureJoueur
 	{
 		  undefined = 0
@@ -245,7 +246,7 @@ namespace spc_plateau
 	class Plateau
 	{
 	public :
-		Plateau(PositionsCouleursDepart positionsDepart = PositionsCouleursDepart::blancs_noirs) ;
+		Plateau(PositionsCouleursDepart positionsDepart = PositionsCouleursDepart::noirs_blancs) ;
 		~Plateau() = default;
 		Plateau(const Plateau& p) ;
 		Plateau& operator = (const Plateau& p) ;
@@ -260,13 +261,14 @@ namespace spc_plateau
 		Cellule                 _cellules[NB_Y_REF_CELLULES][NB_X_REF_CELLULES] = MOTIF_PLATEAU_DAMIER;
 		Cellule                 _cellulesEntete[NB_Y_REF_CELLULES_ENTETE][NB_X_REF_CELLULES] = MOTIF_TEXTE_ENTETE;
 		Cellule                 _cellulesEnqueue[NB_Y_REF_CELLULES_ENQUEUE][NB_X_REF_CELLULES] = MOTIF_TEXTE_ENQUEUE;
-		CouleurPion             _couleurPionsNord = CouleurPion::null;
-		CouleurPion             _couleurPionsSud = CouleurPion::null;
+		CouleurPion             _couleurPionsNord; // = CouleurPion::null;
+		CouleurPion             _couleurPionsSud; // = CouleurPion::null;
 		Diagonale               _diagonales[NB_DIAGONALES_PLATEAU];
 		Input                   _input;
-		Joueur                  _joueurs[NB_JOUEURS]; // ICI
-        short                   _nombreTotalDeCoups; // ICI ... ajouter au Ctor, Dtor, ...
-        Joueur*                 _joueurEnCours; //  ICI ... ajouter au Ctor, Dtor, ...
+        Joueur*                 _joueurEnCours; 
+		Joueur                  _joueurNord;
+		Joueur                  _joueurSud;
+		short                   _nombreTotalDeCoups;
 		Pion                    _pionsBlancs[NB_PIONS_PAR_COULEUR];
 		Pion                    _pionsNoirs[NB_PIONS_PAR_COULEUR];
 		Pion* const             _pionsNord = nullptr;

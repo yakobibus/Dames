@@ -380,17 +380,17 @@ namespace spc_plateau
 namespace spc_plateau
 {
 	Plateau::Plateau(PositionsCouleursDepart positionsDepart)
-		: _pionsNord(positionsDepart == PositionsCouleursDepart::blancs_noirs ? _pionsNoirs
-			: (positionsDepart == PositionsCouleursDepart::noirs_blancs ? _pionsBlancs
-				: nullptr))
-		, _pionsSud(positionsDepart == PositionsCouleursDepart::blancs_noirs ? _pionsBlancs
+		: _pionsNord(positionsDepart == PositionsCouleursDepart::blancs_noirs ? _pionsBlancs
 			: (positionsDepart == PositionsCouleursDepart::noirs_blancs ? _pionsNoirs
 				: nullptr))
-		, _couleurPionsNord(positionsDepart == PositionsCouleursDepart::blancs_noirs ? CouleurPion::noir
-			: (positionsDepart == PositionsCouleursDepart::noirs_blancs ? CouleurPion::blanc
-				: CouleurPion::null))
-		, _couleurPionsSud(positionsDepart == PositionsCouleursDepart::blancs_noirs ? CouleurPion::blanc
+		, _pionsSud(positionsDepart == PositionsCouleursDepart::blancs_noirs ? _pionsNoirs
+			: (positionsDepart == PositionsCouleursDepart::noirs_blancs ? _pionsBlancs
+				: nullptr))
+		, _couleurPionsNord(positionsDepart == PositionsCouleursDepart::blancs_noirs ? CouleurPion::blanc
 			: (positionsDepart == PositionsCouleursDepart::noirs_blancs ? CouleurPion::noir
+				: CouleurPion::null))
+		, _couleurPionsSud(positionsDepart == PositionsCouleursDepart::blancs_noirs ? CouleurPion::noir
+			: (positionsDepart == PositionsCouleursDepart::noirs_blancs ? CouleurPion::blanc
 				: CouleurPion::null))
 		, _nombreTotalDeCoups(0)
 		, _joueurEnCours(nullptr)
@@ -403,32 +403,25 @@ namespace spc_plateau
 		NB : le pointeur sur le pion reste null dans un premier temps
 		**/
 
+		/*
+		c'est ici le problème de couleur des joueurs
+		*/
+		
 		if (positionsDepart == PositionsCouleursDepart::blancs_noirs)
 		{
-			_joueurs[0].init(IdJoueur::premier, _pionsNord->getCouleur(), "Caladan", NatureJoueur::humain);
-			_joueurs[1].init(IdJoueur::premier, _pionsSud->getCouleur(), "SalusaSecundus", NatureJoueur::humain);
-			_joueurEnCours = &_joueurs[0];  // Les blancs commencent
+			_joueurNord.init(IdJoueur::premier, CouleurPion::blanc, "Caladan", NatureJoueur::humain);
+			_joueurSud.init(IdJoueur::second, CouleurPion::noir, "SalusaSecundus", NatureJoueur::humain);
+			_joueurEnCours = &_joueurNord;  // Les blancs commencent
 		}
 		else if (positionsDepart == PositionsCouleursDepart::noirs_blancs) 
 		{
-			_joueurs[0].init(IdJoueur::premier, _pionsSud->getCouleur(), "SalusaSecundus", NatureJoueur::humain);
-			_joueurs[1].init(IdJoueur::premier, _pionsNord->getCouleur(), "Caladan", NatureJoueur::humain);
-			_joueurEnCours = &_joueurs[1];  // Les blancs commencent
+			_joueurNord.init(IdJoueur::second, CouleurPion::noir, "SalusaSecundus", NatureJoueur::humain);
+			_joueurSud.init(IdJoueur::premier, CouleurPion::blanc, "Caladan", NatureJoueur::humain);
+			_joueurEnCours = &_joueurSud;  // Les blancs commencent
 		}
-		else {
-			_joueurs[0].init(IdJoueur::premier, _pionsSud->getCouleur(), "LetoAtréides", NatureJoueur::ia);
-			_joueurs[1].init(IdJoueur::premier, _pionsNord->getCouleur(), "VladimirHarkonnen", NatureJoueur::ia);
-			_joueurEnCours = nullptr;  // Les blancs commencent, sauf que là, on ne distingue pas les blancs
-		}
-std::cout << "ICI ... en commenCant : Joueur[O] est couleur [" << (_joueurs[0].getCouleur() == CouleurPion::blanc ? "BLANC" : "NOIR?") << "]\n";
-std::cout << "ICI ... en commenCant : Joueur[1] est couleur [" << (_joueurs[1].getCouleur() == CouleurPion::blanc ? "BLANC" : "NOIR?") << "]\n";
-std::cout << "ICI ... en commenCant : Pions Nord sont couleur [" << (_pionsNord->getCouleur() == CouleurPion::blanc ? "BLANC" : "NOIR?") << "]\n";
-std::cout << "ICI ... en commenCant : Pions Sud sont couleur [" << (_pionsSud->getCouleur() == CouleurPion::blanc ? "BLANC" : "NOIR?") << "]\n";
-std::cout << "ICI ... en commenCant : Pions Noirs st couleur [" << (_pionsNoirs->getCouleur() == CouleurPion::blanc ? "BLANC" : "NOIR?") << "]\n";
-std::cout << "ICI ... en commenCant : Pions Blancs st couleur [" << (_pionsBlancs->getCouleur() == CouleurPion::blanc ? "BLANC" : "NOIR?") << "]\n";
 
-		std::memcpy(&(_cellulesEntete[4][0]), _joueurs[(positionsDepart == PositionsCouleursDepart::blancs_noirs ? 0 : 1)].getNom(), _joueurs[(positionsDepart == PositionsCouleursDepart::blancs_noirs ? 0 : 1)].getSzNom());
-		std::memcpy(&(_cellulesEnqueue[1][0]), _joueurs[(positionsDepart == PositionsCouleursDepart::blancs_noirs ? 1 : 0)].getNom(), _joueurs[(positionsDepart == PositionsCouleursDepart::blancs_noirs ? 1 : 0)].getSzNom());
+		std::memcpy(&(_cellulesEntete[4][0]), _joueurNord.getNom(), _joueurNord.getSzNom());
+		std::memcpy(&(_cellulesEnqueue[1][0]), _joueurSud.getNom(), _joueurSud.getSzNom());
 
 		int iCaseDamier = 0;
 		_casesDamier[iCaseDamier].init(0, 0, 0, nullptr, ApparenceCase::normal, CouleurCaseDamier::blanc); //  , CouleurPion::null);
@@ -522,9 +515,10 @@ std::cout << "ICI ... en commenCant : Pions Blancs st couleur [" << (_pionsBlanc
 				_diagonales[ii] = p._diagonales[ii];
 			}
 			_input = p._input;
-			for (short ii = 0; ii < NB_JOUEURS ; ++ii) { 
-				_joueurs[ii] = p._joueurs[ii];
-			}
+
+			_joueurNord = p._joueurNord;
+			_joueurSud = p._joueurSud;
+
 			for (short ii = 0; ii < NB_PIONS_PAR_COULEUR; ++ii) { 
 				_pionsBlancs[ii] = p._pionsBlancs[ii]; 
 				_pionsNoirs[ii] = p._pionsNoirs[ii]; 
@@ -564,9 +558,10 @@ std::cout << "ICI ... en commenCant : Pions Blancs st couleur [" << (_pionsBlanc
 				_diagonales[ii] = p._diagonales[ii];
 			}
 			_input = p._input;
-			for (short ii = 0; ii < NB_JOUEURS; ++ii) {
-				_joueurs[ii] = p._joueurs[ii];
-			}
+
+			_joueurNord = p._joueurNord;
+			_joueurSud = p._joueurSud;
+
 			for (short ii = 0; ii < NB_PIONS_PAR_COULEUR; ++ii) {
 				_pionsBlancs[ii] = p._pionsBlancs[ii];
 				_pionsNoirs[ii] = p._pionsNoirs[ii];

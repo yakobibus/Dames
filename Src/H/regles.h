@@ -7,11 +7,15 @@
 
  namespace spc_regles
   {
-// Movement - Règle 1 : La case est Noire
-//            Règle 2 : La case de départ doit être occupée par un pion de la même couleur que le joueur
-//            Règle 3 : La case destination pour un déplacement, une prise, une étape de raffle doit être libre
-//            Règle 4 : Pour un déplacement (pion), la case destination doit être voisine de la case de départ en diagonale vers l'avant par rapport à la couleur en jeu
-//            Règle 5 : Pour un déplacement (reine), la case destination doit être dans la diagonale et aucun pion ne doit se trouver entre les deux
+	 // Placement - Règle P1 : Le damier s'affiche en Haut vers Bas (Nord vers Sud)
+	 //             Règle P2 : Le placement se fait blancs_noirs (Blancs au Nord) ou noirs_blancs (Noirs au Nord)
+	 //             Règle P3 : Les Blancs ont l'ouverture du jeu
+
+// Movement - Règle M1 : La case est Noire
+//            Règle M2 : La case de départ doit être occupée par un pion de la même couleur que le joueur
+//            Règle M3 : La case destination pour un déplacement, une prise, une étape de raffle doit être libre
+//            Règle M4 : Pour un déplacement (pion), la case destination doit être voisine de la case de départ en diagonale vers l'avant par rapport à la couleur en jeu
+//            Règle M5 : Pour un déplacement (reine), la case destination doit être dans la diagonale et aucun pion ne doit se trouver entre les deux
 
       /*
          Une diagonale est une suite de 2 cases au moins et de 10 au plus sur un damier ; 
