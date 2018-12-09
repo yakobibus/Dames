@@ -642,11 +642,26 @@ namespace spc_plateau
 
 namespace spc_plateau
 {
-	void Plateau::_caseDepartValide(void)
-	{
-		bool departValide = false;
+	//bool Plateau::_caseDepartValide(void)
+	//{
+		//return _isCaseOccupeePionCouleurJoueurEnCours();
+		//bool departValide = false;
 		// Mouvement - Règle 1 : la case est noire
 		// Mouvement - Règle 2 : la case est occupée par un pion de la même couleur du le joueur
+		//if (_isCaseNoire())
+		//{
+			//if (_isCaseOccupee())
+			//{
+		/*
+				if (_isCaseOccupeePionCouleurJoueurEnCours())
+				{
+					departValide = true;
+				}
+		*/
+		//}
+		//}
+		//std::cout << ".... CaseDeDépart [" << (departValide ? "VALIDE !" : "Ooopppssss !!!") <<"] ....\n";
+		/*
 		std::cout << "ici Case noire ? <" << (_isCaseNoire() ? "Yes" : "No") << ">\n";
 		std::cout << "ici Case occupée ? <" << (_isCaseOccupee() ? std::to_string(_getIndexCase()).c_str() : "No") << ">\n";
 		if (_isCaseOccupee()) { 
@@ -663,7 +678,8 @@ namespace spc_plateau
 			std::cout << "Pion couleur " << (_getIndexCase() > 0 ? (_casesDamier[_getIndexCase()].getPion()->getCouleur() == CouleurPion::blanc ? "blanc" : "noir") : "") << "\n";
 			std::cout << "Joueur couleur " << (_getCouleurJoueurEnCours() == CouleurPion::blanc ? "blanc" : "noir") << "\n";
 		} /// ICI 
-	}
+		*/
+	//}
 
 	unsigned int Plateau::_getIndexCase(void) const
 	{
@@ -734,9 +750,10 @@ namespace spc_plateau
 		invite[1] = '>';
 		invite[2] = ' ';
 		_input.saisie(invite);
-_caseDepartValide();
 
-		return _input.isValid();
+		bool coupValide = _caseDepartValide();
+
+		return coupValide ;
 	}
 
 	void Plateau::initPions(Pion* const pions, CaseDamier* const cases, CouleurPion& couleur)

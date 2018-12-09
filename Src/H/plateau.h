@@ -275,13 +275,13 @@ namespace spc_plateau
 		Pion* const             _pionsSud = nullptr;
 		PositionsCouleursDepart _positionsDeDepart;
 		//
-		void                    _caseDepartValide(void);
+		bool                    _caseDepartValide(void) { return _isCaseOccupeePionCouleurJoueurEnCours(); }
 		CouleurPion             _getCouleurJoueurEnCours(void) const { return _joueurEnCours->getCouleur(); }
 		unsigned int            _getIndexCase(void) const;
 		//unsigned int            _getIndexCase(unsigned int& y, unsigned int& x) const;
 		bool                    _isCaseNoire(void) const { return (_getIndexCase() == 0 ? false : true); }
 		bool                    _isCaseOccupee(void) const { return _casesDamier[_getIndexCase()].getPion() != nullptr ; }
-		bool                    _isCaseOccupeePionCouleurJoueurEnCours(void) { return (_isCaseOccupee() ? (_getCouleurJoueurEnCours() == (_casesDamier[_getIndexCase()].getPion()->getCouleur()) ? true : false) : false); }
+		bool                    _isCaseOccupeePionCouleurJoueurEnCours(void) { return ((_isCaseOccupee() && _isCaseNoire()) ? (_getCouleurJoueurEnCours() == (_casesDamier[_getIndexCase()].getPion()->getCouleur()) ? true : false) : false); }
 		//bool                    _isCaseNoire(unsigned int& y, unsigned int& x) const { return (_getIndexCase(y, x) == 0 ? false : true); }
 	};
 }
