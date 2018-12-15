@@ -755,10 +755,18 @@ namespace spc_plateau
 		invite[2] = ' ';
 		_input.saisie(invite);
 		// ICI : Marquer la case départ sur la grille 
-std::cout << " ..."<<_getIndexCase()<<"... \n";
+		_setSelectionneCase(_getIndexCase());
+std::cout << " ..."<<_getIndexCase()<<"... \n";//ICI l'index dit savoir si c'est InputDepart/Arrivée
 
 		return _caseDepartValide();
 	}
+}
+
+void spc_plateau::Plateau::_setSelectionneCase(const unsigned int& index)
+{
+	_casesDamier[index].setSurbrillance();
+	memcpy(_casesDamier[index].getCellule()->motif, "///", 3);
+	_casesDamier[index].getCellule()->motif[1] = (_casesDamier[index].estLibre() ? '/' : ((_casesDamier[index]).getPion()->getCouleur() == CouleurPion::blanc ? 'o' : 'x'));
 }
 
 namespace spc_plateau

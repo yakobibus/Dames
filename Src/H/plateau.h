@@ -118,10 +118,12 @@ namespace spc_plateau
 		CaseDamier& operator = (const CaseDamier& c) = default;
 		//
 		void affiche(void);
+		bool estLibre(void) const { return _estLibre; }
 		void init(int x, int y, int notation, Pion* pion, ApparenceCase apparence, CouleurCaseDamier couleurCase); //  , CouleurPion couleurPion);
 		int getX(void) { return _x; }
 		int getY(void) { return _y; }
 		Pion* getPion(void) { return _pion; }
+		Cellule* getCellule(void) const { return _cellule; }
 		void setPion(Pion* p) { _pion = p; _estLibre = (_pion == nullptr ? true : false);}
 		void setCellule(Cellule* c) { _cellule = c; }
 		void setCellule(void);
@@ -130,6 +132,8 @@ namespace spc_plateau
 		const Diagonale* getDiagonale(int i) const { return _diagonale[i]; }
 		const Pion* getPion(void) const { return _pion; }
 		unsigned int getNbDiagonales(void) const { return _nbDiagonales; }
+		void setNormale(void) { _apparence = ApparenceCase::normal; }
+		void setSurbrillance(void) { _apparence = ApparenceCase::surbillance; }
 	private:
 		ApparenceCase     _apparence;
 		Cellule*          _cellule;
@@ -286,6 +290,7 @@ namespace spc_plateau
 		bool                    _isCaseOccupee(void) const { return _casesDamier[_getIndexCase()].getPion() != nullptr ; }
 		bool                    _isCaseOccupeePionCouleurJoueurEnCours(void) { return ((_isCaseOccupee() && _isCaseNoire()) ? (_getCouleurJoueurEnCours() == (_casesDamier[_getIndexCase()].getPion()->getCouleur()) ? true : false) : false); }
 		//bool                    _isCaseNoire(unsigned int& y, unsigned int& x) const { return (_getIndexCase(y, x) == 0 ? false : true); }
+		void                    _setSelectionneCase(const unsigned int& index);
 	};
 }
 

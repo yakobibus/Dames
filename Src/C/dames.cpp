@@ -28,6 +28,7 @@ namespace spc_dames
 		{
 			_plateau.affiche();
 			_finDePartie = _plateau.coupSuivant();
+_plateau.affiche();
 		}
 
 		return retCode ;
