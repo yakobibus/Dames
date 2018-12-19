@@ -764,9 +764,12 @@ std::cout << " ..."<<_getIndexCase()<<"... \n";//ICI l'index dit savoir si c'est
 
 void spc_plateau::Plateau::_setSelectionneCase(const unsigned int& index)
 {
-	_casesDamier[index].setSurbrillance();
-	memcpy(_casesDamier[index].getCellule()->motif, "///", 3);
-	_casesDamier[index].getCellule()->motif[1] = (_casesDamier[index].estLibre() ? '/' : ((_casesDamier[index]).getPion()->getCouleur() == CouleurPion::blanc ? 'o' : 'x'));
+	if (index > 0 && index < NB_CASES_PLATEAU) // Ce n'est pas une case blanche
+	{
+		_casesDamier[index].setSurbrillance();
+		memcpy(_casesDamier[index].getCellule()->motif, "///", 3);
+		_casesDamier[index].getCellule()->motif[1] = (_casesDamier[index].estLibre() ? '/' : ((_casesDamier[index]).getPion()->getCouleur() == CouleurPion::blanc ? 'o' : 'x'));
+	}
 }
 
 namespace spc_plateau
@@ -778,7 +781,9 @@ namespace spc_plateau
 			_casesDamier[iCase].setCellule();
 		}
 
-		std::cout 
+		std::memcpy(&_cellulesEnqueue[4][1], (_joueurEnCours->getCouleur() == CouleurPion::blanc ? "BLANCS" : "NOIRS"), 6) ;
+
+		std::cout
 			<< _cellulesEntete[0][0].motif << std::endl
 			<< _cellules[0][0].motif << std::endl
 			<< _cellulesEnqueue[0][0].motif << std::endl
