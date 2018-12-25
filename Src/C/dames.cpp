@@ -27,7 +27,7 @@ namespace spc_dames
 		while (!_finDePartie)
 		{
 			_plateau.affiche();
-			_finDePartie = _plateau.coupSuivant();
+			_finDePartie = ! (_plateau.coupSuivant());
 			if (_plateau.getAbandon())
 			{
 				std::cout << "ABANDON" << std::endl;
