@@ -172,6 +172,7 @@ namespace spc_plateau
 		Input(const Input& i) = default;
 		Input& operator = (const Input& i) = default;
 		//
+		InputType    getInputType(void) const { return _inputType; }
 		unsigned int getX(void) const { return _x; }
 		unsigned int getY(void) const { return _y; }
 		bool isValid(void) const { return _isValid; }
@@ -258,9 +259,11 @@ namespace spc_plateau
 		void affiche(void) ;
 		bool coupSuivant(void);
 		//CaseDamier* getCaseDamier(unsigned int y, unsigned int x);
+		bool getAbandon(void) const { return _abandon; }
 		void initDiagonales(void);
 		void initPions(Pion* const pions, CaseDamier* const cases, CouleurPion& couleur);
 	private :
+		bool                    _abandon ;
 		CaseDamier              _casesDamier[NB_CASES_PLATEAU]; // 50 cases noires numérotées de 01 à 50 ; la case 00 est blanche ; le numéro de la case correspond à son indice
 		Cellule                 _cellules[NB_Y_REF_CELLULES][NB_X_REF_CELLULES] = MOTIF_PLATEAU_DAMIER;
 		Cellule                 _cellulesEntete[NB_Y_REF_CELLULES_ENTETE][NB_X_REF_CELLULES] = MOTIF_TEXTE_ENTETE;

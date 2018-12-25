@@ -214,7 +214,6 @@ namespace spc_plateau
 
 	void Input::_isValidInput(void)
 	{
-		//bool isValid = false;
 		_inputType = InputType::is_error;
 
 		if (_bufSize == 2)
@@ -268,7 +267,7 @@ namespace spc_plateau
 		else if (_bufSize > 0 && (_buffer[0] == 'x' || _buffer[0] == 'X' || _buffer[0] == 'q' || _buffer[0] == 'Q'))
 		{
 			_isValid = true;
-			_inputType == InputType::is_exiting;
+			_inputType = InputType::is_exiting;
 		}
 	}
 
@@ -380,7 +379,8 @@ namespace spc_plateau
 namespace spc_plateau
 {
 	Plateau::Plateau(PositionsCouleursDepart positionsDepart)
-		: _pionsNord(positionsDepart == PositionsCouleursDepart::blancs_noirs ? _pionsBlancs
+		: _abandon(false)
+		, _pionsNord(positionsDepart == PositionsCouleursDepart::blancs_noirs ? _pionsBlancs
 			: (positionsDepart == PositionsCouleursDepart::noirs_blancs ? _pionsNoirs
 				: nullptr))
 		, _pionsSud(positionsDepart == PositionsCouleursDepart::blancs_noirs ? _pionsNoirs
@@ -508,6 +508,7 @@ namespace spc_plateau
 				}
 			}
 
+			_abandon = p._abandon;
 			_couleurPionsNord = p._couleurPionsNord;
 			_couleurPionsSud = p._couleurPionsSud;
 
@@ -552,6 +553,8 @@ namespace spc_plateau
 					_cellulesEnqueue[yy][xx] = p._cellulesEnqueue[yy][xx];
 				}
 			}
+
+			_abandon = p._abandon;
 			_couleurPionsNord = p._couleurPionsNord;
 			_couleurPionsSud = p._couleurPionsSud;
 			for (short ii = 0; ii < NB_DIAGONALES_PLATEAU; ++ii) {
@@ -755,9 +758,9 @@ namespace spc_plateau
 		invite[2] = ' ';
 		_input.saisie(invite);
 		// ICI : Marquer la case départ sur la grille 
+		_abandon = (_input.getInputType() == InputType::is_exiting ? true : false);
 		_setSelectionneCase(_getIndexCase());
-std::cout << " ..."<<_getIndexCase()<<"... \n";//ICI l'index dit savoir si c'est InputDepart/Arrivée
-
+		
 		return _caseDepartValide();
 	}
 }
@@ -792,6 +795,7 @@ namespace spc_plateau
 
 	bool Plateau::coupSuivant(void)
 	{
+		_abandon = false;
 		return _coupDepart();
 	}
 
