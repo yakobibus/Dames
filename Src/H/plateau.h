@@ -300,7 +300,7 @@ namespace spc_plateau
 		PositionsCouleursDepart _positionsDeDepart;
 		unsigned int            _tailleMaxListeDeCoups;
 		//
-		void                    _ajouteCoup(void);
+		void                    _ajouteCoup(void);  // ICI ...
 		bool                    _caseArriveeValide(void);
 		bool                    _caseDepartValide(void) { return _isCaseOccupeePionCouleurJoueurEnCours(); }
 		bool                    _coupArrivee(void);
