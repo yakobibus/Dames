@@ -58,6 +58,7 @@
 # define NB_CASES_PLATEAU (static_cast<int>(50 + 1)) // 50 cases noires numérotées de 01 à 50 ; la case 00 est blanche ; le numéro de la case correspond à son indice
 # define NB_DIAGONALES_MAX_PAR_CASE (static_cast<int>(2)) // Une case ne peut appartenir qu'à une ou deux diagonales
 # define NB_DIAGONALES_PLATEAU (static_cast<int>(19))  // de une à 10 cases de suite par diagonale
+# define NB_DE_COUPS_PAR_LOT (static_cast<int>(50)) // Nombre de coups ajoutés à chaque lot
 # define NB_JOUEURS (static_cast<int>(2))
 # define NB_PIONS_PAR_COULEUR (static_cast<int>(20))
 # define NB_X_REF_CELLULES (static_cast<int>(12))

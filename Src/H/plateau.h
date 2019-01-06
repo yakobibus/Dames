@@ -13,6 +13,7 @@
 namespace spc_plateau
 {
 	class Diagonale;
+	class Joueur;
 	class Pion;
 }
 
@@ -147,6 +148,20 @@ namespace spc_plateau
 		unsigned int      _y;
 	};
 
+	class Coup
+	{
+	public :
+		Coup() : _joueur(nullptr), _valide(false) {}
+		~Coup() = default;
+		Coup(Coup& c) = default;
+		Coup& operator = (Coup& c) = default;
+	private :
+		CaseDamier  _arrivee;
+		CaseDamier  _depart;
+		Joueur*     _joueur;
+		bool        _valide;
+	};
+
 	class Diagonale
 	{
 	public:
@@ -184,8 +199,8 @@ namespace spc_plateau
 		InputType          _inputType;
 		bool               _isValid;
 		void               _isValidInput(void);
-		unsigned int _x;
-		unsigned int _y;
+		unsigned int       _x;
+		unsigned int       _y;
 		//
 		inline unsigned int _aToColumn(const char& colonne) const {
 			return (
@@ -252,7 +267,7 @@ namespace spc_plateau
 	{
 	public :
 		Plateau(PositionsCouleursDepart positionsDepart = PositionsCouleursDepart::noirs_blancs) ;
-		~Plateau() = default;
+		~Plateau() {if (_listeDeCoups != nullptr) { delete[] _listeDeCoups; }}
 		Plateau(const Plateau& p) ;
 		Plateau& operator = (const Plateau& p) ;
 		//
@@ -270,18 +285,22 @@ namespace spc_plateau
 		Cellule                 _cellulesEnqueue[NB_Y_REF_CELLULES_ENQUEUE][NB_X_REF_CELLULES] = MOTIF_TEXTE_ENQUEUE;
 		CouleurPion             _couleurPionsNord; // = CouleurPion::null;
 		CouleurPion             _couleurPionsSud; // = CouleurPion::null;
+		Coup                    _coupEnCours; // ici : est-elle utile ? juste + de clarté ?
 		Diagonale               _diagonales[NB_DIAGONALES_PLATEAU];
 		Input                   _input;
         Joueur*                 _joueurEnCours; 
 		Joueur                  _joueurNord;
 		Joueur                  _joueurSud;
+		Coup*                   _listeDeCoups;
 		short                   _nombreTotalDeCoups;
 		Pion                    _pionsBlancs[NB_PIONS_PAR_COULEUR];
 		Pion                    _pionsNoirs[NB_PIONS_PAR_COULEUR];
 		Pion* const             _pionsNord = nullptr;
 		Pion* const             _pionsSud = nullptr;
 		PositionsCouleursDepart _positionsDeDepart;
+		unsigned int            _tailleMaxListeDeCoups;
 		//
+		void                    _ajouteCoup(void);
 		bool                    _caseArriveeValide(void);
 		bool                    _caseDepartValide(void) { return _isCaseOccupeePionCouleurJoueurEnCours(); }
 		bool                    _coupArrivee(void);

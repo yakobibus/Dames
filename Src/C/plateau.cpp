@@ -392,8 +392,10 @@ namespace spc_plateau
 		, _couleurPionsSud(positionsDepart == PositionsCouleursDepart::blancs_noirs ? CouleurPion::noir
 			: (positionsDepart == PositionsCouleursDepart::noirs_blancs ? CouleurPion::blanc
 				: CouleurPion::null))
+		, _listeDeCoups(nullptr)
 		, _nombreTotalDeCoups(0)
 		, _joueurEnCours(nullptr)
+		, _tailleMaxListeDeCoups(NB_DE_COUPS_PAR_LOT)
 	{
 		/*
 		Initialisation des casesDamier :
@@ -526,8 +528,17 @@ namespace spc_plateau
 			}
 
 			_joueurEnCours = p._joueurEnCours;
+			if (_listeDeCoups != nullptr)
+			{
+				delete _listeDeCoups;
+			}
 			_nombreTotalDeCoups = p._nombreTotalDeCoups;
+			for (unsigned int ii = 0 ; ii < _nombreTotalDeCoups ; ++ii)
+			{
+				_listeDeCoups[ii] = p._listeDeCoups[ii];
+			}
 			_positionsDeDepart = p._positionsDeDepart;
+			_tailleMaxListeDeCoups = p._tailleMaxListeDeCoups;
 		}
 	}
 
@@ -570,8 +581,17 @@ namespace spc_plateau
 				_pionsNoirs[ii] = p._pionsNoirs[ii];
 			}
 			_joueurEnCours = p._joueurEnCours;
+			if (_listeDeCoups != nullptr)
+			{
+				delete _listeDeCoups;
+			}
 			_nombreTotalDeCoups = p._nombreTotalDeCoups;
+			for (unsigned int ii = 0; ii < _nombreTotalDeCoups; ++ii)
+			{
+				_listeDeCoups[ii] = p._listeDeCoups[ii];
+			}
 			_positionsDeDepart = p._positionsDeDepart;
+			_tailleMaxListeDeCoups = p._tailleMaxListeDeCoups;
 		}
 		
 		return *this;
@@ -645,6 +665,24 @@ namespace spc_plateau
 
 namespace spc_plateau
 {
+	void Plateau::_ajouteCoup(void)
+	{
+		if (_nombreTotalDeCoups == _tailleMaxListeDeCoups)
+		{
+			unsigned int tailleMaxListeDeCoups = ( 1 + (_tailleMaxListeDeCoups / NB_DE_COUPS_PAR_LOT)) * NB_DE_COUPS_PAR_LOT ;
+			Coup* listeDeCoups = new Coup[_tailleMaxListeDeCoups];
+			for (unsigned int ii = 0; ii < _nombreTotalDeCoups; ++ii)
+			{
+				listeDeCoups[ii] = _listeDeCoups[ii];
+			}
+
+			delete[] _listeDeCoups;
+			_listeDeCoups = listeDeCoups;
+		}
+		++_nombreTotalDeCoups;
+		_listeDeCoups[_nombreTotalDeCoups] = _coupEnCours;
+	}
+
 	bool Plateau::_caseArriveeValide(void)
 	{
 		bool isArriveeValide = false;
