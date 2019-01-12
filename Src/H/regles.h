@@ -199,6 +199,11 @@ Voisinage d'une case :
 			1.2.1.9 Afficher le Dalier avec la case départ en surbrillance + la référence de la saisieDépart
 			1.2.2 Afficher l'invite de la saisie CaseArrivée
 			1.2.3 Evaluer la pertinence de la CaseArrivée
+			1.2.3.1 La CaseArrivée doit être une case NOIRE vide et sur une diagonale de la CaseDépart et (EnAvançant pour pion ordinaire ou qu'importe pour une Dame::promotion)
+			1.2.3.1.1 SI la CaseArrivée est contigue de la CaseDépart (ce n'est pas une prise), alors ArrivéeValide
+			1.2.3.1.2 SInon (la CaseArrivée n'est pas contigue de la CaseDépart)
+			1.2.3.1.2.1 ..... (à réécrire en partant de la promotion)
+			1.2.3.1.3 FinSI
 			1.3 Evaluer la coup (Est-ce la fin de partie ?)
 			1.4 Changer de main (le joueur actif devient le joueur opposé si la partie continue)
 	     Fin FAIRE

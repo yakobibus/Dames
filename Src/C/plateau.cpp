@@ -151,8 +151,8 @@ namespace spc_plateau
 			delete[] _array;
 			_array = dummyArray;
 		}
-		++_arraySize;
 		_array[_arraySize] = coup;
+		++_arraySize;
 	}
 }
 
@@ -460,10 +460,7 @@ namespace spc_plateau
 		, _couleurPionsSud(positionsDepart == PositionsCouleursDepart::blancs_noirs ? CouleurPion::noir
 			: (positionsDepart == PositionsCouleursDepart::noirs_blancs ? CouleurPion::blanc
 				: CouleurPion::null))
-		, _listeDeCoups(nullptr)
-		, _nombreTotalDeCoups(0)
 		, _joueurEnCours(nullptr)
-		, _tailleMaxListeDeCoups(NB_DE_COUPS_PAR_LOT)
 	{
 		/*
 		Initialisation des casesDamier :
@@ -585,7 +582,6 @@ namespace spc_plateau
 			for (short ii = 0; ii < NB_DIAGONALES_PLATEAU ; ++ii) { 
 				_diagonales[ii] = p._diagonales[ii];
 			}
-			_input = p._input;
 
 			_joueurNord = p._joueurNord;
 			_joueurSud = p._joueurSud;
@@ -596,17 +592,7 @@ namespace spc_plateau
 			}
 
 			_joueurEnCours = p._joueurEnCours;
-			if (_listeDeCoups != nullptr)
-			{
-				delete _listeDeCoups;
-			}
-			_nombreTotalDeCoups = p._nombreTotalDeCoups;
-			for (unsigned int ii = 0 ; ii < _nombreTotalDeCoups ; ++ii)
-			{
-				_listeDeCoups[ii] = p._listeDeCoups[ii];
-			}
 			_positionsDeDepart = p._positionsDeDepart;
-			_tailleMaxListeDeCoups = p._tailleMaxListeDeCoups;
 		}
 	}
 
@@ -639,7 +625,6 @@ namespace spc_plateau
 			for (short ii = 0; ii < NB_DIAGONALES_PLATEAU; ++ii) {
 				_diagonales[ii] = p._diagonales[ii];
 			}
-			_input = p._input;
 
 			_joueurNord = p._joueurNord;
 			_joueurSud = p._joueurSud;
@@ -649,17 +634,7 @@ namespace spc_plateau
 				_pionsNoirs[ii] = p._pionsNoirs[ii];
 			}
 			_joueurEnCours = p._joueurEnCours;
-			if (_listeDeCoups != nullptr)
-			{
-				delete _listeDeCoups;
-			}
-			_nombreTotalDeCoups = p._nombreTotalDeCoups;
-			for (unsigned int ii = 0; ii < _nombreTotalDeCoups; ++ii)
-			{
-				_listeDeCoups[ii] = p._listeDeCoups[ii];
-			}
 			_positionsDeDepart = p._positionsDeDepart;
-			_tailleMaxListeDeCoups = p._tailleMaxListeDeCoups;
 		}
 		
 		return *this;
@@ -733,29 +708,12 @@ namespace spc_plateau
 
 namespace spc_plateau
 {
-	void Plateau::_ajouteCoup(void)
-	{
-		if (_nombreTotalDeCoups == _tailleMaxListeDeCoups)
-		{
-			unsigned int tailleMaxListeDeCoups = ( 1 + (_tailleMaxListeDeCoups / NB_DE_COUPS_PAR_LOT)) * NB_DE_COUPS_PAR_LOT ;
-			Coup* listeDeCoups = new Coup[_tailleMaxListeDeCoups];
-			for (unsigned int ii = 0; ii < _nombreTotalDeCoups; ++ii)
-			{
-				listeDeCoups[ii] = _listeDeCoups[ii];
-			}
-
-			delete[] _listeDeCoups;
-			_listeDeCoups = listeDeCoups;
-		}
-		++_nombreTotalDeCoups;
-		_listeDeCoups[_nombreTotalDeCoups] = _coupEnCours;
-	}
-
-	bool Plateau::_caseArriveeValide(void)
+	bool Plateau::_caseArriveeValide(const Input& input) ///  ICI...
 	{
 		bool isArriveeValide = false;
 		return isArriveeValide;
 	}
+
 	//bool Plateau::_caseDepartValide(void)
 	//{
 		//return _isCaseOccupeePionCouleurJoueurEnCours();
@@ -795,11 +753,12 @@ namespace spc_plateau
 		*/
 	//}
 
-	unsigned int Plateau::_getIndexCase(void) const
+
+	unsigned int Plateau::_getIndexCase(const Input& input) const
 	{
 		unsigned int index = 0;
-		const unsigned int& y = _input.getY();
-		const unsigned int& x = _input.getX();
+		const unsigned int& y = input.getY();
+		const unsigned int& x = input.getX();
 
 		switch (y)
 		{
@@ -841,17 +800,30 @@ namespace spc_plateau
 
 namespace spc_plateau
 {
-	bool Plateau::_coupArrivee(void)
+	bool Plateau::_coup(void)
 	{
-		char invite[256];
-
+		char  invite[256];
 		memset(invite, 0, 256);
 		invite[0] = '=';
 		invite[1] = '>';
 		invite[2] = ' ';
-		_input.saisie(invite);
+		//{
+			Input input;
+			input.saisie(invite);
+			bool abandon = (input.getInputType() == InputType::is_exiting ? true : false);
+			_setSelectionneCase(_getIndexCase(input));
+			bool isCaseDepartValide = _caseDepartValide(input);
+		//}
 
-		return _caseArriveeValide();
+		//{
+			//Input input;
+			input.saisie(invite);
+			abandon = (input.getInputType() == InputType::is_exiting ? true : false);
+			_setSelectionneCase(_getIndexCase(input));
+			bool isCaseArriveeValide = _caseArriveeValide(input);
+		//}
+
+		return isCaseArriveeValide && isCaseArriveeValide;
 	}
 
 	bool Plateau::_coupDepart(void)
@@ -862,22 +834,26 @@ namespace spc_plateau
 		invite[0] = '=';
 		invite[1] = '>';
 		invite[2] = ' ';
-		_input.saisie(invite);
+		Input input;
+		input.saisie(invite);
 		// ICI : Marquer la case départ sur la grille 
-		_abandon = (_input.getInputType() == InputType::is_exiting ? true : false);
-		_setSelectionneCase(_getIndexCase());
+		_abandon = (input.getInputType() == InputType::is_exiting ? true : false);
+		_setSelectionneCase(_getIndexCase(input));
 		
-		return _caseDepartValide();
+		return _caseDepartValide(input);
 	}
 }
 
-void spc_plateau::Plateau::_setSelectionneCase(const unsigned int& index)
+namespace spc_plateau
 {
-	if (index > 0 && index < NB_CASES_PLATEAU) // Ce n'est pas une case blanche
+	void Plateau::_setSelectionneCase(const unsigned int& index)
 	{
-		_casesDamier[index].setSurbrillance();
-		memcpy(_casesDamier[index].getCellule()->motif, "///", 3);
-		_casesDamier[index].getCellule()->motif[1] = (_casesDamier[index].estLibre() ? '/' : ((_casesDamier[index]).getPion()->getCouleur() == CouleurPion::blanc ? 'o' : 'x'));
+		if (index > 0 && index < NB_CASES_PLATEAU) // Ce n'est pas une case blanche
+		{
+			_casesDamier[index].setSurbrillance();
+			memcpy(_casesDamier[index].getCellule()->motif, "///", 3);
+			_casesDamier[index].getCellule()->motif[1] = (_casesDamier[index].estLibre() ? '/' : ((_casesDamier[index]).getPion()->getCouleur() == CouleurPion::blanc ? 'o' : 'x'));
+		}
 	}
 }
 
