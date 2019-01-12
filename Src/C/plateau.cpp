@@ -90,6 +90,74 @@ namespace spc_plateau
 
 namespace spc_plateau
 {
+	CoupTable::CoupTable(const CoupTable & c)
+	{
+		if (this != &c) 
+		{ 
+			delete[] _array; 
+			_arraySize = c._arraySize;
+			_arrayMaxSize = c._arrayMaxSize;
+			if (_arraySize > 0)
+			{
+				_array = new Coup[_arraySize];
+				for (unsigned int ii = 0; ii < _arraySize; ++ii)
+				{
+					_array[ii] = c._array[ii];
+				}
+			}
+			else
+			{
+				_array = nullptr;
+			}
+		}
+	}
+
+	CoupTable & CoupTable::operator=(const CoupTable & c)
+	{
+		if (this != &c) 
+		{ 
+			delete[] _array; 
+			_arraySize = c._arraySize;
+			_arrayMaxSize = c._arrayMaxSize;
+			if (_arraySize > 0)
+			{
+				_array = new Coup[_arraySize];
+				for (unsigned int ii = 0; ii < _arraySize; ++ii)
+				{
+					_array[ii] = c._array[ii];
+				}
+			}
+			else
+			{
+				_array = nullptr;
+			}
+		}
+		return *this;
+	}
+
+	//
+
+	void CoupTable::ajouterCoup(Coup & coup)
+	{
+		if (_arraySize == _arrayMaxSize)
+		{
+			unsigned int arrayMaxSize = (1 + (_arrayMaxSize / NB_DE_COUPS_PAR_LOT)) * NB_DE_COUPS_PAR_LOT;
+			Coup* dummyArray = new Coup[_arrayMaxSize];
+			for (unsigned int ii = 0; ii < _arraySize; ++ii)
+			{
+				dummyArray[ii] = _array[ii];
+			}
+
+			delete[] _array;
+			_array = dummyArray;
+		}
+		++_arraySize;
+		_array[_arraySize] = coup;
+	}
+}
+
+namespace spc_plateau
+{
 	Diagonale::~Diagonale()
 	{
 		if (_taille == 0)

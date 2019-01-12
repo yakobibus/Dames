@@ -162,6 +162,21 @@ namespace spc_plateau
 		bool        _valide;
 	};
 
+	class CoupTable
+	{
+	public :
+		CoupTable() : _arraySize(0), _arrayMaxSize(NB_DE_COUPS_PAR_LOT), _array(nullptr) {}
+		~CoupTable() { delete[] _array; _array = nullptr; _arraySize = 0; _arrayMaxSize = NB_DE_COUPS_PAR_LOT; }
+		CoupTable(const CoupTable& c);
+		CoupTable& operator = (const CoupTable& c);
+		//
+		void ajouterCoup(Coup& coup); //ICI...
+	private :
+		Coup*        _array;
+		unsigned int _arraySize;
+		unsigned int _arrayMaxSize;
+	};
+
 	class Diagonale
 	{
 	public:
