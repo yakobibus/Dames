@@ -807,40 +807,20 @@ namespace spc_plateau
 		invite[0] = '=';
 		invite[1] = '>';
 		invite[2] = ' ';
-		//{
-			Input input;
-			input.saisie(invite);
-			bool abandon = (input.getInputType() == InputType::is_exiting ? true : false);
-			_setSelectionneCase(_getIndexCase(input));
-			bool isCaseDepartValide = _caseDepartValide(input);
-		//}
-
-		//{
-			//Input input;
-			input.saisie(invite);
-			abandon = (input.getInputType() == InputType::is_exiting ? true : false);
-			_setSelectionneCase(_getIndexCase(input));
-			bool isCaseArriveeValide = _caseArriveeValide(input);
-		//}
-
-		return isCaseArriveeValide && isCaseArriveeValide;
-	}
-
-	bool Plateau::_coupDepart(void)
-	{
-		char invite[256];
-
-		memset(invite, 0, 256);
-		invite[0] = '=';
-		invite[1] = '>';
-		invite[2] = ' ';
 		Input input;
 		input.saisie(invite);
-		// ICI : Marquer la case départ sur la grille 
 		_abandon = (input.getInputType() == InputType::is_exiting ? true : false);
 		_setSelectionneCase(_getIndexCase(input));
-		
-		return _caseDepartValide(input);
+		bool isCaseDepartValide = _caseDepartValide(input);
+
+		/*
+		input.saisie(invite);
+		abandon = (input.getInputType() == InputType::is_exiting ? true : false);
+		_setSelectionneCase(_getIndexCase(input));
+		bool isCaseArriveeValide = _caseArriveeValide(input);
+		*/
+
+		return isCaseDepartValide; // && isCaseArriveeValide;
 	}
 }
 
@@ -878,7 +858,8 @@ namespace spc_plateau
 	bool Plateau::coupSuivant(void)
 	{
 		_abandon = false;
-		return _coupDepart();
+
+		return _coup();
 	}
 
 	void Plateau::initPions(Pion* const pions, CaseDamier* const cases, CouleurPion& couleur)

@@ -315,7 +315,6 @@ namespace spc_plateau
 		bool                    _caseArriveeValide(const Input& input);
 		bool                    _caseDepartValide(const Input& input) { return _isCaseOccupeePionCouleurJoueurEnCours(input); }
 		bool                    _coup(void);
-		bool                    _coupDepart(void);
 		CouleurPion             _getCouleurJoueurEnCours(void) const { return _joueurEnCours->getCouleur(); }
 		unsigned int            _getIndexCase(const Input& input) const;
 		bool                    _isCaseNoire(const Input& input) const { return (_getIndexCase(input) == 0 ? false : true); }

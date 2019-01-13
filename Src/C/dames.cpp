@@ -33,7 +33,6 @@ namespace spc_dames
 				std::cout << "ABANDON" << std::endl;
 				break;
 			}
-_plateau.affiche();
 		}
 
 		return retCode ;
