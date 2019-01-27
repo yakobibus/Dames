@@ -200,7 +200,7 @@ Voisinage d'une case :
 			1.2.1.9 Afficher le Dalier avec la case départ en surbrillance + la référence de la saisieDépart
 			1.2.2 Afficher l'invite de la saisie CaseArrivée
 			1.2.3 Evaluer la pertinence de la CaseArrivée
-			1.2.3.1 SI CaseArrivée est NOIRE et VIDE
+			1.2.3.1 SI CaseArrivée est NOIRE et VIDE (et est dans la diagonale de la CaseDépart)
 			1.2.3.1.1 SI Pion (sans promotion)
 			1.2.3.1.1.1 SI la CaseArrivée est dans la diagonale de la CaseDépart   ... à refactoriser : existe dans les deux branches de l'algo
 			1.2.3.1.1.1.1 SI le déplacement est vers l'avant
@@ -222,6 +222,7 @@ Voisinage d'une case :
 			1.2.3.1.1.3 FinSI
 			1.2.3.1.2 SInon (c'est une dame)
 			1.2.3.1.2.1 SI la CaseArrivée est dans la diagonale de la CaseDépart
+			1.2.3.1.2.1.1 ...ICI...
 			1.2.3.1.2.2 SInon
 			1.2.3.1.2.3 FinSI
 			1.2.3.1.2.3.1 CaseArrivéeFAUSSE
