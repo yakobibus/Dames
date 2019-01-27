@@ -222,8 +222,15 @@ Voisinage d'une case :
 			1.2.3.1.1.3 FinSI
 			1.2.3.1.2 SInon (c'est une dame)
 			1.2.3.1.2.1 SI la CaseArrivée est dans la diagonale de la CaseDépart
-			1.2.3.1.2.1.1 ...ICI...
+			1.2.3.1.2.1.1 SI toutes les cases intermédiaires sont libres
+			1.2.3.1.2.1.1.1 CaseArrivéeVRAIE
+			1.2.3.1.2.1.2 SInon
+			1.2.3.1.2.1.2.1 SI   ...ICI...
+			1.2.3.1.2.1.2.2 SInon
+			1.2.3.1.2.1.2.3 FinSI
+			1.2.3.1.2.1.3 FinSI
 			1.2.3.1.2.2 SInon
+			1.2.3.1.2.2.1 CaseArrivéeFAUSSE
 			1.2.3.1.2.3 FinSI
 			1.2.3.1.2.3.1 CaseArrivéeFAUSSE
 			1.2.3.1.3 FinSI
