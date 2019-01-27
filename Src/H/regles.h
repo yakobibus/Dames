@@ -182,6 +182,7 @@ Voisinage d'une case :
 	     FAIRE
 			1.1 Dessiner le Damier
 			1.2 Donner la main au joueur actif
+			-- Coup (Mouvement)
 			1.2.1 Afficher l'invite de la saisie CaseDépart
 			1.2.1 Evaluer la pertinence de la case départ
 			1.2.1.1 La CaseDépart doit être occupée par un pion de la couleur du joueur
@@ -199,9 +200,35 @@ Voisinage d'une case :
 			1.2.1.9 Afficher le Dalier avec la case départ en surbrillance + la référence de la saisieDépart
 			1.2.2 Afficher l'invite de la saisie CaseArrivée
 			1.2.3 Evaluer la pertinence de la CaseArrivée
-			1.2.3.1 SI CaseArrivée est NOIRE
-			1.2.3.1.1 ....ICI...
-			1.2.3.2 SInon CaseArrivéeFAUSSE
+			1.2.3.1 SI CaseArrivée est NOIRE et VIDE
+			1.2.3.1.1 SI Pion (sans promotion)
+			1.2.3.1.1.1 SI la CaseArrivée est dans la diagonale de la CaseDépart   ... à refactoriser : existe dans les deux branches de l'algo
+			1.2.3.1.1.1.1 SI le déplacement est vers l'avant
+			1.2.3.1.1.1.1.1 SI les CaseDépart et CaseArrivée sont contiguës
+			1.2.3.1.1.1.1.1.1 CaseArrivéeVRAIE
+			1.2.3.1.1.1.2 SInon
+			1.2.3.1.1.1.2.1 SI les CaseDépart et CaseArrivée sont séparées d'une seule case
+			1.2.3.1.1.1.2.1.1 SI la case intermédiaire est occupée par un pion de la couleur adverse
+			1.2.3.1.1.1.2.1.1.1 CaseArrivéeVRAIE
+			1.2.3.1.1.1.2.1.2 SInon
+			1.2.3.1.1.1.2.1.2.1 CaseArrivéeFAUSSE
+			1.2.3.1.1.1.2.1.3 FinSI
+			1.2.3.1.1.1.2.2 SInon
+			1.2.3.1.1.1.2.2.1 CaseArrivéeFAUSSE
+			1.2.3.1.1.1.2.3 FinSI
+			1?2.3.1.1.1.3 FinSI
+			1.2.3.1.1.2 SInon
+			1.2.3.1.1.2.1 CaseArrivéeFAUSSE
+			1.2.3.1.1.3 FinSI
+			1.2.3.1.2 SInon (c'est une dame)
+			1.2.3.1.2.1 SI la CaseArrivée est dans la diagonale de la CaseDépart
+			1.2.3.1.2.2 SInon
+			1.2.3.1.2.3 FinSI
+			1.2.3.1.2.3.1 CaseArrivéeFAUSSE
+			1.2.3.1.3 FinSI
+			1.2.3.2 SInon
+			1.2.3.2.1 CaseArrivéeFAUSSE
+			1.2.3.3 FinSI
 
 			1.2.3.1 La CaseArrivée doit être une case NOIRE vide et sur une diagonale de la CaseDépart et (EnAvançant pour pion ordinaire ou qu'importe pour une Dame::promotion)
 			1.2.3.1.1 SI la CaseArrivée est contigue de la CaseDépart (ce n'est pas une prise), alors ArrivéeValide
