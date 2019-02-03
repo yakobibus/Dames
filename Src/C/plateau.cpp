@@ -42,6 +42,19 @@ namespace spc_plateau
 		_couleur = couleurCase ;
 	}
 
+	bool CaseDamier::isDiagonally(const CaseDamier & caseDamier)
+	{
+		for (unsigned int ii = 0; ii < _nbDiagonales; ++ii)
+		{
+			if (_diagonale[ii]->estDansLaDiagonale(caseDamier))
+			{
+				return true;
+			}
+		}
+
+		return false ;
+	}
+
 	void CaseDamier::setCellule(void)
 	{
 		const char Blanc[] = " O ";
@@ -711,6 +724,11 @@ namespace spc_plateau
 	bool Plateau::_caseArriveeValide(const Input& input) ///  ICI...
 	{
 		bool isArriveeValide = false;
+		if (!_isCaseOccupee(input))
+		{
+			std::cout << "...ici::vide..." << std::endl;
+			////if(input.) ///// ICI ////
+		}
 		return isArriveeValide;
 	}
 

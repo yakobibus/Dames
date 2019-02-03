@@ -117,7 +117,7 @@ namespace spc_plateau
 		~CaseDamier() = default;
 		CaseDamier(const CaseDamier& c) = default;
 		CaseDamier& operator = (const CaseDamier& c) = default;
-		//
+		bool operator == (const CaseDamier& c) const { return (this == &c ? true : (c._x == _x && c._y == _y ? true : false)); }
 		void affiche(void);
 		bool estLibre(void) const { return _estLibre; }
 		void init(int x, int y, int notation, Pion* pion, ApparenceCase apparence, CouleurCaseDamier couleurCase); //  , CouleurPion couleurPion);
@@ -125,6 +125,7 @@ namespace spc_plateau
 		int getY(void) { return _y; }
 		Pion* getPion(void) { return _pion; }
 		Cellule* getCellule(void) const { return _cellule; }
+		bool isDiagonally(const CaseDamier& caseDamier);
 		void setPion(Pion* p) { _pion = p; _estLibre = (_pion == nullptr ? true : false);}
 		void setCellule(Cellule* c) { _cellule = c; }
 		void setCellule(void);
@@ -186,6 +187,7 @@ namespace spc_plateau
 		Diagonale& operator = (const Diagonale& d);
 		//
 		int addCase(CaseDamier* c);
+		bool estDansLaDiagonale(const CaseDamier& c) const { for (unsigned int ii = 0; ii < _taille; ++ii) { if (*(_casesDamier[ii]) == c) return true; } return false; }
 		int getNumero(void) const { return _numero; }
 		int init(int taille, CaseDamier** c, int numero);
 	private:
@@ -317,12 +319,14 @@ namespace spc_plateau
 		bool                    _coup(void);
 		bool                    _coupArrivee(void);
 		bool                    _coupDepart(void);
+		const CaseDamier&       _getCase(const unsigned int& indx) const { return _casesDamier[indx]; }
 		CouleurPion             _getCouleurJoueurEnCours(void) const { return _joueurEnCours->getCouleur(); }
 		unsigned int            _getIndexCase(const Input& input) const;
 		bool                    _isCaseNoire(const Input& input) const { return (_getIndexCase(input) == 0 ? false : true); }
 		bool                    _isCaseOccupee(const Input& input) const { return _casesDamier[_getIndexCase(input)].getPion() != nullptr ; }
 		bool                    _isCaseOccupeePionCouleurJoueurEnCours(const Input& input) { return ((_isCaseOccupee(input) && _isCaseNoire(input)) ? (_getCouleurJoueurEnCours() == (_casesDamier[_getIndexCase(input)].getPion()->getCouleur()) ? true : false) : false); }
 		//bool                    _isCaseNoire(unsigned int& y, unsigned int& x) const { return (_getIndexCase(y, x) == 0 ? false : true); }
+		//bool                    _isDiagonally(const CaseDamier& caseDamier);
 		void                    _setSelectionneCase(const unsigned int& index);
 	};
 }
