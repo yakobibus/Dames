@@ -228,6 +228,7 @@ namespace spc_plateau
 		Input(const Input& i) = default;
 		Input& operator = (const Input& i) = default;
 		//
+		const Coordonnees& getCoordonnees(void) const { return _coordonnees; }
 		InputType    getInputType(void) const { return _inputType; }
 		unsigned int getX(void) const { return _coordonnees.getX(); }
 		unsigned int getY(void) const { return _coordonnees.getY(); }

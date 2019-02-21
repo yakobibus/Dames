@@ -877,6 +877,9 @@ namespace spc_plateau
 		_coupEnCours.set(nullptr, nullptr, nullptr, 0, _joueurEnCours, false);
 
 		bool isCaseDepartValide = _coupDepart(input);
+		//_coupEnCours.setCaseDepart(_getCase(_getIndexCase(input)));
+		std::cout << ".....indx.....[" << _getIndexCase(input) << "].....ici....." << std::endl;
+		_coupEnCours.setCaseDepart(&_casesDamier[_getIndexCase(input)]);
 
 		bool isCaseArriveeValide = ( _abandon == true ? false : _coupArrivee(input) ) ;
 
