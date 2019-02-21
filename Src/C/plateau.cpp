@@ -13,8 +13,7 @@ namespace spc_plateau
 		, _nbDiagonales(0)
 		, _notationOfficielle(0)
 		, _pion(nullptr)
-		, _x(0)
-		, _y(0)
+		, _coordonnees(0, 0)
 	{
 		for (int ii = 0; ii < NB_DIAGONALES_MAX_PAR_CASE; ++ii) 
 		{
@@ -31,14 +30,13 @@ namespace spc_plateau
 		std::cout << tmp ;
 	}
 
-	void CaseDamier::init(int x, int y, int notation, Pion * pion, ApparenceCase apparence, CouleurCaseDamier couleurCase) // , CouleurPion couleurPion)
+	void CaseDamier::init(const Coordonnees& coordonnees, int notation, Pion * pion, ApparenceCase apparence, CouleurCaseDamier couleurCase) // , CouleurPion couleurPion)
 	{
 		_apparence = apparence ;
 		_estLibre = (pion == nullptr ? true : false) ;
 		_notationOfficielle = notation ;
 		_pion = pion ;
-		_x = x ;
-		_y = y ;
+		_coordonnees = coordonnees;
 		_couleur = couleurCase ;
 	}
 
@@ -103,7 +101,109 @@ namespace spc_plateau
 
 namespace spc_plateau
 {
-	CoupTable::CoupTable(const CoupTable & c)
+	Coup::~Coup()
+	{
+		/*
+		for (short ii = 0; ii < _nbCasesDeTransit; ++ii) 
+		{
+			delete _casesDeTransit[ii];
+			_casesDeTransit[ii] = nullptr; 
+		}
+		*/
+		delete[] _casesDeTransit;
+		_casesDeTransit = nullptr;
+		_nbCasesDeTransit = 0;
+	}
+
+	Coup::Coup(Coup & c)
+	{
+		if (this != &c)
+		{
+			_arrivee = c._arrivee;
+			_depart = c._depart;
+			/*
+			for (int ii = 0; ii < _nbCasesDeTransit; ++ii)
+			{
+				delete _casesDeTransit;
+				_casesDeTransit = nullptr;
+			}
+			*/
+			delete[] _casesDeTransit;
+			_casesDeTransit = c._casesDeTransit;
+			_nbCasesDeTransit = c._nbCasesDeTransit;
+			_joueur = c._joueur;
+			_valide = c._valide;
+		}
+	}
+
+	Coup & spc_plateau::Coup::operator = (Coup & c)
+	{
+		if (this != &c)
+		{
+			_arrivee = c._arrivee;
+			_depart = c._depart;
+			/*
+			for (int ii = 0; ii < _nbCasesDeTransit; ++ii)
+			{
+				delete _casesDeTransit;
+				_casesDeTransit = nullptr;
+			}
+			*/
+			delete[] _casesDeTransit;
+			_casesDeTransit = c._casesDeTransit;
+			_nbCasesDeTransit = c._nbCasesDeTransit;
+			_joueur = c._joueur;
+			_valide = c._valide;
+		}
+
+		return *this;
+	}
+
+	// ---
+
+	void spc_plateau::Coup::addCaseDeTransit(CaseDamier* caseDamier)
+	{
+		if (_casesDeTransit == nullptr)
+		{
+			CaseDamier** dummyListe = new CaseDamier* [1 + _nbCasesDeTransit] ;
+			++_nbCasesDeTransit;
+			_casesDeTransit = new CaseDamier*[_nbCasesDeTransit] ;
+			_casesDeTransit[_nbCasesDeTransit] = caseDamier;
+		}
+	}
+
+	void Coup::set (
+		CaseDamier* depart = nullptr
+		, CaseDamier* arrvivee = nullptr
+		, CaseDamier ** transit = nullptr
+		, unsigned int szTransit = 0
+		, Joueur* joueur = nullptr
+		, bool valide = false
+	)
+	{
+		_depart = depart;
+		_arrivee = arrvivee;
+		delete[] _casesDeTransit;
+		_nbCasesDeTransit = szTransit;
+		_casesDeTransit = transit;
+		_joueur = joueur;
+		_valide = valide;
+	}
+
+	void Coup::raz(void) 
+	{ 
+		_arrivee = nullptr;
+		_depart = nullptr;
+		delete[] _casesDeTransit;
+		_nbCasesDeTransit = 0;
+		_joueur = nullptr;
+		_valide = false;
+	}
+}
+
+namespace spc_plateau
+{
+	TableDeCoups::TableDeCoups(const TableDeCoups & c)
 	{
 		if (this != &c) 
 		{ 
@@ -125,7 +225,7 @@ namespace spc_plateau
 		}
 	}
 
-	CoupTable & CoupTable::operator=(const CoupTable & c)
+	TableDeCoups & TableDeCoups::operator=(const TableDeCoups & c)
 	{
 		if (this != &c) 
 		{ 
@@ -150,7 +250,7 @@ namespace spc_plateau
 
 	//
 
-	void CoupTable::ajouterCoup(Coup & coup)
+	void TableDeCoups::ajouterCoup(Coup & coup)
 	{
 		if (_arraySize == _arrayMaxSize)
 		{
@@ -287,9 +387,8 @@ namespace spc_plateau
 		//, _caseDamier(nullptr)
 		, _inputType(InputType::is_undefined)
 		, _isValid(false)
-		, _x(0)
-		, _y(0)
 	{
+		_coordonnees.set(0, 0);
 		std::memset(_buffer, 0, INPUT_BUFFER_MX_SIZE);
 	}
 
@@ -303,15 +402,13 @@ namespace spc_plateau
 			{
 				_isValid = true;
 				_inputType = InputType::is_alphaOneDigitTwo;
-				_y = _aToLine(&(_buffer[1]));
-				_x = _aToColumn(_buffer[0]);
+				_coordonnees.set(_aToLine(&(_buffer[1])), _aToColumn(_buffer[0]));
 			}
 			else if (_isDigit(_buffer[0]) && _isAlpha(_buffer[1]) && _buffer[0] != '0')
 			{
 				_isValid = true;
 				_inputType = InputType::is_digitOneAlphaTwo;
-				_y = _aToLine(&(_buffer[0]), 1);
-				_x = _aToColumn(_buffer[1]);
+				_coordonnees.set(_aToLine(&(_buffer[0]), 1), _aToColumn(_buffer[1]));
 			}
 		}
 		else if (_bufSize == 3)
@@ -319,8 +416,7 @@ namespace spc_plateau
 			if (_isAlpha(_buffer[0]) && _isDigit(_buffer[1]) && _isDigit(_buffer[2]))
 			{
 				_inputType = InputType::is_alphaOnedigitTwoThree;
-				_y = _aToLine(&(_buffer[1]));
-				_x = _aToColumn(_buffer[0]);
+				_coordonnees.set(_aToLine(&(_buffer[1])), _aToColumn(_buffer[0]));
 				if (_buffer[1] == '0' && _buffer[2] != '0')
 				{
 					_isValid = true;
@@ -333,8 +429,7 @@ namespace spc_plateau
 			else if (_isDigit(_buffer[0]) && _isDigit(_buffer[1]) && _isAlpha(_buffer[2]))
 			{
 				_inputType = InputType::is_digitOneTwoAlphaThree;
-				_y = _aToLine(&(_buffer[0]), 2);
-				_x = _aToColumn(_buffer[2]);
+				_coordonnees.set(_aToLine(&(_buffer[0]), 2), _aToColumn(_buffer[2]));
 				if (_buffer[0] == '0' && _buffer[1] != '0')
 				{
 					_isValid = true;
@@ -358,8 +453,7 @@ namespace spc_plateau
 		std::cout << invite;
 
 		_inputType = InputType::is_undefined;
-		_x = 0;
-		_y = 0;
+		_coordonnees.set(0, 0);
 		_bufSize = 0;
 		std::memset(_buffer, 0, INPUT_BUFFER_MX_SIZE);
 		std::cin.getline(_buffer, -1 + INPUT_BUFFER_MX_SIZE);
@@ -504,7 +598,7 @@ namespace spc_plateau
 		std::memcpy(&(_cellulesEnqueue[1][0]), _joueurSud.getNom(), _joueurSud.getSzNom());
 
 		int iCaseDamier = 0;
-		_casesDamier[iCaseDamier].init(0, 0, 0, nullptr, ApparenceCase::normal, CouleurCaseDamier::blanc); //  , CouleurPion::null);
+		_casesDamier[iCaseDamier].init(Coordonnees(0, 0), 0, nullptr, ApparenceCase::normal, CouleurCaseDamier::blanc); //  , CouleurPion::null);
 
 		for (int y = 10; y > 0; --y)       // ligne
 		{
@@ -516,8 +610,7 @@ namespace spc_plateau
 					{
 						++iCaseDamier;
 						_casesDamier[iCaseDamier].init(
-							x
-							, y
+							Coordonnees(x, y)
 							, iCaseDamier
 							, nullptr
 							, ApparenceCase::normal
@@ -531,8 +624,7 @@ namespace spc_plateau
 					{
 						++iCaseDamier;
 						_casesDamier[iCaseDamier].init(
-							x
-							, y
+							Coordonnees(x, y)
 							, iCaseDamier
 							, nullptr
 							, ApparenceCase::normal
@@ -727,6 +819,7 @@ namespace spc_plateau
 		if (!_isCaseOccupee(input))
 		{
 			std::cout << "...ici::vide..." << std::endl;
+			//if(_isDiagonalized())
 			////if(input.) ///// ICI ////
 		}
 		return isArriveeValide;
@@ -780,9 +873,12 @@ namespace spc_plateau
 {
 	bool Plateau::_coup(void)
 	{
-		bool isCaseDepartValide = _coupDepart();
+		Input input;
+		_coupEnCours.set(nullptr, nullptr, nullptr, 0, _joueurEnCours, false);
 
-		bool isCaseArriveeValide = ( _abandon == true ? false : _coupArrivee() ) ;
+		bool isCaseDepartValide = _coupDepart(input);
+
+		bool isCaseArriveeValide = ( _abandon == true ? false : _coupArrivee(input) ) ;
 
 		std::cout << (isCaseDepartValide ? "depart==vrai" : "depart==faux") << std::endl;
 		std::cout << (isCaseArriveeValide ? "arrivee==vrai" : "arrivee==faux") << std::endl;
@@ -791,7 +887,7 @@ namespace spc_plateau
 		return isCaseDepartValide && isCaseArriveeValide ;
 	}
 
-	bool Plateau::_coupArrivee(void)
+	bool Plateau::_coupArrivee(Input& input)
 	{
 		char  invite[256];
 		std::memset(invite, 0, 256);
@@ -799,7 +895,7 @@ namespace spc_plateau
 		//invite[0] = '=';
 		//invite[1] = '>';
 		//invite[2] = ' ';
-		Input input;
+		//Input input;
 		input.saisie(invite);
 		_abandon = (input.getInputType() == InputType::is_exiting ? true : false);
 		_setSelectionneCase(_getIndexCase(input));
@@ -809,17 +905,20 @@ namespace spc_plateau
 		return _caseArriveeValide(input); //ICI...
 	}
 
-	bool Plateau::_coupDepart(void)
+	bool Plateau::_coupDepart(Input& input)
 	{
 		char  invite[256];
 		memset(invite, 0, 256);
-		invite[0] = '=';
-		invite[1] = '>';
-		invite[2] = ' ';
-		Input input;
+		std::memcpy(invite, "=> ", 3);
+		//invite[0] = '=';
+		//invite[1] = '>';
+		//invite[2] = ' ';
+		//Input input;
 		input.saisie(invite);
 		_abandon = (input.getInputType() == InputType::is_exiting ? true : false);
 		_setSelectionneCase(_getIndexCase(input));
+		//_casesDamier[_getIndexCase(input)]
+		_coupEnCours.setCaseDepart(&(_casesDamier[_getIndexCase(input)])); /// ICI...remplacer par la table des coups ! //
 
 		affiche();
 

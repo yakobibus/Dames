@@ -93,6 +93,24 @@ namespace spc_plateau
 		char motif[TAILLE_CELLULE];
 		char separateur;
 	};
+
+	class Coordonnees
+	{
+	public :
+		Coordonnees() : _x(0), _y(0) {}
+		Coordonnees(unsigned int y, unsigned x) : _x(x), _y(y) {}
+		~Coordonnees() = default;
+		Coordonnees(const Coordonnees& c) = default;
+		Coordonnees& operator = (const Coordonnees& c) = default;
+		// ---
+		void set(unsigned int y, unsigned int x) { _x = x; _y = y; }
+		Coordonnees& get(void) { return *this; }
+		unsigned int getX(void) const { return _x; }
+		unsigned int getY(void) const { return _y; }
+	private :
+		unsigned _x;
+		unsigned _y;
+	};
 }
 
 namespace spc_plateau
@@ -117,12 +135,12 @@ namespace spc_plateau
 		~CaseDamier() = default;
 		CaseDamier(const CaseDamier& c) = default;
 		CaseDamier& operator = (const CaseDamier& c) = default;
-		bool operator == (const CaseDamier& c) const { return (this == &c ? true : (c._x == _x && c._y == _y ? true : false)); }
+		bool operator == (const CaseDamier& c) const { return (this == &c ? true : (c._coordonnees.getX() == _coordonnees.getX() && c._coordonnees.getY() == _coordonnees.getY() ? true : false)); }
 		void affiche(void);
 		bool estLibre(void) const { return _estLibre; }
-		void init(int x, int y, int notation, Pion* pion, ApparenceCase apparence, CouleurCaseDamier couleurCase); //  , CouleurPion couleurPion);
-		int getX(void) { return _x; }
-		int getY(void) { return _y; }
+		void init(const Coordonnees& coordonnees, int notation, Pion* pion, ApparenceCase apparence, CouleurCaseDamier couleurCase); //  , CouleurPion couleurPion);
+		int getX(void) const { return _coordonnees.getX(); }
+		int getY(void) const { return _coordonnees.getY(); }
 		Pion* getPion(void) { return _pion; }
 		Cellule* getCellule(void) const { return _cellule; }
 		bool isDiagonally(const CaseDamier& caseDamier);
@@ -139,37 +157,43 @@ namespace spc_plateau
 	private:
 		ApparenceCase     _apparence;
 		Cellule*          _cellule;
+		Coordonnees       _coordonnees;
 		CouleurCaseDamier _couleur;
 		const Diagonale*  _diagonale[NB_DIAGONALES_MAX_PAR_CASE];
 		bool              _estLibre;
 		unsigned int      _nbDiagonales;
 		unsigned int      _notationOfficielle;
 		Pion*             _pion;
-		unsigned int      _x;
-		unsigned int      _y;
 	};
 
 	class Coup
 	{
 	public :
-		Coup() : _joueur(nullptr), _valide(false) {}
-		~Coup() = default;
-		Coup(Coup& c) = default;
-		Coup& operator = (Coup& c) = default;
+		Coup() : _arrivee(nullptr), _depart(nullptr), _joueur(nullptr), _valide(false), _nbCasesDeTransit(0), _casesDeTransit(nullptr) {}
+		~Coup();
+		Coup(Coup& c) ;
+		Coup& operator = (Coup& c);
+		//
+		void addCaseDeTransit(CaseDamier* caseDamier);
+		void set(CaseDamier* depart, CaseDamier* arrivee, CaseDamier** transit, unsigned int szTransit, Joueur* joueur, bool valide);
+		void setCaseDepart(CaseDamier* caseDepart) { _depart = caseDepart; }
+		void raz(void);
 	private :
-		CaseDamier  _arrivee;
-		CaseDamier  _depart;
-		Joueur*     _joueur;
-		bool        _valide;
+		CaseDamier*  _arrivee;
+		CaseDamier*  _depart;
+		CaseDamier** _casesDeTransit;
+		unsigned int _nbCasesDeTransit;
+		Joueur*      _joueur;
+		bool         _valide;
 	};
 
-	class CoupTable
+	class TableDeCoups
 	{
 	public :
-		CoupTable() : _arraySize(0), _arrayMaxSize(NB_DE_COUPS_PAR_LOT), _array(nullptr) {}
-		~CoupTable() { delete[] _array; _array = nullptr; _arraySize = 0; _arrayMaxSize = NB_DE_COUPS_PAR_LOT; }
-		CoupTable(const CoupTable& c);
-		CoupTable& operator = (const CoupTable& c);
+		TableDeCoups() : _arraySize(0), _arrayMaxSize(NB_DE_COUPS_PAR_LOT), _array(nullptr) {}
+		~TableDeCoups() { delete[] _array; _array = nullptr; _arraySize = 0; _arrayMaxSize = NB_DE_COUPS_PAR_LOT; }
+		TableDeCoups(const TableDeCoups& c);
+		TableDeCoups& operator = (const TableDeCoups& c);
 		//
 		void ajouterCoup(Coup& coup);
 	private :
@@ -205,19 +229,17 @@ namespace spc_plateau
 		Input& operator = (const Input& i) = default;
 		//
 		InputType    getInputType(void) const { return _inputType; }
-		unsigned int getX(void) const { return _x; }
-		unsigned int getY(void) const { return _y; }
+		unsigned int getX(void) const { return _coordonnees.getX(); }
+		unsigned int getY(void) const { return _coordonnees.getY(); }
 		bool isValid(void) const { return _isValid; }
 		void saisie(const char* invite);
 	private :
 		char               _buffer[INPUT_BUFFER_MX_SIZE];
 		unsigned int       _bufSize;
-		//const CaseDamier*  _caseDamier;
+		Coordonnees        _coordonnees;
 		InputType          _inputType;
 		bool               _isValid;
 		void               _isValidInput(void);
-		unsigned int       _x;
-		unsigned int       _y;
 		//
 		inline unsigned int _aToColumn(const char& colonne) const {
 			return (
@@ -302,7 +324,7 @@ namespace spc_plateau
 		Cellule                 _cellulesEnqueue[NB_Y_REF_CELLULES_ENQUEUE][NB_X_REF_CELLULES] = MOTIF_TEXTE_ENQUEUE;
 		CouleurPion             _couleurPionsNord; // = CouleurPion::null;
 		CouleurPion             _couleurPionsSud; // = CouleurPion::null;
-		Coup                    _coupEnCours; // ici : est-elle utile ? juste + de clarté ?
+		Coup                    _coupEnCours; // ici : est-elle utile ? juste + de clarté (en + de la _tableDeCoups) ?
 		Diagonale               _diagonales[NB_DIAGONALES_PLATEAU];
         Joueur*                 _joueurEnCours; 
 		Joueur                  _joueurNord;
@@ -312,13 +334,13 @@ namespace spc_plateau
 		Pion* const             _pionsNord = nullptr;
 		Pion* const             _pionsSud = nullptr;
 		PositionsCouleursDepart _positionsDeDepart;
-		CoupTable               _tableDeCoups;
+		TableDeCoups            _tableDeCoups;
 		//
 		bool                    _caseArriveeValide(const Input& input);
 		bool                    _caseDepartValide(const Input& input) { return _isCaseOccupeePionCouleurJoueurEnCours(input); }
 		bool                    _coup(void);
-		bool                    _coupArrivee(void);
-		bool                    _coupDepart(void);
+		bool                    _coupArrivee(Input& input);
+		bool                    _coupDepart(Input& input);
 		const CaseDamier&       _getCase(const unsigned int& indx) const { return _casesDamier[indx]; }
 		CouleurPion             _getCouleurJoueurEnCours(void) const { return _joueurEnCours->getCouleur(); }
 		unsigned int            _getIndexCase(const Input& input) const;
