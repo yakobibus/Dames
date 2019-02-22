@@ -103,13 +103,6 @@ namespace spc_plateau
 {
 	Coup::~Coup()
 	{
-		/*
-		for (short ii = 0; ii < _nbCasesDeTransit; ++ii) 
-		{
-			delete _casesDeTransit[ii];
-			_casesDeTransit[ii] = nullptr; 
-		}
-		*/
 		delete[] _casesDeTransit;
 		_casesDeTransit = nullptr;
 		_nbCasesDeTransit = 0;
@@ -121,13 +114,6 @@ namespace spc_plateau
 		{
 			_arrivee = c._arrivee;
 			_depart = c._depart;
-			/*
-			for (int ii = 0; ii < _nbCasesDeTransit; ++ii)
-			{
-				delete _casesDeTransit;
-				_casesDeTransit = nullptr;
-			}
-			*/
 			delete[] _casesDeTransit;
 			_casesDeTransit = c._casesDeTransit;
 			_nbCasesDeTransit = c._nbCasesDeTransit;
@@ -142,13 +128,6 @@ namespace spc_plateau
 		{
 			_arrivee = c._arrivee;
 			_depart = c._depart;
-			/*
-			for (int ii = 0; ii < _nbCasesDeTransit; ++ii)
-			{
-				delete _casesDeTransit;
-				_casesDeTransit = nullptr;
-			}
-			*/
 			delete[] _casesDeTransit;
 			_casesDeTransit = c._casesDeTransit;
 			_nbCasesDeTransit = c._nbCasesDeTransit;
@@ -167,15 +146,15 @@ namespace spc_plateau
 		{
 			CaseDamier** dummyListe = new CaseDamier* [1 + _nbCasesDeTransit] ;
 			++_nbCasesDeTransit;
-			_casesDeTransit = new CaseDamier*[_nbCasesDeTransit] ;
-			_casesDeTransit[_nbCasesDeTransit] = caseDamier;
+			_casesDeTransit = new CaseDamier[_nbCasesDeTransit] ;
+			_casesDeTransit = caseDamier;
 		}
 	}
 
 	void Coup::set (
 		CaseDamier* depart = nullptr
 		, CaseDamier* arrvivee = nullptr
-		, CaseDamier ** transit = nullptr
+		, CaseDamier* transit = nullptr
 		, unsigned int szTransit = 0
 		, Joueur* joueur = nullptr
 		, bool valide = false
@@ -877,9 +856,12 @@ namespace spc_plateau
 		_coupEnCours.set(nullptr, nullptr, nullptr, 0, _joueurEnCours, false);
 
 		bool isCaseDepartValide = _coupDepart(input);
+		if (isCaseDepartValide)
+		{
+			_coupEnCours.setCaseDepart(&_casesDamier[_getIndexCase(input)]);
+		}
 		//_coupEnCours.setCaseDepart(_getCase(_getIndexCase(input)));
 		std::cout << ".....indx.....[" << _getIndexCase(input) << "].....ici....." << std::endl;
-		_coupEnCours.setCaseDepart(&_casesDamier[_getIndexCase(input)]);
 
 		bool isCaseArriveeValide = ( _abandon == true ? false : _coupArrivee(input) ) ;
 

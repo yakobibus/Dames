@@ -175,13 +175,13 @@ namespace spc_plateau
 		Coup& operator = (Coup& c);
 		//
 		void addCaseDeTransit(CaseDamier* caseDamier);
-		void set(CaseDamier* depart, CaseDamier* arrivee, CaseDamier** transit, unsigned int szTransit, Joueur* joueur, bool valide);
+		void set(CaseDamier* depart, CaseDamier* arrivee, CaseDamier* transit, unsigned int szTransit, Joueur* joueur, bool valide);
 		void setCaseDepart(CaseDamier* caseDepart) { _depart = caseDepart; }
 		void raz(void);
 	private :
 		CaseDamier*  _arrivee;
 		CaseDamier*  _depart;
-		CaseDamier** _casesDeTransit;
+		CaseDamier* _casesDeTransit;
 		unsigned int _nbCasesDeTransit;
 		Joueur*      _joueur;
 		bool         _valide;
@@ -196,6 +196,8 @@ namespace spc_plateau
 		TableDeCoups& operator = (const TableDeCoups& c);
 		//
 		void ajouterCoup(Coup& coup);
+		unsigned int getArraySize(void) const { return _arraySize; }
+		//Coup* getCoup(const unsigned int& position) { return (position > 0 && position <= _arraySize ? _array[position]) ; }
 	private :
 		Coup*        _array;
 		unsigned int _arraySize;
