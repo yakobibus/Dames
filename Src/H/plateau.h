@@ -174,6 +174,7 @@ namespace spc_plateau
 		Coup(Coup& c) ;
 		Coup& operator = (Coup& c);
 		//
+		/*ICI*/void aaahhh(const short& s = 55) const { std::cout << "...aaa(" << s << ")hhh..." << std::endl; }
 		void addCaseDeTransit(CaseDamier* caseDamier);
 		void set(CaseDamier* depart, CaseDamier* arrivee, CaseDamier* transit, unsigned int szTransit, Joueur* joueur, bool valide);
 		void setCaseDepart(CaseDamier* caseDepart) { _depart = caseDepart; }
@@ -190,14 +191,14 @@ namespace spc_plateau
 	class TableDeCoups
 	{
 	public :
-		TableDeCoups() : _arraySize(0), _arrayMaxSize(NB_DE_COUPS_PAR_LOT), _array(nullptr) {}
+		TableDeCoups() : _arraySize(0), _arrayMaxSize(NB_DE_COUPS_PAR_LOT), _array(nullptr) { _array = new Coup[NB_DE_COUPS_PAR_LOT]; }
 		~TableDeCoups() { delete[] _array; _array = nullptr; _arraySize = 0; _arrayMaxSize = NB_DE_COUPS_PAR_LOT; }
 		TableDeCoups(const TableDeCoups& c);
 		TableDeCoups& operator = (const TableDeCoups& c);
 		//
 		void ajouterCoup(Coup& coup);
 		unsigned int getArraySize(void) const { return _arraySize; }
-		//Coup* getCoup(const unsigned int& position) { return (position > 0 && position <= _arraySize ? _array[position]) ; }
+		Coup* getCoup(const unsigned int& position) { return (position >= 0 && position < _arraySize ? &_array[position] : nullptr) ; }
 	private :
 		Coup*        _array;
 		unsigned int _arraySize;
