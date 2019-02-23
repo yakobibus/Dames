@@ -128,9 +128,7 @@ namespace spc_plateau
 		{
 			_arrivee = c._arrivee;
 			_depart = c._depart;
-			std::cout << "...ici(1) Coup::operator=ici..." << std::endl;
 			delete[] _casesDeTransit;
-			std::cout << "...ici(2) Coup::operator=ici..." << std::endl;
 			_casesDeTransit = c._casesDeTransit;
 			_nbCasesDeTransit = c._nbCasesDeTransit;
 			_joueur = c._joueur;
@@ -233,30 +231,20 @@ namespace spc_plateau
 
 	void TableDeCoups::ajouterCoup(Coup & coup)
 	{
-		std::cout << "......ici(1)ici...[" << _arraySize << "]==[" << _arrayMaxSize << "]..." << std::endl;
 		if (_arraySize == _arrayMaxSize)
 		{
-			std::cout << "......ici(2)ici......" << std::endl;
 			_arrayMaxSize = (1 + (_arrayMaxSize / NB_DE_COUPS_PAR_LOT)) * NB_DE_COUPS_PAR_LOT;
 			Coup* dummyArray = new Coup[_arrayMaxSize];
-			std::cout << "......ici(3)ici......" << std::endl;
 			for (unsigned int ii = 0; ii < _arraySize; ++ii)
 			{
-				std::cout << "......ici(4)ici......" << std::endl;
 				dummyArray[ii] = _array[ii];
-				std::cout << "......ici(5)ici......" << std::endl;
 			}
-			std::cout << "......ici(6)ici......" << std::endl;
 
 			delete[] _array;
 			_array = dummyArray;
-			std::cout << "......ici(7)ici......" << std::endl;
 		}
-		std::cout << "......ici(8:"<< _arraySize<<":)ici......" << std::endl;
 		_array[_arraySize] = coup;
-		std::cout << "......ici(9)ici......" << std::endl;
 		++_arraySize;
-		std::cout << "......ici(10)ici......" << std::endl;
 	}
 }
 
