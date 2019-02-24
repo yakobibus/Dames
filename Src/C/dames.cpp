@@ -40,17 +40,20 @@ private :
 		TableDeCoups tCoups;
 		coup.set(nullptr, nullptr, nullptr, 0, nullptr, false);
 		coup.aaahhh(22);
-		tCoups.ajouterCoup(coup);
-		tCoups.ajouterCoup(coup);
-		tCoups.ajouterCoup(coup);
-		tCoups.ajouterCoup(coup);
-		tCoups.ajouterCoup(coup);
-		tCoups.ajouterCoup(coup);
+
+		for (short int ii = 0; ii < 15; ++ii)
+		{
+			unsigned int n = tCoups.ajouterNouveauCoup();
+			tCoups.getCoup(-1 + n)->set(nullptr, nullptr, nullptr, 0, nullptr, false);
+		}
+		
 		tCoups.getCoup(2)->set(nullptr, nullptr, nullptr, 0, nullptr, false);
 		tCoups.getCoup(-1 + tCoups.getArraySize())->set(nullptr, nullptr, nullptr, 0, nullptr, false);
 		std::cout << "ArrSz==["<< tCoups.getArraySize() <<"]\n";
 		tCoups.getCoup(-1 + tCoups.getArraySize())->aaahhh(33);
 		tCoups.getCoup(3)->aaahhh();
+		int x = tCoups.ajouterNouveauCoup();
+		tCoups.getCoup(x)->aaahhh(x);
 	}
 };
 

@@ -191,16 +191,17 @@ namespace spc_plateau
 	class TableDeCoups
 	{
 	public :
-		TableDeCoups() : _arraySize(0), _arrayMaxSize(NB_DE_COUPS_PAR_LOT), _array(nullptr) { _array = new Coup[NB_DE_COUPS_PAR_LOT]; }
+		TableDeCoups() : _arraySize(0), _arrayMaxSize(NB_DE_COUPS_PAR_LOT), _array(nullptr) { _array = new Coup*[NB_DE_COUPS_PAR_LOT]; }
 		~TableDeCoups() { delete[] _array; _array = nullptr; _arraySize = 0; _arrayMaxSize = NB_DE_COUPS_PAR_LOT; }
 		TableDeCoups(const TableDeCoups& c);
 		TableDeCoups& operator = (const TableDeCoups& c);
 		//
-		void ajouterCoup(Coup& coup);
+		//void ajouterCoup(Coup* coup);
+		const unsigned int& ajouterNouveauCoup(void);
 		unsigned int getArraySize(void) const { return _arraySize; }
-		Coup* getCoup(const unsigned int& position) { return (position >= 0 && position < _arraySize ? &_array[position] : nullptr) ; }
+		Coup* getCoup(const unsigned int& position) { return (position >= 0 && position < _arraySize ? _array[position] : nullptr) ; }
 	private :
-		Coup*        _array;
+		Coup**       _array;
 		unsigned int _arraySize;
 		unsigned int _arrayMaxSize;
 	};

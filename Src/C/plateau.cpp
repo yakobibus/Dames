@@ -186,12 +186,16 @@ namespace spc_plateau
 	{
 		if (this != &c) 
 		{ 
-			delete[] _array; 
+			for (short ii = 0; ii < _arraySize; ++ii)
+			{
+				delete _array[ii];
+			}
+			delete[] _array;
 			_arraySize = c._arraySize;
 			_arrayMaxSize = c._arrayMaxSize;
 			if (_arraySize > 0)
 			{
-				_array = new Coup[_arraySize];
+				_array = new Coup*[_arraySize];
 				for (unsigned int ii = 0; ii < _arraySize; ++ii)
 				{
 					_array[ii] = c._array[ii];
@@ -208,12 +212,16 @@ namespace spc_plateau
 	{
 		if (this != &c) 
 		{ 
-			delete[] _array; 
+			for (short ii = 0; ii < _arraySize; ++ii)
+			{
+				delete _array[ii];
+			}
+			delete[] _array;
 			_arraySize = c._arraySize;
 			_arrayMaxSize = c._arrayMaxSize;
 			if (_arraySize > 0)
 			{
-				_array = new Coup[_arraySize];
+				_array = new Coup*[_arraySize];
 				for (unsigned int ii = 0; ii < _arraySize; ++ii)
 				{
 					_array[ii] = c._array[ii];
@@ -229,22 +237,53 @@ namespace spc_plateau
 
 	//
 
-	void TableDeCoups::ajouterCoup(Coup & coup)
+	/*
+	void TableDeCoups::ajouterCoup(Coup* coup)
 	{
 		if (_arraySize == _arrayMaxSize)
 		{
 			_arrayMaxSize = (1 + (_arrayMaxSize / NB_DE_COUPS_PAR_LOT)) * NB_DE_COUPS_PAR_LOT;
-			Coup* dummyArray = new Coup[_arrayMaxSize];
+			Coup** dummyArray = new Coup*[_arrayMaxSize];
 			for (unsigned int ii = 0; ii < _arraySize; ++ii)
 			{
 				dummyArray[ii] = _array[ii];
 			}
 
+			for (short ii = 0; ii < _arraySize; ++ii)
+			{
+				delete _array[ii];
+			}
 			delete[] _array;
 			_array = dummyArray;
 		}
 		_array[_arraySize] = coup;
 		++_arraySize;
+	}
+	*/
+
+	const unsigned int& spc_plateau::TableDeCoups::ajouterNouveauCoup(void)
+	{
+		if (_arraySize == _arrayMaxSize)
+		{
+			_arrayMaxSize = (1 + (_arrayMaxSize / NB_DE_COUPS_PAR_LOT)) * NB_DE_COUPS_PAR_LOT;
+			Coup** dummyArray = new Coup*[_arrayMaxSize];
+			for (unsigned int ii = 0; ii < _arraySize; ++ii)
+			{
+				dummyArray[ii] = _array[ii];
+			}
+
+			for(short ii = 0 ; ii < _arraySize ; ++ii) 
+			{
+				delete _array[ii];
+			}
+			delete[] _array;
+			_array = dummyArray;
+		}
+
+		_array[_arraySize] = new Coup ;
+		++_arraySize;
+
+		return _arraySize;
 	}
 }
 
