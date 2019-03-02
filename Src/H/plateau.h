@@ -174,7 +174,6 @@ namespace spc_plateau
 		Coup(Coup& c) ;
 		Coup& operator = (Coup& c);
 		//
-		/*ICI*/void aaahhh(const short& s = 55) const { std::cout << "...aaa(" << s << ")hhh..." << std::endl; }
 		void addCaseDeTransit(CaseDamier* caseDamier);
 		void set(CaseDamier* depart, CaseDamier* arrivee, CaseDamier* transit, unsigned int szTransit, Joueur* joueur, bool valide);
 		void setCaseDepart(CaseDamier* caseDepart) { _depart = caseDepart; }
@@ -329,7 +328,6 @@ namespace spc_plateau
 		Cellule                 _cellulesEnqueue[NB_Y_REF_CELLULES_ENQUEUE][NB_X_REF_CELLULES] = MOTIF_TEXTE_ENQUEUE;
 		CouleurPion             _couleurPionsNord; // = CouleurPion::null;
 		CouleurPion             _couleurPionsSud; // = CouleurPion::null;
-		Coup                    _coupEnCours; // ici : est-elle utile ? juste + de clarté (en + de la _tableDeCoups) ?
 		Diagonale               _diagonales[NB_DIAGONALES_PLATEAU];
         Joueur*                 _joueurEnCours; 
 		Joueur                  _joueurNord;

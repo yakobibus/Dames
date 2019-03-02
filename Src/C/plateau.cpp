@@ -831,18 +831,6 @@ namespace spc_plateau
 
 namespace spc_plateau
 {
-	bool Plateau::_caseArriveeValide(const Input& input) ///  ICI...
-	{
-		bool isArriveeValide = false;
-		if (!_isCaseOccupee(input))
-		{
-			std::cout << "...ici::vide..." << std::endl;
-			//if(_isDiagonalized())
-			////if(input.) ///// ICI ////
-		}
-		return isArriveeValide;
-	}
-
 	unsigned int Plateau::_getIndexCase(const Input& input) const
 	{
 		unsigned int index = 0;
@@ -891,16 +879,17 @@ namespace spc_plateau
 {
 	bool Plateau::_coup(void)
 	{
-		Input input;
-		_coupEnCours.set(nullptr, nullptr, nullptr, 0, _joueurEnCours, false);
-		//_tableDeCoups[_tableDeCoups.getArraySize()].set(nullptr, nullptr, nullptr, 0, _joueurEnCours, false);
+		unsigned int nombreDeCoups = _tableDeCoups.ajouterNouveauCoup();
+		Coup& coupEnCours = *_tableDeCoups.getCoup(-1 + nombreDeCoups);
+		coupEnCours.set(nullptr, nullptr, nullptr, 0, _joueurEnCours, false);
 
+		Input input;
 		bool isCaseDepartValide = _coupDepart(input);
 		if (isCaseDepartValide)
 		{
-			_coupEnCours.setCaseDepart(&_casesDamier[_getIndexCase(input)]);
+			coupEnCours.setCaseDepart(&_casesDamier[_getIndexCase(input)]);
 		}
-		//_coupEnCours.setCaseDepart(_getCase(_getIndexCase(input)));
+		//coupEnCours.setCaseDepart(_getCase(_getIndexCase(input)));
 		std::cout << ".....indx.....[" << _getIndexCase(input) << "].....ici....." << std::endl;
 
 		bool isCaseArriveeValide = ( _abandon == true ? false : _coupArrivee(input) ) ;
@@ -942,12 +931,27 @@ namespace spc_plateau
 		input.saisie(invite);
 		_abandon = (input.getInputType() == InputType::is_exiting ? true : false);
 		_setSelectionneCase(_getIndexCase(input));
-		//_casesDamier[_getIndexCase(input)]
-		_coupEnCours.setCaseDepart(&(_casesDamier[_getIndexCase(input)])); /// ICI...remplacer par la table des coups ! //
+		_tableDeCoups.getCoup(-1 + _tableDeCoups.getArraySize())->setCaseDepart(&(_casesDamier[_getIndexCase(input)]));
 
 		affiche();
 
 		return _caseDepartValide(input);
+	}
+
+	bool Plateau::_caseArriveeValide(const Input& input) ///  ICI...
+	{
+		bool isArriveeValide = false;
+		if (!_isCaseOccupee(input))
+		{
+			std::cout << "...ici::arrivée::vide..." << std::endl;
+			//if(_isDiagonalized())
+			////if(input.) ///// ICI ////
+		}
+		else
+		{
+			std::cout << "...ici::arrivée::occupée::KO..." << std::endl;
+		}
+		return isArriveeValide;
 	}
 }
 
