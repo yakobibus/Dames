@@ -40,6 +40,19 @@ namespace spc_plateau
 		_couleur = couleurCase ;
 	}
 
+	bool CaseDamier::isContiguous(const CaseDamier& caseDamier) const
+	{
+		for (unsigned int ii = 0; ii < _nbDiagonales; ++ii)
+		{
+			if (_diagonale[ii]->areContiguous(*this, caseDamier))
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	bool CaseDamier::isDiagonally(const CaseDamier& caseDamier) const
 	{
 		for (unsigned int ii = 0; ii < _nbDiagonales; ++ii)
@@ -374,6 +387,27 @@ namespace spc_plateau
 
 		return _taille;
 	}
+
+	bool Diagonale::areContiguous(const CaseDamier& c1, const CaseDamier& c2) const
+	{
+		for (unsigned int ii = 0; ii < _taille; ++ii)
+		{
+			if (c1 == *(_casesDamier[ii]))
+			{
+				for (unsigned int jj = (ii == 0 ? 0 : -1 + ii) ; jj < ((1 + ii) < _taille ? 2 + ii : ii); ++jj)
+				{
+					if ((ii != jj) && (c2 == *(_casesDamier[jj])))
+					{
+						return true;
+					}
+				}
+				break ;
+			}
+		}
+
+		return false; 
+	}
+
 
 	int Diagonale::init(int taille, CaseDamier** c, int numero)
 	{
@@ -947,6 +981,15 @@ namespace spc_plateau
 			if (_tableDeCoups.getCoup(-1 + _tableDeCoups.getArraySize())->getCaseDepart()->isDiagonally(_casesDamier[_getIndexCase(input)]))
 			{
 				std::cout << "...ici::depart::enDiagonale..." << std::endl;
+
+				if (_tableDeCoups.getCoup(-1 + _tableDeCoups.getArraySize())->getCaseDepart()->isContiguous(_casesDamier[_getIndexCase(input)]))
+				{
+					std::cout << "...ici::depart::arrviée::contiguës..." << std::endl;;
+				}
+				else
+				{
+					std::cout << "...ici::depart::arrviée::éloignés..." << std::endl;;;
+				}
 				if (_tableDeCoups.getCoup(-1 + _tableDeCoups.getArraySize())->getCaseDepart()->getPion()->isAqueen())
 				{
 					std::cout << ".......ici::Une reine en mouvement ...........\n";
