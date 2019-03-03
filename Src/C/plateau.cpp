@@ -40,7 +40,7 @@ namespace spc_plateau
 		_couleur = couleurCase ;
 	}
 
-	bool CaseDamier::isDiagonally(const CaseDamier & caseDamier)
+	bool CaseDamier::isDiagonally(const CaseDamier& caseDamier) const
 	{
 		for (unsigned int ii = 0; ii < _nbDiagonales; ++ii)
 		{
@@ -85,7 +85,7 @@ namespace spc_plateau
 		std::memcpy(_cellule->motif, pMotif, 3);
 	}
 
-	void CaseDamier::setDiagonale(const Diagonale * diagonale)
+	void CaseDamier::setDiagonale(const Diagonale* diagonale)
 	{
 		for (unsigned int ii = _nbDiagonales ; ii < NB_DIAGONALES_MAX_PAR_CASE; ++ii)
 		{
@@ -943,14 +943,29 @@ namespace spc_plateau
 		bool isArriveeValide = false;
 		if (!_isCaseOccupee(input))
 		{
-			std::cout << "...ici::arrivée::vide..." << std::endl;
-			//if(_isDiagonalized())
-			////if(input.) ///// ICI ////
+			//unsigned int position = -1 + _tableDeCoups.getArraySize();
+			if (_tableDeCoups.getCoup(-1 + _tableDeCoups.getArraySize())->getCaseDepart()->isDiagonally(_casesDamier[_getIndexCase(input)]))
+			{
+				std::cout << "...ici::depart::enDiagonale..." << std::endl;
+				if (_tableDeCoups.getCoup(-1 + _tableDeCoups.getArraySize())->getCaseDepart()->getPion()->isAqueen())
+				{
+					std::cout << ".......ici::Une reine en mouvement ...........\n";
+				}
+				else
+				{
+					std::cout << ".......ici::a pawn in the move ...........\n";
+				}
+			}
+			else
+			{
+				std::cout << "...ici::depart::PASenDiagonale..." << std::endl;
+			}
 		}
 		else
 		{
 			std::cout << "...ici::arrivée::occupée::KO..." << std::endl;
 		}
+		
 		return isArriveeValide;
 	}
 }

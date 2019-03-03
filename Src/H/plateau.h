@@ -143,7 +143,7 @@ namespace spc_plateau
 		int getY(void) const { return _coordonnees.getY(); }
 		Pion* getPion(void) { return _pion; }
 		Cellule* getCellule(void) const { return _cellule; }
-		bool isDiagonally(const CaseDamier& caseDamier);
+		bool isDiagonally(const CaseDamier& caseDamier) const;
 		void setPion(Pion* p) { _pion = p; _estLibre = (_pion == nullptr ? true : false);}
 		void setCellule(Cellule* c) { _cellule = c; }
 		void setCellule(void);
@@ -174,10 +174,12 @@ namespace spc_plateau
 		Coup(Coup& c) ;
 		Coup& operator = (Coup& c);
 		//
-		void addCaseDeTransit(CaseDamier* caseDamier);
-		void set(CaseDamier* depart, CaseDamier* arrivee, CaseDamier* transit, unsigned int szTransit, Joueur* joueur, bool valide);
-		void setCaseDepart(CaseDamier* caseDepart) { _depart = caseDepart; }
-		void raz(void);
+		void        addCaseDeTransit(CaseDamier* caseDamier);
+		CaseDamier* getCaseArrivee(void) { return _arrivee; }
+		CaseDamier* getCaseDepart(void) { return _depart; }
+		void        set(CaseDamier* depart, CaseDamier* arrivee, CaseDamier* transit, unsigned int szTransit, Joueur* joueur, bool valide);
+		void        setCaseDepart(CaseDamier* caseDepart) { _depart = caseDepart; }
+		void        raz(void);
 	private :
 		CaseDamier*  _arrivee;
 		CaseDamier*  _depart;
@@ -297,8 +299,9 @@ namespace spc_plateau
 		Pion& operator = (const Pion& p) = default;
 		//
 		CouleurPion getCouleur(void) { return _couleur; }
-		bool getPromotion(void) { return _promotion; }
+		const bool& getPromotion(void) const { return _promotion; }
 		void init(CaseDamier* const cd, CouleurPion c, bool p = false);
+		const bool& isAqueen(void) const { return _promotion; }
 		void setCase(CaseDamier* c);
 	private:
 		CaseDamier* _case;
