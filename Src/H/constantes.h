@@ -3,6 +3,7 @@
 # ifndef CONSTANTES_H
 # define CONSTANTES_H (1)
 
+# define DUMMY_GAPS (static_cast<int>(99))
 # define INPUT_BUFFER_MX_SIZE (static_cast<unsigned int>(128))
 
 # define IS_ALPHA_DAMIER(c) ((c >= 'a' && c <= 'j') || (c >= 'A' && c <= 'J'))

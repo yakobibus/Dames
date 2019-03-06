@@ -30,6 +30,18 @@ namespace spc_plateau
 		std::cout << tmp ;
 	}
 
+	int  CaseDamier::countOfGapCells(const CaseDamier& caseDamier) const
+	{
+		for (unsigned int ii = 0; ii < _nbDiagonales; ++ii)
+		{
+			if (_diagonale[ii]->estDansLaDiagonale(caseDamier))
+			{
+				return _diagonale[ii]->countOfGapCells(*this, caseDamier);
+			}
+		}
+		return DUMMY_GAPS;  // the cells aren't on the same diagonal
+	}
+
 	void CaseDamier::init(const Coordonnees& coordonnees, int notation, Pion * pion, ApparenceCase apparence, CouleurCaseDamier couleurCase) // , CouleurPion couleurPion)
 	{
 		_apparence = apparence ;
@@ -64,27 +76,6 @@ namespace spc_plateau
 		}
 
 		return false ;
-	}
-
-	int  CaseDamier::numberOfGapCells(const CaseDamier& caseDamier) const
-	{
-		/*
-		if (! isDiagonally(caseDamier))
-		{
-			return -1;
-		}
-		else
-		*/
-		{
-			for (unsigned int ii = 0; ii < _nbDiagonales; ++ii)
-			{
-				if (_diagonale[ii]->estDansLaDiagonale(caseDamier))
-				{
-					return _diagonale[ii]->numberOfGapCells(*this, caseDamier);
-				}
-			}
-			return -1;  // the cells aren't on the same diagonal
-		}
 	}
 
 	void CaseDamier::setCellule(void)
@@ -431,12 +422,12 @@ namespace spc_plateau
 
 //# include <cstdlib>  // for std::abs
 
-	int Diagonale::numberOfGapCells(const CaseDamier& c1, const CaseDamier& c2) const
+	int Diagonale::countOfGapCells(const CaseDamier& c1, const CaseDamier& c2) const
 		/*
 		  Returning values :
-		  - (-1) : the 2 cells aren't on the same diagonal
+		  - (DUMMY_GAPS) : the 2 cells aren't on the same diagonal
 		  - (0)  : the 2 cells are the same
-		  - (>0) : the number of gap cells (1 : adjacent cells, 2 : one cell between them, n : -1+n cells between)
+		  - (!=0) : the number of gap cells (1 : adjacent cells, 2 : one cell between them, n : -1+n cells between)
 		**/
 	{
 		for (int ii = 0; ii < _taille; ++ii)
@@ -454,7 +445,7 @@ namespace spc_plateau
 			}
 		}
 
-		return -1 ; // The 2 cells aren't on the same diagonal
+		return DUMMY_GAPS ; // The 2 cells aren't on the same diagonal
 	}
 
 	int Diagonale::init(int taille, CaseDamier** c, int numero)
@@ -1022,56 +1013,24 @@ namespace spc_plateau
 
 	bool Plateau::_caseArriveeValide(const Input& input) ///  ICI...
 	{
-		int XgapBetweenCells = _tableDeCoups.getCoup(-1 + _tableDeCoups.getArraySize())->getCaseDepart()->numberOfGapCells(_casesDamier[_getIndexCase(input)]);
-		std::cout << "...................ici[" << XgapBetweenCells << "]ici..........................\n";
-
 		bool isArriveeValide = false;
-		if (!_isCaseOccupee(input))
-		{
 
-			//unsigned int position = -1 + _tableDeCoups.getArraySize();
-			if (_tableDeCoups.getCoup(-1 + _tableDeCoups.getArraySize())->getCaseDepart()->isDiagonally(_casesDamier[_getIndexCase(input)]))
-			{
-				std::cout << "...ici::depart::enDiagonale..." << std::endl;
-
-				if (_tableDeCoups.getCoup(-1 + _tableDeCoups.getArraySize())->getCaseDepart()->isContiguous(_casesDamier[_getIndexCase(input)]))
-				{
-					std::cout << "...ici::depart::arrviée::contiguës..." << std::endl;
-				}
-				else
-				{
-					std::cout << "...ici::depart::arrviée::éloignés..." << std::endl;
-					switch (int gapBetweenCells = _tableDeCoups.getCoup(-1 + _tableDeCoups.getArraySize())->getCaseDepart()->numberOfGapCells(_casesDamier[_getIndexCase(input)]))
-					{
-					case -1 : // not on the same diagonal
-						std::cout << "......gap ["<< gapBetweenCells <<"]............\n";
-						break;
-					case 0 : // the 2 cells are the same
-						std::cout << "......gap [" << gapBetweenCells << "]............\n";
-						break;
-					default : // there is a gap
-						std::cout << "......gap [" << gapBetweenCells << "]............\n";
-						break;
-					}
-				}
-				if (_tableDeCoups.getCoup(-1 + _tableDeCoups.getArraySize())->getCaseDepart()->getPion()->isAqueen())
-				{
-					std::cout << ".......ici::Une reine en mouvement ...........\n";
-				}
-				else
-				{
-					std::cout << ".......ici::a pawn in the move ...........\n";
-				}
-			}
-			else
-			{
-				std::cout << "...ici::depart::PASenDiagonale..." << std::endl;
-			}
-		}
-		else
+		switch (int countOfGapBetweenCells = _tableDeCoups.getCoup(-1 + _tableDeCoups.getArraySize())->getCaseDepart()->countOfGapCells(_casesDamier[_getIndexCase(input)]))
 		{
-			std::cout << "...ici::arrivée::occupée::KO..." << std::endl;
+		case DUMMY_GAPS : // not on the same diagonal : then false !
+			std::cout << "......no gap [" << countOfGapBetweenCells << "].not on the same diag..!.........\n";
+			break;
+		case 0: // the 2 cells are the same : then false
+			std::cout << "......no gap [" << countOfGapBetweenCells << "]....dummy move........\n";
+			break;
+		default: // there is a gap + cells on the same diagonal
+			std::cout << "......gap of [" << countOfGapBetweenCells << "].cell(s)...........\n";
+			break;
 		}
+
+		return isArriveeValide;
+
+		if (_tableDeCoups.getCoup(-1 + _tableDeCoups.getArraySize())->getCaseDepart()->getPion()->isAqueen());
 		
 		return isArriveeValide;
 	}

@@ -137,6 +137,7 @@ namespace spc_plateau
 		CaseDamier& operator = (const CaseDamier& c) = default;
 		bool operator == (const CaseDamier& c) const { return (this == &c ? true : (c._coordonnees.getX() == _coordonnees.getX() && c._coordonnees.getY() == _coordonnees.getY() ? true : false)); }
 		void affiche(void);
+		int  countOfGapCells(const CaseDamier& caseDamier) const;
 		bool estLibre(void) const { return _estLibre; }
 		void init(const Coordonnees& coordonnees, int notation, Pion* pion, ApparenceCase apparence, CouleurCaseDamier couleurCase); //  , CouleurPion couleurPion);
 		int getX(void) const { return _coordonnees.getX(); }
@@ -145,7 +146,6 @@ namespace spc_plateau
 		Cellule* getCellule(void) const { return _cellule; }
 		bool isContiguous(const CaseDamier& caseDamier) const;
 		bool isDiagonally(const CaseDamier& caseDamier) const;
-		int  numberOfGapCells(const CaseDamier& caseDamier) const;
 		void setPion(Pion* p) { _pion = p; _estLibre = (_pion == nullptr ? true : false);}
 		void setCellule(Cellule* c) { _cellule = c; }
 		void setCellule(void);
@@ -222,7 +222,7 @@ namespace spc_plateau
 		bool estDansLaDiagonale(const CaseDamier& c) const { for (unsigned int ii = 0; ii < _taille; ++ii) { if (*(_casesDamier[ii]) == c) return true; } return false; }
 		int getNumero(void) const { return _numero; }
 		int init(int taille, CaseDamier** c, int numero);
-		int numberOfGapCells(const CaseDamier& c1, const CaseDamier& c2) const;
+		int countOfGapCells(const CaseDamier& c1, const CaseDamier& c2) const;
 	private:
 		CaseDamier** _casesDamier;
 		unsigned int _numero;
