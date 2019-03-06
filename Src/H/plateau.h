@@ -145,6 +145,7 @@ namespace spc_plateau
 		Cellule* getCellule(void) const { return _cellule; }
 		bool isContiguous(const CaseDamier& caseDamier) const;
 		bool isDiagonally(const CaseDamier& caseDamier) const;
+		int  numberOfGapCells(const CaseDamier& caseDamier) const;
 		void setPion(Pion* p) { _pion = p; _estLibre = (_pion == nullptr ? true : false);}
 		void setCellule(Cellule* c) { _cellule = c; }
 		void setCellule(void);
@@ -221,6 +222,7 @@ namespace spc_plateau
 		bool estDansLaDiagonale(const CaseDamier& c) const { for (unsigned int ii = 0; ii < _taille; ++ii) { if (*(_casesDamier[ii]) == c) return true; } return false; }
 		int getNumero(void) const { return _numero; }
 		int init(int taille, CaseDamier** c, int numero);
+		int numberOfGapCells(const CaseDamier& c1, const CaseDamier& c2) const;
 	private:
 		CaseDamier** _casesDamier;
 		unsigned int _numero;
