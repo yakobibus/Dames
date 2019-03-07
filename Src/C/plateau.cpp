@@ -1015,17 +1015,26 @@ namespace spc_plateau
 	{
 		bool isArriveeValide = false;
 
-		switch (int countOfGapBetweenCells = _tableDeCoups.getCoup(-1 + _tableDeCoups.getArraySize())->getCaseDepart()->countOfGapCells(_casesDamier[_getIndexCase(input)]))
+		if (! _isCaseOccupee(input))
 		{
-		case DUMMY_GAPS : // not on the same diagonal : then false !
-			std::cout << "......no gap [" << countOfGapBetweenCells << "].not on the same diag..!.........\n";
-			break;
-		case 0: // the 2 cells are the same : then false
-			std::cout << "......no gap [" << countOfGapBetweenCells << "]....dummy move........\n";
-			break;
-		default: // there is a gap + cells on the same diagonal
-			std::cout << "......gap of [" << countOfGapBetweenCells << "].cell(s)...........\n";
-			break;
+			switch (int countOfGapBetweenCells = _tableDeCoups.getCoup(-1 + _tableDeCoups.getArraySize())->getCaseDepart()->countOfGapCells(_casesDamier[_getIndexCase(input)]))
+			{
+			case DUMMY_GAPS: // not on the same diagonal : then false !
+				std::cout << "......no gap [" << countOfGapBetweenCells << "].not on the same diag..!.........\n";
+				break;
+			case 0: // the 2 cells are the same : then false
+				std::cout << "......no gap [" << countOfGapBetweenCells << "]....dummy move........\n";
+				break;
+			case -1: // selon la promotion et le sens du jeu ::ICI::TODO::
+				isArriveeValide = true;
+				break;
+			case 1:  // selon la promotion et les sens du jeu ::ICI::TODO::
+				isArriveeValide = true;
+				break;
+			default: // there is a gap + cells on the same diagonal
+				std::cout << "......gap of [" << countOfGapBetweenCells << "].cell(s)...........\n";
+				break;
+			}
 		}
 
 		return isArriveeValide;
