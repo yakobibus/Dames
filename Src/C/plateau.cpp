@@ -438,6 +438,7 @@ namespace spc_plateau
 				{
 					if (c2 == *(_casesDamier[jj]))
 					{
+						std::cout << "..ici..ii=["<<ii<<"], jj=["<<jj<<"] ii-jj=["<<ii-jj<<"], c1.getY()=["<<c1.getY()<<"], c2.getY()=["<<c2.getY()<<"]..ici..\n";
 						return std::abs(ii - jj); //  (static_cast<int>(ii - jj));
 					}
 				}
