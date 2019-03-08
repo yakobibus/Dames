@@ -487,20 +487,29 @@ namespace spc_plateau
 	void Input::_isValidInput(void)
 	{
 		_inputType = InputType::is_error;
+std::cout << "........ici.sz("<<_bufSize<<").ici...........\n";
 
 		if (_bufSize == 2)
 		{
+			std::cout << "........ici.1.ici...........\n";
 			if (_isAlpha(_buffer[0]) && _isDigit(_buffer[1]) && _buffer[1] != '0')
 			{
+				std::cout << "........ici.2.ici...........\n";
 				_isValid = true;
 				_inputType = InputType::is_alphaOneDigitTwo;
+				std::cout << "........ici.2.1.ici...........\n";
 				_coordonnees.set(_aToLine(&(_buffer[1])), _aToColumn(_buffer[0]));
+				//_coordonnees.set(_aToLine(&(_buffer[0])), _aToColumn(_buffer[1])); //yx
+				std::cout << "..ici(1)ici yx : input["<<_buffer<<"] line["<<_aToLine(&(_buffer[0]))<<"], col["<<_aToColumn(_buffer[1])<<"]..\n";
 			}
 			else if (_isDigit(_buffer[0]) && _isAlpha(_buffer[1]) && _buffer[0] != '0')
 			{
+				std::cout << "........ici.3.ici...........\n";
 				_isValid = true;
 				_inputType = InputType::is_digitOneAlphaTwo;
 				_coordonnees.set(_aToLine(&(_buffer[0]), 1), _aToColumn(_buffer[1]));
+				//_coordonnees.set(_aToLine(&(_buffer[1]), 1), _aToColumn(_buffer[0])); // yx
+				std::cout << "..ici(2)ici yx : input[" << _buffer << "] line[" << _aToLine(&(_buffer[1])) << "], col[" << _aToColumn(_buffer[0]) << "]..\n";
 			}
 		}
 		else if (_bufSize == 3)
@@ -509,6 +518,8 @@ namespace spc_plateau
 			{
 				_inputType = InputType::is_alphaOnedigitTwoThree;
 				_coordonnees.set(_aToLine(&(_buffer[1])), _aToColumn(_buffer[0]));
+				//_coordonnees.set(_aToLine(&(_buffer[0])), _aToColumn(_buffer[1])); //yx
+				std::cout << "..ici(3)ici yx : input[" << _buffer << "] line[" << _aToLine(&(_buffer[0])) << "], col[" << _aToColumn(_buffer[1]) << "]..\n";
 				if (_buffer[1] == '0' && _buffer[2] != '0')
 				{
 					_isValid = true;
@@ -522,6 +533,8 @@ namespace spc_plateau
 			{
 				_inputType = InputType::is_digitOneTwoAlphaThree;
 				_coordonnees.set(_aToLine(&(_buffer[0]), 2), _aToColumn(_buffer[2]));
+				//_coordonnees.set(_aToLine(&(_buffer[2]), 2), _aToColumn(_buffer[0])); //yx
+				std::cout << "..ici(1)ici yx : input[" << _buffer << "] line[" << _aToLine(&(_buffer[2])) << "], col[" << _aToColumn(_buffer[0]) << "]..\n";
 				if (_buffer[0] == '0' && _buffer[1] != '0')
 				{
 					_isValid = true;
@@ -551,7 +564,9 @@ namespace spc_plateau
 		std::cin.getline(_buffer, -1 + INPUT_BUFFER_MX_SIZE);
 		_bufSize = strlen(_buffer);
 		//
+		std::cout << "...........ici0........\n";
 		_isValidInput();
+		std::cout << "...........ici1........\n";
 	}
 }
 
@@ -1002,10 +1017,15 @@ namespace spc_plateau
 		//invite[1] = '>';
 		//invite[2] = ' ';
 		//Input input;
+std::cout << ".........0..........\n";
 		input.saisie(invite);
+std::cout << ".........1..........\n";
 		_abandon = (input.getInputType() == InputType::is_exiting ? true : false);
+std::cout << ".........2..........\n";
 		_setSelectionneCase(_getIndexCase(input));
+std::cout << ".........3..........\n";
 		_tableDeCoups.getCoup(-1 + _tableDeCoups.getArraySize())->setCaseDepart(&(_casesDamier[_getIndexCase(input)]));
+std::cout << ".........4..........\n";
 
 		affiche();
 
