@@ -438,7 +438,7 @@ namespace spc_plateau
 				{
 					if (c2 == *(_casesDamier[jj]))
 					{
-						return std::abs(ii - jj); //  (static_cast<int>(ii - jj));
+						return ((c2.getY() - c1.getY()) < 0 ? -1 : 1) * std::abs(ii - jj); //  (static_cast<int>(ii - jj));
 					}
 				}
 				break;
@@ -701,7 +701,7 @@ namespace spc_plateau
 					{
 						++iCaseDamier;
 						_casesDamier[iCaseDamier].init(
-							Coordonnees(x, y)
+							Coordonnees(y, x)
 							, iCaseDamier
 							, nullptr
 							, ApparenceCase::normal
@@ -715,7 +715,7 @@ namespace spc_plateau
 					{
 						++iCaseDamier;
 						_casesDamier[iCaseDamier].init(
-							Coordonnees(x, y)
+							Coordonnees(y, x)
 							, iCaseDamier
 							, nullptr
 							, ApparenceCase::normal
@@ -1025,10 +1025,10 @@ namespace spc_plateau
 			case 0: // the 2 cells are the same : then false
 				std::cout << "......no gap [" << countOfGapBetweenCells << "]....dummy move........\n";
 				break;
-			case -1: // selon la promotion et le sens du jeu ::ICI::TODO::
+			case -1: // Mouvement descendant - réévaluer selon la promotion et le sens du jeu ::ICI::TODO::
 				isArriveeValide = true;
 				break;
-			case 1:  // selon la promotion et les sens du jeu ::ICI::TODO::
+			case 1:  // Mouvement montant - réévaluer selon la promotion et les sens du jeu ::ICI::TODO::
 				isArriveeValide = true;
 				break;
 			default: // there is a gap + cells on the same diagonal
