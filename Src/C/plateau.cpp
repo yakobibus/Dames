@@ -494,13 +494,13 @@ namespace spc_plateau
 			{
 				_isValid = true;
 				_inputType = InputType::is_alphaOneDigitTwo;
-				_coordonnees.set(_aToLine(&(_buffer[1])), _aToColumn(_buffer[0]));
+				_coordonnees.set(_aToColumn(_buffer[0]), _aToLine(&(_buffer[1])));
 			}
 			else if (_isDigit(_buffer[0]) && _isAlpha(_buffer[1]) && _buffer[0] != '0')
 			{
 				_isValid = true;
 				_inputType = InputType::is_digitOneAlphaTwo;
-				_coordonnees.set(_aToLine(&(_buffer[0]), 1), _aToColumn(_buffer[1]));
+				_coordonnees.set(_aToColumn(_buffer[1]), _aToLine(&(_buffer[0]), 1));
 			}
 		}
 		else if (_bufSize == 3)
@@ -508,7 +508,7 @@ namespace spc_plateau
 			if (_isAlpha(_buffer[0]) && _isDigit(_buffer[1]) && _isDigit(_buffer[2]))
 			{
 				_inputType = InputType::is_alphaOnedigitTwoThree;
-				_coordonnees.set(_aToLine(&(_buffer[1])), _aToColumn(_buffer[0]));
+				_coordonnees.set(_aToColumn(_buffer[0]), _aToLine(&(_buffer[1])));
 				if (_buffer[1] == '0' && _buffer[2] != '0')
 				{
 					_isValid = true;
@@ -521,7 +521,7 @@ namespace spc_plateau
 			else if (_isDigit(_buffer[0]) && _isDigit(_buffer[1]) && _isAlpha(_buffer[2]))
 			{
 				_inputType = InputType::is_digitOneTwoAlphaThree;
-				_coordonnees.set(_aToLine(&(_buffer[0]), 2), _aToColumn(_buffer[2]));
+				_coordonnees.set(_aToColumn(_buffer[2]), _aToLine(&(_buffer[0]), 2));
 				if (_buffer[0] == '0' && _buffer[1] != '0')
 				{
 					_isValid = true;

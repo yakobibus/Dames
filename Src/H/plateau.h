@@ -103,7 +103,7 @@ namespace spc_plateau
 		Coordonnees(const Coordonnees& c) = default;
 		Coordonnees& operator = (const Coordonnees& c) = default;
 		// ---
-		void set(unsigned int y, unsigned int x) { _x = x; _y = y; }
+		void set(unsigned int y, unsigned int x) { _y = y; _x = x; }
 		Coordonnees& get(void) { return *this; }
 		unsigned int getX(void) const { return _x; }
 		unsigned int getY(void) const { return _y; }
