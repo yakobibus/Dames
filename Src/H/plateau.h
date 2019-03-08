@@ -266,7 +266,7 @@ namespace spc_plateau
 				: 0
 				);
 		}
-		inline unsigned int _aToLine(const char* s, std::size_t offset = 0) const { std::cout << "..ici:s=[" << s << "],offs=[" << offset << "] \n"; return std::stoi(s, &offset); }
+		inline unsigned int _aToLine(const char* s, std::size_t offset = 0) const { return std::stoi(s, &offset); }
 		inline bool _isAlpha(const char& c) const { return IS_ALPHA_DAMIER(c); }
 		inline bool _isDigit(const char& c) const { return IS_DIGIT_DAMIER(c); }
 	};
