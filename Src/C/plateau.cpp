@@ -649,6 +649,7 @@ namespace spc_plateau
 			_nom = new char[1 + _szNom];
 			std::memset(_nom, 0, 1 + _szNom);
 			std::memcpy(_nom, nom, _szNom);
+			_sensDuDeplacement = sensDuDeplacement;
 		}
 	}
 }
@@ -685,12 +686,14 @@ namespace spc_plateau
 		
 		if (positionsDepart == PositionsCouleursDepart::blancs_noirs)
 		{
+			std::cout << "......blancs_noirs.....ici...\n";
 			_joueurNord.init(IdJoueur::premier, CouleurPion::blanc, "Caladan", SensDuDeplacement::negatif, NatureJoueur::humain);
 			_joueurSud.init(IdJoueur::second, CouleurPion::noir, "SalusaSecundus", SensDuDeplacement::positif, NatureJoueur::humain);
 			_joueurEnCours = &_joueurNord;  // Les blancs commencent
 		}
 		else if (positionsDepart == PositionsCouleursDepart::noirs_blancs) 
 		{
+			std::cout << "......noirs_blancs.....ici...\n";
 			_joueurNord.init(IdJoueur::second, CouleurPion::noir, "SalusaSecundus", SensDuDeplacement::negatif, NatureJoueur::humain);
 			_joueurSud.init(IdJoueur::premier, CouleurPion::blanc, "Caladan", SensDuDeplacement::positif, NatureJoueur::humain);
 			_joueurEnCours = &_joueurSud;  // Les blancs commencent
@@ -968,15 +971,21 @@ namespace spc_plateau
 		coupEnCours.set(nullptr, nullptr, nullptr, 0, _joueurEnCours, false);
 
 		Input input;
+		bool isCaseArriveeValide = false;
 		bool isCaseDepartValide = _coupDepart(input);
 		if (isCaseDepartValide)
 		{
 			coupEnCours.setCaseDepart(&_casesDamier[_getIndexCase(input)]);
+			isCaseArriveeValide = (_abandon == true ? false : _coupArrivee(input));
+			if (isCaseArriveeValide)
+			{
+				coupEnCours.setCaseArrivee(&_casesDamier[_getIndexCase(input)]);
+			}
 		}
 		//coupEnCours.setCaseDepart(_getCase(_getIndexCase(input)));
 		std::cout << ".....indx.....[" << _getIndexCase(input) << "].....ici....." << std::endl;
 
-		bool isCaseArriveeValide = ( _abandon == true ? false : _coupArrivee(input) ) ;
+		//bool isCaseArriveeValide = ( _abandon == true ? false : _coupArrivee(input) ) ;
 
 		std::cout << (isCaseDepartValide ? "depart==vrai" : "depart==faux") << std::endl;
 		std::cout << (isCaseArriveeValide ? "arrivee==vrai" : "arrivee==faux") << std::endl;
@@ -1037,10 +1046,20 @@ namespace spc_plateau
 				std::cout << "......no gap [" << countOfGapBetweenCells << "]....dummy move........\n";
 				break;
 			case -1: // Mouvement descendant - réévaluer selon la promotion et le sens du jeu ::ICI::TODO::
-				isArriveeValide = true;
+				if (   _joueurEnCours->getSensDuDeplacement() == SensDuDeplacement::negatif
+					|| _tableDeCoups.getCoup(-1 + _tableDeCoups.getArraySize())->getCaseDepart()->getPion()->isAqueen()
+					)
+				{
+					isArriveeValide = true;
+				}
 				break;
 			case 1:  // Mouvement montant - réévaluer selon la promotion et les sens du jeu ::ICI::TODO::
-				isArriveeValide = true;
+				if (   _joueurEnCours->getSensDuDeplacement() == SensDuDeplacement::positif
+					|| _tableDeCoups.getCoup(-1 + _tableDeCoups.getArraySize())->getCaseDepart()->getPion()->isAqueen()
+					)
+				{
+					isArriveeValide = true;
+				}
 				break;
 			default: // there is a gap + cells on the same diagonal
 				std::cout << "......gap of [" << countOfGapBetweenCells << "].cell(s)...........\n";

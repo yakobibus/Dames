@@ -189,6 +189,7 @@ namespace spc_plateau
 		CaseDamier* getCaseArrivee(void) { return _arrivee; }
 		CaseDamier* getCaseDepart(void) { return _depart; }
 		void        set(CaseDamier* depart, CaseDamier* arrivee, CaseDamier* transit, unsigned int szTransit, Joueur* joueur, bool valide);
+		void        setCaseArrivee(CaseDamier* caseArrivee) { _arrivee = caseArrivee; }
 		void        setCaseDepart(CaseDamier* caseDepart) { _depart = caseDepart; }
 		void        raz(void);
 	private :
@@ -288,7 +289,7 @@ namespace spc_plateau
 		Joueur(const Joueur& j);
 		Joueur& operator = (const Joueur& j);
 		//
-		CouleurPion getCouleur(void) const { return _couleur; }
+		const CouleurPion& getCouleur(void) const { return _couleur; }
 		const IdJoueur& getId(void) const { return _id; }
 		const SensDuDeplacement& getSensDuDeplacement(void) const { return _sensDuDeplacement; }
 		void init(
