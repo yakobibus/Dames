@@ -79,6 +79,13 @@ namespace spc_plateau
 		blancs_noirs = 0, // les blancs (cases 1 à 20) puis les noirs (cases 31 à 50)
 		noirs_blancs = 1  // les noirs (cases 1 à 20) puis les blancs (cases 31 à 50)
 	};
+
+	enum class SensDuDeplacement : int
+	{
+		  negatif   = -1
+		, undefined = 0
+		, positif   = 1
+	};
 }
 
 namespace spc_plateau
@@ -107,6 +114,7 @@ namespace spc_plateau
 		Coordonnees& get(void) { return *this; }
 		unsigned int getX(void) const { return _x; }
 		unsigned int getY(void) const { return _y; }
+		char         getXalpha(void) const { return 'a' + _x - 1; }
 	private :
 		unsigned _x;
 		unsigned _y;
@@ -141,6 +149,7 @@ namespace spc_plateau
 		bool estLibre(void) const { return _estLibre; }
 		void init(const Coordonnees& coordonnees, int notation, Pion* pion, ApparenceCase apparence, CouleurCaseDamier couleurCase); //  , CouleurPion couleurPion);
 		int getX(void) const { return _coordonnees.getX(); }
+		char getXalpha(void) const { return _coordonnees.getXalpha(); }
 		int getY(void) const { return _coordonnees.getY(); }
 		Pion* getPion(void) { return _pion; }
 		Cellule* getCellule(void) const { return _cellule; }
@@ -281,17 +290,25 @@ namespace spc_plateau
 		//
 		CouleurPion getCouleur(void) const { return _couleur; }
 		const IdJoueur& getId(void) const { return _id; }
-		void init(const IdJoueur& id, const CouleurPion& couleur, const char* nom, const NatureJoueur& nature = NatureJoueur::humain);
+		const SensDuDeplacement& getSensDuDeplacement(void) const { return _sensDuDeplacement; }
+		void init(
+			  const IdJoueur& id
+			, const CouleurPion& couleur
+			, const char* nom
+			, const SensDuDeplacement& sensDuDeplacement
+			, const NatureJoueur& nature = NatureJoueur::humain
+		    );
 		const char* const getNom(void) const { return _nom; }
 		const unsigned short getSzNom(void) const { return _szNom; }
 		//void setId(const IdJoueur& id);
 		//void setNom(const char* nom);
 	private :
-		IdJoueur     _id;
-		CouleurPion  _couleur;
-		NatureJoueur _nature;
-		char*        _nom;
-		unsigned short _szNom;
+		IdJoueur          _id;
+		CouleurPion       _couleur;
+		NatureJoueur      _nature;
+		char*             _nom;
+		unsigned short    _szNom;
+		SensDuDeplacement _sensDuDeplacement;
 	};
 
 	class Pion

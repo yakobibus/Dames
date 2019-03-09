@@ -562,6 +562,7 @@ namespace spc_plateau
 		, _nature(NatureJoueur::undefined)
 		, _nom(nullptr)
 		, _szNom(0)
+		, _sensDuDeplacement(SensDuDeplacement::undefined)
 	{}
 
 	Joueur::~Joueur()
@@ -593,6 +594,8 @@ namespace spc_plateau
 			_nom = new char[1 + _szNom];
 			std::memset(_nom, 0, 1 + _szNom);
 			std::memcpy(_nom, j._nom, _szNom);
+
+			_sensDuDeplacement = j._sensDuDeplacement;
 		}
 	}
 
@@ -618,10 +621,18 @@ namespace spc_plateau
 				std::memset(_nom, 0, 1 + _szNom);
 				std::memcpy(_nom, j._nom, _szNom);
 			}
-		}
+			
+			_sensDuDeplacement = j._sensDuDeplacement;
+	}
 	}
 
-	void spc_plateau::Joueur::init(const IdJoueur& id, const CouleurPion& couleur, const char* nom, const NatureJoueur& nature)
+	void spc_plateau::Joueur::init(
+		  const IdJoueur& id
+		, const CouleurPion& couleur
+		, const char* nom
+		, const SensDuDeplacement& sensDuDeplacement
+		, const NatureJoueur& nature
+	)
 	{
 		_id = id;
 		_couleur = couleur;
@@ -674,14 +685,14 @@ namespace spc_plateau
 		
 		if (positionsDepart == PositionsCouleursDepart::blancs_noirs)
 		{
-			_joueurNord.init(IdJoueur::premier, CouleurPion::blanc, "Caladan", NatureJoueur::humain);
-			_joueurSud.init(IdJoueur::second, CouleurPion::noir, "SalusaSecundus", NatureJoueur::humain);
+			_joueurNord.init(IdJoueur::premier, CouleurPion::blanc, "Caladan", SensDuDeplacement::negatif, NatureJoueur::humain);
+			_joueurSud.init(IdJoueur::second, CouleurPion::noir, "SalusaSecundus", SensDuDeplacement::positif, NatureJoueur::humain);
 			_joueurEnCours = &_joueurNord;  // Les blancs commencent
 		}
 		else if (positionsDepart == PositionsCouleursDepart::noirs_blancs) 
 		{
-			_joueurNord.init(IdJoueur::second, CouleurPion::noir, "SalusaSecundus", NatureJoueur::humain);
-			_joueurSud.init(IdJoueur::premier, CouleurPion::blanc, "Caladan", NatureJoueur::humain);
+			_joueurNord.init(IdJoueur::second, CouleurPion::noir, "SalusaSecundus", SensDuDeplacement::negatif, NatureJoueur::humain);
+			_joueurSud.init(IdJoueur::premier, CouleurPion::blanc, "Caladan", SensDuDeplacement::positif, NatureJoueur::humain);
 			_joueurEnCours = &_joueurSud;  // Les blancs commencent
 		}
 
