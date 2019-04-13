@@ -976,6 +976,7 @@ namespace spc_plateau
 		if (isCaseDepartValide)
 		{
 			coupEnCours.setCaseDepart(&_casesDamier[_getIndexCase(input)]);
+			//
 			isCaseArriveeValide = (_abandon == true ? false : _coupArrivee(input));
 			if (isCaseArriveeValide)
 			{
@@ -1067,7 +1068,7 @@ namespace spc_plateau
 			}
 		}
 
-		return isArriveeValide;
+		return isArriveeValide;  ///  ICI...
 
 		if (_tableDeCoups.getCoup(-1 + _tableDeCoups.getArraySize())->getCaseDepart()->getPion()->isAqueen());
 		
