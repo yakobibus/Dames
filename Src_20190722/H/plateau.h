@@ -7,7 +7,6 @@
 # define _PLATEAU_H_ (1)
 
 # include <iostream>
-# include <vector>
 # include <cstring>
 # include "constantes.h"
 
@@ -334,35 +333,11 @@ namespace spc_plateau
 
 	class Plateau
 	{
-	public : 
-		Plateau(PositionsCouleursDepart positionsDepart = PositionsCouleursDepart::noirs_blancs);
-		~Plateau() = default;
-		Plateau(const Plateau& p) = default;
-		Plateau& operator = (const Plateau& p) = default;
-	private :
-		bool                     _abandon;
-		std::vector <CaseDamier> _casesDamier;
-		CouleurPion              _couleurPionsNord; // = CouleurPion::null;
-		CouleurPion              _couleurPionsSud; // = CouleurPion::null;
-		Joueur*                  _joueurEnCours;
-		Joueur                   _joueurNord;
-		Joueur                   _joueurSud;
-		Pion* const              _pionsNord = nullptr;
-		Pion* const              _pionsSud = nullptr;
-		Pion                     _tblPionsBlancs[NB_PIONS_PAR_COULEUR];
-		Pion                     _tblPionsNoirs[NB_PIONS_PAR_COULEUR];
-		std::vector <Pion>       _pionsBlancs; //  (NB_PIONS_PAR_COULEUR);
-		std::vector <Pion>       _pionsNoirs;
-		std::vector <Pion>& _pNord;
-	};
-
-	class TblPlateau
-	{
 	public :
-		TblPlateau(PositionsCouleursDepart positionsDepart = PositionsCouleursDepart::noirs_blancs) ;
-		~TblPlateau() = default;
-		TblPlateau(const TblPlateau& p) ;
-		TblPlateau& operator = (const TblPlateau& p) ;
+		Plateau(PositionsCouleursDepart positionsDepart = PositionsCouleursDepart::noirs_blancs) ;
+		~Plateau() = default;
+		Plateau(const Plateau& p) ;
+		Plateau& operator = (const Plateau& p) ;
 		//
 		void affiche(void) ;
 		bool coupSuivant(void);
