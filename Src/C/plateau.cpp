@@ -8,12 +8,12 @@ namespace spc_plateau
 	CaseDamier::CaseDamier()
 		: _apparence(ApparenceCase::normal)
 		, _cellule(nullptr)
+		, _coordonnees(0, 0)
 		, _couleur(CouleurCaseDamier::null)
 		, _estLibre(true)
 		, _nbDiagonales(0)
 		, _notationOfficielle(0)
 		, _pion(nullptr)
-		, _coordonnees(0, 0)
 	{
 		for (int ii = 0; ii < NB_DIAGONALES_MAX_PAR_CASE; ++ii)
 		{
@@ -169,7 +169,7 @@ namespace spc_plateau
 	{
 		if (_casesDeTransit == nullptr)
 		{
-			CaseDamier** dummyListe = new CaseDamier* [1 + _nbCasesDeTransit] ;
+			//CaseDamier** dummyListe = new CaseDamier* [1 + _nbCasesDeTransit] ;
 			++_nbCasesDeTransit;
 			_casesDeTransit = new CaseDamier[_nbCasesDeTransit] ;
 			_casesDeTransit = caseDamier;
@@ -211,7 +211,7 @@ namespace spc_plateau
 	{
 		if (this != &c) 
 		{ 
-			for (short ii = 0; ii < _arraySize; ++ii)
+			for (unsigned short ii = 0; ii < _arraySize; ++ii)
 			{
 				delete _array[ii];
 			}
@@ -237,7 +237,7 @@ namespace spc_plateau
 	{
 		if (this != &c) 
 		{ 
-			for (short ii = 0; ii < _arraySize; ++ii)
+			for (unsigned short ii = 0; ii < _arraySize; ++ii)
 			{
 				delete _array[ii];
 			}
@@ -297,7 +297,7 @@ namespace spc_plateau
 				dummyArray[ii] = _array[ii];
 			}
 
-			for(short ii = 0 ; ii < _arraySize ; ++ii) 
+			for(unsigned short ii = 0 ; ii < _arraySize ; ++ii) 
 			{
 				delete _array[ii];
 			}
@@ -342,7 +342,7 @@ namespace spc_plateau
 				_taille = d._taille;
 				_numero = d._numero;
 				_casesDamier = new CaseDamier*[_taille];
-				for (int i = 0; i < _taille; ++i)
+				for (unsigned int i = 0; i < _taille; ++i)
 				{
 					_casesDamier[i] = d._casesDamier[i];
 				}
@@ -367,7 +367,7 @@ namespace spc_plateau
 				_taille = d._taille;
 				_numero = d._numero;
 				_casesDamier = new CaseDamier*[_taille];
-				for (int i = 0; i < _taille; ++i)
+				for (unsigned int i = 0; i < _taille; ++i)
 				{
 					_casesDamier[i] = d._casesDamier[i];
 				}
@@ -391,7 +391,7 @@ namespace spc_plateau
 		_taille = 1 + oldDiagonale._taille;
 		_numero = oldDiagonale._numero;
 		_casesDamier = new CaseDamier*[_taille];
-		for (int i = 0; i < oldDiagonale._taille; ++i)
+		for (unsigned int i = 0; i < oldDiagonale._taille; ++i)
 		{
 			_casesDamier[i] = oldDiagonale._casesDamier[i];
 		}
@@ -430,15 +430,15 @@ namespace spc_plateau
 		  - (!=0) : the number of gap cells (1 : adjacent cells, 2 : one cell between them, n : -1+n cells between)
 		**/
 	{
-		for (int ii = 0; ii < _taille; ++ii)
+		for (unsigned int ii = 0; ii < _taille; ++ii)
 		{
 			if (c1 == *(_casesDamier[ii]))
 			{
-				for (int jj = 0 ; jj < _taille ; ++jj)
+				for (unsigned int jj = 0 ; jj < _taille ; ++jj)
 				{
 					if (c2 == *(_casesDamier[jj]))
 					{
-						return ((c2.getY() - c1.getY()) < 0 ? -1 : 1) * std::abs(ii - jj); //  (static_cast<int>(ii - jj));
+						return ((c2.getY() - c1.getY()) < 0 ? -1 : 1) * std::abs( static_cast <long long> (ii - jj)); //  (static_cast<int>(ii - jj));
 					}
 				}
 				break;
@@ -461,7 +461,7 @@ namespace spc_plateau
 		_taille = taille;
 		_numero = numero;
 		_casesDamier = new CaseDamier*[_taille];
-		for (int i = 0; i < _taille; ++i)
+		for (unsigned int i = 0; i < _taille; ++i)
 		{
 			_casesDamier[i] = c[i];
 			_casesDamier[i]->setDiagonale(this);
@@ -557,8 +557,8 @@ namespace spc_plateau
 namespace spc_plateau
 {
 	Joueur::Joueur() 
-		: _couleur(CouleurPion::null)
-		, _id(IdJoueur::undefined)
+		: _id(IdJoueur::undefined)
+		, _couleur(CouleurPion::null)
 		, _nature(NatureJoueur::undefined)
 		, _nom(nullptr)
 		, _szNom(0)
@@ -623,7 +623,9 @@ namespace spc_plateau
 			}
 			
 			_sensDuDeplacement = j._sensDuDeplacement;
-	}
+		}
+
+		return *this;
 	}
 
 	void spc_plateau::Joueur::init(
@@ -674,9 +676,8 @@ namespace spc_plateau
 				: nullptr))
 		, _pionsBlancs(NB_PIONS_PAR_COULEUR)
 		, _pionsNoirs(NB_PIONS_PAR_COULEUR)
-		, _pNord(positionsDepart == PositionsCouleursDepart::blancs_noirs ? _pionsBlancs
-			: (positionsDepart == PositionsCouleursDepart::noirs_blancs ? _pionsNoirs
-				: _pionsBlancs /*faute de nullReference*/))
+		, _pNord(positionsDepart == PositionsCouleursDepart::blancs_noirs ? _pionsBlancs : _pionsNoirs)
+		, _pSud(positionsDepart == PositionsCouleursDepart::noirs_blancs ? _pionsNoirs : _pionsBlancs)
 	{
 		for (int ii = 0; ii < NB_CASES_PLATEAU; ++ii)
 		{
@@ -689,12 +690,6 @@ namespace spc_plateau
 {
 	TblPlateau::TblPlateau(PositionsCouleursDepart positionsDepart)
 		: _abandon(false)
-		, _pionsNord(positionsDepart == PositionsCouleursDepart::blancs_noirs ? _pionsBlancs
-			: (positionsDepart == PositionsCouleursDepart::noirs_blancs ? _pionsNoirs
-				: nullptr))
-		, _pionsSud(positionsDepart == PositionsCouleursDepart::blancs_noirs ? _pionsNoirs
-			: (positionsDepart == PositionsCouleursDepart::noirs_blancs ? _pionsBlancs
-				: nullptr))
 		, _couleurPionsNord(positionsDepart == PositionsCouleursDepart::blancs_noirs ? CouleurPion::blanc
 			: (positionsDepart == PositionsCouleursDepart::noirs_blancs ? CouleurPion::noir
 				: CouleurPion::null))
@@ -702,6 +697,12 @@ namespace spc_plateau
 			: (positionsDepart == PositionsCouleursDepart::noirs_blancs ? CouleurPion::blanc
 				: CouleurPion::null))
 		, _joueurEnCours(nullptr)
+		, _pionsNord(positionsDepart == PositionsCouleursDepart::blancs_noirs ? _pionsBlancs
+			: (positionsDepart == PositionsCouleursDepart::noirs_blancs ? _pionsNoirs
+				: nullptr))
+		, _pionsSud(positionsDepart == PositionsCouleursDepart::blancs_noirs ? _pionsNoirs
+			: (positionsDepart == PositionsCouleursDepart::noirs_blancs ? _pionsBlancs
+				: nullptr))
 	{
 {
 Plateau ici_plateau_vector;

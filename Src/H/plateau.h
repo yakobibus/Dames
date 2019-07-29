@@ -181,7 +181,7 @@ namespace spc_plateau
 	class Coup
 	{
 	public :
-		Coup() : _arrivee(nullptr), _depart(nullptr), _joueur(nullptr), _valide(false), _nbCasesDeTransit(0), _casesDeTransit(nullptr) {}
+		Coup() : _arrivee(nullptr), _depart(nullptr), _casesDeTransit(nullptr), _nbCasesDeTransit(0), _joueur(nullptr), _valide(false) {}
 		~Coup();
 		Coup(Coup& c) ;
 		Coup& operator = (Coup& c);
@@ -205,7 +205,7 @@ namespace spc_plateau
 	class TableDeCoups
 	{
 	public :
-		TableDeCoups() : _arraySize(0), _arrayMaxSize(NB_DE_COUPS_PAR_LOT), _array(nullptr) { _array = new Coup*[NB_DE_COUPS_PAR_LOT]; }
+		TableDeCoups() : _array(nullptr), _arraySize(0), _arrayMaxSize(NB_DE_COUPS_PAR_LOT) { _array = new Coup*[NB_DE_COUPS_PAR_LOT]; }
 		~TableDeCoups() { delete[] _array; _array = nullptr; _arraySize = 0; _arrayMaxSize = NB_DE_COUPS_PAR_LOT; }
 		TableDeCoups(const TableDeCoups& c);
 		TableDeCoups& operator = (const TableDeCoups& c);
@@ -353,7 +353,8 @@ namespace spc_plateau
 		Pion                     _tblPionsNoirs[NB_PIONS_PAR_COULEUR];
 		std::vector <Pion>       _pionsBlancs; //  (NB_PIONS_PAR_COULEUR);
 		std::vector <Pion>       _pionsNoirs;
-		std::vector <Pion>& _pNord;
+		std::vector <Pion>&      _pNord;
+		std::vector <Pion>&      _pSud;
 	};
 
 	class TblPlateau
