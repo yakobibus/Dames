@@ -20,7 +20,7 @@ namespace spc_dames
 		int jouer(void);
 	private:
 		bool _finDePartie = false;
-		TblPlateau _plateau ;
+		Plateau _plateau ;
 	};
 }
 

@@ -658,37 +658,7 @@ namespace spc_plateau
 
 namespace spc_plateau
 {
-	Plateau::Plateau(PositionsCouleursDepart positionsDepart) 
-		: _abandon(false)
-		, _casesDamier(NB_CASES_PLATEAU)
-		, _couleurPionsNord(positionsDepart == PositionsCouleursDepart::blancs_noirs ? CouleurPion::blanc
-			: (positionsDepart == PositionsCouleursDepart::noirs_blancs ? CouleurPion::noir
-				: CouleurPion::null))
-		, _couleurPionsSud(positionsDepart == PositionsCouleursDepart::blancs_noirs ? CouleurPion::noir
-			: (positionsDepart == PositionsCouleursDepart::noirs_blancs ? CouleurPion::blanc
-				: CouleurPion::null))
-		, _joueurEnCours(nullptr)
-		, _pionsNord(positionsDepart == PositionsCouleursDepart::blancs_noirs ? _tblPionsBlancs
-			: (positionsDepart == PositionsCouleursDepart::noirs_blancs ? _tblPionsNoirs
-				: nullptr))
-		, _pionsSud(positionsDepart == PositionsCouleursDepart::blancs_noirs ? _tblPionsNoirs
-			: (positionsDepart == PositionsCouleursDepart::noirs_blancs ? _tblPionsBlancs
-				: nullptr))
-		, _pionsBlancs(NB_PIONS_PAR_COULEUR)
-		, _pionsNoirs(NB_PIONS_PAR_COULEUR)
-		, _pNord(positionsDepart == PositionsCouleursDepart::blancs_noirs ? _pionsBlancs : _pionsNoirs)
-		, _pSud(positionsDepart == PositionsCouleursDepart::noirs_blancs ? _pionsNoirs : _pionsBlancs)
-	{
-		for (int ii = 0; ii < NB_CASES_PLATEAU; ++ii)
-		{
-			_casesDamier[ii].init(Coordonnees(0, 0), 0, nullptr, ApparenceCase::normal, CouleurCaseDamier::blanc);
-		}
-	}
-}
-
-namespace spc_plateau
-{
-	TblPlateau::TblPlateau(PositionsCouleursDepart positionsDepart)
+	Plateau::Plateau(PositionsCouleursDepart positionsDepart)
 		: _abandon(false)
 		, _couleurPionsNord(positionsDepart == PositionsCouleursDepart::blancs_noirs ? CouleurPion::blanc
 			: (positionsDepart == PositionsCouleursDepart::noirs_blancs ? CouleurPion::noir
@@ -704,19 +674,16 @@ namespace spc_plateau
 			: (positionsDepart == PositionsCouleursDepart::noirs_blancs ? _pionsBlancs
 				: nullptr))
 	{
-{
-Plateau ici_plateau_vector;
-}
 		/*
 		Initialisation des casesDamier :
 		------------------------------
 		- La case 0 est blanche, les 50 suivantes noires ;
-		- Les pions couleur 1/2 dans les cases 1 à 20 et les couleur 2/2 de 31 à 50
+		- Les pions couleur 1/2 dans les cases 1 ï¿½ 20 et les couleur 2/2 de 31 ï¿½ 50
 		NB : le pointeur sur le pion reste null dans un premier temps
 		**/
 
 		/*
-		c'est ici le problème de couleur des joueurs
+		c'est ici le problï¿½me de couleur des joueurs
 		*/
 		if (positionsDepart == PositionsCouleursDepart::blancs_noirs)
 		{
@@ -776,7 +743,7 @@ Plateau ici_plateau_vector;
 
 		{
 			// Initialisation des pointeurs de cellules dans les caseDamiers
-			// y paire de [2 à 20] et x de [2 à 10 si y%4!=0, de 1 à 9 si y%4==0] => cellule
+			// y paire de [2 ï¿½ 20] et x de [2 ï¿½ 10 si y%4!=0, de 1 ï¿½ 9 si y%4==0] => cellule
 			for (int y = 2, iCase = 1; y <= 20; y += 2)
 			{
 				for (int x = 1; x <= 10; ++x)
@@ -796,7 +763,7 @@ Plateau ici_plateau_vector;
 		initDiagonales();
 	}
 
-	TblPlateau::TblPlateau(const TblPlateau& p)
+	Plateau::Plateau(const Plateau& p)
 	{
 		if (this != &p)
 		{
@@ -840,7 +807,7 @@ Plateau ici_plateau_vector;
 		}
 	}
 
-	TblPlateau & TblPlateau::operator=(const TblPlateau & p)
+	Plateau & Plateau::operator=(const Plateau & p)
 	{
 		if (this != &p)
 		{
@@ -888,7 +855,7 @@ Plateau ici_plateau_vector;
 namespace spc_plateau
 {
 
-	void TblPlateau::initDiagonales(void)
+	void Plateau::initDiagonales(void)
 	{
 		CaseDamier* dummy[100] =
 		{
@@ -952,7 +919,7 @@ namespace spc_plateau
 
 namespace spc_plateau
 {
-	unsigned int TblPlateau::_getIndexCase(const Input& input) const
+	unsigned int Plateau::_getIndexCase(const Input& input) const
 	{
 		unsigned int index = 0;
 		const unsigned int& y = input.getY();
@@ -998,7 +965,7 @@ namespace spc_plateau
 
 namespace spc_plateau
 {
-	bool TblPlateau::_coup(void)
+	bool Plateau::_coup(void)
 	{
 		unsigned int nombreDeCoups = _tableDeCoups.ajouterNouveauCoup();
 		Coup& coupEnCours = *_tableDeCoups.getCoup(-1 + nombreDeCoups);
@@ -1029,7 +996,7 @@ namespace spc_plateau
 		return isCaseDepartValide && isCaseArriveeValide ;
 	}
 
-	bool TblPlateau::_coupArrivee(Input& input)
+	bool Plateau::_coupArrivee(Input& input)
 	{
 		char  invite[256];
 		std::memset(invite, 0, 256);
@@ -1047,7 +1014,7 @@ namespace spc_plateau
 		return _caseArriveeValide(input); //ICI...
 	}
 
-	bool TblPlateau::_coupDepart(Input& input)
+	bool Plateau::_coupDepart(Input& input)
 	{
 		char  invite[256];
 		memset(invite, 0, 256);
@@ -1066,7 +1033,7 @@ namespace spc_plateau
 		return _caseDepartValide(input);
 	}
 
-	bool TblPlateau::_caseArriveeValide(const Input& input) ///  ICI...
+	bool Plateau::_caseArriveeValide(const Input& input) ///  ICI...
 	{
 		bool isArriveeValide = false;
 
@@ -1080,7 +1047,7 @@ namespace spc_plateau
 			case 0: // the 2 cells are the same : then false
 				std::cout << "......no gap [" << countOfGapBetweenCells << "]....dummy move........\n";
 				break;
-			case -1: // Mouvement descendant - réévaluer selon la promotion et le sens du jeu ::ICI::TODO::
+			case -1: // Mouvement descendant - rï¿½ï¿½valuer selon la promotion et le sens du jeu ::ICI::TODO::
 				if (   _joueurEnCours->getSensDuDeplacement() == SensDuDeplacement::negatif
 					|| _tableDeCoups.getCoup(-1 + _tableDeCoups.getArraySize())->getCaseDepart()->getPion()->isAqueen()
 					)
@@ -1088,7 +1055,7 @@ namespace spc_plateau
 					isArriveeValide = true;
 				}
 				break;
-			case 1:  // Mouvement montant - réévaluer selon la promotion et les sens du jeu ::ICI::TODO::
+			case 1:  // Mouvement montant - rï¿½ï¿½valuer selon la promotion et les sens du jeu ::ICI::TODO::
 				if (   _joueurEnCours->getSensDuDeplacement() == SensDuDeplacement::positif
 					|| _tableDeCoups.getCoup(-1 + _tableDeCoups.getArraySize())->getCaseDepart()->getPion()->isAqueen()
 					)
@@ -1112,7 +1079,7 @@ namespace spc_plateau
 
 namespace spc_plateau
 {
-	void TblPlateau::_setSelectionneCase(const unsigned int& index)
+	void Plateau::_setSelectionneCase(const unsigned int& index)
 	{
 		if (index > 0 && index < NB_CASES_PLATEAU) // Ce n'est pas une case blanche
 		{
@@ -1125,7 +1092,7 @@ namespace spc_plateau
 
 namespace spc_plateau
 {
-	void TblPlateau::affiche(void)
+	void Plateau::affiche(void)
 	{
 		for (int iCase = 1; iCase < NB_CASES_PLATEAU; ++iCase)
 		{
@@ -1141,14 +1108,14 @@ namespace spc_plateau
 			;
 	}
 
-	bool TblPlateau::coupSuivant(void)
+	bool Plateau::coupSuivant(void)
 	{
 		_abandon = false;
 
 		return _coup();
 	}
 
-	void TblPlateau::initPions(Pion* const pions, CaseDamier* const cases, CouleurPion& couleur)
+	void Plateau::initPions(Pion* const pions, CaseDamier* const cases, CouleurPion& couleur)
 	{
 		for (int i = 0; i < NB_PIONS_PAR_COULEUR; ++i)
 		{
