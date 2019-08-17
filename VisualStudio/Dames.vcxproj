@@ -102,15 +102,25 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\src\c\args.cpp" />
+    <ClCompile Include="..\Src\C\caseDamier.cpp" />
+    <ClCompile Include="..\Src\C\commonServices.cpp" />
     <ClCompile Include="..\src\c\constantes.cpp" />
     <ClCompile Include="..\src\c\dames.cpp" />
+    <ClCompile Include="..\Src\C\diagonale.cpp" />
+    <ClCompile Include="..\Src\C\joueurs.cpp" />
+    <ClCompile Include="..\Src\C\pion.cpp" />
     <ClCompile Include="..\src\c\plateau.cpp" />
     <ClCompile Include="..\src\c\regles.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\h\args.h" />
+    <ClInclude Include="..\Src\H\caseDamier.h" />
+    <ClInclude Include="..\Src\H\commonServices.h" />
     <ClInclude Include="..\src\h\constantes.h" />
     <ClInclude Include="..\src\h\dames.h" />
+    <ClInclude Include="..\Src\H\diagonale.h" />
+    <ClInclude Include="..\Src\H\joueurs.h" />
+    <ClInclude Include="..\Src\H\pion.h" />
     <ClInclude Include="..\src\h\plateau.h" />
     <ClInclude Include="..\src\h\regles.h" />
   </ItemGroup>

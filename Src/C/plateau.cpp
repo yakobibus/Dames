@@ -15,10 +15,10 @@ namespace spc_plateau
 		, _notationOfficielle(0)
 		, _pion(nullptr)
 	{
-		for (int ii = 0; ii < NB_DIAGONALES_MAX_PAR_CASE; ++ii)
+		for (int ii = 0; ii < NB_DIAGONALES_MAX_PAR_CASE; ++ii) 
 		{
 			_diagonale[ii] = nullptr;
-		}
+		} 
 	}
 
 	void spc_plateau::CaseDamier::affiche(void)
@@ -27,7 +27,7 @@ namespace spc_plateau
 		char tmp[4];
 		std::memset(tmp, 0, 4);
 		std::memcpy(tmp, _cellule->motif, 3);
-		std::cout << tmp;
+		std::cout << tmp ;
 	}
 
 	int  CaseDamier::countOfGapCells(const CaseDamier& caseDamier) const
@@ -42,14 +42,14 @@ namespace spc_plateau
 		return DUMMY_GAPS;  // the cells aren't on the same diagonal
 	}
 
-	void CaseDamier::init(const Coordonnees& coordonnees, int notation, Pion* pion, ApparenceCase apparence, CouleurCaseDamier couleurCase) // , CouleurPion couleurPion)
+	void CaseDamier::init(const Coordonnees& coordonnees, int notation, Pion * pion, ApparenceCase apparence, CouleurCaseDamier couleurCase) // , CouleurPion couleurPion)
 	{
-		_apparence = apparence;
-		_estLibre = (pion == nullptr ? true : false);
-		_notationOfficielle = notation;
-		_pion = pion;
+		_apparence = apparence ;
+		_estLibre = (pion == nullptr ? true : false) ;
+		_notationOfficielle = notation ;
+		_pion = pion ;
 		_coordonnees = coordonnees;
-		_couleur = couleurCase;
+		_couleur = couleurCase ;
 	}
 
 	bool CaseDamier::isContiguous(const CaseDamier& caseDamier) const
@@ -75,7 +75,7 @@ namespace spc_plateau
 			}
 		}
 
-		return false;
+		return false ;
 	}
 
 	void CaseDamier::setCellule(void)
@@ -90,14 +90,14 @@ namespace spc_plateau
 		const char bold_Noir[] = "/X/";
 		const char bold_noir[] = "/x/";
 		const char bold_vide[] = "///";
-		const char* const pMotif
-			= (_apparence == ApparenceCase::surbillance
-				? (_estLibre
-					? bold_vide
-					: (_pion->getPromotion()
+		const char * const pMotif 
+			= ( _apparence == ApparenceCase::surbillance 
+				? (_estLibre 
+					? bold_vide 
+					: (_pion->getPromotion() 
 						? (_pion->getCouleur() == CouleurPion::blanc ? bold_Blanc : bold_Noir)
 						: (_pion->getCouleur() == CouleurPion::blanc ? bold_blanc : bold_noir)
-						)
+						) 
 					) // fin AppCase::surbillance
 				: (_estLibre
 					? vide
@@ -106,13 +106,13 @@ namespace spc_plateau
 						: (_pion->getCouleur() == CouleurPion::blanc ? blanc : noir)
 						)
 					) // fin ! AppCase::surbillance
-				);
+			);
 		std::memcpy(_cellule->motif, pMotif, 3);
 	}
 
 	void CaseDamier::setDiagonale(const Diagonale* diagonale)
 	{
-		for (unsigned int ii = _nbDiagonales; ii < NB_DIAGONALES_MAX_PAR_CASE; ++ii)
+		for (unsigned int ii = _nbDiagonales ; ii < NB_DIAGONALES_MAX_PAR_CASE; ++ii)
 		{
 			if (_diagonale[ii] == nullptr)
 			{
@@ -438,7 +438,7 @@ namespace spc_plateau
 				{
 					if (c2 == *(_casesDamier[jj]))
 					{
-						return ((c2.getY() - c1.getY()) < 0 ? -1 : 1) * std::abs( static_cast <long long> (ii - jj)); //  (static_cast<int>(ii - jj));
+						return ((c2.getY() - c1.getY()) < 0 ? -1 : 1) * std::abs(static_cast<int>(ii - jj)); //  (static_cast<int>(ii - jj));
 					}
 				}
 				break;
@@ -624,7 +624,6 @@ namespace spc_plateau
 			
 			_sensDuDeplacement = j._sensDuDeplacement;
 		}
-
 		return *this;
 	}
 
@@ -678,13 +677,14 @@ namespace spc_plateau
 		Initialisation des casesDamier :
 		------------------------------
 		- La case 0 est blanche, les 50 suivantes noires ;
-		- Les pions couleur 1/2 dans les cases 1 ï¿½ 20 et les couleur 2/2 de 31 ï¿½ 50
+		- Les pions couleur 1/2 dans les cases 1 à 20 et les couleur 2/2 de 31 à 50
 		NB : le pointeur sur le pion reste null dans un premier temps
 		**/
 
 		/*
-		c'est ici le problï¿½me de couleur des joueurs
+		c'est ici le problème de couleur des joueurs
 		*/
+		
 		if (positionsDepart == PositionsCouleursDepart::blancs_noirs)
 		{
 			std::cout << "......blancs_noirs.....ici...\n";
@@ -743,7 +743,7 @@ namespace spc_plateau
 
 		{
 			// Initialisation des pointeurs de cellules dans les caseDamiers
-			// y paire de [2 ï¿½ 20] et x de [2 ï¿½ 10 si y%4!=0, de 1 ï¿½ 9 si y%4==0] => cellule
+			// y paire de [2 à 20] et x de [2 à 10 si y%4!=0, de 1 à 9 si y%4==0] => cellule
 			for (int y = 2, iCase = 1; y <= 20; y += 2)
 			{
 				for (int x = 1; x <= 10; ++x)
@@ -1047,7 +1047,7 @@ namespace spc_plateau
 			case 0: // the 2 cells are the same : then false
 				std::cout << "......no gap [" << countOfGapBetweenCells << "]....dummy move........\n";
 				break;
-			case -1: // Mouvement descendant - rï¿½ï¿½valuer selon la promotion et le sens du jeu ::ICI::TODO::
+			case -1: // Mouvement descendant - réévaluer selon la promotion et le sens du jeu ::ICI::TODO::
 				if (   _joueurEnCours->getSensDuDeplacement() == SensDuDeplacement::negatif
 					|| _tableDeCoups.getCoup(-1 + _tableDeCoups.getArraySize())->getCaseDepart()->getPion()->isAqueen()
 					)
@@ -1055,7 +1055,7 @@ namespace spc_plateau
 					isArriveeValide = true;
 				}
 				break;
-			case 1:  // Mouvement montant - rï¿½ï¿½valuer selon la promotion et les sens du jeu ::ICI::TODO::
+			case 1:  // Mouvement montant - réévaluer selon la promotion et les sens du jeu ::ICI::TODO::
 				if (   _joueurEnCours->getSensDuDeplacement() == SensDuDeplacement::positif
 					|| _tableDeCoups.getCoup(-1 + _tableDeCoups.getArraySize())->getCaseDepart()->getPion()->isAqueen()
 					)

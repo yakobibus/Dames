@@ -7,7 +7,6 @@
 # define _PLATEAU_H_ (1)
 
 # include <iostream>
-# include <vector>
 # include <cstring>
 # include "constantes.h"
 
