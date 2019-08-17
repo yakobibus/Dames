@@ -3,7 +3,7 @@
 # include <iostream>
 # include "plateau.h"
 
-namespace spc_plateau
+namespace spc_dames
 {
 	CaseDamier::CaseDamier()
 		: _apparence(ApparenceCase::normal)
@@ -21,7 +21,7 @@ namespace spc_plateau
 		} 
 	}
 
-	void spc_plateau::CaseDamier::affiche(void)
+	void CaseDamier::affiche(void)
 	{
 		setCellule();
 		char tmp[4];
@@ -124,7 +124,7 @@ namespace spc_plateau
 	}
 }
 
-namespace spc_plateau
+namespace spc_dames
 {
 	Coup::~Coup()
 	{
@@ -147,7 +147,7 @@ namespace spc_plateau
 		}
 	}
 
-	Coup & spc_plateau::Coup::operator = (Coup & c)
+	Coup & Coup::operator = (Coup & c)
 	{
 		if (this != &c)
 		{
@@ -165,7 +165,7 @@ namespace spc_plateau
 
 	// ---
 
-	void spc_plateau::Coup::addCaseDeTransit(CaseDamier* caseDamier)
+	void Coup::addCaseDeTransit(CaseDamier* caseDamier)
 	{
 		if (_casesDeTransit == nullptr)
 		{
@@ -205,7 +205,7 @@ namespace spc_plateau
 	}
 }
 
-namespace spc_plateau
+namespace spc_dames
 {
 	TableDeCoups::TableDeCoups(const TableDeCoups & c)
 	{
@@ -286,7 +286,7 @@ namespace spc_plateau
 	}
 	*/
 
-	const unsigned int& spc_plateau::TableDeCoups::ajouterNouveauCoup(void)
+	const unsigned int& TableDeCoups::ajouterNouveauCoup(void)
 	{
 		if (_arraySize == _arrayMaxSize)
 		{
@@ -312,7 +312,7 @@ namespace spc_plateau
 	}
 }
 
-namespace spc_plateau
+namespace spc_dames
 {
 	Diagonale::~Diagonale()
 	{
@@ -471,7 +471,7 @@ namespace spc_plateau
 	}
 }
 
-namespace spc_plateau
+namespace spc_dames
 {
 	Input::Input() 
 		: _bufSize(0)
@@ -554,7 +554,7 @@ namespace spc_plateau
 	}
 }
 
-namespace spc_plateau
+namespace spc_dames
 {
 	Joueur::Joueur() 
 		: _id(IdJoueur::undefined)
@@ -627,7 +627,7 @@ namespace spc_plateau
 		return *this;
 	}
 
-	void spc_plateau::Joueur::init(
+	void Joueur::init(
 		  const IdJoueur& id
 		, const CouleurPion& couleur
 		, const char* nom
@@ -655,7 +655,7 @@ namespace spc_plateau
 	}
 }
 
-namespace spc_plateau
+namespace spc_dames
 {
 	Plateau::Plateau(PositionsCouleursDepart positionsDepart)
 		: _abandon(false)
@@ -852,7 +852,7 @@ namespace spc_plateau
 	}	
 }
 
-namespace spc_plateau
+namespace spc_dames
 {
 
 	void Plateau::initDiagonales(void)
@@ -903,7 +903,7 @@ namespace spc_plateau
 	}
 }
 
-namespace spc_plateau
+namespace spc_dames
 {
 	void Pion::init(CaseDamier* const cd, CouleurPion c, bool p)
 	{
@@ -917,7 +917,7 @@ namespace spc_plateau
 	}
 }
 
-namespace spc_plateau
+namespace spc_dames
 {
 	unsigned int Plateau::_getIndexCase(const Input& input) const
 	{
@@ -963,7 +963,7 @@ namespace spc_plateau
 	}
 }
 
-namespace spc_plateau
+namespace spc_dames
 {
 	bool Plateau::_coup(void)
 	{
@@ -1077,7 +1077,7 @@ namespace spc_plateau
 	}
 }
 
-namespace spc_plateau
+namespace spc_dames
 {
 	void Plateau::_setSelectionneCase(const unsigned int& index)
 	{
@@ -1090,7 +1090,7 @@ namespace spc_plateau
 	}
 }
 
-namespace spc_plateau
+namespace spc_dames
 {
 	void Plateau::affiche(void)
 	{

@@ -5,7 +5,7 @@
   # define _REGLES_H_ (1)
 
 
- namespace spc_regles
+ namespace spc_dames
   {
 	 // Placement - Règle P1 : Le damier s'affiche en Haut vers Bas (Nord vers Sud)
 	 //             Règle P2 : Le placement se fait blancs_noirs (Blancs au Nord) ou noirs_blancs (Noirs au Nord)
