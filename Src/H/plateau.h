@@ -10,14 +10,14 @@
 # include <cstring>
 # include "constantes.h"
 
-namespace spc_plateau
+namespace spc_dames
 {
 	class Diagonale;
 	class Joueur;
 	class Pion;
 }
 
-namespace spc_plateau
+namespace spc_dames
 {
 	enum class ApparenceCase : unsigned int
 	{
@@ -88,7 +88,7 @@ namespace spc_plateau
 	};
 }
 
-namespace spc_plateau
+namespace spc_dames
 {
 	struct Cellule 
 	{
@@ -121,7 +121,7 @@ namespace spc_plateau
 	};
 }
 
-namespace spc_plateau
+namespace spc_dames
 {
 	class Regle
 	{
@@ -134,7 +134,7 @@ namespace spc_plateau
 	};
 }
 
-namespace spc_plateau
+namespace spc_dames
 {
 	class CaseDamier
 	{

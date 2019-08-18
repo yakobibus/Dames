@@ -5,7 +5,7 @@
 
 # include "plateau.h"
 
-using namespace spc_plateau ;
+using namespace spc_dames ;
 
 namespace spc_dames
 {

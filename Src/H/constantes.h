@@ -3,6 +3,9 @@
 # ifndef CONSTANTES_H
 # define CONSTANTES_H (1)
 
+namespace spc_dames
+{
+
 # define DUMMY_GAPS (static_cast<int>(99))
 # define INPUT_BUFFER_MX_SIZE (static_cast<unsigned int>(128))
 
@@ -67,5 +70,7 @@
 # define NB_Y_REF_CELLULES_ENTETE (static_cast<int>(6))
 # define NB_Y_REF_CELLULES_ENQUEUE (static_cast<int>(6))
 # define TAILLE_CELLULE (static_cast<int>(3))
+
+}
 
 # endif // CONSTANTES_H

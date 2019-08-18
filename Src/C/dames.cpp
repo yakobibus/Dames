@@ -4,10 +4,6 @@
 # include "dames.h"
 # include "plateau.h"
 
-//using namespace spc_plateau ;
-using namespace spc_dames  ;
-
-
 class Essais
 {
 public :

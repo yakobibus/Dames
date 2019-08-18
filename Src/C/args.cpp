@@ -4,6 +4,6 @@
 # include <cstring>
 # include "args.h"
 
-namespace spc_args
+namespace spc_dames
 {
 }
