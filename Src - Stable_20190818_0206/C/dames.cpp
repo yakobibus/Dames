@@ -53,8 +53,8 @@ private :
 		///tCoups.getCoup(-1 + tCoups.getArraySize())->aaahhh(33);
 		///tCoups.getCoup(3)->aaahhh();
 		int x = tCoups.ajouterNouveauCoup();
-		std::cout << "ici essai::g() " << x << std::endl;
 		///tCoups.getCoup(x)->aaahhh(x);
+		std::cout << " x = " << x << std::endl;
 	}
 };
 

@@ -7,33 +7,176 @@
 # define _PLATEAU_H_ (1)
 
 # include <iostream>
-# include <vector>
 # include <cstring>
 # include "constantes.h"
-# include "commonServices.h"
-# include "caseDamier.h"
-# include "regles.h"
 
-namespace spc_dames
+namespace spc_plateau
 {
-	class Cellule;
-	class Coordonnees;
-	class CaseDamier;
 	class Diagonale;
-	//class Joueur;
-	//class Pion;
-	//
-	class Coup;
-	class TableDeCoups;
-	class Input;
 	class Joueur;
 	class Pion;
-	class Plateau;
 }
 
-
-namespace spc_dames
+namespace spc_plateau
 {
+	enum class ApparenceCase : unsigned int
+	{
+		null = 0,
+		normal = 1,
+		surbillance = 2
+	};
+
+	enum class CouleurCaseDamier : unsigned int
+	{
+		null = 0,
+		blanc = 1,
+		noir = 2
+	};
+
+	enum class CouleurPion : unsigned int
+	{
+		null = 0,
+		blanc = 1,
+		noir = 2
+	};
+
+	enum class InputType
+	{
+		  is_undefined = 0
+		, is_digitOne = 1     // a legal digit on _buffer[0]
+		, is_digitTwo = 2     // a legal digit on _buffer[1]
+		, is_digitOneTwo = 3  // legal digits on _buffer[1 and 2]
+		, is_digitThree = 4   // a legal digit on _buffer[2]
+		, is_alphaOne = 8     // a legal char on _buffer[0]
+		, is_alphaOneDigitTwo = 10
+		, is_alphaOnedigitTwoThree = 14
+		, is_alphaTwo = 16    // a legal char on _buffer[1]
+		, is_digitOneAlphaTwo = 17
+		, is_alphaThree = 32  // a legal char on _buffer[2]
+		, is_digitOneTwoAlphaThree = 35
+		, is_nullTwo = 64     // no char on _buffer[1]
+		, is_nullThree = 128  // no char on _buffer[2]
+		, is_exiting = 256    // an exit token in the buffer
+		, is_error = 512      // No legal char combination in the buffer
+	};
+
+	enum class IdJoueur
+	{
+		  undefined = 0
+		, premier = 1
+		, second = 2
+	};
+
+	enum class NatureJoueur
+	{
+		  undefined = 0
+		, humain    = 1
+		, ia        = 2
+	};
+
+	enum class PositionsCouleursDepart : unsigned int
+	{
+		blancs_noirs = 0, // les blancs (cases 1 à 20) puis les noirs (cases 31 à 50)
+		noirs_blancs = 1  // les noirs (cases 1 à 20) puis les blancs (cases 31 à 50)
+	};
+
+	enum class SensDuDeplacement : int
+	{
+		  negatif   = -1
+		, undefined = 0
+		, positif   = 1
+	};
+}
+
+namespace spc_plateau
+{
+	struct Cellule 
+	{
+		/* 
+		** Cellule du plateau : c'est une zone (ligne, colonne) du plateau où figure un motif : référence
+		** Cellule du plateau : c'est une zone (ligne, colonne) du plateau où figure un motif : référence
+		** de ligne/colonne, une case du damier, ... Elle s'étend donc au delà de la zone de jeu
+		**/
+		char motif[TAILLE_CELLULE];
+		char separateur;
+	};
+
+	class Coordonnees
+	{
+	public :
+		Coordonnees() : _x(0), _y(0) {}
+		Coordonnees(unsigned int y, unsigned x) : _x(x), _y(y) {}
+		~Coordonnees() = default;
+		Coordonnees(const Coordonnees& c) = default;
+		Coordonnees& operator = (const Coordonnees& c) = default;
+		// ---
+		void set(unsigned int y, unsigned int x) { _y = y; _x = x; }
+		Coordonnees& get(void) { return *this; }
+		unsigned int getX(void) const { return _x; }
+		unsigned int getY(void) const { return _y; }
+		char         getXalpha(void) const { return 'a' + _x - 1; }
+	private :
+		unsigned _x;
+		unsigned _y;
+	};
+}
+
+namespace spc_plateau
+{
+	class Regle
+	{
+	public:
+		Regle() = default;
+		~Regle() = default;
+		Regle(const Regle& r) = default;
+		Regle& operator = (const Regle& r) = default;
+	private:
+	};
+}
+
+namespace spc_plateau
+{
+	class CaseDamier
+	{
+	public:
+		CaseDamier();
+		~CaseDamier() = default;
+		CaseDamier(const CaseDamier& c) = default;
+		CaseDamier& operator = (const CaseDamier& c) = default;
+		bool operator == (const CaseDamier& c) const { return (this == &c ? true : (c._coordonnees.getX() == _coordonnees.getX() && c._coordonnees.getY() == _coordonnees.getY() ? true : false)); }
+		void affiche(void);
+		int  countOfGapCells(const CaseDamier& caseDamier) const;
+		bool estLibre(void) const { return _estLibre; }
+		void init(const Coordonnees& coordonnees, int notation, Pion* pion, ApparenceCase apparence, CouleurCaseDamier couleurCase); //  , CouleurPion couleurPion);
+		int getX(void) const { return _coordonnees.getX(); }
+		char getXalpha(void) const { return _coordonnees.getXalpha(); }
+		int getY(void) const { return _coordonnees.getY(); }
+		Pion* getPion(void) { return _pion; }
+		Cellule* getCellule(void) const { return _cellule; }
+		bool isContiguous(const CaseDamier& caseDamier) const;
+		bool isDiagonally(const CaseDamier& caseDamier) const;
+		void setPion(Pion* p) { _pion = p; _estLibre = (_pion == nullptr ? true : false);}
+		void setCellule(Cellule* c) { _cellule = c; }
+		void setCellule(void);
+		//
+		void setDiagonale(const Diagonale* diagonale);
+		const Diagonale* getDiagonale(int i) const { return _diagonale[i]; }
+		const Pion* getPion(void) const { return _pion; }
+		unsigned int getNbDiagonales(void) const { return _nbDiagonales; }
+		void setNormale(void) { _apparence = ApparenceCase::normal; }
+		void setSurbrillance(void) { _apparence = ApparenceCase::surbillance; }
+	private:
+		ApparenceCase     _apparence;
+		Cellule*          _cellule;
+		Coordonnees       _coordonnees;
+		CouleurCaseDamier _couleur;
+		const Diagonale*  _diagonale[NB_DIAGONALES_MAX_PAR_CASE];
+		bool              _estLibre;
+		unsigned int      _nbDiagonales;
+		unsigned int      _notationOfficielle;
+		Pion*             _pion;
+	};
+
 	class Coup
 	{
 	public :
@@ -74,6 +217,26 @@ namespace spc_dames
 		Coup**       _array;
 		unsigned int _arraySize;
 		unsigned int _arrayMaxSize;
+	};
+
+	class Diagonale
+	{
+	public:
+		Diagonale() : _casesDamier(nullptr), _numero(0), _taille(0) {}
+		~Diagonale();
+		Diagonale(const Diagonale& d);
+		Diagonale& operator = (const Diagonale& d);
+		//
+		int addCase(CaseDamier* c);
+		bool areContiguous(const CaseDamier& c1, const CaseDamier& c2) const;
+		bool estDansLaDiagonale(const CaseDamier& c) const { for (unsigned int ii = 0; ii < _taille; ++ii) { if (*(_casesDamier[ii]) == c) return true; } return false; }
+		int getNumero(void) const { return _numero; }
+		int init(int taille, CaseDamier** c, int numero);
+		int countOfGapCells(const CaseDamier& c1, const CaseDamier& c2) const;
+	private:
+		CaseDamier** _casesDamier;
+		unsigned int _numero;
+		unsigned int _taille;
 	};
 
 	class Input
