@@ -105,6 +105,7 @@
     <ClCompile Include="..\Src\C\caseDamier.cpp" />
     <ClCompile Include="..\Src\C\commonServices.cpp" />
     <ClCompile Include="..\src\c\constantes.cpp" />
+    <ClCompile Include="..\Src\C\coups.cpp" />
     <ClCompile Include="..\src\c\dames.cpp" />
     <ClCompile Include="..\Src\C\diagonale.cpp" />
     <ClCompile Include="..\Src\C\joueurs.cpp" />
@@ -117,6 +118,7 @@
     <ClInclude Include="..\Src\H\caseDamier.h" />
     <ClInclude Include="..\Src\H\commonServices.h" />
     <ClInclude Include="..\src\h\constantes.h" />
+    <ClInclude Include="..\Src\H\coups.h" />
     <ClInclude Include="..\src\h\dames.h" />
     <ClInclude Include="..\Src\H\diagonale.h" />
     <ClInclude Include="..\Src\H\joueurs.h" />

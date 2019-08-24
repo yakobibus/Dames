@@ -4,6 +4,7 @@
 # include "dames.h"
 # include "plateau.h"
 
+/*
 class Essais
 {
 public :
@@ -53,6 +54,7 @@ private :
 		std::cout << " x = " << x << std::endl;
 	}
 };
+*/
 
 
 int main (int argc, char** argv)
