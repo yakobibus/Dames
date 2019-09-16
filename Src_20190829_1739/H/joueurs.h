@@ -5,6 +5,11 @@
 
 namespace spc_dames
 {
+	class Joueur
+	{
+	public :
+    private :
+    } ;
 }
 
 # endif // _JOUEURS_H_

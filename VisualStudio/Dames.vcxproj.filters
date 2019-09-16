@@ -18,34 +18,28 @@
     <ClCompile Include="..\src\c\args.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\c\constantes.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\c\dames.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\c\plateau.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\c\regles.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Src\C\caseDamier.cpp">
+    <ClCompile Include="..\Src\C\dames.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Src\C\commonServices.cpp">
+    <ClCompile Include="..\Src\C\jeux.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Src\C\diagonale.cpp">
+    <ClCompile Include="..\Src\C\plateau.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Src\C\joueurs.cpp">
+    <ClCompile Include="..\Src\C\damier.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Src\C\pion.cpp">
+    <ClCompile Include="..\Src\C\ardoise.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Src\C\coups.cpp">
+    <ClCompile Include="..\Src\C\coordonnees.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\C\cellule.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -53,34 +47,31 @@
     <ClInclude Include="..\src\h\args.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\h\constantes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\h\dames.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\h\plateau.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\h\regles.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Src\H\caseDamier.h">
+    <ClInclude Include="..\Src\H\jeux.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Src\H\commonServices.h">
+    <ClInclude Include="..\Src\H\plateau.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Src\H\diagonale.h">
+    <ClInclude Include="..\Src\H\damier.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Src\H\joueurs.h">
+    <ClInclude Include="..\Src\H\constantes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Src\H\pion.h">
+    <ClInclude Include="..\Src\H\ardoise.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Src\H\coups.h">
+    <ClInclude Include="..\Src\H\coordonnees.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\H\cellule.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

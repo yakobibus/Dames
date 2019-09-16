@@ -3,7 +3,8 @@
 # ifndef DAMES_H
 # define DAMES_H  (1)
 
-# include "jeux.h"
+# include "joueurs.h"
+# include "plateau.h"
 
 namespace spc_dames
 {
@@ -15,11 +16,20 @@ namespace spc_dames
 		Dames(const Dames& d) = default;
 		Dames& operator = (const Dames& d) = default;
 		//
-		int jouer(void);
+		int jouer(void) { return 0;}
 	private:
-		Jeux _jeux;
 		bool _finDePartie = false;
+		Plateau _plateau ;
+		Joueur _joueurBlanc ;
+		Joueur _joueurNoir ;
 	};
 }
 
 # endif //DAMES_H
+
+/*
+# include "plateau.h"
+
+using namespace spc_dames ;
+
+*/

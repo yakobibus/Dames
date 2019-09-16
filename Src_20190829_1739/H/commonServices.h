@@ -5,6 +5,13 @@
 
 namespace spc_dames
 {
+}
+
+# endif // _COMMON_SERVICES_H_
+
+/*
+namespace spc_dames
+{
 	enum class ApparenceCase : unsigned int
 	{
 		null = 0,
@@ -62,8 +69,8 @@ namespace spc_dames
 
 	enum class PositionsCouleursDepart : unsigned int
 	{
-		blancs_noirs = 0, // les blancs (cases 1 à 20) puis les noirs (cases 31 à 50)
-		noirs_blancs = 1  // les noirs (cases 1 à 20) puis les blancs (cases 31 à 50)
+		blancs_noirs = 0, // les blancs (cases 1 ï¿½ 20) puis les noirs (cases 31 ï¿½ 50)
+		noirs_blancs = 1  // les noirs (cases 1 ï¿½ 20) puis les blancs (cases 31 ï¿½ 50)
 	};
 
 	enum class SensDuDeplacement : int
@@ -73,5 +80,4 @@ namespace spc_dames
 		, positif = 1
 	};
 }
-
-# endif // _COMMON_SERVICES_H_
+*/

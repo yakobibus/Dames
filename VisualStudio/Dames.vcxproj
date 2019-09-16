@@ -76,7 +76,7 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>C:\Users\Jacques\GitHub\Dames\Src\H;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -101,29 +101,26 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Src\C\ardoise.cpp" />
     <ClCompile Include="..\src\c\args.cpp" />
-    <ClCompile Include="..\Src\C\caseDamier.cpp" />
-    <ClCompile Include="..\Src\C\commonServices.cpp" />
-    <ClCompile Include="..\src\c\constantes.cpp" />
-    <ClCompile Include="..\Src\C\coups.cpp" />
-    <ClCompile Include="..\src\c\dames.cpp" />
-    <ClCompile Include="..\Src\C\diagonale.cpp" />
-    <ClCompile Include="..\Src\C\joueurs.cpp" />
-    <ClCompile Include="..\Src\C\pion.cpp" />
-    <ClCompile Include="..\src\c\plateau.cpp" />
+    <ClCompile Include="..\Src\C\cellule.cpp" />
+    <ClCompile Include="..\Src\C\coordonnees.cpp" />
+    <ClCompile Include="..\Src\C\dames.cpp" />
+    <ClCompile Include="..\Src\C\damier.cpp" />
+    <ClCompile Include="..\Src\C\jeux.cpp" />
+    <ClCompile Include="..\Src\C\plateau.cpp" />
     <ClCompile Include="..\src\c\regles.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Src\H\ardoise.h" />
     <ClInclude Include="..\src\h\args.h" />
-    <ClInclude Include="..\Src\H\caseDamier.h" />
-    <ClInclude Include="..\Src\H\commonServices.h" />
-    <ClInclude Include="..\src\h\constantes.h" />
-    <ClInclude Include="..\Src\H\coups.h" />
+    <ClInclude Include="..\Src\H\cellule.h" />
+    <ClInclude Include="..\Src\H\constantes.h" />
+    <ClInclude Include="..\Src\H\coordonnees.h" />
     <ClInclude Include="..\src\h\dames.h" />
-    <ClInclude Include="..\Src\H\diagonale.h" />
-    <ClInclude Include="..\Src\H\joueurs.h" />
-    <ClInclude Include="..\Src\H\pion.h" />
-    <ClInclude Include="..\src\h\plateau.h" />
+    <ClInclude Include="..\Src\H\damier.h" />
+    <ClInclude Include="..\Src\H\jeux.h" />
+    <ClInclude Include="..\Src\H\plateau.h" />
     <ClInclude Include="..\src\h\regles.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

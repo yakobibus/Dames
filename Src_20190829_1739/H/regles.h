@@ -11,11 +11,11 @@ namespace spc_dames
 	 //             Règle P2 : Le placement se fait blancs_noirs (Blancs au Nord) ou noirs_blancs (Noirs au Nord)
 	 //             Règle P3 : Les Blancs ont l'ouverture du jeu
 
-     // Movement - Règle M1 : La case est Noire
-     //            Règle M2 : La case de départ doit être occupée par un pion de la même couleur que le joueur
-     //            Règle M3 : La case destination pour un déplacement, une prise, une étape de raffle doit être libre
-     //            Règle M4 : Pour un déplacement (pion), la case destination doit être voisine de la case de départ en diagonale vers l'avant par rapport à la couleur en jeu
-     //            Règle M5 : Pour un déplacement (reine), la case destination doit être dans la diagonale et aucun pion ne doit se trouver entre les deux
+// Movement - Règle M1 : La case est Noire
+//            Règle M2 : La case de départ doit être occupée par un pion de la même couleur que le joueur
+//            Règle M3 : La case destination pour un déplacement, une prise, une étape de raffle doit être libre
+//            Règle M4 : Pour un déplacement (pion), la case destination doit être voisine de la case de départ en diagonale vers l'avant par rapport à la couleur en jeu
+//            Règle M5 : Pour un déplacement (reine), la case destination doit être dans la diagonale et aucun pion ne doit se trouver entre les deux
 
       /*
          Une diagonale est une suite de 2 cases au moins et de 10 au plus sur un damier ; 
@@ -71,32 +71,6 @@ namespace spc_dames
          +---+---+---+---+---+---+---+---+---+---+
            a   b   c   d   e   f   g   h   i   j
       **/
-
-/*
-     a   b   c   d   e   f   g   h   i   j     : 48
-   +---+---+---+---+---+---+---+---+---+---+   : 96
-10 |   |///|   |///|   |///|   |///|   |///| 10: 144 (+9, +17, +25, +33, +41)---
-   +---+---+---+---+---+---+---+---+---+---+   :
- 9 |///|   |///|   |///|   |///|   |///|   | 9 : nnn (+5, +13, +21, +29, +37)---
-   +---+---+---+---+---+---+---+---+---+---+   :
- 8 |   |///|   |///|   |///|   |///|   |///| 8 :
-   +---+---+---+---+---+---+---+---+---+---+   :
- 7 |///|   |///|   |///|   |///|   |///|   | 7 :
-   +---+---+---+---+---+---+---+---+---+---+   :
- 6 |   |///|   |///|   |///|   |///|   |///| 6 :
-   +---+---+---+---+---+---+---+---+---+---+   :
- 5 |///|   |///|   |///|   |///|   |///|   | 5 :
-   +---+---+---+---+---+---+---+---+---+---+   :
- 4 |   |///|   |///|   |///|   |///|   |///| 4 :
-   +---+---+---+---+---+---+---+---+---+---+   :
- 3 |///|   |///|   |///|   |///|   |///|   | 3 :
-   +---+---+---+---+---+---+---+---+---+---+   :
- 2 |   |///|   |///|   |///|   |///|   |///| 2 :
-   +---+---+---+---+---+---+---+---+---+---+   :
- 1 |///|   |///|   |///|   |///|   |///|   | 1 :
-   +---+---+---+---+---+---+---+---+---+---+   :
-	 a   b   c   d   e   f   g   h   i   j	   :
-*/
 /*
 Le Damier :
 1148 caractères =
