@@ -108,7 +108,8 @@
     <ClCompile Include="..\Src\C\dames.cpp" />
     <ClCompile Include="..\Src\C\damier.cpp" />
     <ClCompile Include="..\Src\C\jeux.cpp" />
-    <ClCompile Include="..\Src\C\plateau.cpp" />
+    <ClCompile Include="..\Src\C\joueur.cpp" />
+    <ClCompile Include="..\Src\C\pion.cpp" />
     <ClCompile Include="..\src\c\regles.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -120,7 +121,8 @@
     <ClInclude Include="..\src\h\dames.h" />
     <ClInclude Include="..\Src\H\damier.h" />
     <ClInclude Include="..\Src\H\jeux.h" />
-    <ClInclude Include="..\Src\H\plateau.h" />
+    <ClInclude Include="..\Src\H\joueur.h" />
+    <ClInclude Include="..\Src\H\pion.h" />
     <ClInclude Include="..\src\h\regles.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -1,6 +1,5 @@
 // dames.c
 
-# include <iostream>
 # include "dames.h"
 
 using namespace spc_dames ;

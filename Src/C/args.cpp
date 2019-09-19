@@ -1,8 +1,6 @@
-// jeux.c
+// args.cpp
 
-# include <iostream>
-# include <cstring>
-# include "jeux.h"
+# include "args.h"
 
 namespace spc_dames
 {

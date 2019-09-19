@@ -1,13 +1,21 @@
 // ardoise.cpp
 
-#include "ardoise.h"
+# include "ardoise.h"
 # include "constantes.h"
 
 
 namespace spc_dames
 {
-	Ardoise::Ardoise() : _cellule(NB_CASES_PLATEAU)
+	Ardoise::Ardoise(ePlacementJoueurs placementDesJoueurs)
+		: _cellule(NB_CASES_PLATEAU)
+		, _pionsBlancs(NB_PIONS_PAR_COULEUR)
+		, _pionsNoirs(NB_PIONS_PAR_COULEUR)
+		, _placementDesJoueurs(placementDesJoueurs)
+		, _pionsDansOrdreDuJeu(NB_JOUEURS)
 	{
+		_pionsDansOrdreDuJeu[0] = _placementDesJoueurs == ePlacementJoueurs::blancs_noirs ? &_pionsBlancs : &_pionsNoirs;
+		_pionsDansOrdreDuJeu[1] = _placementDesJoueurs == ePlacementJoueurs::blancs_noirs ? &_pionsNoirs  : &_pionsBlancs ;
+		//
 		unsigned int manoury = 0;
 		for (unsigned int y = TAILLE_COTE_ARDOISE; y > 0; --y)
 		{
@@ -21,6 +29,11 @@ namespace spc_dames
 				}
 			}
 		}
+	}
+}
+
+//namespace spc_dames
+//{
 
 		// setMotif(21, 'x');
 
@@ -57,5 +70,5 @@ namespace spc_dames
 			//_cellule[ii] ;
 			//std::cout << '.';
 		//}
-	}
-}
+	//}
+//}

@@ -1,4 +1,5 @@
-# include <iostream>
+// damier.cpp
+
 # include "damier.h"
 
 namespace spc_dames
@@ -7,7 +8,10 @@ namespace spc_dames
 	{
 		_ardoise.afficher();
 	}
+}
 
+//namespace spc_dames 
+//{
 	//void Damier::afficher(void)
 	//{
 		//for (CaseDamier& x : _casesDamier)
@@ -79,4 +83,4 @@ namespace spc_dames
 		}
 	}
 	*/
-}
+//}

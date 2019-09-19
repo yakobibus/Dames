@@ -1,10 +1,10 @@
-// jeux.h
+// args.h
 
-# ifndef _jeux_H_
-# define _jeux_H_ (1)
+# ifndef _ARGS_H_
+# define _ARGS_H_ (1)
 
 namespace spc_dames
 {
 }
 
-# endif  // _jeux_H_
+# endif  // _ARGS_H_
