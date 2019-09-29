@@ -7,19 +7,8 @@
 
 namespace spc_dames
 {
-	void Ardoise::afficher(void) 
-	{ 
-		std::cout << std::endl;
-		std::cout << _ardoise; 
-		std::cout << std::endl;
-		std::cout.flush();
-	}
-}
-
-namespace spc_dames
-{
 	Ardoise::Ardoise(ePlacementJoueurs placementDesJoueurs)
-		: _cellules(NB_CASES_PLATEAU)
+		: _cellule(NB_CASES_PLATEAU)
 		, _pionsBlancs(NB_PIONS_PAR_COULEUR)
 		, _pionsNoirs(NB_PIONS_PAR_COULEUR)
 		, _placementDesJoueurs(placementDesJoueurs)
@@ -33,26 +22,8 @@ namespace spc_dames
 		for (Pion& pionN : _pionsNoirs)
 		{
 			pionN.setMotif(eMotifDuPion::normalNoir);
-			//std::cout << ":::ici" << static_cast<char>(pionN.motif()) << "ici::: ";
+			std::cout << ":::ici" << static_cast<char>(pionN.motif()) << "ici::: ";
 		}
-		int manoury = 0;
-		int y = 10;
-		int x = 99;
-		//char mtf[4] = "";
-		std::cout << "NbCellules = " << _cellules.size() << std::endl;
-		for (std::vector<Cellule>::iterator currCell = _cellules.begin(); currCell < _cellules.end(); ++currCell)
-		{
-			++manoury;
-			x = y % 2 == 0 ? (x > 8 ? 2 : x + 2) : (x > 7 ? 1 : x + 2);
-			//memset(mtf, 0, 4); memcpy(mtf, &_ardoise[NB_CHAR_PAR_LIGNE * decalage(y) + (TAILLE_CELLULE + TAILLE_SEPARATEUR) * x], 3);
-			//std::cout <<"\n"<< "y=" << y << ", x=" << x << ", manoury=" << manoury << ", motif=[" << &_ardoise[NB_CHAR_PAR_LIGNE * decalage(y) + (TAILLE_CELLULE + TAILLE_SEPARATEUR) * x] << "] ";
-			currCell[manoury].setCoordonnees(y, x, manoury, &_ardoise[NB_CHAR_PAR_LIGNE * decalage(y) + (TAILLE_CELLULE + TAILLE_SEPARATEUR) * x], &_pionsBlancs[0]);
-			//std::cout << "cell["<< manoury << "]-(y, x)=(" << y << ", " << x << ") " << currCell[-1 + manoury].getMotifPion() << " .. ";
-			if (manoury % 5 == 0) { --y; std::cout << std::endl;}
-		}
-		std::cout << std::endl;
-		//
-		/*
 		//
 		unsigned int ii_blanc = 0;
 		unsigned int ii_noir = 0;
@@ -79,7 +50,6 @@ namespace spc_dames
 				}
 			}
 		}
-		*/
 	}
 }
 

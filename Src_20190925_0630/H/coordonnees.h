@@ -16,7 +16,7 @@ namespace spc_dames
 		Coordonnees(const Coordonnees& c) = default;
 		Coordonnees& operator = (const Coordonnees& c) = default;
 		// ---
-		void set(const unsigned int& y, const unsigned int& x, const unsigned int& m, char* const mtf); // { _y = y; _x = x; _manoury = m; _motif = mtf; }
+		void set(const unsigned int& y, const unsigned int& x, const unsigned int& m, char* const mtf) { _y = y; _x = x; _manoury = m; _motif = mtf; }
 		Coordonnees& get(void) { return *this; }
 		unsigned int getX(void) const { return _x; }
 		unsigned int getY(void) const { return _y; }

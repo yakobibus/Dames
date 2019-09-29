@@ -19,11 +19,11 @@ namespace spc_dames
 		Ardoise(const Ardoise& a) = default;
 		Ardoise& operator = (const Ardoise& a) = default;
 		//
-		void afficher(void); //  { std::cout << _ardoise; }
+		void afficher(void) { std::cout << _ardoise ; }
 		const char* const ardoise(void) const { return _ardoise; }
 	private :
 		char _ardoise[NB_X_REF_CELLULES * NB_Y_REF_CELLULES * (TAILLE_CELLULE + TAILLE_SEPARATEUR)] = MOTIF_PLATEAU_DAMIER;
-		std::vector<Cellule> _cellules;
+		std::vector<Cellule> _cellule;
 		std::vector<Pion>    _pionsBlancs;
 		std::vector<Pion>    _pionsNoirs;
 		ePlacementJoueurs&   _placementDesJoueurs;

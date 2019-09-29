@@ -19,7 +19,6 @@ namespace spc_dames
 	bool Jeux::jouer(void)
 	{
 		_damier.afficher();
-
 		return false;
 	}
 }

@@ -32,7 +32,7 @@ namespace spc_dames
 		Motif(const Motif& m) = default;
 		Motif& operator = (const Motif& m) = default;
 		//
-		void set(char* const mtf); //  { _motif = mtf; memset(_motif, static_cast<char>(eDetailMotif::normal), TAILLE_CELLULE); }
+		void set(char* const mtf) { _motif = mtf; memset(_motif, static_cast<char>(eDetailMotif::normal), TAILLE_CELLULE); }
 	private :
 		char* _motif;
 	};
@@ -52,9 +52,8 @@ namespace spc_dames
 		~Cellule() = default;
 		Cellule(const Cellule& c) = default;
 		Cellule& operator = (const Cellule& c) = default;
-		void setCoordonnees(const unsigned int& y, const unsigned int& x, const unsigned int& manoury, char* const motif, Pion* pion);
+		void setCoordonnees(const unsigned int& y, const unsigned int& x, const unsigned int& m, char* const mtf, Pion* pion);
 		char* const getMotif(void) const { return _coordonnees.getMotif(); }
-		char getMotifPion(void) { return (char)_pion->motif(); }
 	private:
 		Coordonnees _coordonnees ;
 		Pion*       _pion ;

@@ -20,7 +20,6 @@ namespace spc_dames
 		, promuBlanc  = MOTIF_PROMU_PION_BLANC
 		, normalNoir  = MOTIF_NORMAL_PION_NOIR
 		, promuNoir   = MOTIF_PROMU_PION_NOIR
-		, nonDefini   = ' '
 	};
 
 	enum class eStatutDuPion
@@ -32,18 +31,18 @@ namespace spc_dames
 	class Pion
 	{
 	public :
-		Pion() : _aspect(eAspectDuPion::normal), _statut(eStatutDuPion::libre), _motif(eMotifDuPion::nonDefini) {}
+		Pion() : _aspect(eAspectDuPion::normal), _statut(eStatutDuPion::libre) {}
 		~Pion() = default;
 		Pion(const Pion& p) = default;
 		Pion& operator = (const Pion& p) = default;
 		//
 		eMotifDuPion motif(void) { std::cout << " THE_MOTIF(" << (char)(_motif) << ") "; return _motif; }
 		bool estLibre(void) const { return _statut == eStatutDuPion::libre ? true : false ; }
-		void setMotif(eMotifDuPion motif); // { _motif = motif; }
+		void setMotif(eMotifDuPion motif) { _motif = motif; std::cout << " setMotif("<<(char)(_motif)<<") "; }
 	private :
 		eAspectDuPion  _aspect;
 		eStatutDuPion  _statut;
-		eMotifDuPion   _motif ;
+		eMotifDuPion   _motif;
 	};
 
 }
