@@ -39,7 +39,7 @@ namespace spc_dames
 		//
 		eMotifDuPion motif(void) { return _motif; }
 		bool estLibre(void) const { return _statut == eStatutDuPion::libre ? true : false ; }
-		void setMotif(eMotifDuPion motif) { _motif = motif; }
+		void setMotif(eMotifDuPion motif); 
 	private :
 		eAspectDuPion  _aspect;
 		eStatutDuPion  _statut;
