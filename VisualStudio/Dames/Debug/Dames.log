@@ -1,13 +1,6 @@
 ﻿  ardoise.cpp
-  args.cpp
-  caseDamier.cpp
-  cellule.cpp
-  coordonnees.cpp
   dames.cpp
   damier.cpp
   jeux.cpp
-  joueur.cpp
-  pion.cpp
-  regles.cpp
   Génération de code en cours...
   Dames.vcxproj -> C:\Users\Jacques\GitHub\Dames\VisualStudio\Dames\Debug\Dames.exe

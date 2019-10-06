@@ -71,6 +71,79 @@ namespace spc_pour_voir
 	};
 }
 
+namespace spc_essais_vector
+{
+# define SZ_TRI (3)
+# define SZ_SEP_TRI (1)
+# define MTF_TRI \
+    { \
+       '1', '2', '3', ' ', '4', '5', '6', ' ', '7', '8', '9', '\n'        \
+     , '4', '5', '6', ' ', '7', '8', '9', ' ', '1', '2', '3', '\n'        \
+     , '7', '8', '9', ' ', '1', '2', '3', ' ', '4', '5', '6', '\n'        \
+	 , '-', '-', '-', ' ', '-', '-', '-', ' ', '-', '-', '-', '\n'        \
+     , '1', '2', '3', ' ', '4', '5', '6', ' ', '7', '8', '9', '\n'        \
+     , '4', '5', '6', ' ', '4', '5', '6', ' ', '7', '8', '9', '\n'        \
+     , '7', '8', '9', ' ', '4', '5', '6', ' ', '7', '8', '9', '\n'        \
+	 , '-', '-', '-', ' ', '-', '-', '-', ' ', '-', '-', '-', '\n'        \
+     , '1', '2', '3', ' ', '4', '5', '6', ' ', '7', '8', '9', '\n'        \
+     , '4', '5', '6', ' ', '4', '5', '6', ' ', '7', '8', '9', '\n'        \
+     , '7', '8', '9', ' ', '4', '5', '6', ' ', '7', '8', '9', '\n'        \
+    }
+# define MTF_TRI_CARRE \
+    { \
+       {{{'1', '2', '3'}, {'|'}}, {{'4', '5', '6'}, {'|'}}, {{'7', '8', '9'}, {'\n'}}}        \
+     , {{{'4', '5', '6'}, {'|'}}, {{'7', '8', '9'}, {'|'}}, {{'1', '2', '3'}, {'\n'}}}        \
+     , {{{'7', '8', '9'}, {'|'}}, {{'1', '2', '3'}, {'|'}}, {{'4', '5', '6'}, {'\n'}}}        \
+	 , {{{'-', '-', '-'}, {'+'}}, {{'-', '-', '-'}, {'+'}}, {{'-', '-', '-'}, {'\n'}}}        \
+     , {{{'3', '1', '2'}, {'|'}}, {{'4', '5', '6'}, {'|'}}, {{'7', '8', '9'}, {'\n'}}}        \
+     , {{{'6', '4', '5'}, {'|'}}, {{'4', '5', '6'}, {'|'}}, {{'7', '8', '9'}, {'\n'}}}        \
+     , {{{'9', '7', '8'}, {'|'}}, {{'4', '5', '6'}, {'|'}}, {{'7', '8', '9'}, {'\n'}}}        \
+	 , {{{'-', '-', '-'}, {'+'}}, {{'-', '-', '-'}, {'+'}}, {{'-', '-', '-'}, {'\n'}}}        \
+     , {{{'2', '3', '1'}, {'|'}}, {{'4', '5', '6'}, {'|'}}, {{'7', '8', '9'}, {'\n'}}}        \
+     , {{{'5', '6', '4'}, {'|'}}, {{'4', '5', '6'}, {'|'}}, {{'7', '8', '9'}, {'\n'}}}        \
+     , {{{'8', '9', '7'}, {'|'}}, {{'4', '5', '6'}, {'|'}}, {{'7', '8', '9'}, {'\n'}}}        \
+    }
+
+	class Trio
+	{
+	public:
+		Trio() : _refTrio(_trioCarre.at(5).at(1).at(0)) {
+			//std::cout << "_trio.size()=" << _trio.size() << "\n";
+			_trioCarre.at(5).at(1).at(0).at(1) = 'X';
+			_refTrio.at(0) = '=';
+			_refTrio.at(2) = '#';
+			std::cout << "_trioCarre.size()=" << _trioCarre.size() << "\n";
+			for (unsigned int ii = 0; ii < _trioCarre.size(); ++ii)
+			{
+				//std::cout << "_trioCarre.at(" << ii << ").size() = " << _trioCarre.at(ii).size() << "\n";
+				for (unsigned kk = 0; kk < _trioCarre.at(ii).size(); ++kk)
+				{
+					//std::cout << "_trioCarre.at(" << ii << ").at("<<kk<<").size() = " << _trioCarre.at(ii).at(kk).size() << "\n";
+					for (unsigned zz = 0; zz < _trioCarre.at(ii).at(kk).size(); ++zz)
+					{
+						//std::cout << "_trioCarre.at("<<ii<<").at("<<kk<<").size()=" << _trioCarre.at(ii).at(kk).size() << "\n";
+						for (char& c : _trioCarre.at(ii).at(kk).at(zz))
+						{
+							std::cout << c;
+						}
+					}
+				}
+				//std::cout << " <= " << _trioCarre.at(ii).size() << " ";
+			}
+			std::cout << "\n";
+		}
+		~Trio() = default;
+		Trio(const Trio& t) = default;
+		Trio& operator = (const Trio& t) = default;
+	private:
+		std::vector<char> _trio = MTF_TRI;
+		std::vector<std::vector <std::vector < std::vector<char> > > > _trioCarre = MTF_TRI_CARRE;
+		std::vector<char>& _refTrio;
+	};
+}
+
+
+
 namespace spc_dames
 {
 	class Dames
@@ -85,6 +158,8 @@ namespace spc_dames
 	private:
 		Jeux _jeux;
 		bool _finDePartie = false;
+		//
+		spc_essais_vector::Trio _trio;
 	};
 }
 
