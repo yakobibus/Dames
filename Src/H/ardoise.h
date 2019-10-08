@@ -29,10 +29,21 @@ namespace spc_dames
 		std::vector<Pion>    _pionsNoirs;
 		ePlacementJoueurs& _placementDesJoueurs;
 		//std::vector<std::vector<Pion>> _pionsDansOrdreDuJeu;
-		std::vector<char>    _ardoisette = MOTIF_PLATEAU_DAMIER;
+		//std::vector<char>    _ardoisette = MOTIF_PLATEAU_DAMIER;
 		//std::vector< std::vector<char> >* _refDeref[2] = { &_ardoisier.at(2).at(2), & _ardoisier.at(2).at(4) };
-		std::vector<char>* _toto[2] = { &(_ardoisier.at(2).at(4)), &(_ardoisier.at(2).at(8)) };
-		std::vector <std::vector<char>* > _titi =  { &(_ardoisier.at(2).at(4)), &(_ardoisier.at(2).at(8)) };
+		//std::vector<char>* _toto[2] = { &(_ardoisier.at(2).at(4)), &(_ardoisier.at(2).at(8)) };
+		std::vector <std::vector<char>* > _cellsPtrs =  {
+			&(_ardoisier.at(2).at(4)), &(_ardoisier.at(2).at(8)), &(_ardoisier.at(2).at(12)),& (_ardoisier.at(2).at(16)),& (_ardoisier.at(2).at(20))
+		  , &(_ardoisier.at(4).at(2)), &(_ardoisier.at(4).at(6)), &(_ardoisier.at(4).at(10)),& (_ardoisier.at(4).at(14)),& (_ardoisier.at(4).at(18))
+		  , &(_ardoisier.at(6).at(4)),& (_ardoisier.at(6).at(8)),& (_ardoisier.at(6).at(12)),& (_ardoisier.at(6).at(16)),& (_ardoisier.at(6).at(20))
+		  ,& (_ardoisier.at(8).at(2)),& (_ardoisier.at(8).at(6)),& (_ardoisier.at(8).at(10)),& (_ardoisier.at(8).at(14)),& (_ardoisier.at(8).at(18))
+		  ,& (_ardoisier.at(10).at(4)),& (_ardoisier.at(10).at(8)),& (_ardoisier.at(10).at(12)),& (_ardoisier.at(10).at(16)),& (_ardoisier.at(10).at(20))
+		  ,& (_ardoisier.at(12).at(2)),& (_ardoisier.at(12).at(6)),& (_ardoisier.at(12).at(10)),& (_ardoisier.at(12).at(14)),& (_ardoisier.at(12).at(18))
+		  ,& (_ardoisier.at(14).at(4)),& (_ardoisier.at(14).at(8)),& (_ardoisier.at(14).at(12)),& (_ardoisier.at(14).at(16)),& (_ardoisier.at(14).at(20))
+		  ,& (_ardoisier.at(16).at(2)),& (_ardoisier.at(16).at(6)),& (_ardoisier.at(16).at(10)),& (_ardoisier.at(16).at(14)),& (_ardoisier.at(16).at(18))
+		  ,& (_ardoisier.at(18).at(4)),& (_ardoisier.at(18).at(8)),& (_ardoisier.at(18).at(12)),& (_ardoisier.at(18).at(16)),& (_ardoisier.at(18).at(20))
+		  ,& (_ardoisier.at(20).at(2)),& (_ardoisier.at(20).at(6)),& (_ardoisier.at(20).at(10)),& (_ardoisier.at(20).at(14)),& (_ardoisier.at(20).at(18))
+		};
 		//
 		const unsigned int decalage(const unsigned int& y) const { return (y == 10 ? 2 : y == 9 ? 4 : y == 8 ? 6 : y == 7 ? 8 : y == 6 ? 10 : y == 5 ? 12 : y == 4 ? 14 : y == 3 ? 16 : y == 2 ? 18 : y == 1 ? 20 : 0); }
 	};

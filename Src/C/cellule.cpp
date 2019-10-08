@@ -28,6 +28,18 @@ namespace spc_dames
 		_adressePion = adressePion;
 		setMotif();
 	}
+
+	void Cellule::setMotif(int i)
+	{
+		_adresseMotif->at(0) = (_aspect == eAspectCellule::normal ? DETAIL_MOTIF_NORMAL : DETAIL_MOTIF_BOLD);
+		_adresseMotif->at(2) = (_aspect == eAspectCellule::normal ? DETAIL_MOTIF_NORMAL : DETAIL_MOTIF_BOLD);
+		_adresseMotif->at(1) = (_adressePion == nullptr ? (_aspect == eAspectCellule::normal ? DETAIL_MOTIF_NORMAL : DETAIL_MOTIF_BOLD) : static_cast<char>(_adressePion->motif()));
+
+		//_motif.set(_motif.adresseMotif()
+		//	, (_aspect == eAspectCellule::normal ? DETAIL_MOTIF_NORMAL : DETAIL_MOTIF_BOLD)
+		//	, (_adressePion == nullptr ? (_aspect == eAspectCellule::normal ? DETAIL_MOTIF_NORMAL : DETAIL_MOTIF_BOLD) : static_cast<char>(_adressePion->motif())));
+	}
+
 	void Cellule::setMotif(void)
 	{
 		_motif.set(_motif.adresseMotif(), (_aspect == eAspectCellule::normal ? DETAIL_MOTIF_NORMAL : DETAIL_MOTIF_BOLD), (_adressePion == nullptr ? (_aspect == eAspectCellule::normal ? DETAIL_MOTIF_NORMAL : DETAIL_MOTIF_BOLD) : static_cast<char>(_adressePion->motif())));

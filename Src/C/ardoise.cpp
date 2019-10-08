@@ -26,14 +26,33 @@ namespace spc_dames
 		//, _titi( (_ardoisier.at(2).at(4)), (_ardoisier.at(2).at(8)) )
 		//, _pionsDansOrdreDuJeu(NB_JOUEURS)
 	{
-		std::vector<char>* toto = &(_ardoisier.at(2).at(4)) ;
-		std::cout << "ici [" << toto->at(1) << "], [" << _toto[0]->at(1) << "], [" << _toto[1]->at(1) << "]\n";
-		std::cout << "iti [" << _titi.at(0)->at(1) << "], [" << _titi.at(1)->at(0) << _titi.at(1)->at(1) << _titi.at(1)->at(2) << "]\n";
-		_titi.at(1)->at(0) = '/';
-		_titi.at(1)->at(1) = 'O';
-		_titi.at(1)->at(2) = '/';
-		std::cout << "iti [" << _titi.at(0)->at(1) << "], [" << _titi.at(1)->at(0) << _titi.at(1)->at(1) << _titi.at(1)->at(2) << "]\n";
+		//std::vector<char>* toto = &(_ardoisier.at(2).at(4)) ;
+		//std::cout << "ici [" << toto->at(1) << "], [" << _toto[0]->at(1) << "], [" << _toto[1]->at(1) << "]\n";
+		//std::cout << "iti [" << _cellsPtrs.at(0)->at(1) << "], [" << _cellsPtrs.at(1)->at(0) << _cellsPtrs.at(1)->at(1) << _cellsPtrs.at(1)->at(2) << "]\n";
+		//_cells.at(1)->at(0) = '/';
+		//_cells.at(1)->at(1) = 'O';
+		//_cells.at(1)->at(2) = '/';
+		//_cells.at(0)->at(0) = '\\';
+		//_cells.at(0)->at(1) = 'X';
+		//_cells.at(0)->at(2) = '\\';
+		//std::cout << "iti [" << _cells.at(0)->at(1) << "], [" << _cells.at(1)->at(0) << _cells.at(1)->at(1) << _cells.at(1)->at(2) << "]\n";
+		for (Cellule& cell : _cellules)
+		{ // initialisation des adresses des motifs de cellules
+			std::cout << "[" << cell.getManoury()  << "] .. "; // ICI ...
+			cell.initAdresseMotif(_cellsPtrs.at(cell.getManoury()));
+			cell.setMotif(0);
+		}
+		/*
+		for (std::vector<char>* pp : _cellsPtrs)
+		{ // Intializing the cell motif
+			for (char&  c : *pp)
+			{ 
+				c = DETAIL_MOTIF_NORMAL ;
+			}
+		}
+		*/
 		{
+			std::cout << "\n\nNw mode [\n";
 			std::cout << std::endl;
 			for (unsigned int ii = 0; ii < _ardoisier.size(); ++ii)
 			{
@@ -45,18 +64,21 @@ namespace spc_dames
 					}
 				}
 			}
+			std::cout << "\n] end of nw mode\n";
 		}
 		//for (unsigned int ii = 0; ii < NB_JOUEURS; ++ii)
 		//{
 		//	_pionsDansOrdreDuJeu.at(ii).push_back(NB_PIONS_PAR_COULEUR, Pion);
 		//}
 
+		/*
 		std::cout << "Avt [\n";
 		for (char& c : _ardoisette)
 		{ 
 			std::cout << c;
 		}
 		std::cout << "\n] Apr\n";
+		*/
 
 		for (Pion& pionB : _pionsBlancs)
 		{
