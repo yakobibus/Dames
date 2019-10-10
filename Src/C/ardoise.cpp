@@ -76,7 +76,7 @@ namespace spc_dames
 			}
 
 			currentCell.initCell(y, x, manoury, _cellMotifPtrs.at(-1 + manoury), pionPtr);
-			if (manoury % 5 == 0) { --y; std::cout << std::endl; }
+			if (manoury % 5 == 0) { --y; }
 		}
 	}
 }
