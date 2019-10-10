@@ -21,7 +21,7 @@ namespace spc_dames
 		//
 		void afficher(void);
 	private:
-		std::vector< std::vector< std::vector<char> > > _ardoise = MOTIF_PLATEAU_DAMIER_CARRE;
+		std::vector< std::vector< std::vector<char> > > _ardoise = MOTIF_PLATEAU_DAMIER ;
 		std::vector<Cellule> _cellules;
 		std::vector<Pion>    _pionsBlancs;
 		std::vector<Pion>    _pionsNoirs;
