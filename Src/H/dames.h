@@ -158,8 +158,6 @@ namespace spc_dames
 	private:
 		Jeux _jeux;
 		bool _finDePartie = false;
-		//
-		spc_essais_vector::Trio _trio;
 	};
 }
 

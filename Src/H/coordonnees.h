@@ -11,7 +11,7 @@ namespace spc_dames
 	{
 	public:
 		Coordonnees() : _y(0), _x(0), _manoury(0), _adresseMotif(nullptr) {}
-		Coordonnees(unsigned int y, unsigned x, unsigned manoury, char* motif) : _x(x), _y(y), _manoury(manoury), _adresseMotif(motif) {}
+		Coordonnees(unsigned int y, unsigned x, unsigned manoury, char* motif) : _y(y), _x(x), _manoury(manoury), _adresseMotif(motif) {}
 		~Coordonnees() = default;
 		Coordonnees(const Coordonnees& c) = default;
 		Coordonnees& operator = (const Coordonnees& c) = default;
