@@ -52,7 +52,7 @@ namespace spc_dames
 		** de ligne/colonne, une case du damier, ... Elle s'étend donc au delà de la zone de jeu
 		**/
 	public:
-		Cellule() : _adressePion(nullptr), _motif(), _aspect(eAspectCellule::normal), _adresseMotif(nullptr) /*, _statut(eStatutDeLaCellule::libre)*/ {}
+		Cellule() : _adressePion(nullptr)/*, _motif()*/, _aspect(eAspectCellule::normal), _adresseMotif(nullptr) /*, _statut(eStatutDeLaCellule::libre)*/ {}
 		~Cellule() = default;
 		Cellule(const Cellule& c) = default;
 		Cellule& operator = (const Cellule& c) = default;
@@ -60,14 +60,15 @@ namespace spc_dames
 		unsigned int getManoury(void) { return _coordonnees.getManoury(); }
 		char* const  getMotif(void) const { return _coordonnees.getMotif(); }
 		char         getMotifPion(void) { return (char)_adressePion->motif(); }
-		void         setCoordonnees(const unsigned int& y, const unsigned int& x, const unsigned int& manoury, char* const motif, Pion* adressePion);
+		void         initCell(const unsigned int& y, const unsigned int& x, const unsigned int& manoury, std::vector<char>* cellMotifPtr, Pion* pionPtr);
+		void         setCoordonnees(const unsigned int& y, const unsigned int& x, const unsigned int& manoury/*, char* const motif*/, Pion* adressePion);
 		void         initAdresseMotif(std::vector<char>* adresseMotif) { _adresseMotif = adresseMotif; }
 		void         setMotif(void);
 		void         setMotif(int i);
 	private:
 		Coordonnees    _coordonnees ;
 		Pion*          _adressePion ;
-		Motif          _motif;
+		//Motif          _motif;
 		eAspectCellule _aspect;
 		//eStatutDeLaCellule _statut; // libre ou occupee
 		std::vector<char>* _adresseMotif;

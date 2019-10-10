@@ -32,7 +32,7 @@ namespace spc_dames
 		//std::vector<char>    _ardoisette = MOTIF_PLATEAU_DAMIER;
 		//std::vector< std::vector<char> >* _refDeref[2] = { &_ardoisier.at(2).at(2), & _ardoisier.at(2).at(4) };
 		//std::vector<char>* _toto[2] = { &(_ardoisier.at(2).at(4)), &(_ardoisier.at(2).at(8)) };
-		std::vector <std::vector<char>* > _cellsPtrs =  {
+		std::vector <std::vector<char>* > _cellMotifPtrs =  {
 			&(_ardoisier.at(2).at(4)), &(_ardoisier.at(2).at(8)), &(_ardoisier.at(2).at(12)),& (_ardoisier.at(2).at(16)),& (_ardoisier.at(2).at(20))
 		  , &(_ardoisier.at(4).at(2)), &(_ardoisier.at(4).at(6)), &(_ardoisier.at(4).at(10)),& (_ardoisier.at(4).at(14)),& (_ardoisier.at(4).at(18))
 		  , &(_ardoisier.at(6).at(4)),& (_ardoisier.at(6).at(8)),& (_ardoisier.at(6).at(12)),& (_ardoisier.at(6).at(16)),& (_ardoisier.at(6).at(20))

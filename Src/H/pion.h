@@ -32,11 +32,13 @@ namespace spc_dames
 	class Pion
 	{
 	public :
-		Pion() : _aspect(eAspectDuPion::normal), _statut(eStatutDuPion::libre), _motif(eMotifDuPion::nonDefini) {}
+		Pion() : _aspect(eAspectDuPion::normal), _statut(eStatutDuPion::libre), _motif(eMotifDuPion::nonDefini), _manoury(0) {}
 		~Pion() = default;
 		Pion(const Pion& p) = default;
 		Pion& operator = (const Pion& p) = default;
 		//
+		eAspectDuPion aspect(void) const { return _aspect; }
+		void init(const eMotifDuPion& motif, const unsigned& manoury, const eAspectDuPion& aspect = eAspectDuPion::normal, const eStatutDuPion& statut = eStatutDuPion::libre) { _motif = motif; _manoury = manoury; _aspect = aspect; _statut = statut; }
 		eMotifDuPion motif(void) { return _motif; }
 		bool estLibre(void) const { return _statut == eStatutDuPion::libre ? true : false ; }
 		void setMotif(eMotifDuPion motif) { _motif = motif; }
@@ -44,6 +46,7 @@ namespace spc_dames
 		eAspectDuPion  _aspect;
 		eStatutDuPion  _statut;
 		eMotifDuPion   _motif ;
+		unsigned int   _manoury;
 	};
 
 }
