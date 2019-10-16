@@ -32,9 +32,10 @@ namespace spc_dames
 				}
 			}
 		}
+		std::cout << std::endl;
 		//
 		setEnqueue();
-		for (std::vector <std::vector <char>>& ligneEnqueue : _entete)
+		for (std::vector <std::vector <char>>& ligneEnqueue : _enqueue)
 		{
 			for (std::vector <char>& regionLigneEnqueue : ligneEnqueue)
 			{
@@ -60,7 +61,7 @@ namespace spc_dames
 	{
 		for (unsigned int ii = 0; ii < _joueurs.at(1).nom().size(); ++ii)
 		{
-			_enqueue.at(4).at(2).at(ii) = _joueurs.at(1).nom().c_str()[ii];
+			_enqueue.at(1).at(2).at(ii) = _joueurs.at(1).nom().c_str()[ii];
 		}
 	}
 }
