@@ -9,7 +9,6 @@ int main (int argc, char** argv)
     int retCode = 0;
 
 	//spc_pour_voir::Essayer essai;
-	//spc_ctor2vars::MultiCall mc;
 
 	Dames dames;
 

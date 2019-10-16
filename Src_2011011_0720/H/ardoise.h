@@ -5,33 +5,27 @@
 
 # include <iostream>
 # include <vector>
-# include "cellule.h"
 # include "constantes.h"
-# include "joueur.h"
 # include "pion.h"
+# include "cellule.h"
 
 namespace spc_dames
 {
 	class Ardoise
 	{
 	public:
-		Ardoise(ePlacementJoueurs placementDesJoueurs, std::vector<Joueur>& joueurs);
+		Ardoise(ePlacementJoueurs placementDesJoueurs);
 		~Ardoise() = default;
 		Ardoise(const Ardoise& a) = default;
 		Ardoise& operator = (const Ardoise& a) = default;
 		//
 		void afficher(void);
-		void setEntete(void);
-		void setEnqueue(void);
 	private:
 		std::vector< std::vector< std::vector<char> > > _ardoise = MOTIF_PLATEAU_DAMIER ;
-		std::vector< std::vector <std::vector <char>>>  _entete = MOTIF_TEXTE_ENTETE;
-		std::vector< std::vector <std::vector <char>>>  _enqueue = MOTIF_TEXTE_ENQUEUE;
 		std::vector<Cellule> _cellules;
 		std::vector<Pion>    _pionsBlancs;
 		std::vector<Pion>    _pionsNoirs;
 		ePlacementJoueurs&   _placementDesJoueurs;
-		std::vector<Joueur>& _joueurs;
 		std::vector <std::vector<char>* > _cellMotifPtrs =  {
 			&(_ardoise.at(2).at(4)), &(_ardoise.at(2).at(8)), &(_ardoise.at(2).at(12)),& (_ardoise.at(2).at(16)),& (_ardoise.at(2).at(20))
 		  , &(_ardoise.at(4).at(2)), &(_ardoise.at(4).at(6)), &(_ardoise.at(4).at(10)),& (_ardoise.at(4).at(14)),& (_ardoise.at(4).at(18))

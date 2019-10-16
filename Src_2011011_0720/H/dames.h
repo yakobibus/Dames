@@ -5,25 +5,6 @@
 
 # include "jeux.h"
 
-namespace spc_dames
-{
-	class Dames
-	{
-	public:
-		Dames() = default;
-		~Dames() = default;
-		Dames(const Dames& d) = default;
-		Dames& operator = (const Dames& d) = default;
-		//
-		int jouer(void);
-	private:
-		Jeux _jeux;
-		bool _finDePartie = false;
-	};
-}
-
-// ----------------------------------------------------------------------------
-
 namespace spc_pour_voir
 {
 # include <iostream>
@@ -189,33 +170,23 @@ namespace spc_essais_vector
 	};
 }
 
-namespace spc_ctor2vars
-{
-	class MultiVars
-	{
-	public :
-		MultiVars(const int& uno, const int& duo) : _uno(uno), _duo(duo) { std::cout << "Mv("<<_uno<<", "<<_duo<<")"; }
-		~MultiVars() = default;
-		MultiVars(const MultiVars& m) = default;
-		MultiVars& operator = (const MultiVars& m) = default;
-	private :
-		int _uno;
-		int _duo;
-	};
 
-	class MultiCall
+
+namespace spc_dames
+{
+	class Dames
 	{
-	public :
-		MultiCall() : _un(1), _deux(2), _mv(_un, _deux) {}
-		~MultiCall() = default;
-		MultiCall(const MultiCall& m) = default;
-		MultiCall& operator = (const MultiCall& m) = default;
-	private :
-		int       _un;
-		int       _deux;
-		MultiVars _mv;
+	public:
+		Dames() = default;
+		~Dames() = default;
+		Dames(const Dames& d) = default;
+		Dames& operator = (const Dames& d) = default;
+		//
+		int jouer(void);
+	private:
+		Jeux _jeux;
+		bool _finDePartie = false;
 	};
 }
-
 
 # endif //DAMES_H

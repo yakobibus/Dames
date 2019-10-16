@@ -11,16 +11,16 @@ namespace spc_dames
 	class Jeux
 	{
 	public :
-		Jeux(); 
+		Jeux();
 		~Jeux() = default;
 		Jeux(const Jeux& j) = default;
 		Jeux& operator= (const Jeux& j) = default;
 		//
 		bool jouer(void);
 	private :
-		ePlacementJoueurs   _placementJoueurs;
-		Damier _damier;
+		ePlacementJoueurs   _placementDesJoueurs;
 		std::vector<Joueur> _joueurs;
+		Damier _damier;
 	};
 }
 

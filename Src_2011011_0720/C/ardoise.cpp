@@ -9,18 +9,6 @@ namespace spc_dames
 {
 	void Ardoise::afficher(void) 
 	{ 
-		setEntete();
-		for (std::vector <std::vector <char>>& ligneEntete : _entete)
-		{
-			for (std::vector <char>& regionLigneEntete : ligneEntete)
-			{
-				for (char& c: regionLigneEntete)
-				{
-					std::cout << "" << c << "";
-				}
-			}
-		}
-		//
 		std::cout << std::endl;
 		for (unsigned int ii = 0; ii < _ardoise.size(); ++ii)
 		{
@@ -32,47 +20,18 @@ namespace spc_dames
 				}
 			}
 		}
-		//
-		setEnqueue();
-		for (std::vector <std::vector <char>>& ligneEnqueue : _entete)
-		{
-			for (std::vector <char>& regionLigneEnqueue : ligneEnqueue)
-			{
-				for (char& c : regionLigneEnqueue)
-				{
-					std::cout << "" << c << "";
-				}
-			}
-		}
 		std::cout << std::endl;
 		std::cout.flush();
-	}
-
-	void Ardoise::setEntete(void) 
-	{
-		for (unsigned int ii = 0; ii < _joueurs.at(0).nom().size(); ++ii)
-		{
-			_entete.at(4).at(2).at(ii) = _joueurs.at(0).nom().c_str()[ii];
-		}
-	}
-
-	void Ardoise::setEnqueue(void)
-	{
-		for (unsigned int ii = 0; ii < _joueurs.at(1).nom().size(); ++ii)
-		{
-			_enqueue.at(4).at(2).at(ii) = _joueurs.at(1).nom().c_str()[ii];
-		}
 	}
 }
 
 namespace spc_dames
 {
-	Ardoise::Ardoise(ePlacementJoueurs placementDesJoueurs, std::vector<Joueur>& joueurs)
+	Ardoise::Ardoise(ePlacementJoueurs placementDesJoueurs)
 		: _cellules(NB_CASES_PLATEAU)
 		, _pionsBlancs(NB_PIONS_PAR_COULEUR)
 		, _pionsNoirs(NB_PIONS_PAR_COULEUR)
 		, _placementDesJoueurs(placementDesJoueurs)
-		, _joueurs(joueurs)
 	{
 		int manoury = 0;
 		int y = 10;
