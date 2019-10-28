@@ -13,14 +13,15 @@ namespace spc_dames
 	class Damier
 	{
 	public:
-		Damier(ePlacementJoueurs& placement, std::vector<Joueur>& joueurs) : _placementDesJoueurs(placement), _joueurs(joueurs), _ardoise(_placementDesJoueurs, _joueurs) {}
+		Damier(ePlacementJoueurs& placement, eJoueurEnCours& joueurEnCours, std::vector<Joueur>& joueurs) : _placementDesJoueurs(placement), _joueurEnCours(joueurEnCours), _joueurs(joueurs), _ardoise(_placementDesJoueurs, _joueurEnCours, _joueurs) { }
 		~Damier() = default;
 		Damier(const Damier& d) = default;
 		Damier& operator = (const Damier& d) = default;
 		void afficher(void);
 		const std::string& nomJoueur(unsigned int indice) const { return _joueurs.at(indice).nom(); }
 	private:
-		ePlacementJoueurs& _placementDesJoueurs;
+		ePlacementJoueurs&  _placementDesJoueurs;
+		eJoueurEnCours&     _joueurEnCours;
 		std::vector<Joueur>& _joueurs;
 		Ardoise _ardoise;
 	};

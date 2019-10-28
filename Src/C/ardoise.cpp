@@ -1,5 +1,6 @@
 // ardoise.cpp
 
+# include <cmath>
 # include "ardoise.h"
 # include "constantes.h"
 # include "pion.h"
@@ -51,28 +52,32 @@ namespace spc_dames
 
 	void Ardoise::setEntete(void) 
 	{
-		for (unsigned int ii = 0; ii < _joueurs.at(0).nom().size(); ++ii)
+		for (unsigned int ii = 0; ii < _joueurs.at(0).nom().size() && ii < _entete.at(4).at(1).size() ; ++ii)
 		{
-			_entete.at(4).at(2).at(ii) = _joueurs.at(0).nom().c_str()[ii];
+			_entete.at(4).at(1).at(ii) = _joueurs.at(0).nom().c_str()[ii];
 		}
 	}
 
 	void Ardoise::setEnqueue(void)
 	{
-		for (unsigned int ii = 0; ii < _joueurs.at(1).nom().size(); ++ii)
+		for (unsigned int ii = 0; ii < _joueurs.at(1).nom().size() && ii < _enqueue.at(1).at(1).size() ; ++ii)
 		{
-			_enqueue.at(1).at(2).at(ii) = _joueurs.at(1).nom().c_str()[ii];
+			_enqueue.at(1).at(1).at(ii) = _joueurs.at(1).nom().c_str()[ii];
+		}
+
+		for (unsigned int ii = 0; ii < _joueurs.at((int)_joueurEnCours).couleur().size() && ii < _enqueue.at(4).at(2).size(); ++ii)
+		{
+			_enqueue.at(4).at(2).at(ii) = _joueurs.at((int)_joueurEnCours).couleur().c_str()[ii];
 		}
 	}
 }
 
 namespace spc_dames
 {
-	Ardoise::Ardoise(ePlacementJoueurs placementDesJoueurs, std::vector<Joueur>& joueurs)
+	Ardoise::Ardoise(ePlacementJoueurs placementDesJoueurs, eJoueurEnCours& joueurEnCours, std::vector<Joueur>& joueurs)
 		: _cellules(NB_CASES_PLATEAU)
-		, _pionsBlancs(NB_PIONS_PAR_COULEUR)
-		, _pionsNoirs(NB_PIONS_PAR_COULEUR)
 		, _placementDesJoueurs(placementDesJoueurs)
+		, _joueurEnCours(joueurEnCours)
 		, _joueurs(joueurs)
 	{
 		int manoury = 0;
@@ -82,7 +87,7 @@ namespace spc_dames
 		unsigned int iiNord = 0;
 		unsigned iiSud = 0;
 
-		Pion* pionPtr = nullptr ;
+		Pion* pionPtr = nullptr;
 
 		for (Cellule& currentCell : _cellules)
 		{
@@ -91,9 +96,10 @@ namespace spc_dames
 
 			if (y <= 10 && y >= 7)
 			{
-				pionPtr = (_placementDesJoueurs == ePlacementJoueurs::blancs_noirs ? &_pionsBlancs.at(iiNord++) : &_pionsNoirs.at(iiNord++));
+				pionPtr = _joueurs.at(static_cast<unsigned int>(_placementDesJoueurs)).getPionPtr(iiNord++);
 				pionPtr->init(
-					  (_placementDesJoueurs == ePlacementJoueurs::blancs_noirs ? eMotifDuPion::normalBlanc : eMotifDuPion::normalNoir)
+					(_placementDesJoueurs == ePlacementJoueurs::blancs_noirs ? eMotifDuPion::normalBlanc : eMotifDuPion::normalNoir)
+					, iiNord
 					, manoury
 					, eAspectDuPion::normal
 					, eStatutDuPion::libre
@@ -103,9 +109,10 @@ namespace spc_dames
 			{
 				if (y <= 4 && y >= 1)
 				{ 
-					pionPtr = (_placementDesJoueurs == ePlacementJoueurs::blancs_noirs ? &_pionsNoirs.at(iiSud++) : &_pionsBlancs.at(iiSud++));
+					pionPtr = _joueurs.at(static_cast<unsigned int>(_placementDesJoueurs)).getPionPtr(iiSud++);
 					pionPtr->init(
-						  (_placementDesJoueurs == ePlacementJoueurs::blancs_noirs ? eMotifDuPion::normalNoir : eMotifDuPion::normalBlanc)
+						(_placementDesJoueurs == ePlacementJoueurs::blancs_noirs ? eMotifDuPion::normalNoir : eMotifDuPion::normalBlanc)
+						, abs(static_cast<int>(-1 - NB_PIONS_PAR_COULEUR + iiSud)) // Numérotation inverséee au sud par symétrie
 						, manoury
 						, eAspectDuPion::normal
 						, eStatutDuPion::libre
@@ -113,7 +120,7 @@ namespace spc_dames
 				}
 				else
 				{
-					pionPtr = nullptr ;
+					pionPtr = nullptr;
 				}
 			}
 

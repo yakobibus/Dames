@@ -18,6 +18,16 @@ int main (int argc, char** argv)
     return retCode ;
 }
 
+namespace spc_dames
+{
+	int Dames::jouer(void)
+	{
+		_finDePartie = _jeux.jouer();
+
+		return 0;
+	}
+}
+
 namespace spc_pour_voir
 {
 	void PourVoir::get(void)
@@ -50,15 +60,5 @@ namespace spc_pour_voir
 
 			if (manoury % 5 == 0) { --y; std::cout << std::endl; }
 		}
-	}
-}
-
-namespace spc_dames
-{
-	int Dames::jouer(void)
-	{
-		_finDePartie = _jeux.jouer();
-
-		return 0;
 	}
 }

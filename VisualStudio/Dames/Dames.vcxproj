@@ -130,6 +130,7 @@
     <ClCompile Include="..\..\Src\C\caseDamier.cpp" />
     <ClCompile Include="..\..\Src\C\cellule.cpp" />
     <ClCompile Include="..\..\Src\C\coordonnees.cpp" />
+    <ClCompile Include="..\..\Src\C\coup.cpp" />
     <ClCompile Include="..\..\Src\C\dames.cpp" />
     <ClCompile Include="..\..\Src\C\damier.cpp" />
     <ClCompile Include="..\..\Src\C\jeux.cpp" />
@@ -143,6 +144,7 @@
     <ClInclude Include="..\..\Src\H\cellule.h" />
     <ClInclude Include="..\..\Src\H\constantes.h" />
     <ClInclude Include="..\..\Src\H\coordonnees.h" />
+    <ClInclude Include="..\..\Src\H\coup.h" />
     <ClInclude Include="..\..\Src\H\dames.h" />
     <ClInclude Include="..\..\Src\H\damier.h" />
     <ClInclude Include="..\..\Src\H\jeux.h" />
