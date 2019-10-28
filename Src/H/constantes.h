@@ -88,11 +88,11 @@ namespace spc_dames
 
 namespace spc_dames
 {
-	enum class eCouleur
-	{
-		  blanc
-		, noir
-	};
+	//enum class eCouleur
+	//{
+	//	  blanc
+	//	, noir
+	//};
 
 	enum class ePlacementJoueurs
 	{
@@ -103,7 +103,7 @@ namespace spc_dames
 	class Couleur
 	{
 	public:
-		enum class eCouleurTexte
+		enum class eCouleur
 		{
 			  blanc
 			, noir
