@@ -10,6 +10,7 @@ int main (int argc, char** argv)
 
 	//spc_pour_voir::Essayer essai;
 	//spc_ctor2vars::MultiCall mc;
+	//spc_fic::Fic f;
 
 	Dames dames;
 

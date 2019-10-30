@@ -24,6 +24,25 @@ namespace spc_dames
 
 // ----------------------------------------------------------------------------
 
+# include <iostream>
+# include <fstream>
+
+namespace spc_fic
+{
+	class Fic
+	{
+	public :
+		Fic() : _nomFic("./MyFic.json"), _path("./"), _fic("./Exe/MyFic.json") { if (_fic.is_open()) { std::cout << "Ouvert\n"; } else { std::cout << "Fermé !\n"; } }
+		~Fic() = default ; 
+		Fic(const Fic& f) = default;
+		Fic& operator = (const Fic& f) = default;
+	private :
+		std::string   _nomFic;
+		std::string   _path;
+		std::ifstream _fic; //  ("./MyFic.json", ios::binary);
+	};
+}
+
 namespace spc_pour_voir
 {
 # include <iostream>

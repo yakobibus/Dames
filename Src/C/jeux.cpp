@@ -30,3 +30,5 @@ namespace spc_dames
 		return false;
 	}
 }
+
+// 8 827 V8V  -- projet Ikea 
