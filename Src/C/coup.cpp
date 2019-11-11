@@ -8,5 +8,8 @@ namespace spc_dames
 	{
 		_id = id;
 		_joueur = joueur;
+		std::string dummy;
+		std::cin >> dummy;
+		std::cout << " Lu [" << dummy << "] ";
 	}
 }

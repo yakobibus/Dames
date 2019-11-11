@@ -27,6 +27,16 @@ namespace spc_dames
 # include <iostream>
 # include <fstream>
 
+namespace spc_manoury
+{
+	class Manou
+	{
+	public :
+		void titi(int y, int x) { std::cout << "("<<y<<", "<<x<<") -> ["<< (10 * abs(int(y/2)-5+(y%2)) + (x / 2)) <<"]\n"; }
+	private :
+	};
+}
+
 namespace spc_fic
 {
 	class Fic

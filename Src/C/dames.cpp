@@ -11,6 +11,17 @@ int main (int argc, char** argv)
 	//spc_pour_voir::Essayer essai;
 	//spc_ctor2vars::MultiCall mc;
 	//spc_fic::Fic f;
+	spc_manoury::Manou m;
+	m.titi(10, 2);
+	m.titi(9, 2);
+	m.titi(8, 2);
+	m.titi(7, 2);
+	m.titi(6, 2);
+	m.titi(5, 2);
+	m.titi(4, 2);
+	m.titi(3, 2);
+	m.titi(2, 2);
+	m.titi(1, 2);
 
 	Dames dames;
 

@@ -21,6 +21,7 @@ namespace spc_dames
 		Ardoise& operator = (const Ardoise& a) = default;
 		//
 		void afficher(void);
+		void afficherManoury(void);
 		void setEntete(void);
 		void setEnqueue(void);
 	private:

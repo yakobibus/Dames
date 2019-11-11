@@ -26,6 +26,13 @@ namespace spc_dames
 	bool Jeux::jouer(void)
 	{
 		_damier.afficher();
+		_coups.push_back(_dummy);
+
+		Coup dummy;
+		_dummy.push_back(dummy);
+
+		unsigned int i = 0;
+		dummy.jouer(i, &_joueurs.at(0));
 
 		return false;
 	}

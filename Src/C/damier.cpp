@@ -6,6 +6,7 @@ namespace spc_dames
 {
 	void Damier::afficher(void)
 	{
+		_ardoise.afficherManoury();
 		_ardoise.afficher();
 	}
 }

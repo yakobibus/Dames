@@ -30,6 +30,7 @@ namespace spc_dames
 		std::vector<Pion>                  _pionsNoirs;
 		Damier                             _damier;
 		std::vector< std::vector<Coup> >   _coups;  // un coup peut être formé de coups (quand on saute + d'un pion)
+		std::vector <Coup>                 _dummy;
 	} ;
 }
 

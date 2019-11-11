@@ -133,10 +133,13 @@
     <ClCompile Include="..\..\Src\C\coup.cpp" />
     <ClCompile Include="..\..\Src\C\dames.cpp" />
     <ClCompile Include="..\..\Src\C\damier.cpp" />
+    <ClCompile Include="..\..\Src\C\input.cpp" />
     <ClCompile Include="..\..\Src\C\jeux.cpp" />
     <ClCompile Include="..\..\Src\C\joueur.cpp" />
+    <ClCompile Include="..\..\Src\C\manoury.cpp" />
     <ClCompile Include="..\..\Src\C\pion.cpp" />
     <ClCompile Include="..\..\Src\C\regles.cpp" />
+    <ClCompile Include="..\..\Src\H\constantes.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Src\H\ardoise.h" />
@@ -147,8 +150,10 @@
     <ClInclude Include="..\..\Src\H\coup.h" />
     <ClInclude Include="..\..\Src\H\dames.h" />
     <ClInclude Include="..\..\Src\H\damier.h" />
+    <ClInclude Include="..\..\Src\H\input.h" />
     <ClInclude Include="..\..\Src\H\jeux.h" />
     <ClInclude Include="..\..\Src\H\joueur.h" />
+    <ClInclude Include="..\..\Src\H\manoury.h" />
     <ClInclude Include="..\..\Src\H\pion.h" />
     <ClInclude Include="..\..\Src\H\regles.h" />
   </ItemGroup>

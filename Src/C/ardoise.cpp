@@ -4,10 +4,24 @@
 # include "ardoise.h"
 # include "constantes.h"
 # include "pion.h"
+# include "manoury.h"
 
 
 namespace spc_dames
 {
+	void Ardoise::afficherManoury(void)
+	{
+		std::cout << std::endl;
+		for (Cellule& c : _cellules)
+		{
+			std::cout << " " << c.getManoury() ;
+		}
+		std::cout << std::endl;
+		Manoury m;
+		m.affiche();
+		std::cout << std::endl;
+	}
+
 	void Ardoise::afficher(void) 
 	{ 
 		setEntete();
@@ -46,7 +60,7 @@ namespace spc_dames
 				}
 			}
 		}
-		std::cout << std::endl;
+		//std::cout << std::endl;
 		std::cout.flush();
 	}
 
