@@ -32,7 +32,8 @@ namespace spc_manoury
 	class Manou
 	{
 	public :
-		void titi(int y, int x) { std::cout << "("<<y<<", "<<x<<") -> ["<< (10 * abs(int(y/2)-5+(y%2)) + (x / 2)) <<"]\n"; }
+		void titi(int y, int x); // { std::cout << "(" << y << ", " << x << ") -> [" << (int)(5 - (y / 2) - (y % 2 != 0 ? 1 : 0)) << "]\n"; }
+		//void titi(int y, int x) { std::cout << "(" << y << ", " << x << ") -> [" << (10 * abs(int(y / 2) - 5 + (y % 2)) + (x / 2)) << "]\n"; }
 	private :
 	};
 }
@@ -112,6 +113,66 @@ namespace spc_pour_voir
 		char _dummy[4];
 		//
 		const unsigned int decalage(const unsigned int& y) const { return (y == 10 ? 2 : y == 9 ? 4 : y == 8 ? 6 : y == 7 ? 8 : y == 6 ? 10 : y == 5 ? 12 : y == 4 ? 14 : y == 3 ? 16 : y == 2 ? 18 : y == 1 ? 20 : 0); }
+	};
+
+	class PourTiti
+	{
+	public :
+		PourTiti()
+		{
+			spc_manoury::Manou m;
+			m.titi(10, 2);
+			m.titi(10, 4);
+			m.titi(10, 6);
+			m.titi(10, 8);
+			m.titi(10, 10);
+			m.titi(9, 1);
+			m.titi(9, 3);
+			m.titi(9, 5);
+			m.titi(9, 7);
+			m.titi(9, 9);
+			m.titi(8, 2);
+			m.titi(8, 4);
+			m.titi(8, 6);
+			m.titi(8, 8);
+			m.titi(8, 10);
+			m.titi(7, 1);
+			m.titi(7, 3);
+			m.titi(7, 5);
+			m.titi(7, 7);
+			m.titi(7, 9);
+			m.titi(6, 2);
+			m.titi(6, 4);
+			m.titi(6, 6);
+			m.titi(6, 8);
+			m.titi(6, 10);
+			m.titi(5, 1);
+			m.titi(5, 3);
+			m.titi(5, 5);
+			m.titi(5, 7);
+			m.titi(5, 9);
+			m.titi(4, 2);
+			m.titi(4, 4);
+			m.titi(4, 6);
+			m.titi(4, 8);
+			m.titi(4, 10);
+			m.titi(3, 1);
+			m.titi(3, 3);
+			m.titi(3, 5);
+			m.titi(3, 7);
+			m.titi(3, 9);
+			m.titi(2, 2);
+			m.titi(2, 4);
+			m.titi(2, 6);
+			m.titi(2, 8);
+			m.titi(2, 10);
+			m.titi(1, 1);
+			m.titi(1, 3);
+			m.titi(1, 5);
+			m.titi(1, 7);
+			m.titi(1, 9);
+			m.titi(1, 2);
+		}
 	};
 
 	class Essayer

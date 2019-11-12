@@ -8,6 +8,7 @@
 # include "cellule.h"
 # include "constantes.h"
 # include "joueur.h"
+# include "manoury.h"
 # include "pion.h"
 
 namespace spc_dames
@@ -21,13 +22,13 @@ namespace spc_dames
 		Ardoise& operator = (const Ardoise& a) = default;
 		//
 		void afficher(void);
-		void afficherManoury(void);
 		void setEntete(void);
 		void setEnqueue(void);
 	private:
 		std::vector< std::vector< std::vector<char> > > _ardoise = MOTIF_PLATEAU_DAMIER ;
 		std::vector< std::vector <std::vector <char>>>  _entete = MOTIF_TEXTE_ENTETE;
 		std::vector< std::vector <std::vector <char>>>  _enqueue = MOTIF_TEXTE_ENQUEUE;
+		Manoury                           _manoury;
 		std::vector<Cellule>              _cellules;
 		ePlacementJoueurs&                _placementDesJoueurs;
 		eJoueurEnCours&                   _joueurEnCours;

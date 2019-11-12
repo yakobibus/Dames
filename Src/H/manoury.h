@@ -31,7 +31,8 @@ namespace spc_dames
 		//
 		void affiche(void) { for (YXM yxm : _yxManoury) { std::cout << "(" << yxm.yx.y << ", " << yxm.yx.x << ", " << yxm.manoury << ") "; } }
 		YX getYx(const unsigned int manoury) const { return _yxManoury.at(-1 + manoury).yx; }
-		unsigned int getManoury(YX yx) const; //  { return _yxManoury.at(-1 + 1).manoury; }
+		unsigned int getManoury(YX yx) const; 
+		unsigned int getManoury(unsigned int y, unsigned int x) const { YX yx = {y, x}; return getManoury(yx); }
 	private:
 		const std::vector <YXM> _yxManoury = { 
 			  {{10, 2}, 1 }, {{10, 4}, 2 }, {{10, 6}, 3 }, {{10, 8}, 4 }, {{10, 10}, 5 }

@@ -11,17 +11,7 @@ int main (int argc, char** argv)
 	//spc_pour_voir::Essayer essai;
 	//spc_ctor2vars::MultiCall mc;
 	//spc_fic::Fic f;
-	spc_manoury::Manou m;
-	m.titi(10, 2);
-	m.titi(9, 2);
-	m.titi(8, 2);
-	m.titi(7, 2);
-	m.titi(6, 2);
-	m.titi(5, 2);
-	m.titi(4, 2);
-	m.titi(3, 2);
-	m.titi(2, 2);
-	m.titi(1, 2);
+	//spc_pour_voir::PourTiti t;
 
 	Dames dames;
 
@@ -74,3 +64,14 @@ namespace spc_pour_voir
 		}
 	}
 }
+
+void spc_manoury::Manou::titi(int y, int x)
+{
+	//int dizaine = (int)(5 - (y / 2) - (y % 2 != 0 ? 1 : 0));
+	//int unite = (int)((y % 2 == 0 && x % 2 == 0) || (y % 2 != 0 && x % 2 != 0) ? (x / 2 + (x % 2 != 0 ? 6 : 0)) : 99);
+	//std::cout << "(" << y << ", " << x << ") manoury -> [" << dizaine << " * 10 + " << unite << " : " << (dizaine * 10 + unite) << "]\n";
+	unsigned int dizaine = (int)(5 - (y / 2) - (y % 2 != 0 ? 1 : 0));
+	unsigned int unite = (int)((y % 2 == 0 && x % 2 == 0) || (y % 2 != 0 && x % 2 != 0) ? (x / 2 + (x % 2 != 0 ? 5 : -1)) : 99);
+	std::cout << "(" << y << ", " << x << ") vector.at() -> ["<< dizaine << " * 10 + " << unite << " : " << (dizaine * 10 + unite) << "]\n";
+}
+
