@@ -12,11 +12,6 @@ namespace spc_dames
 {
 	struct YX
 	{
-		YX() = default;
-		YX(const unsigned int& yy, const unsigned int& xx) : y(yy), x(xx) {}
-		~YX() = default;
-		YX(const YX& yx) = default;
-		YX& operator = (const YX& yx) = default;
 		unsigned int y ;
 		unsigned int x ;
 	};
@@ -35,8 +30,6 @@ namespace spc_dames
 		Manoury(const Manoury& m) = default;
 		Manoury& operator = (const Manoury& m) = default;
 		//
-		unsigned int getManoury(YX yx) const;
-		unsigned int getManoury(const unsigned int& y, const unsigned int& x) const { return getManoury(YX(y, x)); }
 		std::vector< YXM>& getYxManouryReference(void) { return _yxManoury; }
 	private:
 		std::vector <YXM> _yxManoury = MOTIF_MANOURY;

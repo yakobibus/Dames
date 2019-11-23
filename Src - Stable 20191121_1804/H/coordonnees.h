@@ -11,8 +11,8 @@ namespace spc_dames
 	class Coordonnees
 	{
 	public:
-		Coordonnees() : _yxmAdress(nullptr) {}
-		Coordonnees(YXM* yxm, char* motif) : _yxmAdress(yxm) {}
+		Coordonnees() : _yxmAdress(nullptr) {} 
+		Coordonnees(YXM* yxm, char* motif) : _yxmAdress(yxm) {} 
 		~Coordonnees() = default;
 		Coordonnees(const Coordonnees& c) = default;
 		Coordonnees& operator = (const Coordonnees& c) = default;

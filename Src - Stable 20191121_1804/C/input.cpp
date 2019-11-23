@@ -3,45 +3,11 @@
 # include <iostream>
 # include "input.h"
 
-namespace spc_dames
-{
-	Input::Input()
-		: _buffer("")
-		, _bufSize(0)
-		, _coordonnees()
-		//, _caseDamier(nullptr)
-		, _inputType(InputType::is_undefined)
-		, _isValid(false)
-	{
-//		_coordonnees.set(0, 0, 0);
-//		std::memset(_buffer, 0, INPUT_BUFFER_MX_SIZE);
-	}
-}
-
-namespace spc_dames
-{
-	void Input::saisie(const char* invite)
-	{
-		_isValid = false;
-		std::cout << invite;
-
-		_inputType = InputType::is_undefined;
-		// _coordonnees.set(0, 0, 0); ::: TODO : ici
-		_bufSize = 0;
-		std::memset(_buffer, 0, INPUT_BUFFER_MX_SIZE);
-		std::cin.getline(_buffer, -1 + INPUT_BUFFER_MX_SIZE);
-		_bufSize = strlen(_buffer);
-		//
-		_isValidInput();
-	}
-}
-
 /*
 namespace spc_dames
 {
 	Input::Input()
-		: _buffer("")
-		, _bufSize(0)
+		: _bufSize(0)
 		//, _caseDamier(nullptr)
 		, _inputType(InputType::is_undefined)
 		, _isValid(false)

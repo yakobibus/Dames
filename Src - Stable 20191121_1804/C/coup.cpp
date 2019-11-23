@@ -11,6 +11,5 @@ namespace spc_dames
 		std::string dummy;
 		std::cin >> dummy;
 		std::cout << " Lu [" << dummy << "] ";
-		_input.saisie("ici => ");
 	}
 }

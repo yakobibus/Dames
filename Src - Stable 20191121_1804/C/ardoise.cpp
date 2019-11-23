@@ -21,8 +21,8 @@ namespace spc_dames
 				}
 			}
 		}
-		std::cout << std::endl;
 		//
+		std::cout << std::endl;
 		for (unsigned int ii = 0; ii < _ardoise.size(); ++ii)
 		{
 			for (unsigned int jj = 0; jj < _ardoise.at(ii).size(); ++jj)

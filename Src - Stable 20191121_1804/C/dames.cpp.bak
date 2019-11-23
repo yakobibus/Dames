@@ -1,0 +1,125 @@
+// dames.c
+
+# include "dames.h"
+
+using namespace spc_dames ;
+
+int main (int argc, char** argv)
+{
+    int retCode = 0;
+
+	//spc_pour_voir::Essayer essai;
+	//spc_ctor2vars::MultiCall mc;
+	//spc_fic::Fic f;
+	spc_manoury::Manou m;
+	m.titi(10, 2);
+	m.titi(10, 4);
+	m.titi(10, 6);
+	m.titi(10, 8);
+	m.titi(10, 10);
+	m.titi(9, 1);
+	m.titi(9, 3);
+	m.titi(9, 5);
+	m.titi(9, 7);
+	m.titi(9, 9);
+	m.titi(8, 2 );
+	m.titi(8, 4 );
+	m.titi(8, 6 );
+	m.titi(8, 8 );
+	m.titi(8, 10);
+	m.titi(7, 1);
+	m.titi(7, 3);
+	m.titi(7, 5);
+	m.titi(7, 7);
+	m.titi(7, 9);
+	m.titi(6, 2);
+	m.titi(6, 2);
+	m.titi(6, 2);
+	m.titi(6, 2);
+	m.titi(6, 2);
+	m.titi(5, 1);
+	m.titi(5, 3);
+	m.titi(5, 5);
+	m.titi(5, 7);
+	m.titi(5, 9);
+	m.titi(4, 2);
+	m.titi(4, 2);
+	m.titi(4, 2);
+	m.titi(4, 2);
+	m.titi(4, 2);
+	m.titi(3, 1);
+	m.titi(3, 3);
+	m.titi(3, 5);
+	m.titi(3, 7);
+	m.titi(3, 9);
+	m.titi(2, 2);
+	m.titi(2, 2);
+	m.titi(2, 2);
+	m.titi(2, 2);
+	m.titi(2, 2);
+	m.titi(1, 1);
+	m.titi(1, 3);
+	m.titi(1, 5);
+	m.titi(1, 7);
+	m.titi(1, 9);
+	m.titi(1, 2);
+
+	Dames dames;
+
+	retCode = dames.jouer();
+
+    return retCode ;
+}
+
+namespace spc_dames
+{
+	int Dames::jouer(void)
+	{
+		_finDePartie = _jeux.jouer();
+
+		return 0;
+	}
+}
+
+namespace spc_pour_voir
+{
+	void PourVoir::get(void)
+	{
+		unsigned short ii = 0;
+		for (Voir& v : _voir)
+		{
+			memcpy(_dummy, v.get(), 3);
+			std::cout << ++ii << ".["  << _dummy << "]\n";
+		}
+	}
+
+	void PourVoir::place(unsigned short& p, const char& c)
+	{
+		_voir.at(p).place(c);
+		//_voir[p].place(c);
+	}
+
+	void PourVoir::set(void)
+	{
+		int manoury = 0;
+		int y = 10;
+		int x = 99;
+		for (Voir& v : _voir)
+		{
+			++manoury;
+			x = y % 2 == 0 ? (x > 8 ? 2 : x + 2) : (x > 7 ? 1 : x + 2);
+
+			v.set(&_ardoise[NB_CHAR_PAR_LIGNE * decalage(y) + (TAILLE_CELLULE + TAILLE_SEPARATEUR) * x]);
+
+			if (manoury % 5 == 0) { --y; std::cout << std::endl; }
+		}
+	}
+}
+
+void spc_manoury::Manou::titi(int y, int x)
+{
+	int dizaine = (int)(5 - (y / 2) - (y % 2 != 0 ? 1 : 0));
+	int unite = (int)((y % 2 == 0 && x % 2 == 0) || (y % 2 != 0 && x % 2 != 0) ? (x / 2 + (x % 2 != 0 ? 6 : 0)) : 99 );
+	std::cout << "(" << y << ", " << x << ") -> ["<< dizaine << " * 10 + " << unite << " : " << (dizaine * 10 + unite) << "]\n";
+}
+

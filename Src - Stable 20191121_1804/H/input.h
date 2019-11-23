@@ -49,7 +49,6 @@ namespace spc_dames
 		Coordonnees        _coordonnees;
 		InputType          _inputType;
 		bool               _isValid;
-		//
 		void               _isValidInput(void);
 		//
 		inline unsigned int _aToColumn(const char& colonne) const {

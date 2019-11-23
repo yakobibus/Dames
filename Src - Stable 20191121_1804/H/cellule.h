@@ -60,7 +60,7 @@ namespace spc_dames
 		//
 		//unsigned int   getManoury(void) { return _coordonnees.getManoury(); }
 		char           getMotifPion(void) { return (char)_adressePion->motif(); }
-		void           initCell(YXM& yxm, std::vector<char>* cellMotifAddress, Pion* pionPtr);
+		void           initCell(YXM& yxm, std::vector<char>* cellMotifPtr, Pion* pionPtr);
 		void           initAdresseMotif(std::vector<char>* adresseMotif) { _adresseMotif = adresseMotif; }
 		void           setMotif(void);
 	private:
