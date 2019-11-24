@@ -5,6 +5,7 @@
 
 # include "constantes.h"
 # include "coordonnees.h"
+# include "manoury.h"
 
 namespace spc_dames
 {
@@ -44,6 +45,7 @@ namespace spc_dames
 		bool isValid(void) const { return _isValid; }
 		void saisie(const char* invite);
 	private:
+		YXM                _yxm;
 		char               _buffer[INPUT_BUFFER_MX_SIZE];
 		unsigned int       _bufSize;
 		Coordonnees        _coordonnees;
