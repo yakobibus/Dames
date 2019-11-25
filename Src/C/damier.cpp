@@ -8,6 +8,14 @@ namespace spc_dames
 	{
 		_ardoise.afficher();
 	}
+	
+	bool Damier::jouer(std::vector<Coup>& coup, eJoueurEnCours& joueurEnCours)
+	{
+		_joueurEnCours = joueurEnCours;
+		_continuerLaPartie = _ardoise.jouer(coup, _joueurEnCours);
+		//TODO : implémentation  du coup .... ???? , sauf si le jeu dans damier appelle le coup, puis le damier, ...
+		return _continuerLaPartie;
+	}
 }
 
 //namespace spc_dames 

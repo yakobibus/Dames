@@ -8,6 +8,5 @@ namespace spc_dames
 	{
 		_id = id;
 		_joueur = joueur;
-		_input.saisie("  => ");
 	}
 }

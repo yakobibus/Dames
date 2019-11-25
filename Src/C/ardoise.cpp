@@ -50,6 +50,12 @@ namespace spc_dames
 		std::cout.flush();
 	}
 
+	bool Ardoise::jouer(std::vector<Coup>& coup, eJoueurEnCours& joueurEnCours)
+	{
+		_input.saisie("\n\n\t\t=> ");
+		return false;
+	}
+
 	void Ardoise::setEntete(void) 
 	{
 		for (unsigned int ii = 0; ii < _joueurs.at(0).nom().size() && ii < _entete.at(4).at(1).size() ; ++ii)
@@ -79,6 +85,8 @@ namespace spc_dames
 		, _placementDesJoueurs(placementDesJoueurs)
 		, _joueurEnCours(joueurEnCours)
 		, _joueurs(joueurs)
+		, _continuerLaPartie(false)
+		, _input(_manoury)
 	{
 		unsigned int iiNord = 0;
 		unsigned iiSud = 0;

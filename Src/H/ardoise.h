@@ -7,6 +7,8 @@
 # include <vector>
 # include "cellule.h"
 # include "constantes.h"
+# include "coup.h"
+# include "input.h"
 # include "joueur.h"
 # include "manoury.h"
 # include "pion.h"
@@ -22,6 +24,7 @@ namespace spc_dames
 		Ardoise& operator = (const Ardoise& a) = default;
 		//
 		void afficher(void);
+		bool jouer(std::vector<Coup>& coup, eJoueurEnCours& joueurEnCours);
 		void setEntete(void);
 		void setEnqueue(void);
 	private:
@@ -45,6 +48,8 @@ namespace spc_dames
 		  ,& (_ardoise.at(18).at(4)),& (_ardoise.at(18).at(8)),& (_ardoise.at(18).at(12)),& (_ardoise.at(18).at(16)),& (_ardoise.at(18).at(20))
 		  ,& (_ardoise.at(20).at(2)),& (_ardoise.at(20).at(6)),& (_ardoise.at(20).at(10)),& (_ardoise.at(20).at(14)),& (_ardoise.at(20).at(18))
 		};
+		bool                              _continuerLaPartie;
+		Input                             _input;
 		//
 		const unsigned int decalage(const unsigned int& y) const { return (y == 10 ? 2 : y == 9 ? 4 : y == 8 ? 6 : y == 7 ? 8 : y == 6 ? 10 : y == 5 ? 12 : y == 4 ? 14 : y == 3 ? 16 : y == 2 ? 18 : y == 1 ? 20 : 0); }
 	};

@@ -7,7 +7,7 @@
 
 namespace spc_dames
 {
-	Input::Input()
+	Input::Input(const Manoury& manoury)
 		: _yxm()
 		, _buffer("")
 		, _bufSize(0)
@@ -15,6 +15,7 @@ namespace spc_dames
 		//, _caseDamier(nullptr)
 		, _inputType(InputType::is_undefined)
 		, _isValid(false)
+		, _manoury(manoury)
 	{
 //		_coordonnees.set(0, 0, 0);
 //		std::memset(_buffer, 0, INPUT_BUFFER_MX_SIZE);
@@ -33,14 +34,16 @@ namespace spc_dames
 			{
 				_yxm.yx.y = _aToColumn (_buffer[0]);
 				_yxm.yx.x = _aToLine (&_buffer[1]);
-				//_yxm.manoury = 
-				std::cout << "Analyse en cours lu<"<<_buffer<<">::.at(0):"<<_buffer[0]<<", [("<<_yxm.yx.y<<", "<<_yxm.yx.x<<"), ] ";
+				_yxm.manoury = _manoury.getManoury(YX(_yxm.yx.y, _yxm.yx.x));
 				_isValid = true;
 				_inputType = InputType::is_alphaOneDigitTwo;
 				//_coordonnees.set(_aToLine(&(_buffer[1])), _aToColumn(_buffer[0]));
 			}
 			else if (_isDigit(_buffer[0]) && _isAlpha(_buffer[1]) && _buffer[0] != '0')
 			{
+				_yxm.yx.y = _aToColumn(_buffer[1]);
+				_yxm.yx.x = _aToLine(&_buffer[0]);
+				_yxm.manoury = _manoury.getManoury(YX(_yxm.yx.y, _yxm.yx.x));
 				_isValid = true;
 				_inputType = InputType::is_digitOneAlphaTwo;
 				//_coordonnees.set(_aToLine(&(_buffer[0]), 1), _aToColumn(_buffer[1]));
@@ -50,36 +53,50 @@ namespace spc_dames
 		{
 			if (_isAlpha(_buffer[0]) && _isDigit(_buffer[1]) && _isDigit(_buffer[2]))
 			{
+				_yxm.yx.y = _aToColumn(_buffer[0]);
 				_inputType = InputType::is_alphaOnedigitTwoThree;
 				//_coordonnees.set(_aToLine(&(_buffer[1])), _aToColumn(_buffer[0]));
 				if (_buffer[1] == '0' && _buffer[2] != '0')
 				{
+					_yxm.yx.x = _aToLine(&_buffer[2]);
+					_yxm.manoury = _manoury.getManoury(YX(_yxm.yx.y, _yxm.yx.x));
 					_isValid = true;
 				}
 				else if (_buffer[1] == '1' && _buffer[2] == '0')
 				{
+					_yxm.yx.x = 10; //  _aToLine(&_buffer[1]);
+					_yxm.manoury = _manoury.getManoury(YX(_yxm.yx.y, _yxm.yx.x));
 					_isValid = true;
 				}
 			}
 			else if (_isDigit(_buffer[0]) && _isDigit(_buffer[1]) && _isAlpha(_buffer[2]))
 			{
+				_yxm.yx.y = _aToColumn(_buffer[2]);
 				_inputType = InputType::is_digitOneTwoAlphaThree;
 				//_coordonnees.set(_aToLine(&(_buffer[0]), 2), _aToColumn(_buffer[2]));
 				if (_buffer[0] == '0' && _buffer[1] != '0')
 				{
+					_yxm.yx.x = _aToLine(&_buffer[1]);
+					_yxm.manoury = _manoury.getManoury(YX(_yxm.yx.y, _yxm.yx.x));
 					_isValid = true;
 				}
-				else if (_buffer[0] == '1' && _buffer[0] == '0')
+				else if (_buffer[0] == '1' && _buffer[1] == '0')
 				{
+					_yxm.yx.x = 10; //  _aToLine(&_buffer[1]);
+					_yxm.manoury = _manoury.getManoury(YX(_yxm.yx.y, _yxm.yx.x));
 					_isValid = true;
 				}
 			}
 		}
 		else if (_bufSize > 0 && (_buffer[0] == 'x' || _buffer[0] == 'X' || _buffer[0] == 'q' || _buffer[0] == 'Q'))
 		{
+			_yxm.yx.y = 0;
+			_yxm.yx.x = 0;
+			_yxm.manoury = 0;
 			_isValid = true;
 			_inputType = InputType::is_exiting;
 		}
+		std::cout << "Analyse en cours lu<" << _buffer << ">::.at(0):" << _buffer[0] << ", [(" << _yxm.yx.y << ", " << _yxm.yx.x << "), " << _yxm.manoury << "] ";
 	}
 
 	void Input::saisie(const char* invite)
@@ -91,7 +108,7 @@ namespace spc_dames
 		// _coordonnees.set(0, 0, 0); ::: TODO : ici
 		_bufSize = 0;
 		std::memset(_buffer, 0, INPUT_BUFFER_MX_SIZE);
-		std::cin.getline(_buffer, -1 + INPUT_BUFFER_MX_SIZE);
+		std::cin.getline(_buffer, static_cast<unsigned int> (-1 + INPUT_BUFFER_MX_SIZE));
 		_bufSize = strlen(_buffer);
 		//
 		_isValidInput();

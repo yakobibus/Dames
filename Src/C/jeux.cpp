@@ -31,12 +31,13 @@ namespace spc_dames
 			_damier.afficher();
 			_coups.push_back(_dummyCoup);
 
-			Coup dummy;
-			_dummyCoup.push_back(dummy);
+			//Coup dummy;
+			//_dummyCoup.push_back(dummy);
 
-			unsigned int i = 0;
-			dummy.jouer(i, &_joueurs.at(0));
-			_finDePartie = false; // _damier.jouer(_dummyCoup, _joueurEnCours, _damier) ... ;
+			//unsigned int i = 0;
+			//dummy.jouer(i, &_joueurs.at(0)); // TODO : débarrasser le Coup du comportement .jouer() ... reporté dans le Damier
+			//_finDePartie = false; 
+			_damier.jouer(_dummyCoup, _joueurEnCours); // TODO ... // ... sauf si c'est uniquement coup, puis damier ...  ; 
 		} 
 		while (_finDePartie);
 

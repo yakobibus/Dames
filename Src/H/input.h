@@ -33,7 +33,7 @@ namespace spc_dames
 	class Input
 	{
 	public:
-		Input();
+		Input(const Manoury& manoury);
 		~Input() = default;
 		Input(const Input& i) = default;
 		Input& operator = (const Input& i) = default;
@@ -43,7 +43,7 @@ namespace spc_dames
 		unsigned int getX(void) const { return _coordonnees.getX(); }
 		unsigned int getY(void) const { return _coordonnees.getY(); }
 		bool isValid(void) const { return _isValid; }
-		void saisie(const char* invite);
+		void saisie(const char* invite = "");
 	private:
 		YXM                _yxm;
 		char               _buffer[INPUT_BUFFER_MX_SIZE];
@@ -51,6 +51,7 @@ namespace spc_dames
 		Coordonnees        _coordonnees;
 		InputType          _inputType;
 		bool               _isValid;
+		Manoury            _manoury;
 		//
 		void               _isValidInput(void);
 		//
