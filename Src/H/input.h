@@ -39,11 +39,16 @@ namespace spc_dames
 		Input& operator = (const Input& i) = default;
 		//
 		const Coordonnees& getCoordonnees(void) const { return _coordonnees; }
-		InputType    getInputType(void) const { return _inputType; }
-		unsigned int getX(void) const { return _coordonnees.getX(); }
-		unsigned int getY(void) const { return _coordonnees.getY(); }
-		bool isValid(void) const { return _isValid; }
-		void saisie(const char* invite = "");
+		InputType          getInputType(void) const { return _inputType; }
+		unsigned int       getManoury(void) const { return _yxm.manoury; }
+		unsigned int       getX(void) const { return _yxm.yx.x; }
+		char               getXalpha(void) const { return 'a' + _yxm.yx.x ; }
+		unsigned int       getY(void) const { return _yxm.yx.y; }
+		bool               isValid(void) const { return _isValid; }
+		void               saisie(const char* invite = "");
+		//unsigned int getX(void) const { return _coordonnees.getX(); }
+		//char         getXalpha(void) const { return _coordonnees.getXalpha(); }
+		//unsigned int getY(void) const { return _coordonnees.getY(); }
 	private:
 		YXM                _yxm;
 		char               _buffer[INPUT_BUFFER_MX_SIZE];
@@ -57,7 +62,7 @@ namespace spc_dames
 		//
 		inline unsigned int _aToColumn(const char& colonne) const {
 			return (
-				colonne == 'a' || colonne == 'A' ? 1
+				  colonne == 'a' || colonne == 'A' ? 1
 				: colonne == 'b' || colonne == 'B' ? 2
 				: colonne == 'c' || colonne == 'C' ? 3
 				: colonne == 'd' || colonne == 'D' ? 4

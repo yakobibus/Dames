@@ -37,7 +37,7 @@ namespace spc_dames
 			//unsigned int i = 0;
 			//dummy.jouer(i, &_joueurs.at(0)); // TODO : débarrasser le Coup du comportement .jouer() ... reporté dans le Damier
 			//_finDePartie = false; 
-			_damier.jouer(_dummyCoup, _joueurEnCours); // TODO ... // ... sauf si c'est uniquement coup, puis damier ...  ; 
+			_finDePartie = _damier.jouer(_dummyCoup, _joueurEnCours); // TODO ... // ... sauf si c'est uniquement coup, puis damier ...  ; 
 		} 
 		while (_finDePartie);
 

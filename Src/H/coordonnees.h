@@ -21,6 +21,7 @@ namespace spc_dames
 		Coordonnees& get(void) { return *this; }
 		unsigned int getX(void) const { return _yxmAdress->yx.x; }
 		unsigned int getY(void) const { return _yxmAdress->yx.y; }
+		YXM*         getXMaddress(void) const { return _yxmAdress; }
 		unsigned int getManoury(void) const { return _yxmAdress->manoury; } 
 		char         getXalpha(void) const { return 'a' + _yxmAdress->yx.x - 1; }
 	private:

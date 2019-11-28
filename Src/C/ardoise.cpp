@@ -53,7 +53,13 @@ namespace spc_dames
 	bool Ardoise::jouer(std::vector<Coup>& coup, eJoueurEnCours& joueurEnCours)
 	{
 		_input.saisie("\n\n\t\t=> ");
-		return false;
+
+		if (_input.isValid())
+		{
+			//_cellules.at(_input.getManoury()).getPionAddress().getCouleur() ; // maoury occupEe par un pion de la bonne couleur ?
+		}
+
+		return _input.isValid() ;
 	}
 
 	void Ardoise::setEntete(void) 
