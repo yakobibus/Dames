@@ -98,8 +98,9 @@ namespace spc_dames
 		, _placementJoueurNord(placementDesJoueurs == ePlacementJoueurs::blancs_noirs ? ePlacementJoueurs::blancs_noirs : ePlacementJoueurs::noirs_blancs)
 		, _placementJoueurSud(placementDesJoueurs == ePlacementJoueurs::blancs_noirs ? ePlacementJoueurs::noirs_blancs : ePlacementJoueurs::blancs_noirs)
 		, _motifPionsNord(placementDesJoueurs == ePlacementJoueurs::blancs_noirs ? eMotifDuPion::normalBlanc : eMotifDuPion::normalNoir)
-		, _eCouleurPionsNord(placementDesJoueurs == ePlacementJoueurs::blancs_noirs ? eMotifDuPion::normalBlanc : eMotifDuPion::normalNoir)
 		, _motifPionsSud(placementDesJoueurs == ePlacementJoueurs::blancs_noirs ? eMotifDuPion::normalNoir : eMotifDuPion::normalBlanc)
+		, _eCouleurPionsNord(placementDesJoueurs == ePlacementJoueurs::blancs_noirs ? Couleur::eCouleur::blanc : Couleur::eCouleur::noir)
+		, _eCouleurPionsSud(placementDesJoueurs == ePlacementJoueurs::blancs_noirs ? Couleur::eCouleur::noir : Couleur::eCouleur::blanc)
 		, _joueurEnCours(joueurEnCours)
 		, _joueurs(joueurs)
 		, _continuerLaPartie(false)
@@ -117,6 +118,7 @@ namespace spc_dames
 				pionPtr = _joueurs.at(static_cast<unsigned int>(_placementJoueurNord)).getPionPtr(iiNord++);
 				pionPtr->init(
 					_motifPionsNord
+					, _eCouleurPionsNord
 					, iiNord
 					, yxm.manoury
 					, eAspectDuPion::normal
@@ -130,6 +132,7 @@ namespace spc_dames
 					pionPtr = _joueurs.at(static_cast<unsigned int>(_placementJoueurSud)).getPionPtr(iiSud++);
 					pionPtr->init(
 						_motifPionsSud
+						, _eCouleurPionsSud
 						, abs(static_cast<int>(-1 - NB_PIONS_PAR_COULEUR + iiSud)) // Numérotation inverséee au sud par symétrie
 						, yxm.manoury
 						, eAspectDuPion::normal
