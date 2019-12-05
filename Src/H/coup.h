@@ -20,7 +20,8 @@ namespace spc_dames
 		Coup(const Coup& c) = default;
 		Coup& operator = (const Coup& c) = default;
 		//
-		bool isValidDepart(void) { std::cout << "Joueur " <<_joueur->couleurTexte()<<", pion "<<_celluleDepart->getMotifPion()<<"). \n"; return false; }
+		//bool isValidDepart(void) { std::cout << "Joueur " <<_joueur->couleurTexte()<<", pion "<<_celluleDepart->getMotifPion()<<"). \n"; return false; }
+		bool isValidDepart(void) { std::cout << "Joueur " << _joueur->couleurTexte() << ", pion " << _celluleDepart->getMotifPion() << " (" << (_joueur->eCouleur() == _celluleDepart->getPionAddress()->eCouleur() ? "true" : "false") << "). \n"; return false; }
 		void jouer(unsigned& id, Joueur* joueur);
 	private :
 		//Input     _input; /// TODO : ici

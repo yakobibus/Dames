@@ -38,7 +38,7 @@ namespace spc_dames
 		Pion& operator = (const Pion& p) = default;
 		//
 		eAspectDuPion eAspect(void) const { return _aspect; }
-		//Couleur::eCouleur eCouleur(void) { return _couleur; }
+		const Couleur::eCouleur& eCouleur(void) const { return _eCouleur; }
 		unsigned id(void) const { return _id; }
 		void init(const eMotifDuPion& motif, const Couleur::eCouleur& eCouleur, unsigned id, const unsigned& manoury, const eAspectDuPion& aspect = eAspectDuPion::normal, const eStatutDuPion& statut = eStatutDuPion::libre) { _motif = motif; _eCouleur = eCouleur; _id = id; _manoury = manoury; _aspect = aspect; _statut = statut; }
 		eMotifDuPion motif(void) { return _motif; }
