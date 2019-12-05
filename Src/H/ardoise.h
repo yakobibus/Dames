@@ -18,7 +18,7 @@ namespace spc_dames
 	class Ardoise
 	{
 	public:
-		Ardoise(ePlacementJoueurs placementDesJoueurs, eJoueurEnCours& joueurEnCours , std::vector<Joueur>& joueurs);
+		Ardoise(ePlacementJoueurs& placementDesJoueurs, eJoueurEnCours& joueurEnCours , std::vector<Joueur>& joueurs);
 		~Ardoise() = default;
 		Ardoise(const Ardoise& a) = default;
 		Ardoise& operator = (const Ardoise& a) = default;
@@ -33,7 +33,12 @@ namespace spc_dames
 		std::vector< std::vector <std::vector <char>>>  _enqueue = MOTIF_TEXTE_ENQUEUE;
 		Manoury                           _manoury; // d'ici : .... aller vers Cellule et vers Coordonnees en intialisant tout ...
 		std::vector<Cellule>              _cellules;
-		ePlacementJoueurs&                _placementDesJoueurs;
+		const ePlacementJoueurs&          _placementJoueurNord;
+		const ePlacementJoueurs&          _placementJoueurSud;
+		const eMotifDuPion&               _motifPionsNord;
+		const eMotifDuPion&               _motifPionsSud;
+		const Couleur::eCouleur&          _eCouleurPionsNord;
+		const Couleur::eCouleur&          _eCouleurPionsSud;
 		eJoueurEnCours&                   _joueurEnCours;
 		std::vector<Joueur>&              _joueurs;
 		std::vector <std::vector<char>* > _cellMotifPtrs =  {

@@ -8,5 +8,6 @@ namespace spc_dames
 	{
 		_id = id;
 		_joueur = joueur;
+		std::cout << std::endl;
 	}
 }

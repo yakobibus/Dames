@@ -4,11 +4,13 @@
 
 namespace spc_dames
 {
-	Jeux::Jeux() 
+	Jeux::Jeux()
 		: _placementDesJoueurs(ePlacementJoueurs::blancs_noirs) // noirs_blancs  //  blancs_noirs
 		, _joueurs(NB_JOUEURS)
-		, _joueurEnCours( static_cast<eJoueurEnCours>((Couleur::eCouleur::blanc == static_cast <Couleur::eCouleur> (_placementDesJoueurs) ? Couleur::eCouleur::blanc : Couleur::eCouleur::noir)) )
-		, _damier(_placementDesJoueurs, _joueurEnCours, _joueurs)
+		, _joueurEnCours(static_cast<eJoueurEnCours>((Couleur::eCouleur::blanc == static_cast <Couleur::eCouleur> (_placementDesJoueurs) ? Couleur::eCouleur::blanc : Couleur::eCouleur::noir)))
+		, _pionsBlancs(NB_PIONS_PAR_COULEUR)
+		, _pionsNoirs(NB_PIONS_PAR_COULEUR)
+		, _damier(_placementDesJoueurs, _joueurEnCours, _joueurs, { (_placementDesJoueurs == ePlacementJoueurs::blancs_noirs ? &_pionsBlancs : &_pionsNoirs), (_placementDesJoueurs == ePlacementJoueurs::blancs_noirs ? &_pionsNoirs : &_pionsBlancs) })
 		, _finDePartie(false)
 	{
 		_joueurs[0].set((_placementDesJoueurs == ePlacementJoueurs::blancs_noirs ? Couleur::eCouleur::blanc : Couleur::eCouleur::noir)

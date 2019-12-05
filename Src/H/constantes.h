@@ -120,11 +120,13 @@ namespace spc_dames
 		{
 			  blanc
 			, noir
+			, nonDefinie = 99
 		};
-		const std::string& couleurTexte(const eCouleur& couleur) const { return (eCouleur::blanc == couleur ? _blanc : _noir); }
+		const std::string& couleurTexte(const eCouleur& couleur) const { return (eCouleur::blanc == couleur ? _blanc : (eCouleur::noir == couleur ? _noir : _nonDefinie)); }
 	private:
 		std::string  _blanc = "BLANCS";
 		std::string  _noir  = "NOIRS";
+		std::string  _nonDefinie = "";
 	};
 }
 
