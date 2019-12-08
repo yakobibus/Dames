@@ -15,7 +15,12 @@ namespace spc_dames
 		noErrors = 0
 		, emptyStartingCell = 1
 		, colorsMismatch = 2
-		, zz = 4
+		, emptyStartingCell_colorMismatch = 3 
+		, pawnIsCaptured = 4
+		, emptyStartingCell_pawnIsCaptured = 5
+		, colorsMismatch_pawnIsCaptured = 6
+		, emptyStartingCell_colorMismatch_pawnIsCaptured = 7
+		//, eMoveErrors& operator = (const eMoveErrors& gauche, const eMoveErrors& droite) const { return noErrors }
 	};
 }
 
