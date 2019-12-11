@@ -17,6 +17,18 @@ namespace spc_dames
 		, _isValid(false)
 		, _manoury(manoury)
 	{
+		{ 
+			Diagonales dd;
+			std::cout << "# ici : " << dd.manouryDiagonales.size() << " Diagonales \n";
+			for (std::vector <unsigned int>& d : dd.manouryDiagonales)
+			{ 
+				for (unsigned int i = 0 ; i < d.size() ; ++i)
+				{
+					std::cout << d.size() << i << " [" << _manoury.getManoury(d.at(i)).manoury << " ("<<_manoury.getManoury(d.at(i)).yx.y<<", "<< _manoury.getManoury(d.at(i)).yx.x<<") ] ";
+				}
+				std::cout << "\n";
+			}
+		} 
 	}
 }
 
