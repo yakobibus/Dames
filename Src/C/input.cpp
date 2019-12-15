@@ -28,10 +28,12 @@ namespace spc_dames
 		std::cout << "Ici : " << dd.manouryDiagonales.size() << " diagonales\n";
 		for (unsigned ii=0; ii < dd.manouryDiagonales.size(); ++ii)
 		{ 
+			std::cout << ".at(" << ii << ").size() = " << dd.manouryDiagonales.at(ii).size() << "\n";
 			for (unsigned jj = 0; jj < dd.manouryDiagonales.at(ii).size(); ++jj)
 			{
-				ici ...
+				std::cout << " [" << _manoury.getManoury(dd.manouryDiagonales.at(ii).at(jj)).manoury << " ("<< _manoury.getManoury(dd.manouryDiagonales.at(ii).at(jj)).yx.y <<", "<< _manoury.getManoury(dd.manouryDiagonales.at(ii).at(jj)).yx.x <<")] ";
 			}
+			std::cout << std::endl;
 		}
 		//
 		//std::cout << "# ici : " << dd.manouryDiagonales.size() << " Diagonales \n";

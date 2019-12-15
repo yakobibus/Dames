@@ -63,7 +63,7 @@ namespace spc_dames
 		//
 		unsigned int getManoury(YX yx) const;
 		unsigned int getManoury(const unsigned int& y, const unsigned int& x) const { return getManoury(YX(y, x)); }
-		const YXM getManoury(const unsigned int& manoury) const { return _yxManoury.at (manoury);  }
+		const YXM getManoury(const unsigned int& manoury) const { return _yxManoury.at (-1 + manoury);  }  // _manoury.at(0) est == 1
 		std::vector< YXM>& getYxManouryReference(void) { return _yxManoury; }
 	private:
 		std::vector <YXM> _yxManoury = MOTIF_MANOURY;
