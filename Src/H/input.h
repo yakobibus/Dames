@@ -46,6 +46,8 @@ namespace spc_dames
 		unsigned int       getY(void) const { return _yxm.yx.y; }
 		bool               isValid(void) const { return _isValid; }
 		void               saisie(const char* invite = "");
+		//
+		void essai(void) const ;
 		//unsigned int getX(void) const { return _coordonnees.getX(); }
 		//char         getXalpha(void) const { return _coordonnees.getXalpha(); }
 		//unsigned int getY(void) const { return _coordonnees.getY(); }

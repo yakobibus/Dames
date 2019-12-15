@@ -65,6 +65,7 @@ namespace spc_dames
 			//_cellules.at(_input.getManoury());
 			//_cellules.at(_input.getManoury()).getPionAddress().getCouleur() ; // maoury occupEe par un pion de la bonne couleur ?
 		}
+		_input.essai(); //ici//
 
 		return _input.isValid() ;
 	}
