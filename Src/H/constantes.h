@@ -113,6 +113,12 @@ namespace spc_dames
 		, noirs_blancs  // les noirs occupent les cases 1 � 20, les blancs sont plac�s sur les 31 � 50
 	};
 
+    enum class eSensAvance
+    {
+          negatif = -1 // les diagonales vont des grands vers les petits Manourys
+        , nonDefini = 0  // à l'initialisation ?
+        , positif = 1 // les diagonales vont des petis aux grands Manourys
+    };
 	class Couleur
 	{
 	public:
