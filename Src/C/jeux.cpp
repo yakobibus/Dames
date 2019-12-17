@@ -15,10 +15,12 @@ namespace spc_dames
 	{
 		_joueurs[0].set((_placementDesJoueurs == ePlacementJoueurs::blancs_noirs ? Couleur::eCouleur::blanc : Couleur::eCouleur::noir)
 			, (_placementDesJoueurs == ePlacementJoueurs::blancs_noirs ? "BLANCS" : "NOIRS")
+			, (_placementDesJoueurs == ePlacementJoueurs::blancs_noirs ? eSensAvance::positif : eSensAvance::negatif)
 			, &_pionsBlancs
 		);
 		_joueurs[1].set((_placementDesJoueurs == ePlacementJoueurs::blancs_noirs ? Couleur::eCouleur::noir : Couleur::eCouleur::blanc)
 			, (_placementDesJoueurs == ePlacementJoueurs::blancs_noirs ? "NOIRS" : "BLANCS")
+			, (_placementDesJoueurs == ePlacementJoueurs::blancs_noirs ? eSensAvance::negatif : eSensAvance::positif)
 			, &_pionsNoirs
 		);
 	}

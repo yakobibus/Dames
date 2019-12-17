@@ -119,6 +119,7 @@ namespace spc_dames
         , nonDefini = 0  // à l'initialisation ?
         , positif = 1 // les diagonales vont des petis aux grands Manourys
     };
+
 	class Couleur
 	{
 	public:

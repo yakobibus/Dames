@@ -25,7 +25,7 @@ namespace spc_dames
 	class Joueur
 	{
 	public :
-		Joueur() : _eCouleur(Couleur::eCouleur::blanc), /*_pionsVctrAddress(nullptr),*/ _pions(NB_PIONS_PAR_COULEUR) {}
+		Joueur() : _eCouleur(Couleur::eCouleur::blanc), _nom(""), _eSensAvance(eSensAvance::nonDefini), /*_pionsVctrAddress(nullptr),*/ _pions(NB_PIONS_PAR_COULEUR) {}
 		~Joueur() = default;
 		Joueur(const Joueur& j) = default;
 		Joueur& operator =(const Joueur& j) = default;
@@ -37,17 +37,19 @@ namespace spc_dames
 
 		const std::string& couleurTexte(void) const { return _couleurTexte.couleurTexte(_eCouleur); }
 		Pion* getPionPtr(unsigned int range) { return &_pions.at(range); }
+		const eSensAvance& getSensAvance(void) const { return _eSensAvance; }
 		const std::string& nom(void) const { return _nom; }
-		void set(Couleur::eCouleur couleur, std::string nom, std::vector<Pion>* pionsPtr) { _eCouleur = couleur; _nom = nom; /*_pionsVctrAddress = pionsPtr;*/ }		
+		void set(Couleur::eCouleur couleur, std::string nom, eSensAvance eSensAvance, std::vector<Pion>* pionsPtr) { _eCouleur = couleur; _nom = nom; _eSensAvance = eSensAvance; /*_pionsVctrAddress = pionsPtr;*/ }
 		//void setPionPtr(std::vector<Pion>* pawnVectorAddress) { _pionsVctrAddress = pawnVectorAddress; }
 		//
 		//std::vector<Pion>* getPionsVectorAddress(void) const { return _pionsVctrAddress; }
 	private :
 		Couleur::eCouleur    _eCouleur;
 		std::string          _nom;
+		eSensAvance          _eSensAvance;
 		//std::vector<Pion>*   _pionsVctrAddress;
 		std::vector<Pion>    _pions;
-		Couleur         _couleurTexte;
+		Couleur              _couleurTexte;
 	};
 }
 
