@@ -62,8 +62,9 @@ namespace spc_dames
 		Manoury& operator = (const Manoury& m) = default;
 		//
 		bool isDiagonalized(const unsigned int& manouryOne, const unsigned int& manouryTwo) const; // Les deux manoury sont sur la même diagonale
+		bool areNeighbors(void); /// ???
 		//
-		unsigned int getManoury(YX yx) const;
+		unsigned int getManoury(const YX& yx) const;
 		unsigned int getManoury(const unsigned int& y, const unsigned int& x) const { return getManoury(YX(y, x)); }
 		const YXM getManoury(const unsigned int& manoury) const { return _yxManoury.at (-1 + manoury);  }  // _manoury.at(0) est == 1
 		const std::vector< YXM>& getYxManouryReference(void) const { return _yxManoury; }

@@ -24,6 +24,7 @@ namespace spc_dames
 {
 	void spc_dames::Input::essai(void) const
 	{
+		if (_manoury.isDiagonalized(99, 0)) { std::cout << "1 vrai\n"; } else { std::cout << "1. fx\n"; }
 		//const Diagonales dd;
 		//std::cout << "Ici : " << dd.manouryDiagonales.size() << " diagonales\n";
 		//for (unsigned ii=0; ii < dd.manouryDiagonales.size(); ++ii)
