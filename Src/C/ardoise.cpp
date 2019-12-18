@@ -112,7 +112,7 @@ namespace spc_dames
 
 		Pion* pionPtr = nullptr;
 
-		for (YXM& yxm : _manoury.getYxManouryReference()) 
+		for (const YXM& yxm : _manoury.getYxManouryReference()) 
 		{
 			if (yxm.yx.y <= 10 && yxm.yx.y >= 7)
 			{

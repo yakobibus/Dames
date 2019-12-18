@@ -4,6 +4,13 @@
 
 namespace spc_dames
 {
+	bool Manoury::isDiagonalized(const unsigned int& manouryOne, const unsigned int& manouryTwo) const
+	{
+		bool bReturn = false;
+		//for (const std::vector<std::vector<unsigned int>>& manoury : _diagonales.manouryDiagonales)
+		return bReturn;
+	}
+
 	unsigned int Manoury::getManoury(YX yx) const
 	{
 		unsigned int dizaines = static_cast <int>(5 - (yx.y / 2) - (yx.y % 2 != 0 ? 1 : 0));

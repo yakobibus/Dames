@@ -24,27 +24,16 @@ namespace spc_dames
 {
 	void spc_dames::Input::essai(void) const
 	{
-		Diagonales dd;
-		std::cout << "Ici : " << dd.manouryDiagonales.size() << " diagonales\n";
-		for (unsigned ii=0; ii < dd.manouryDiagonales.size(); ++ii)
-		{ 
-			std::cout << ".at(" << ii << ").size() = " << dd.manouryDiagonales.at(ii).size() << "\n";
-			for (unsigned jj = 0; jj < dd.manouryDiagonales.at(ii).size(); ++jj)
-			{
-				std::cout << " [" << _manoury.getManoury(dd.manouryDiagonales.at(ii).at(jj)).manoury << " ("<< _manoury.getManoury(dd.manouryDiagonales.at(ii).at(jj)).yx.y <<", "<< _manoury.getManoury(dd.manouryDiagonales.at(ii).at(jj)).yx.x <<")] ";
-			}
-			std::cout << std::endl;
-		}
-		//
-		//std::cout << "# ici : " << dd.manouryDiagonales.size() << " Diagonales \n";
-		//for (std::vector <unsigned int>& d : dd.manouryDiagonales)
-		//{
-		//	std::cout << "sz [" << d.size() << "] : ";
-		//	for (unsigned int i = 0; i < d.size(); ++i)
+		//const Diagonales dd;
+		//std::cout << "Ici : " << dd.manouryDiagonales.size() << " diagonales\n";
+		//for (unsigned ii=0; ii < dd.manouryDiagonales.size(); ++ii)
+		//{ 
+		//	std::cout << ".at(" << ii << ").size() = " << dd.manouryDiagonales.at(ii).size() << "\n";
+		//	for (unsigned jj = 0; jj < dd.manouryDiagonales.at(ii).size(); ++jj)
 		//	{
-		//		std::cout << " [" << _manoury.getManoury(d.at(i)).manoury << " (" << _manoury.getManoury(d.at(i)).yx.y << ", " << _manoury.getManoury(d.at(i)).yx.x << ") ] ";
+		//		std::cout << " [" << _manoury.getManoury(dd.manouryDiagonales.at(ii).at(jj)).manoury << " ("<< _manoury.getManoury(dd.manouryDiagonales.at(ii).at(jj)).yx.y <<", "<< _manoury.getManoury(dd.manouryDiagonales.at(ii).at(jj)).yx.x <<")] ";
 		//	}
-		//	std::cout << "\n";
+		//	std::cout << std::endl;
 		//}
 	}
 }
