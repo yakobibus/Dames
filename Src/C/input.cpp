@@ -24,7 +24,23 @@ namespace spc_dames
 {
 	void spc_dames::Input::essai(void) const
 	{
-		if (_manoury.isDiagonalized(99, 0)) { std::cout << "1 vrai\n"; } else { std::cout << "1. fx\n"; }
+		if (_manoury.areDiagonalized(99, 0)) { std::cout << "1 vrai\n"; } else { std::cout << "1. fx\n"; }
+		for (unsigned int ii = 1; ii <= 50; ++ii) 
+		{ 
+			std::vector<unsigned> indicesDiags; 
+			_manoury.getDiagonales(ii, indicesDiags); 
+			std::cout << "(" << ii << ") -> " << indicesDiags.size() << " diags { "; 
+			for (unsigned& dIndc : indicesDiags)
+			{
+				std::cout << dIndc <<".{";
+				for (const unsigned& m : _manoury.getDiagonale(dIndc))
+				{
+					std::cout << m << " ";
+				}
+				std::cout << "}, ";
+			}
+			std::cout << "}\n";
+		}
 		//const Diagonales dd;
 		//std::cout << "Ici : " << dd.manouryDiagonales.size() << " diagonales\n";
 		//for (unsigned ii=0; ii < dd.manouryDiagonales.size(); ++ii)
