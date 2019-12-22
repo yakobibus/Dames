@@ -6,7 +6,7 @@ namespace spc_dames
 {
 	bool Coup::isValidDepart(void)
 		/*  * : et, + : ou ; (ok)
-		(*) La cellule dépar est occupé (ok)
+		(*) La cellule départ est occupée (ok)
 		(*) occupée par un pion de la couleur du joueur (ok)
 		* la case voisine en diagonale vers l'avant est libre
 		  + la voisine vers l'avant est occupée par un pion adverse et la case suivante dans la diagonale est libre

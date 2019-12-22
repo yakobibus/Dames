@@ -24,23 +24,34 @@ namespace spc_dames
 {
 	void spc_dames::Input::essai(void) const
 	{
-		if (_manoury.areDiagonalized(99, 0)) { std::cout << "1 vrai\n"; } else { std::cout << "1. fx\n"; }
-		for (unsigned int ii = 1; ii <= 50; ++ii) 
-		{ 
-			std::vector<unsigned> indicesDiags; 
-			_manoury.getDiagonales(ii, indicesDiags); 
-			std::cout << "(" << ii << ") -> " << indicesDiags.size() << " diags { "; 
-			for (unsigned& dIndc : indicesDiags)
+		for (unsigned m1 = 1 ; m1 <= 50 ; ++m1)
+		{
+			for (unsigned m2 = 1; m2 <= 50; ++m2)
 			{
-				std::cout << dIndc <<".{";
-				for (const unsigned& m : _manoury.getDiagonale(dIndc))
+				if (m1 != m2 && _manoury.areDiagonalized(m1, m2))
 				{
-					std::cout << m << " ";
+					std::cout << "("<<m1<<", "<<m2<<") ";
 				}
-				std::cout << "}, ";
 			}
-			std::cout << "}\n";
+			std::cout << "\n";
 		}
+		//if (_manoury.areDiagonalized(99, 0)) { std::cout << "1 vrai\n"; } else { std::cout << "1. fx\n"; }
+		//for (unsigned int ii = 1; ii <= 50; ++ii) 
+		//{ 
+		//	const std::vector<unsigned> indicesDiags = _manoury.getDiagonales(ii);
+		//	//_manoury.getDiagonales(ii, indicesDiags); 
+		//	std::cout << ", {"; 
+		//	for (const unsigned& dIndc : indicesDiags)
+		//	{
+		//		std::cout << dIndc <<", {";
+		//		for (const unsigned& m : _manoury.getDiagonale(dIndc))
+		//		{
+		//			std::cout << m << ", ";
+		//		}
+		//		std::cout << "} ";
+		//	}
+		//	std::cout << "} // " << ii << "\n";
+		//}
 		//const Diagonales dd;
 		//std::cout << "Ici : " << dd.manouryDiagonales.size() << " diagonales\n";
 		//for (unsigned ii=0; ii < dd.manouryDiagonales.size(); ++ii)

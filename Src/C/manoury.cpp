@@ -7,9 +7,37 @@ namespace spc_dames
 	bool Manoury::areDiagonalized(const unsigned int& manouryOne, const unsigned int& manouryTwo) const
 	{
 		//TODO : il faudrait ICI donner l'ecart entre les manoury => plus besoin de fonction areNeighbors
+		bool bReturn = false ;
+		for (const unsigned& i : getDiagonales(manouryOne))
+		{
+			for (const unsigned& m : getDiagonale(i))
+			{
+				if (m == manouryTwo)
+				{
+					bReturn = true;
+					break;
+				}
+			}
+		}
+		if (!bReturn)
+		{
+			for (const unsigned& i : getDiagonales(manouryTwo))
+			{
+				for (const unsigned& m : getDiagonale(i))
+				{
+					if (m == manouryOne)
+					{
+						bReturn = true;
+						break;
+					}
+				}
+			}
+		}
+		return bReturn;
+		/*
 		bool bReturnOne = false ;
 		bool bReturnTwo = false;
-		for (const std::vector <unsigned int> & d : _diagonales.manouryDiagonales) 
+		for (const std::vector <unsigned int> & d : _diagonales.manouryDiagonales)
 		{
 			std::cout << " Diad.sz=["<<d.size()<<"] {";
 			for (const unsigned int & m : d) 
@@ -21,8 +49,9 @@ namespace spc_dames
 			if (bReturnOne && bReturnTwo) { std::cout << " trouvE en d("<<d.size()<<") "; break; }
 			else { bReturnOne = false; bReturnTwo = false;  }
 			std::cout << "}\n";
-		}
 		return (bReturnOne && bReturnTwo);
+		}
+		*/
 	}
 
 	bool Manoury::areNeighbors(const unsigned int& manouryOne, const unsigned int& manouryTwo, unsigned int& ecart)
@@ -42,222 +71,6 @@ namespace spc_dames
 		}
 
 		return false;
-	}
-
-	const std::vector<unsigned>& Manoury::getDiagonale(const unsigned& indiceDiag) const
-	{
-		return _diagonales.manouryDiagonales.at(indiceDiag);
-	}
-
-	void Manoury::getDiagonales(const unsigned& manoury, std::vector <unsigned>& refDiagonales) const
-	{
-		//if (refDiagonales.size() > 0)
-		//{
-		refDiagonales.clear();
-		//}
-		switch (manoury)
-		{
-		case 1:
-			refDiagonales.push_back(0);
-			refDiagonales.push_back(13);
-			break;
-		case 2:
-			refDiagonales.push_back(1);
-			refDiagonales.push_back(12);
-			break;
-		case 3:
-			refDiagonales.push_back(2);
-			refDiagonales.push_back(11);
-			break;
-		case 4:
-			refDiagonales.push_back(3);
-			refDiagonales.push_back(10);
-			break;
-		case 5:
-			refDiagonales.push_back(4);
-			refDiagonales.push_back(9);
-			break;
-		case 6:
-			refDiagonales.push_back(0);
-			refDiagonales.push_back(14);
-			break;
-		case 7:
-			refDiagonales.push_back(1);
-			refDiagonales.push_back(13);
-			break;
-		case 8:
-			refDiagonales.push_back(2);
-			refDiagonales.push_back(13);
-			break;
-		case 9:
-			refDiagonales.push_back(3);
-			refDiagonales.push_back(12);
-			break;
-		case 10:
-			refDiagonales.push_back(4);
-			refDiagonales.push_back(11);
-			break;
-		case 11:
-			refDiagonales.push_back(1);
-			refDiagonales.push_back(14);
-			break;
-		case 12:
-			refDiagonales.push_back(2);
-			refDiagonales.push_back(13);
-			break;
-		case 13:
-			refDiagonales.push_back(3);
-			refDiagonales.push_back(12);
-			break;
-		case 14:
-			refDiagonales.push_back(4);
-			refDiagonales.push_back(11);
-			break;
-		case 15:
-			refDiagonales.push_back(5);
-			refDiagonales.push_back(10);
-			break;
-		case 16:
-			refDiagonales.push_back(1);
-			refDiagonales.push_back(15);
-			break;
-		case 17:
-			refDiagonales.push_back(2);
-			refDiagonales.push_back(14);
-			break;
-		case 18:
-			refDiagonales.push_back(3);
-			refDiagonales.push_back(13);
-			break;
-		case 19:
-			refDiagonales.push_back(4);
-			refDiagonales.push_back(12);
-			break;
-		case 20:
-			refDiagonales.push_back(5);
-			refDiagonales.push_back(11);
-			break;
-		case 21:
-			refDiagonales.push_back(2);
-			refDiagonales.push_back(15);
-			break;
-		case 22:
-			refDiagonales.push_back(3);
-			refDiagonales.push_back(14);
-			break;
-		case 23:
-			refDiagonales.push_back(4);
-			refDiagonales.push_back(13);
-			break;
-		case 24:
-			refDiagonales.push_back(5);
-			refDiagonales.push_back(12);
-			break;
-		case 25:
-			refDiagonales.push_back(6);
-			refDiagonales.push_back(11);
-			break;
-		case 26:
-			refDiagonales.push_back(2);
-			refDiagonales.push_back(16);
-			break;
-		case 27:
-			refDiagonales.push_back(3);
-			refDiagonales.push_back(15);
-			break;
-		case 28:
-			refDiagonales.push_back(4);
-			refDiagonales.push_back(14);
-			break;
-		case 29:
-			refDiagonales.push_back(5);
-			refDiagonales.push_back(13);
-			break;
-		case 30:
-			refDiagonales.push_back(6);
-			refDiagonales.push_back(12);
-			break;
-		case 31:
-			refDiagonales.push_back(3);
-			refDiagonales.push_back(16);
-			break;
-		case 32:
-			refDiagonales.push_back(4);
-			refDiagonales.push_back(15);
-			break;
-		case 33:
-			refDiagonales.push_back(5);
-			refDiagonales.push_back(14);
-			break;
-		case 34:
-			refDiagonales.push_back(6);
-			refDiagonales.push_back(13);
-			break;
-		case 35:
-			refDiagonales.push_back(7);
-			refDiagonales.push_back(12);
-			break;
-		case 36:
-			refDiagonales.push_back(3);
-			refDiagonales.push_back(17);
-			break;
-		case 37:
-			refDiagonales.push_back(4);
-			refDiagonales.push_back(16);
-			break;
-		case 38:
-			refDiagonales.push_back(5);
-			refDiagonales.push_back(15);
-			break;
-		case 39:
-			refDiagonales.push_back(6);
-			refDiagonales.push_back(14);
-			break;
-		case 40:
-			refDiagonales.push_back(7);
-			refDiagonales.push_back(13);
-			break;
-		case 41:
-			refDiagonales.push_back(4);
-			refDiagonales.push_back(17);
-			break;
-		case 42:
-			refDiagonales.push_back(5);
-			refDiagonales.push_back(16);
-			break;
-		case 43:
-			refDiagonales.push_back(6);
-			refDiagonales.push_back(15);
-			break;
-		case 44:
-			refDiagonales.push_back(7);
-			refDiagonales.push_back(14);
-			break;
-		case 45:
-			refDiagonales.push_back(8);
-			refDiagonales.push_back(13);
-			break;
-		case 46:
-			refDiagonales.push_back(4);
-			refDiagonales.push_back(18);
-			break;
-		case 47:
-			refDiagonales.push_back(5);
-			refDiagonales.push_back(17);
-			break;
-		case 48:
-			refDiagonales.push_back(6);
-			refDiagonales.push_back(16);
-			break;
-		case 49:
-			refDiagonales.push_back(7);
-			refDiagonales.push_back(15);
-			break;
-		case 50:
-			refDiagonales.push_back(8);
-			refDiagonales.push_back(14);
-			break;
-		}
 	}
 
 	unsigned int Manoury::getManoury(const YX& yx) const
