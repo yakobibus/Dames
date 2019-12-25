@@ -116,7 +116,7 @@ namespace spc_dames
 		Manoury(const Manoury& m) = default;
 		Manoury& operator = (const Manoury& m) = default;
 		//
-		bool areDiagonalized(const unsigned int& manouryOne, const unsigned int& manouryTwo) const; // Les deux manoury sont sur la m�me diagonale
+		bool areDiagonalized(const unsigned int& manouryOne, const unsigned int& manouryTwo) const; // Les deux manoury sont sur la même diagonale
 		bool areNeighbors(const unsigned int& manouryOne, const unsigned int& manouryTwo, unsigned int& ecart); /// Les deux manoury sont voisines sur la diagonales, en sortie eSens indique le sens de one sur two
 		const std::vector <unsigned>& getDiagonale(const unsigned& indiceDiag) const { return _diagonales.manouryDiagonales.at(indiceDiag); }
 		//void getDiagonales(const unsigned& manoury, std::vector <unsigned>& refDiagonales) const { refDiagonales = _diagonales.diagonalesCellules.at(manoury); }

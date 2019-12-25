@@ -83,15 +83,15 @@ namespace spc_dames
    	}
 	//,  {{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}, {'\0'}}    
    
-   # define NB_CHAR_PAR_LIGNE (static_cast<unsigned int>(48)) // Nombre de caract�res par ligne de de l'ardoise, du numero au num�ro
-   # define NB_CASES_PLATEAU (static_cast<int>(50 + 0)) // 50 cases noires num�rot�es de 01 � 50 ; la case 00 est blanche ; le num�ro de la case correspond � son indice
-   # define NB_DIAGONALES_MAX_PAR_CASE (static_cast<int>(2)) // Une case ne peut appartenir qu'� une ou deux diagonales
-   # define NB_DIAGONALES_PLATEAU (static_cast<int>(19))  // de une � 10 cases de suite par diagonale
-   # define NB_DE_COUPS_PAR_LOT (static_cast<int>(50)) // Nombre de coups ajout�s � chaque lot
+   # define NB_CHAR_PAR_LIGNE (static_cast<unsigned int>(48)) // Nombre de caractères par ligne de de l'ardoise, du numero au numéro
+   # define NB_CASES_PLATEAU (static_cast<int>(50 + 0)) // 50 cases noires numérotées de 01 à 50 ; la case 00 est blanche ; le numéro de la case correspond à son indice
+   # define NB_DIAGONALES_MAX_PAR_CASE (static_cast<int>(2)) // Une case ne peut appartenir qu'à une ou deux diagonales
+   # define NB_DIAGONALES_PLATEAU (static_cast<int>(19))  // de une à 10 cases de suite par diagonale
+   # define NB_DE_COUPS_PAR_LOT (static_cast<int>(50)) // Nombre de coups ajoutés à chaque lot
    # define NB_JOUEURS (static_cast<int>(2))
    # define NB_PIONS_PAR_COULEUR (static_cast<int>(20))
    # define NB_X_REF_CELLULES (static_cast<int>(12))
-   # define NB_Y_REF_CELLULES (static_cast<int>(23))   // 10 lignes de cases + 2 lignes d'ent�te et enqueue + 11 lignes de separeteurs
+   # define NB_Y_REF_CELLULES (static_cast<int>(23))   // 10 lignes de cases + 2 lignes d'entête et enqueue + 11 lignes de separeteurs
    # define NB_Y_REF_CELLULES_ENTETE (static_cast<int>(6))
    # define NB_Y_REF_CELLULES_ENQUEUE (static_cast<int>(6))
    # define TAILLE_CELLULE (static_cast<unsigned int>(3))
@@ -109,8 +109,8 @@ namespace spc_dames
 
 	enum class ePlacementJoueurs
 	{
-		  blancs_noirs  // les blancs occupent les cases 1 � 20, les noirs sont sur les 31 � 50
-		, noirs_blancs  // les noirs occupent les cases 1 � 20, les blancs sont plac�s sur les 31 � 50
+		  blancs_noirs  // les blancs occupent les cases 1 à 20, les noirs sont sur les 31 à 50
+		, noirs_blancs  // les noirs occupent les cases 1 à 20, les blancs sont placés sur les 31 à 50
 	};
 
     enum class eSensAvance
