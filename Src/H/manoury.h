@@ -55,7 +55,7 @@ namespace spc_dames
 		const std::vector< std::vector <unsigned> > diagonalesCellules =  // les indices des diagonales par manoury
 		{
 			  {0} // Manoury 0 n'este pas
-			, {0, 13} // Les indices de la cellule Manoury = 1
+			, {0, 13} // Les indices des diagonames de la Manoury = 1
             , {1, 12} // 2
             , {2, 11} // 3
             , {3, 10} // 4

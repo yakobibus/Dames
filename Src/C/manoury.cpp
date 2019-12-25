@@ -7,10 +7,16 @@ namespace spc_dames
 	bool Manoury::areDiagonalized(const unsigned int& manouryOne, const unsigned int& manouryTwo) const
 	{
 		//TODO : il faudrait ICI donner l'ecart entre les manoury => plus besoin de fonction areNeighbors
+
+		const std::vector<unsigned>& manouryOneFirstDiag = _diagonales.manouryDiagonales.at(_diagonales.diagonalesCellules.at(manouryOne).at(0));
+		const std::vector<unsigned>& manouryOneLastDiag  = _diagonales.manouryDiagonales.at(_diagonales.diagonalesCellules.at(manouryOne).at(1));
+		const std::vector<unsigned>& manouryTwoFirstDiag = _diagonales.manouryDiagonales.at(_diagonales.diagonalesCellules.at(manouryTwo).at(0));
+		const std::vector<unsigned>& manouryTwoLastDiag  = _diagonales.manouryDiagonales.at(_diagonales.diagonalesCellules.at(manouryTwo).at(1));
+
 		bool bReturn = false ;
-		for (const unsigned& i : getDiagonales(manouryOne))
-		{
-			for (const unsigned& m : getDiagonale(i))
+		if((manouryOneFirstDiag.size() + manouryOneLastDiag.size()) < (manouryTwoFirstDiag.size() + manouryTwoLastDiag.size()) )
+		{ // Parcours de manouryOne -- le plus court
+			for (const unsigned& m : manouryOneFirstDiag)
 			{
 				if (m == manouryTwo)
 				{
@@ -18,12 +24,31 @@ namespace spc_dames
 					break;
 				}
 			}
-		}
-		if (!bReturn)
-		{
-			for (const unsigned& i : getDiagonales(manouryTwo))
+			if (bReturn == false)
 			{
-				for (const unsigned& m : getDiagonale(i))
+				for (const unsigned& m : manouryOneLastDiag)
+				{
+					if (m == manouryTwo)
+					{
+						bReturn = true;
+						break;
+					}
+				}
+			}
+		}
+		else
+		{ // Parcours de manouryTwo : le plus court
+			for (const unsigned& m : manouryTwoFirstDiag)
+			{
+				if (m == manouryOne)
+				{
+					bReturn = true;
+					break;
+				}
+			}
+			if (bReturn == false)
+			{
+				for (const unsigned& m : manouryTwoLastDiag)
 				{
 					if (m == manouryOne)
 					{
@@ -33,25 +58,8 @@ namespace spc_dames
 				}
 			}
 		}
+
 		return bReturn;
-		/*
-		bool bReturnOne = false ;
-		bool bReturnTwo = false;
-		for (const std::vector <unsigned int> & d : _diagonales.manouryDiagonales)
-		{
-			std::cout << " Diad.sz=["<<d.size()<<"] {";
-			for (const unsigned int & m : d) 
-			{
-				if (m == manouryOne && ! bReturnOne) { bReturnOne = true; }
-				if (m == manouryTwo && ! bReturnTwo) { bReturnTwo = true; }
-				std::cout << ""<< m <<" ";
-			}
-			if (bReturnOne && bReturnTwo) { std::cout << " trouvE en d("<<d.size()<<") "; break; }
-			else { bReturnOne = false; bReturnTwo = false;  }
-			std::cout << "}\n";
-		return (bReturnOne && bReturnTwo);
-		}
-		*/
 	}
 
 	bool Manoury::areNeighbors(const unsigned int& manouryOne, const unsigned int& manouryTwo, unsigned int& ecart)
