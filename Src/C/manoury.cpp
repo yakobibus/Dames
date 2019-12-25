@@ -8,25 +8,18 @@ namespace spc_dames
 	{
 		//TODO : il faudrait ICI donner l'ecart entre les manoury => plus besoin de fonction areNeighbors
 
-		const std::vector<unsigned>& manouryOneFirstDiag = _diagonales.manouryDiagonales.at(_diagonales.diagonalesCellules.at(manouryOne).at(0));
-		const std::vector<unsigned>& manouryOneLastDiag  = _diagonales.manouryDiagonales.at(_diagonales.diagonalesCellules.at(manouryOne).at(1));
-		const std::vector<unsigned>& manouryTwoFirstDiag = _diagonales.manouryDiagonales.at(_diagonales.diagonalesCellules.at(manouryTwo).at(0));
-		const std::vector<unsigned>& manouryTwoLastDiag  = _diagonales.manouryDiagonales.at(_diagonales.diagonalesCellules.at(manouryTwo).at(1));
-
 		bool bReturn = false ;
-		if((manouryOneFirstDiag.size() + manouryOneLastDiag.size()) < (manouryTwoFirstDiag.size() + manouryTwoLastDiag.size()) )
-		{ // Parcours de manouryOne -- le plus court
-			for (const unsigned& m : manouryOneFirstDiag)
-			{
-				if (m == manouryTwo)
-				{
-					bReturn = true;
-					break;
-				}
-			}
-			if (bReturn == false)
-			{
-				for (const unsigned& m : manouryOneLastDiag)
+
+		if (manouryOne >= 1 && manouryOne <= 50 && manouryTwo >= 1 && manouryTwo <= 50)
+		{
+			const std::vector<unsigned>& manouryOneFirstDiag = _diagonales.manouryDiagonales.at(_diagonales.diagonalesCellules.at(manouryOne).at(0));
+			const std::vector<unsigned>& manouryOneLastDiag = _diagonales.manouryDiagonales.at(_diagonales.diagonalesCellules.at(manouryOne).at(1));
+			const std::vector<unsigned>& manouryTwoFirstDiag = _diagonales.manouryDiagonales.at(_diagonales.diagonalesCellules.at(manouryTwo).at(0));
+			const std::vector<unsigned>& manouryTwoLastDiag = _diagonales.manouryDiagonales.at(_diagonales.diagonalesCellules.at(manouryTwo).at(1));
+
+			if ((manouryOneFirstDiag.size() + manouryOneLastDiag.size()) < (manouryTwoFirstDiag.size() + manouryTwoLastDiag.size()))
+			{ // Parcours de manouryOne -- le plus court
+				for (const unsigned& m : manouryOneFirstDiag)
 				{
 					if (m == manouryTwo)
 					{
@@ -34,26 +27,37 @@ namespace spc_dames
 						break;
 					}
 				}
-			}
-		}
-		else
-		{ // Parcours de manouryTwo : le plus court
-			for (const unsigned& m : manouryTwoFirstDiag)
-			{
-				if (m == manouryOne)
+				if (bReturn == false)
 				{
-					bReturn = true;
-					break;
+					for (const unsigned& m : manouryOneLastDiag)
+					{
+						if (m == manouryTwo)
+						{
+							bReturn = true;
+							break;
+						}
+					}
 				}
 			}
-			if (bReturn == false)
-			{
-				for (const unsigned& m : manouryTwoLastDiag)
+			else
+			{ // Parcours de manouryTwo : le plus court
+				for (const unsigned& m : manouryTwoFirstDiag)
 				{
 					if (m == manouryOne)
 					{
 						bReturn = true;
 						break;
+					}
+				}
+				if (bReturn == false)
+				{
+					for (const unsigned& m : manouryTwoLastDiag)
+					{
+						if (m == manouryOne)
+						{
+							bReturn = true;
+							break;
+						}
 					}
 				}
 			}

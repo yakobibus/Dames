@@ -24,17 +24,17 @@ namespace spc_dames
 {
 	void spc_dames::Input::essai(void) const
 	{
-		for (unsigned m1 = 1 ; m1 <= 50 ; ++m1)
-		{
-			for (unsigned m2 = 1; m2 <= 50; ++m2)
-			{
-				if (m1 != m2 && _manoury.areDiagonalized(m1, m2))
-				{
-					std::cout << "("<<m1<<", "<<m2<<") ";
-				}
-			}
-			std::cout << "\n";
-		}
+		//for (unsigned m1 = 1 ; m1 <= 50 ; ++m1)
+		//{
+		//	for (unsigned m2 = 1; m2 <= 50; ++m2)
+		//	{
+		//		if (m1 != m2 && _manoury.areDiagonalized(m1, m2))
+		//		{
+		//			std::cout << "("<<m1<<", "<<m2<<") ";
+		//		}
+		//	}
+		//	std::cout << "\n";
+		//}
 		//if (_manoury.areDiagonalized(99, 0)) { std::cout << "1 vrai\n"; } else { std::cout << "1. fx\n"; }
 		//for (unsigned int ii = 1; ii <= 50; ++ii) 
 		//{ 
