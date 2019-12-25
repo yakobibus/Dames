@@ -33,6 +33,9 @@ $(OBJ_DIR)/args.o : $(SRC_DIR)/args.cpp $(HDR_DIR)/args.h $(HDR_DIR)/constantes.
 $(OBJ_DIR)/cellule.o : $(SRC_DIR)/cellule.cpp $(HDR_DIR)/cellule.h $(HDR_DIR)/constantes.h $(HDR_DIR)/coordonnees.h $(HDR_DIR)/manoury.h $(HDR_DIR)/pion.h
 	$(CC) -c -o $(OBJ_DIR)/cellule.o $(SRC_DIR)/cellule.cpp  $(OPTIONS) -I $(HDR_DIR)
 
+$(OBJ_DIR)/constantes.o : $(SRC_DIR)/constantes.cpp $(HDR_DIR)/constantes.h
+	$(CC) -c -o $(OBJ_DIR)/constantes.o $(SRC_DIR)/constantes.cpp  $(OPTIONS) -I $(HDR_DIR)
+
 $(OBJ_DIR)/coordonnees.o : $(SRC_DIR)/coordonnees.cpp $(HDR_DIR)/coordonnees.h $(HDR_DIR)/constantes.h $(HDR_DIR)/manoury.h
 	$(CC) -c -o $(OBJ_DIR)/coordonnees.o $(SRC_DIR)/coordonnees.cpp  $(OPTIONS) -I $(HDR_DIR)
 
