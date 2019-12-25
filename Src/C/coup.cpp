@@ -8,7 +8,8 @@ namespace spc_dames
 		/*  * : et, + : ou ; (ok)
 		(*) La cellule départ est occupée (ok)
 		(*) occupée par un pion de la couleur du joueur (ok)
-		* la case voisine en diagonale vers l'avant est libre
+		* Le pion est mobile : la case voisine en diagonale vers l'avant est libre ou le pion peut sauter
+		  + la case voisine en diagonale vers l'avant est libre
 		  + la voisine vers l'avant est occupée par un pion adverse et la case suivante dans la diagonale est libre
 		  + le pion pointé est promu et les cases voisines successives dans la diagonale vers l'avant sont libres et la case suivante est occupée par un pion adverse suivi d'une case libre
 		*/
@@ -27,7 +28,7 @@ namespace spc_dames
 			}
 		}
 
-		if (true) // Le pion est active (Cellule voisine libre vers l'avant) ou peut sauter (Voisine adverse suivie d'un vide)
+		if (true) // Le pion est mobile (Cellule voisine libre vers l'avant) ou peut sauter (Voisine adverse suivie d'un vide ou promu et saut distant possible)
 		{
 		}
 		std::cout << "_eMoveErrors = " << (int) _eMoveErrors << "\n";
