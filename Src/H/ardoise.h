@@ -31,7 +31,7 @@ namespace spc_dames
 		std::vector< std::vector< std::vector<char> > > _ardoise = MOTIF_PLATEAU_DAMIER ;
 		std::vector< std::vector <std::vector <char>>>  _entete = MOTIF_TEXTE_ENTETE;
 		std::vector< std::vector <std::vector <char>>>  _enqueue = MOTIF_TEXTE_ENQUEUE;
-		Manoury                           _manoury; // d'ici : .... aller vers Cellule et vers Coordonnees en intialisant tout ...
+		const Manoury                     _manoury; // d'ici : .... aller vers Cellule et vers Coordonnees en intialisant tout ...
 		std::vector<Cellule>              _cellules;
 		const ePlacementJoueurs&          _placementJoueurNord;
 		const ePlacementJoueurs&          _placementJoueurSud;

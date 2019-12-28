@@ -5,7 +5,7 @@
 
 namespace spc_dames
 {
-	void Coordonnees::set(const YXM& yxm, Manoury* manouryAddress)
+	void Coordonnees::set(const YXM& yxm, const Manoury* manouryAddress)
 	{
 		_yxmAdress = &yxm;
 		_manouryAddress = manouryAddress;
