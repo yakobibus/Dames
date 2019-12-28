@@ -15,11 +15,12 @@ namespace spc_dames
 
 namespace spc_dames
 {
-	void spc_dames::Cellule::initCell(const YXM& yxm, std::vector<char>* cellMotifPtr, Pion* pionPtr)
+	void spc_dames::Cellule::initCell(Manoury* manouryAddress, const YXM& yxm, std::vector<char>* cellMotifPtr, Pion* pionPtr)
 	{
+		_manouryAddress = manouryAddress;
 		_adressePion = pionPtr;
 		_adresseMotif = cellMotifPtr;
-		_coordonnees.set(yxm);
+		_coordonnees.set(yxm, _manouryAddress);
 
 		setMotif();
 	}

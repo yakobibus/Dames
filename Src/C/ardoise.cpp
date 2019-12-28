@@ -146,7 +146,7 @@ namespace spc_dames
 				}
 			}
 
-			_cellules.at(-1 + yxm.manoury).initCell(yxm, _cellMotifPtrs.at(-1 + yxm.manoury), pionPtr);
+			_cellules.at(-1 + yxm.manoury).initCell(&_manoury, yxm, _cellMotifPtrs.at(-1 + yxm.manoury), pionPtr);
 		}
 	}
 }

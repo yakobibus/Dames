@@ -158,7 +158,7 @@ namespace spc_dames
 			_isValid = false;
 			_inputType = InputType::is_error;
 		}
-		_coordonnees.set(_yxm);
+		_coordonnees.set(_yxm, &_manoury);
 	}
 
 	void Input::saisie(const char* invite)

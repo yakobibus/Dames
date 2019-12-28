@@ -53,7 +53,7 @@ namespace spc_dames
 		** de ligne/colonne, une case du damier, ... Elle s'étend donc au delà de la zone de jeu
 		**/
 	public:
-		Cellule() : _adressePion(nullptr), _aspect(eAspectCellule::normal), _adresseMotif(nullptr) {}
+		Cellule(Manoury* manouryAddress = nullptr) :_manouryAddress(manouryAddress), _adressePion(nullptr), _aspect(eAspectCellule::normal), _adresseMotif(nullptr) {}
 		~Cellule() = default;
 		Cellule(const Cellule& c) = default;
 		Cellule& operator = (const Cellule& c) = default;
@@ -61,10 +61,11 @@ namespace spc_dames
 		//unsigned int   getManoury(void) { return _coordonnees.getManoury(); }
 		char           getMotifPion(void) { return (_adressePion == nullptr ? '\0' : (char)_adressePion->motif()); }
 		Pion*          getPionAddress(void) const { return _adressePion; }
-		void           initCell(const YXM& yxm, std::vector<char>* cellMotifAddress, Pion* pionPtr);
+		void           initCell(Manoury* manouryAddress, const YXM& yxm, std::vector<char>* cellMotifAddress, Pion* pionPtr);
 		void           initAdresseMotif(std::vector<char>* adresseMotif) { _adresseMotif = adresseMotif; }
 		void           setMotif(void);
 	private:
+		Manoury*       _manouryAddress;
 		Coordonnees    _coordonnees ;
 		Pion*          _adressePion ;
 		eAspectCellule _aspect;
