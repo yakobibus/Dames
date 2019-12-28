@@ -81,21 +81,41 @@ namespace spc_dames
 		{
 			for (const unsigned& indice : _diagonales.diagonalesCellules.at(manouryRef))
 			{
+				for (unsigned ii = 0; ii < _diagonales.manouryDiagonales.at(indice).size(); ++ii)
+				{
+					if (manouryRef == _diagonales.manouryDiagonales.at(indice).at(ii))
+					{
+						if (ii > 0)
+						{
+							neighboursRef.push_back(_diagonales.manouryDiagonales.at(indice).at(-1 + ii));
+						}
+
+						if(ii + 1 < _diagonales.manouryDiagonales.at(indice).size())
+						{
+							neighboursRef.push_back(_diagonales.manouryDiagonales.at(indice).at(+1 + ii));
+						}
+					}
+				}
+			}
+		}
+	}
+
+	void Manoury::ZgetNeighbours(std::vector<unsigned>& neighboursRef, const unsigned& manouryRef) const
+	{
+		neighboursRef.clear();
+		if (manouryRef >= 1 && manouryRef <= 50)
+		{
+			for (const unsigned& indice : _diagonales.diagonalesCellules.at(manouryRef))
+			{
 				for (auto m = _diagonales.manouryDiagonales.at(indice).begin() ; m != _diagonales.manouryDiagonales.at(indice).end() ; ++m)
 				{
-					//if(*m == 6)
-					//{//bug:6
-					//	std::cout << "[b?("<< (m == _diagonales.manouryDiagonales.at(indice).begin()) <<"), e?("<<(m == _diagonales.manouryDiagonales.at(indice).end())<<"), sz("<< _diagonales.manouryDiagonales.at(indice).size()<<")] ";
-					//}
 					if (*m == manouryRef)
 					{
 						if (m == _diagonales.manouryDiagonales.at(indice).begin())
 						{
 							if (_diagonales.manouryDiagonales.at(indice).size() > 1)
 							{
-								//if (*m == 6) { std::cout << "-.-"; }
 								neighboursRef.push_back(*(+1 + m));
-								//if (*(+1 + m) < 1 || *(+1 + m) > 50) { std::cout << manouryRef << ":" << ".b{" << indice << ", " << _diagonales.manouryDiagonales.at(indice).size() << "}."; }
 							}
 						}
 						else
@@ -104,18 +124,13 @@ namespace spc_dames
 							{
 								if (_diagonales.manouryDiagonales.at(indice).size() > 1)
 								{
-									//if (*m == 6) { std::cout << "-..-"; }
 									neighboursRef.push_back(*(-1 + m));
-									//if (*(-1 + m) < 1 || *(-1 + m) > 50) { std::cout << manouryRef << ":" << ".e{" << indice << ", " << _diagonales.manouryDiagonales.at(indice).size() << "}."; }
 								}
 							}
 							else
 							{
-								//if (*m == 6) { std::cout << "-...-"; }
 								if (*(-1 + m) >= 1 && *(-1 + m) <= 50) { neighboursRef.push_back(*(-1 + m)); }
 								if (*(+1 + m) >= 1 && *(+1 + m) <= 50) { neighboursRef.push_back(*(+1 + m)); }
-								//if (*(+1 + m) < 1 || *(+1 + m) > 50) { std::cout << manouryRef << ":" << ".+{" << indice << ", " << _diagonales.manouryDiagonales.at(indice).size() << "}."; }
-								//if (*(-1 + m) < 1 || *(-1 + m) > 50) { std::cout << manouryRef << ":" << ".-{" << indice << ", " << _diagonales.manouryDiagonales.at(indice).size() << "}."; }
 							}
 						}
 						break;

@@ -41,7 +41,7 @@ namespace spc_dames
 			, { 35, 40, 44, 49 }
 			, { 45, 50 }
 			, {  5 }
-			, {  4, 10, 15 }
+			, {  4, 10, 15 } // 10
 			, {  3,  9, 14, 20, 25 }
 			, {  2,  8, 13, 19, 24, 30, 35 }
 			, {  1,  7, 12, 18, 23, 29, 34, 40, 45 }
@@ -62,9 +62,9 @@ namespace spc_dames
             , {4, 9 } // 5
             , {0, 14} // 6
             , {1, 13} // 7
-            , {2, 13} // 8
-            , {3, 12} // 9
-            , {4, 11} // 10
+            , {2, 12} // 8
+            , {3, 11} // 9
+            , {4, 10} // 10
             , {1, 14} // 11
             , {2, 13} // 12
             , {3, 12} // 13
@@ -121,6 +121,7 @@ namespace spc_dames
 		const std::vector <unsigned>& getDiagonales(const unsigned& manoury) const { return _diagonales.diagonalesCellules.at(manoury); }
 		//bool hasAfreeNeighbour(const unsigned& manouryRef) const;
 		void getNeighbours(std::vector<unsigned>& neighboursRef, const unsigned& manouryRef) const;
+		void ZgetNeighbours(std::vector<unsigned>& neighboursRef, const unsigned& manouryRef) const;
 		//
 		unsigned int getManoury(const YX& yx) const;
 		unsigned int getManoury(const unsigned int& y, const unsigned int& x) const { return getManoury(YX(y, x)); }
