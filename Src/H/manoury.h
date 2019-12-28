@@ -31,7 +31,7 @@ namespace spc_dames
 	{
 		const std::vector< std::vector <unsigned int> > manouryDiagonales = 
 		{
-			  {  1,  6 }
+			  {  1,  6 } // 0
 			, {  2,  7, 11, 16 }
 			, {  3,  8, 12, 17, 21, 26 }
 			, {  4,  9, 13, 18, 22, 27, 31, 36 }
@@ -45,7 +45,7 @@ namespace spc_dames
 			, {  3,  9, 14, 20, 25 }
 			, {  2,  8, 13, 19, 24, 30, 35 }
 			, {  1,  7, 12, 18, 23, 29, 34, 40, 45 }
-			, {  6, 11, 17, 22, 28, 33, 39, 44, 50 }
+			, {  6, 11, 17, 22, 28, 33, 39, 44, 50 } // 14
 			, { 16, 21, 27, 32, 38, 43, 49 }
 			, { 26, 31, 37, 42, 48 }
 			, { 36, 41, 47 }
@@ -120,7 +120,7 @@ namespace spc_dames
 		const std::vector <unsigned>& getDiagonale(const unsigned& indiceDiag) const { return _diagonales.manouryDiagonales.at(indiceDiag); }
 		const std::vector <unsigned>& getDiagonales(const unsigned& manoury) const { return _diagonales.diagonalesCellules.at(manoury); }
 		//bool hasAfreeNeighbour(const unsigned& manouryRef) const;
-		void getNeighbours(std::vector<unsigned>& neighboursRef, const unsigned& manouryRef) const; // { neighboursRef.clear(); neighboursRef.push_back(1); }
+		void getNeighbours(std::vector<unsigned>& neighboursRef, const unsigned& manouryRef) const;
 		//
 		unsigned int getManoury(const YX& yx) const;
 		unsigned int getManoury(const unsigned int& y, const unsigned int& x) const { return getManoury(YX(y, x)); }
