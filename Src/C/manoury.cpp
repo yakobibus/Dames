@@ -66,25 +66,6 @@ namespace spc_dames
 		return bReturn;
 	}
 
-	bool Manoury::areNeighbors(const unsigned int& manouryOne, const unsigned int& manouryTwo, unsigned int& ecart)
-		/*
-		Les deux manoury sont voisines sur la diagonales, 
-		en sortie ecart indique le nombre de cases qui separent les deux manoury
-		code retour : true si les manoury sont voisines false sinon
-		*/
-	{
-		if(areDiagonalized(manouryOne, manouryTwo))
-		{
-			;
-		}
-		else
-		{
-			;
-		}
-
-		return false;
-	}
-
 	unsigned int Manoury::getManoury(const YX& yx) const
 	{
 		unsigned int dizaines = static_cast <int>(5 - (yx.y / 2) - (yx.y % 2 != 0 ? 1 : 0));
@@ -92,4 +73,60 @@ namespace spc_dames
 		unsigned int indice = static_cast <unsigned int> (dizaines * 10 + unites) ;
 		return (indice <= _yxManoury.size() ? _yxManoury.at(indice).manoury : 0 ) ;
 	}
+
+	void Manoury::getNeighbours(std::vector<unsigned>& neighboursRef, const unsigned& manouryRef) const
+	{
+		neighboursRef.clear();
+		if (manouryRef >= 1 && manouryRef <= 50)
+		{
+			for (const unsigned& indice : _diagonales.diagonalesCellules.at(manouryRef))
+			{
+				for (auto m = _diagonales.manouryDiagonales.at(indice).begin() ; m != _diagonales.manouryDiagonales.at(indice).end() ; ++m)
+				{
+					if (*m == manouryRef)
+					{
+						if (m == _diagonales.manouryDiagonales.at(indice).begin())
+						{
+							if (_diagonales.manouryDiagonales.at(indice).size() > 1)
+							{
+								neighboursRef.push_back(*(+1 + m));
+								//if (*(+1 + m) < 1 || *(+1 + m) > 50) { std::cout << ".{"<< indice << ", "<< _diagonales.manouryDiagonales.at(indice).size() <<"}."; }
+							}
+						}
+						else
+						{
+							if (m == _diagonales.manouryDiagonales.at(indice).end())
+							{
+								if (_diagonales.manouryDiagonales.at(indice).size())
+								{
+									neighboursRef.push_back(*(-1 + m));
+									//if (*(+1 + m) < 1 || *(+1 + m) > 50) { std::cout << ".{" << indice << ", " << _diagonales.manouryDiagonales.at(indice).size() << "}."; }
+								}
+							}
+							else
+							{
+								neighboursRef.push_back(*(-1 + m));
+								neighboursRef.push_back(*(+1 + m));
+								if (*(+1 + m) < 1 || *(+1 + m) > 50) { std::cout << ".{" << indice << ", " << _diagonales.manouryDiagonales.at(indice).size() << "}."; }
+							}
+						}
+						break;
+					}
+				}
+			}
+		}
+	}
+
+	//bool Manoury::hasAfreeNeighbour(const unsigned& manouryRef) const
+	//{
+	//	bool bReturn = false;
+	//	if (manouryRef >= 1 && manouryRef <= 50)
+	//	{
+	//		const std::vector<unsigned>& manouryFirstDiag = _diagonales.manouryDiagonales.at(_diagonales.diagonalesCellules.at(manouryRef).at(0));
+
+	//		const std::vector<unsigned>& manouryLastDiag = _diagonales.manouryDiagonales.at(_diagonales.diagonalesCellules.at(manouryRef).at(1));
+	//	}
+	//	
+	//	return bReturn;
+	//}
 }
