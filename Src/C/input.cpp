@@ -24,17 +24,18 @@ namespace spc_dames
 {
 	void spc_dames::Input::essai(void) const
 	{
-		std::vector<unsigned> zz;
-		for (unsigned ii = 1; ii <= 50; ++ii)
-		{
-			_manoury.getNeighbours(zz, ii);
-			std::cout << "N<"<<ii<<">(";
-			for (unsigned& v : zz)
-			{
-				std::cout << v << " ";
-			}
-			std::cout << ")\n";
-		}
+		//std::vector<unsigned> zz;
+		//for (unsigned ii = 1; ii <= 50; ++ii)
+		//{
+		//	//_manoury.getNeighbours(zz, ii);
+		//	std::cout << "N<"<<ii<<">(";
+		//	for (unsigned& v : _manoury.getNeighbours(zz, ii))
+		//	{
+		//		std::cout << v << " ";
+		//	}
+		//	std::cout << ")\n";
+		//}
+
 		//for (unsigned m1 = 1 ; m1 <= 50 ; ++m1)
 		//{
 		//	for (unsigned m2 = 1; m2 <= 50; ++m2)

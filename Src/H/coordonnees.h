@@ -25,7 +25,9 @@ namespace spc_dames
 		unsigned int getManoury(void) const { return _yxmAdress->manoury; } 
 		char         getXalpha(void) const { return 'a' + _yxmAdress->yx.x - 1; }
 	private:
-		const YXM*     _yxmAdress;
+		const YXM*                         _yxmAdress ;
+		std::vector<std::vector<unsigned>> _diagonales ;
+		std::vector<unsigned>              _manouryVoisines ;
 
 		// ici peut-être ptrMotif : _adresseMotif ?
 	};

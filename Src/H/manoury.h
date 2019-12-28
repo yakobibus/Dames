@@ -120,8 +120,7 @@ namespace spc_dames
 		const std::vector <unsigned>& getDiagonale(const unsigned& indiceDiag) const { return _diagonales.manouryDiagonales.at(indiceDiag); }
 		const std::vector <unsigned>& getDiagonales(const unsigned& manoury) const { return _diagonales.diagonalesCellules.at(manoury); }
 		//bool hasAfreeNeighbour(const unsigned& manouryRef) const;
-		void getNeighbours(std::vector<unsigned>& neighboursRef, const unsigned& manouryRef) const;
-		void ZgetNeighbours(std::vector<unsigned>& neighboursRef, const unsigned& manouryRef) const;
+		std::vector<unsigned>& getNeighbours(std::vector<unsigned>& neighboursRef, const unsigned& manouryRef) const;
 		//
 		unsigned int getManoury(const YX& yx) const;
 		unsigned int getManoury(const unsigned int& y, const unsigned int& x) const { return getManoury(YX(y, x)); }

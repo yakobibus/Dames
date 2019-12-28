@@ -74,7 +74,7 @@ namespace spc_dames
 		return (indice <= _yxManoury.size() ? _yxManoury.at(indice).manoury : 0 ) ;
 	}
 
-	void Manoury::getNeighbours(std::vector<unsigned>& neighboursRef, const unsigned& manouryRef) const
+	std::vector<unsigned>& Manoury::getNeighbours(std::vector<unsigned>& neighboursRef, const unsigned& manouryRef) const
 	{
 		neighboursRef.clear();
 		if (manouryRef >= 1 && manouryRef <= 50)
@@ -98,47 +98,10 @@ namespace spc_dames
 				}
 			}
 		}
+
+		return neighboursRef;
 	}
 
-	void Manoury::ZgetNeighbours(std::vector<unsigned>& neighboursRef, const unsigned& manouryRef) const
-	{
-		neighboursRef.clear();
-		if (manouryRef >= 1 && manouryRef <= 50)
-		{
-			for (const unsigned& indice : _diagonales.diagonalesCellules.at(manouryRef))
-			{
-				for (auto m = _diagonales.manouryDiagonales.at(indice).begin() ; m != _diagonales.manouryDiagonales.at(indice).end() ; ++m)
-				{
-					if (*m == manouryRef)
-					{
-						if (m == _diagonales.manouryDiagonales.at(indice).begin())
-						{
-							if (_diagonales.manouryDiagonales.at(indice).size() > 1)
-							{
-								neighboursRef.push_back(*(+1 + m));
-							}
-						}
-						else
-						{
-							if (m == _diagonales.manouryDiagonales.at(indice).end())
-							{
-								if (_diagonales.manouryDiagonales.at(indice).size() > 1)
-								{
-									neighboursRef.push_back(*(-1 + m));
-								}
-							}
-							else
-							{
-								if (*(-1 + m) >= 1 && *(-1 + m) <= 50) { neighboursRef.push_back(*(-1 + m)); }
-								if (*(+1 + m) >= 1 && *(+1 + m) <= 50) { neighboursRef.push_back(*(+1 + m)); }
-							}
-						}
-						break;
-					}
-				}
-			}
-		}
-	}
 
 	//bool Manoury::hasAfreeNeighbour(const unsigned& manouryRef) const
 	//{
