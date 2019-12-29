@@ -29,7 +29,7 @@ namespace spc_dames
 
 	struct Diagonales
 	{
-		const std::vector< std::vector <unsigned int> > manouryDiagonales = 
+		const std::vector< std::vector <unsigned int> > boardsDiagonalsList = 
 		{
 			  {  1,  6 } // 0
 			, {  2,  7, 11, 16 }
@@ -52,7 +52,7 @@ namespace spc_dames
 			, { 46 }
 		};
 		//
-		const std::vector< std::vector <unsigned> > diagonalesCellules =  // les indices des diagonales par manoury
+		const std::vector< std::vector <unsigned> > diagonalsAcrossAcell =  // les indices des diagonales par manoury
 		{
 			  {0} // Manoury 0 n'este pas
 			, {0, 13} // Les indices des diagonames de la Manoury = 1
@@ -117,8 +117,8 @@ namespace spc_dames
 		Manoury& operator = (const Manoury& m) = default;
 		//
 		bool areDiagonalized(const unsigned int& manouryOne, const unsigned int& manouryTwo) const; // Les deux manoury sont sur la même diagonale
-		const std::vector <unsigned>& getDiagonale(const unsigned& indiceDiag) const { return _diagonales.manouryDiagonales.at(indiceDiag); }
-		const std::vector <unsigned>& getDiagonales(const unsigned& manoury) const { return _diagonales.diagonalesCellules.at(manoury); }
+		const std::vector <unsigned>& getBoardDiagonals(const unsigned& indiceDiag) const { return _diagonales.boardsDiagonalsList.at(indiceDiag); }
+		const std::vector <unsigned>& getAcrossDiagonals(const unsigned& manoury) const { return _diagonales.diagonalsAcrossAcell.at(manoury); }
 		//bool hasAfreeNeighbour(const unsigned& manouryRef) const;
 		std::vector<unsigned>& getNeighbours(std::vector<unsigned>& neighboursRef, const unsigned& manouryRef) const;
 		//

@@ -11,7 +11,7 @@ namespace spc_dames
 	class Coordonnees
 	{
 	public:
-		Coordonnees() : _yxmAddress(nullptr), _manouryAddress(nullptr) {}
+		Coordonnees() : _yxmAddress(nullptr), _manouryAddress(nullptr){}
 		Coordonnees(YXM* yxm, Manoury* manouryAddress, char* motif) : _yxmAddress(yxm), _manouryAddress(manouryAddress) {}
 		~Coordonnees() = default;
 		Coordonnees(const Coordonnees& c) = default;
@@ -27,7 +27,7 @@ namespace spc_dames
 	private:
 		const YXM*                         _yxmAddress ;
 		const Manoury*                     _manouryAddress;
-		std::vector<std::vector<unsigned>> _diagonales ;
+		std::vector<unsigned>              _boardDiagonalsIndices ;
 		std::vector<unsigned>              _manouryVoisines ;
 
 		// ici peut-être ptrMotif : _adresseMotif ?

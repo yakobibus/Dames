@@ -9,7 +9,7 @@ namespace spc_dames
 	{
 		_yxmAddress = &yxm;
 		_manouryAddress = manouryAddress;
-		_diagonales = _manouryAddress->getDiagonales(_yxmAddress->manoury); TODO: ajouter une fonction qui retourne un vector des Diagonales de la Manoury reçue
+		_boardDiagonalsIndices = _manouryAddress->getAcrossDiagonals(_yxmAddress->manoury) ;
 		_manouryAddress->getNeighbours(_manouryVoisines, _yxmAddress->manoury);
 		//_adresseMotif = adresseMotif; 
 	}

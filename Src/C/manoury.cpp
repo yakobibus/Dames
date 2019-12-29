@@ -12,10 +12,10 @@ namespace spc_dames
 
 		if (manouryOne >= 1 && manouryOne <= 50 && manouryTwo >= 1 && manouryTwo <= 50)
 		{
-			const std::vector<unsigned>& manouryOneFirstDiag = _diagonales.manouryDiagonales.at(_diagonales.diagonalesCellules.at(manouryOne).at(0));
-			const std::vector<unsigned>& manouryOneLastDiag = _diagonales.manouryDiagonales.at(_diagonales.diagonalesCellules.at(manouryOne).at(1));
-			const std::vector<unsigned>& manouryTwoFirstDiag = _diagonales.manouryDiagonales.at(_diagonales.diagonalesCellules.at(manouryTwo).at(0));
-			const std::vector<unsigned>& manouryTwoLastDiag = _diagonales.manouryDiagonales.at(_diagonales.diagonalesCellules.at(manouryTwo).at(1));
+			const std::vector<unsigned>& manouryOneFirstDiag = _diagonales.boardsDiagonalsList.at(_diagonales.diagonalsAcrossAcell.at(manouryOne).at(0));
+			const std::vector<unsigned>& manouryOneLastDiag = _diagonales.boardsDiagonalsList.at(_diagonales.diagonalsAcrossAcell.at(manouryOne).at(1));
+			const std::vector<unsigned>& manouryTwoFirstDiag = _diagonales.boardsDiagonalsList.at(_diagonales.diagonalsAcrossAcell.at(manouryTwo).at(0));
+			const std::vector<unsigned>& manouryTwoLastDiag = _diagonales.boardsDiagonalsList.at(_diagonales.diagonalsAcrossAcell.at(manouryTwo).at(1));
 
 			if ((manouryOneFirstDiag.size() + manouryOneLastDiag.size()) < (manouryTwoFirstDiag.size() + manouryTwoLastDiag.size()))
 			{ // Parcours de manouryOne -- le plus court
@@ -79,20 +79,20 @@ namespace spc_dames
 		neighboursRef.clear();
 		if (manouryRef >= 1 && manouryRef <= 50)
 		{
-			for (const unsigned& indice : _diagonales.diagonalesCellules.at(manouryRef))
+			for (const unsigned& indice : _diagonales.diagonalsAcrossAcell.at(manouryRef))
 			{
-				for (unsigned ii = 0; ii < _diagonales.manouryDiagonales.at(indice).size(); ++ii)
+				for (unsigned ii = 0; ii < _diagonales.boardsDiagonalsList.at(indice).size(); ++ii)
 				{
-					if (manouryRef == _diagonales.manouryDiagonales.at(indice).at(ii))
+					if (manouryRef == _diagonales.boardsDiagonalsList.at(indice).at(ii))
 					{
 						if (ii > 0)
 						{
-							neighboursRef.push_back(_diagonales.manouryDiagonales.at(indice).at(-1 + ii));
+							neighboursRef.push_back(_diagonales.boardsDiagonalsList.at(indice).at(-1 + ii));
 						}
 
-						if(ii + 1 < _diagonales.manouryDiagonales.at(indice).size())
+						if(ii + 1 < _diagonales.boardsDiagonalsList.at(indice).size())
 						{
-							neighboursRef.push_back(_diagonales.manouryDiagonales.at(indice).at(+1 + ii));
+							neighboursRef.push_back(_diagonales.boardsDiagonalsList.at(indice).at(+1 + ii));
 						}
 					}
 				}

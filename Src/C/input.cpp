@@ -3,6 +3,8 @@
 # include <iostream>
 # include <cstring>
 
+# include <cmath>
+
 # include "input.h"
 
 namespace spc_dames
@@ -169,7 +171,7 @@ namespace spc_dames
 		_inputType = InputType::is_undefined;
 		_bufSize = 0;
 		std::memset(_buffer, 0, INPUT_BUFFER_MX_SIZE);
-		std::cin.getline(_buffer, static_cast<unsigned int> (-1 + INPUT_BUFFER_MX_SIZE));
+		std::cin.getline(_buffer, static_cast<unsigned int> ((int)-1 + (int)INPUT_BUFFER_MX_SIZE));
 		_bufSize = strlen(_buffer);
 		//
 		_isValidInput();
