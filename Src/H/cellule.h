@@ -61,9 +61,11 @@ namespace spc_dames
 		//unsigned int   getManoury(void) { return _coordonnees.getManoury(); }
 		char           getMotifPion(void) { return (_adressePion == nullptr ? '\0' : (char)_adressePion->motif()); }
 		Pion*          getPionAddress(void) const { return _adressePion; }
+		bool           hasAvailableNeighbours(const eSensAvance& eSens) const { bool bRetcode = false; for (const unsigned& m : _coordonnees.getManouryVoisines()) { if (nullptr == _adressePion/*TODO de m*/) { std::cout << "v(" << m << ") "; } }return bRetcode; }
 		void           initCell(const Manoury* manouryAddress, const YXM& yxm, std::vector<char>* cellMotifAddress, Pion* pionPtr);
 		void           initAdresseMotif(std::vector<char>* adresseMotif) { _adresseMotif = adresseMotif; }
 		void           setMotif(void);
+		//
 	private:
 		const Manoury* _manouryAddress;
 		Coordonnees    _coordonnees ;

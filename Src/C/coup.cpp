@@ -28,8 +28,13 @@ namespace spc_dames
 			}
 		}
 
-		if (true) // Le pion est mobile (Cellule voisine libre vers l'avant) ou peut sauter (Voisine adverse suivie d'un vide ou promu et saut distant possible)
+		if (true) // voisine libre (au moins 1) TOTO + ou occupée mais prenable
 		{
+			_celluleDepart->hasAvailableNeighbours(eSensAvance::negatif);
+
+			if (true) // Le pion est mobile (Cellule voisine libre vers l'avant) ou peut sauter (Voisine adverse suivie d'un vide ou promu et saut distant possible)
+			{
+			}
 		}
 		std::cout << "_eMoveErrors = " << (int) _eMoveErrors << "\n";
 		_isValidDepart = (

@@ -22,7 +22,8 @@ namespace spc_dames
 		unsigned int getX(void) const { return _yxmAddress->yx.x; }
 		unsigned int getY(void) const { return _yxmAddress->yx.y; }
 		const YXM*         getXMaddress(void) const { return _yxmAddress; }
-		unsigned int getManoury(void) const { return _yxmAddress->manoury; } 
+		unsigned int getManoury(void) const { return _yxmAddress->manoury; }
+		const std::vector<unsigned>& getManouryVoisines(void) const { return _manouryVoisines; }
 		char         getXalpha(void) const { return 'a' + _yxmAddress->yx.x - 1; }
 	private:
 		const YXM*                         _yxmAddress ;

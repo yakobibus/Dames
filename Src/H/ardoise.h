@@ -24,6 +24,8 @@ namespace spc_dames
 		Ardoise& operator = (const Ardoise& a) = default;
 		//
 		void afficher(void);
+		const Cellule& getCelluleRef(const unsigned& manoury) const { return _cellules.at(-1 + manoury); }
+		bool celluleIsAvailable(const unsigned& manoury) const { return (nullptr == _cellules.at(-1 + manoury).getPionAddress()); }
 		bool jouer(std::vector<Coup>& coup, eJoueurEnCours& joueurEnCours);
 		void setEntete(void);
 		void setEnqueue(void);

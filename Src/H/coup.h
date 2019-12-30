@@ -3,10 +3,16 @@
 # ifndef _COUP_H_
 # define _COUP_H_ (1)
 
+//# include "ardoise.h"
 # include "cellule.h"
 # include "input.h"
 # include "joueur.h"
 # include "pion.h"
+
+namespace spc_dames
+{
+	class Ardoise;
+}
 
 namespace spc_dames
 {
