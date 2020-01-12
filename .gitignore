@@ -15,3 +15,6 @@
 VisualStudio/.vs/Dames/v15/.suo
 VisualStudio/.vs/Dames/v15/Browse.VC.db
 VisualStudio/.vs/Dames/v15/ipch/AutoPCH/3b67e5a4a1526e9f/PLATEAU.ipch
+*.log
+VisualStudio/Debug/*
+
